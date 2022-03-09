@@ -37,6 +37,6 @@ appsettings.Development.json
 
 .idea/
 .vscode/
-DATA
+/DATA
 .env.postgres
 
