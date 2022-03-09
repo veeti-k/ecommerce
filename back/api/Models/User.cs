@@ -16,5 +16,5 @@ public class User
   
   public DateTime LastAccessedAt { get; init; }
 
-  public virtual ICollection<Address> Addresses { get; set; }
+  public virtual IEnumerable<Address> Addresses { get; set; }
 }
