@@ -8,6 +8,7 @@ public class User
   [Key] public Guid Id { get; init; }
   [Required] public string Name { get; init; }
   [Required] public string Email { get; init; }
+  [Required] public string Password { get; init; }
   [Required] public string PhoneNumber { get; init; }
 
   [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
