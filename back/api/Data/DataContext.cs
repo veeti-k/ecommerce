@@ -15,6 +15,7 @@ public class DataContext : DbContext, IDataContext
     {
       entity.HasIndex(user => user.Email).IsUnique();
       entity.HasIndex(user => user.PhoneNumber).IsUnique();
+      entity.Property(u => u.CreatedAt).HasDefaultValueSql("NOW()");
     });
 
     aBuilder.Entity<User>()
