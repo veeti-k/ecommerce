@@ -9,12 +9,11 @@ public class User
   [Required] public string Name { get; init; }
   [Required] public string Email { get; init; }
   [Required] public string Password { get; init; }
-  [Required] public string PhoneNumber { get; init; }
+  public string? PhoneNumber { get; init; }
 
   [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
   public DateTime CreatedAt { get; init; }
-  
-  public DateTime LastAccessedAt { get; init; }
 
-  public virtual IEnumerable<Address> Addresses { get; set; }
+  public Guid TokenVersion { get; init; }
+  public virtual IEnumerable<Address> Addresses { get; init; }
 }
