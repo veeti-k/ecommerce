@@ -7,15 +7,12 @@ namespace api.Repositories.User;
 public class Repo : IRepo
 {
   private readonly DataContext _context;
-
+  private readonly IQueryable<Models.User?> _populatedUsers;
+  
   public Repo(DataContext context)
   {
     _context = context;
-  }
-
-  public async Task<Models.User> GetOneById(Guid aId)
-  {
-    return await _context.Users
+    _populatedUsers = _context.Users
       .Include(user => user.Addresses)
       .Select(user => new Models.User()
       {
@@ -25,7 +22,6 @@ public class Repo : IRepo
         Password = user.Password,
         PhoneNumber = user.PhoneNumber,
         CreatedAt = user.CreatedAt,
-        LastAccessedAt = user.LastAccessedAt,
         Addresses = user.Addresses.Select(address => new Address()
         {
           Id = address.Id,
@@ -39,6 +35,22 @@ public class Repo : IRepo
           State = address.State,
           ZipCode = address.ZipCode
         })
-      }).FirstOrDefaultAsync(user => user.Id == aId);
+      });
   }
-}
+  
+  public async Task<Models.User> GetOneById(Guid aId)
+  {
+    return await _populatedUsers.FirstOrDefaultAsync(u => u.Id == aId);
+  }
+  
+  public async Task<Models.User?> GetOneByEmail(string aEmail)
+  {
+    return await _populatedUsers.FirstOrDefaultAsync(u => u.Email == aEmail);
+  }
+
+  public async Task Add(Models.User user)
+  {
+    await _context.AddAsync(user);
+    await _context.SaveChangesAsync();
+  }
+} 
