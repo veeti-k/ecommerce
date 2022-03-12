@@ -9,6 +9,5 @@ public record UserToReturn
   public string Email { get; init; }
   public string? PhoneNumber { get; init; }
   public DateTime CreatedAt { get; init; }
-  public DateTime LastAccessedAt { get; init; }
-  public ICollection<Address> Addresses { get; init; }
+  public IEnumerable<Address> Addresses { get; init; }
 }
