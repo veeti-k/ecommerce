@@ -59,9 +59,26 @@ public static class Tokens
     httpContext.Response.Headers[TokenConfig.AccessTokenHeader] = aAccessToken;
   }
 
-  private static string CreateRefreshTokenCookie(string aCookieValue)
+  public static void SendLogout(HttpContext httpContext)
+  {
+    httpContext.Response.Headers.SetCookie = CreateEmptyRefreshTokenCookie();
+    httpContext.Response.Headers[TokenConfig.AccessTokenHeader] = "";
+  }
+
+  public static string CreateRefreshTokenCookie(string aCookieValue)
+  {
+    return CreateCookie(TokenConfig.RefreshTokenCookie, aCookieValue, TokenConfig.RefreshTokenCookieMaxAge);
+  }
+
+  public static string CreateEmptyRefreshTokenCookie()
+  {
+    return CreateCookie(TokenConfig.RefreshTokenCookie, "", 0);
+
+  }
+
+  public static string CreateCookie(string aCookieName, string aCookieValue, long aMaxAge)
   {
     return
-      $"{TokenConfig.RefreshTokenCookie}={aCookieValue}; SameSite=Strict; Secure; HttpOnly; Path=/api/auth/tokens; Max-Age={TokenConfig.RefreshTokenCookieMaxAge};";
+      $"{aCookieName}={aCookieValue}; SameSite=Strict; Secure; HttpOnly; Path=/api/auth/tokens; Max-Age={aMaxAge};";
   }
 }

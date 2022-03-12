@@ -20,12 +20,12 @@ public class AuthController : BaseController
   [HttpPost("register")]
   public async Task<ActionResult<string>> Register(RegisterDTO aDto)
   {
-    var samePhoneNumber = await _userRepo.GetOneByPhoneNumber(aDto.PhoneNumber); 
+    var samePhoneNumber = await _userRepo.GetOneByPhoneNumber(aDto.PhoneNumber);
     if (samePhoneNumber != null) return Conflict("Phone number in use");
 
     var sameEmail = await _userRepo.GetOneByEmail(aDto.Email);
     if (sameEmail != null) return Conflict("Email in use");
-    
+
     var name = $"{aDto.FirstName} {aDto.LastName}";
     User newUser = new()
     {
@@ -34,11 +34,12 @@ public class AuthController : BaseController
       Name = name,
       Password = Hashing.HashToString(aDto.Password),
       PhoneNumber = aDto.PhoneNumber,
-      TokenVersion = Guid.NewGuid()
+      TokenVersion = Guid.NewGuid(),
+      isTestAccount = aDto.isTestAccount
     };
 
     await _userRepo.Add(newUser);
-    
+
     Tokens.SendTokens(HttpContext, Tokens.CreateAccessToken(newUser), Tokens.CreateRefreshToken(newUser));
     return NoContent();
   }
@@ -51,8 +52,22 @@ public class AuthController : BaseController
 
     var passwordMatch = Hashing.Verify(aDto.Password, existingUser.Password);
     if (!passwordMatch) return BadRequest("Invalid password");
-    
+
     Tokens.SendTokens(HttpContext, Tokens.CreateAccessToken(existingUser), Tokens.CreateRefreshToken(existingUser));
+    return NoContent();
+  }
+
+  [HttpPost("logout")]
+  public async Task<NoContentResult> Logout()
+  {
+    var userId = GetUserId();
+    if (userId != null)
+    {
+      var user = await _userRepo.GetOneById(userId.GetValueOrDefault());
+      if (user != null && user.isTestAccount) await _userRepo.Delete(user); // delete test accounts on logout
+    }
+    
+    Tokens.SendLogout(HttpContext);
     return NoContent();
   }
 }
