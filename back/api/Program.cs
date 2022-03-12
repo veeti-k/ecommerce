@@ -1,11 +1,13 @@
 using System.Security.Claims;
 using System.Text;
+using api.Configs;
 using api.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using api.Configs;
 using api.Repositories.User;
+using api.Security.Policies;
+using api.Security.Policies.Handlers;
 using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,10 +15,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddDbContext<DataContext>(options =>
-  options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+  options.UseNpgsql(DbConfig.ConnectionString));
 
 builder.Services.AddScoped<IDataContext, DataContext>();
-builder.Services.AddScoped<IRepo, Repo>();
+builder.Services.AddScoped<IUserRepo, UserRepo>();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
@@ -27,7 +29,6 @@ builder.Services.AddAuthentication(options =>
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
   })
   .AddJwtBearer("AccessToken", options =>
-  {
     options.TokenValidationParameters = new TokenValidationParameters()
     {
       ValidateIssuer = true,
@@ -40,15 +41,11 @@ builder.Services.AddAuthentication(options =>
       RequireExpirationTime = true,
       ClockSkew = TimeSpan.Zero,
 
-      ValidIssuer = builder.Configuration.GetSection("JWT_Config").GetValue<string>("AccessIss"),
-      ValidAudience = builder.Configuration.GetSection("JWT_Config").GetValue<string>("AccessAud"),
-      IssuerSigningKey = new SymmetricSecurityKey(
-        Encoding.Default.GetBytes(builder.Configuration.GetSection("JWT_Config").GetValue<string>("AccessSecret"))
-      )
-    };
-  })
+      ValidIssuer = TokenConfig.AccessIss,
+      ValidAudience = TokenConfig.AccessAud,
+      IssuerSigningKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(TokenConfig.AccessSecret))
+    })
   .AddJwtBearer("RefreshToken", options =>
-  {
     options.TokenValidationParameters = new TokenValidationParameters()
     {
       ValidateIssuer = true,
@@ -61,13 +58,10 @@ builder.Services.AddAuthentication(options =>
       RequireExpirationTime = true,
       ClockSkew = TimeSpan.Zero,
 
-      ValidIssuer = builder.Configuration.GetSection("JWT_Config").GetValue<string>("RefreshIss"),
-      ValidAudience = builder.Configuration.GetSection("JWT_Config").GetValue<string>("RefreshAud"),
-      IssuerSigningKey = new SymmetricSecurityKey(
-        Encoding.Default.GetBytes(builder.Configuration.GetSection("JWT_Config").GetValue<string>("RefreshSecret"))
-      )
-    };
-  });
+      ValidIssuer = TokenConfig.RefreshIss,
+      ValidAudience = TokenConfig.RefreshAud,
+      IssuerSigningKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(TokenConfig.RefreshSecret))
+    });
 
 builder.Services.AddAuthorization(options =>
 {
@@ -75,17 +69,20 @@ builder.Services.AddAuthorization(options =>
     .RequireAuthenticatedUser()
     .RequireClaim(ClaimTypes.NameIdentifier)
     .RequireClaim(ClaimTypes.Version)
-    .AddAuthenticationSchemes("AccessToken").Build();
+    .AddAuthenticationSchemes("AccessToken")
+    .AddRequirements(new ValidTokenVersionRequirement())
+    .Build();
 
-  options.AddPolicy("ValidRefreshToken", new AuthorizationPolicyBuilder()
-    .RequireAuthenticatedUser()
-    .AddAuthenticationSchemes("RefreshToken")
-    .RequireClaim(ClaimTypes.NameIdentifier)
-    .RequireClaim(ClaimTypes.Version)
-    .Build());
+  options.AddPolicy("ValidRefreshToken", policy =>
+  {
+    policy.RequireAuthenticatedUser();
+    policy.AddAuthenticationSchemes("RefreshToken");
+    policy.RequireClaim(ClaimTypes.NameIdentifier);
+    policy.RequireClaim(ClaimTypes.Version);
+  });
 });
 
-builder.Services.Configure<JwtConfig>(builder.Configuration.GetSection("JWT_Config"));
+builder.Services.AddScoped<IAuthorizationHandler, ValidTokenVersionHandler>();
 
 var app = builder.Build();
 
