@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace api.Utils;
 
-internal static class Hashing
+public static class Hashing
 {
   /// <summary>
   /// The default number of Iterations
