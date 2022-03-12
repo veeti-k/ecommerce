@@ -6,11 +6,11 @@ namespace api.Security.Policies.Handlers;
 
 public class ValidTokenVersionHandler : AuthorizationHandler<ValidTokenVersionRequirement>
 {
-  private readonly IUserRepo _userUserRepo;
+  private readonly IUserRepo _userRepo;
   
-  public ValidTokenVersionHandler(IUserRepo userUserRepo)
+  public ValidTokenVersionHandler(IUserRepo userRepo)
   {
-    _userUserRepo = userUserRepo;
+    _userRepo = userRepo;
   }
   
   protected override async Task<Task> HandleRequirementAsync(
@@ -29,7 +29,7 @@ public class ValidTokenVersionHandler : AuthorizationHandler<ValidTokenVersionRe
     var tokenVersionIsGuid = Guid.TryParse(tokenVersionClaim.Value, out var tokenVersion);
     if (!tokenVersionIsGuid) return Task.CompletedTask;
 
-    var user = await _userUserRepo.GetOneById(userId);
+    var user = await _userRepo.GetOneById(userId);
     if (user is null) return Task.CompletedTask;
     
     if (tokenVersion == user.TokenVersion) context.Succeed(requirement);
