@@ -18,8 +18,6 @@ public class AuthController : BaseController
   }
 
   [HttpPost("register")]
-  [ProducesResponseType(StatusCodes.Status409Conflict, Type = typeof(string))]
-  [ProducesResponseType(StatusCodes.Status204NoContent)]
   public async Task<ActionResult<string>> Register(RegisterDTO aDto)
   {
     var samePhoneNumber = await _userUserRepo.GetOneByPhoneNumber(aDto.PhoneNumber); 
