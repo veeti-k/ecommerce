@@ -10,20 +10,20 @@ namespace api.Controllers;
 [Route("api/auth")]
 public class AuthController : BaseController
 {
-  private readonly IUserRepo _userUserRepo;
+  private readonly IUserRepo _userRepo;
 
-  public AuthController(IUserRepo userUserRepo)
+  public AuthController(IUserRepo userRepo)
   {
-    _userUserRepo = userUserRepo;
+    _userRepo = userRepo;
   }
 
   [HttpPost("register")]
   public async Task<ActionResult<string>> Register(RegisterDTO aDto)
   {
-    var samePhoneNumber = await _userUserRepo.GetOneByPhoneNumber(aDto.PhoneNumber); 
+    var samePhoneNumber = await _userRepo.GetOneByPhoneNumber(aDto.PhoneNumber); 
     if (samePhoneNumber != null) return Conflict("Phone number in use");
 
-    var sameEmail = await _userUserRepo.GetOneByEmail(aDto.Email);
+    var sameEmail = await _userRepo.GetOneByEmail(aDto.Email);
     if (sameEmail != null) return Conflict("Email in use");
     
     var name = $"{aDto.FirstName} {aDto.LastName}";
@@ -37,7 +37,7 @@ public class AuthController : BaseController
       TokenVersion = Guid.NewGuid()
     };
 
-    await _userUserRepo.Add(newUser);
+    await _userRepo.Add(newUser);
     
     Tokens.SendTokens(HttpContext, Tokens.CreateAccessToken(newUser), Tokens.CreateRefreshToken(newUser));
     return NoContent();
