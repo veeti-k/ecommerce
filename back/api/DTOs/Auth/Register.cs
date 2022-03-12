@@ -7,4 +7,5 @@ public record RegisterDTO
   public string FirstName { get; init; }
   public string LastName { get; init; }
   public string? PhoneNumber { get; init; }
+  public bool isTestAccount { get; init; }
 }

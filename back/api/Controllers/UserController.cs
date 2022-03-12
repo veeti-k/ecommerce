@@ -34,6 +34,7 @@ public class UserController : BaseController
       PhoneNumber = user.PhoneNumber,
       CreatedAt = user.CreatedAt,
       Addresses = user.Addresses,
+      isTestAccount = user.isTestAccount
     };
 
     return Ok(userToReturn);

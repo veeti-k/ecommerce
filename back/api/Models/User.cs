@@ -10,6 +10,7 @@ public class User
   [Required] public string Email { get; init; }
   [Required] public string Password { get; init; }
   public string? PhoneNumber { get; init; }
+  public bool isTestAccount { get; init; }
 
   [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
   public DateTime CreatedAt { get; init; }

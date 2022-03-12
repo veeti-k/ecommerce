@@ -22,6 +22,7 @@ public class UserRepo : IUserRepo
         Password = user.Password,
         PhoneNumber = user.PhoneNumber,
         CreatedAt = user.CreatedAt,
+        isTestAccount = user.isTestAccount,
         Addresses = user.Addresses.Select(address => new Address()
         {
           Id = address.Id,
