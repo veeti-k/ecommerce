@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace api.Repositories.User;
 
-public class Repo : IRepo
+public class UserRepo : IUserRepo
 {
   private readonly DataContext _context;
   private readonly IQueryable<Models.User?> _populatedUsers;
   
-  public Repo(DataContext context)
+  public UserRepo(DataContext context)
   {
     _context = context;
     _populatedUsers = _context.Users
@@ -37,8 +37,15 @@ public class Repo : IRepo
         })
       });
   }
-  
-  public async Task<Models.User> GetOneById(Guid aId)
+
+  public async Task<Models.User?> GetOneByPhoneNumber(string? aPhoneNumber)
+  {
+    if (aPhoneNumber == null) return null;
+    
+    return await _populatedUsers.FirstOrDefaultAsync(u => u.PhoneNumber == aPhoneNumber);
+  }
+
+  public async Task<Models.User?> GetOneById(Guid aId)
   {
     return await _populatedUsers.FirstOrDefaultAsync(u => u.Id == aId);
   }
