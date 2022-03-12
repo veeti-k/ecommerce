@@ -39,4 +39,6 @@ appsettings.Development.json
 .vscode/
 /DATA
 .env.postgres
+DbConfig.cs
+TokenConfig.cs
 
