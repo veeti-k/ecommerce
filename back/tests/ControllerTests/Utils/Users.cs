@@ -7,7 +7,7 @@ namespace tests.ControllerTests.Utils;
 
 public static class Users
 {
-  public static User CreateFakeUser()
+  public static User CreateFakeUser(string? password = null)
   {
     return new User()
     {
@@ -15,7 +15,7 @@ public static class Users
       Name = Guid.NewGuid().ToString(),
       Email = Guid.NewGuid().ToString(),
       PhoneNumber = "12345678",
-      Password = Hashing.HashToString(Guid.NewGuid().ToString()),
+      Password = Hashing.HashToString(password ?? Guid.NewGuid().ToString()),
       TokenVersion = Guid.NewGuid(),
       CreatedAt = new DateTime()
     };

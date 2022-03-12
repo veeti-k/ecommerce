@@ -42,4 +42,17 @@ public class AuthController : BaseController
     Tokens.SendTokens(HttpContext, Tokens.CreateAccessToken(newUser), Tokens.CreateRefreshToken(newUser));
     return NoContent();
   }
+
+  [HttpPost("login")]
+  public async Task<ActionResult<string>> Login(LoginDTO aDto)
+  {
+    var existingUser = await _userRepo.GetOneByEmail(aDto.Email);
+    if (existingUser == null) return NotFound("User not found");
+
+    var passwordMatch = Hashing.Verify(aDto.Password, existingUser.Password);
+    if (!passwordMatch) return BadRequest("Invalid password");
+    
+    Tokens.SendTokens(HttpContext, Tokens.CreateAccessToken(existingUser), Tokens.CreateRefreshToken(existingUser));
+    return NoContent();
+  }
 }
