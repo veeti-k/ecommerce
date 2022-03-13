@@ -15,7 +15,6 @@ public class DataContext : DbContext, IDataContext
     {
       entity.HasIndex(user => user.Email).IsUnique();
       entity.HasIndex(user => user.PhoneNumber).IsUnique();
-      entity.Property(u => u.CreatedAt).HasDefaultValueSql("NOW()");
     });
 
     aBuilder.Entity<User>()
@@ -23,8 +22,15 @@ public class DataContext : DbContext, IDataContext
       .WithOne(address => address.User)
       .HasForeignKey(address => address.UserId)
       .OnDelete(DeleteBehavior.Cascade);
+
+    aBuilder.Entity<User>()
+      .HasMany(user => user.Sessions)
+      .WithOne(session => session.User)
+      .HasForeignKey(session => session.UserId)
+      .OnDelete(DeleteBehavior.Cascade);
   }
 
   public DbSet<User> Users { get; set; }
   public DbSet<Address> Addresses { get; set; }
+  public DbSet<Session> Sessions { get; set; }
 }
