@@ -32,8 +32,13 @@ public class ValidSessionHandler : AuthorizationHandler<ValidSessionRequirement>
     var sessions = await _sessionRepo.GetUserSessions(userId);
     if (!sessions.Any()) return Task.CompletedTask;
 
-    if (sessions.SingleOrDefault(s => s.Id == tokenVersion) != null)
+    foreach (var session in sessions)
+    {
+      if (session.Id != tokenVersion) continue;
+
+      await _sessionRepo.UpdateLastUsedAt(session.Id);
       context.Succeed(requirement);
+    }
 
     return Task.CompletedTask;
   }

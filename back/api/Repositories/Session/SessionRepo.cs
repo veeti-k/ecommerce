@@ -41,4 +41,15 @@ public class SessionRepo : ISessionRepo
     _context.Remove(session);
     await _context.SaveChangesAsync();
   }
+
+  public async Task UpdateLastUsedAt(Guid aSessionId)
+  {
+    var session = await _context.Sessions
+      .FirstOrDefaultAsync(session => session.Id == aSessionId);
+
+    if (session == null) return;
+
+    session.LastUsedAt = DateTime.UtcNow.ToString("o");
+    await _context.SaveChangesAsync();
+  }
 }
