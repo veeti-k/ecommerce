@@ -5,13 +5,13 @@ namespace api.Controllers;
 
 public abstract class BaseController : ControllerBase
 {
-  protected Guid? GetUserId()
+  protected Guid GetUserId()
   {
-    var success = Guid.TryParse(this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value,
-      out var userId);
+    return Guid.Parse(this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+  }
 
-    if (!success) return null;
-
-    return userId;
+  protected Guid GetSessionId()
+  {
+    return Guid.Parse(this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Version).Value);
   }
 }
