@@ -33,7 +33,7 @@ public class LoginTests
   public async Task Login_WithExistingUser_WithCorrectCredentials_CreatesSession_SetsCorrectHeaders_ReturnsNoContent()
   {
     var password = Guid.NewGuid().ToString();
-    var existingUser = Users.CreateFakeUser(password);
+    var existingUser = Users.CreateFakeUser(password: password);
     var newSession = Sessions.CreateFakeSession(existingUser.Id);
     LoginDTO testDto = new()
     {

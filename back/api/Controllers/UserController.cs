@@ -1,5 +1,6 @@
 ﻿using api.DTOs;
 using api.Repositories.User;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,12 @@ namespace api.Controllers;
 public class UserController : BaseController
 {
   private readonly IUserRepo _userRepo;
+  private readonly IMapper _mapper;
 
-  public UserController(IUserRepo aUserRepo)
+  public UserController(IUserRepo aUserRepo, IMapper mapper)
   {
     _userRepo = aUserRepo;
+    _mapper = mapper;
   }
 
   [HttpGet("me")]
@@ -25,17 +28,6 @@ public class UserController : BaseController
     var user = await _userRepo.GetById(userId);
     if (user == null) return NotFound("User not found");
 
-    UserResponse userResponse = new()
-    {
-      Id = user.Id,
-      Name = user.Name,
-      Email = user.Email,
-      PhoneNumber = user.PhoneNumber,
-      CreatedAt = user.CreatedAt,
-      Addresses = user.Addresses,
-      isTestAccount = user.isTestAccount
-    };
-
-    return Ok(userResponse);
+    return Ok(_mapper.Map<UserResponse>(user));
   }
 }
