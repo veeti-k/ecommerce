@@ -9,24 +9,23 @@ namespace api.Controllers;
 [Route("api/users")]
 public class UserController : BaseController
 {
-  private readonly IUserRepo _userUserRepo;
+  private readonly IUserRepo _userRepo;
 
-  public UserController(IUserRepo userUserRepo)
+  public UserController(IUserRepo aUserRepo)
   {
-    _userUserRepo = userUserRepo;
+    _userRepo = aUserRepo;
   }
 
   [HttpGet("me")]
   [Authorize]
-  public async Task<ActionResult<UserToReturn>> GetMe()
+  public async Task<ActionResult<UserResponse>> GetMe()
   {
     var userId = GetUserId();
-    if (userId == null) return Unauthorized("Invalid userId");
 
-    var user = await _userUserRepo.GetOneById(userId.GetValueOrDefault());
+    var user = await _userRepo.GetById(userId);
     if (user == null) return NotFound("User not found");
 
-    UserToReturn userToReturn = new()
+    UserResponse userResponse = new()
     {
       Id = user.Id,
       Name = user.Name,
@@ -37,6 +36,6 @@ public class UserController : BaseController
       isTestAccount = user.isTestAccount
     };
 
-    return Ok(userToReturn);
+    return Ok(userResponse);
   }
 }
