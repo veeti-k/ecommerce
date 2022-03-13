@@ -9,12 +9,12 @@ namespace api.Utils;
 
 public static class Tokens
 {
-  public static string CreateRefreshToken(User user)
+  public static string CreateRefreshToken(User user, Guid sessionId)
   {
     var claims = new[]
     {
       new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-      new Claim(ClaimTypes.Version, user.TokenVersion.ToString())
+      new Claim(ClaimTypes.Version, sessionId.ToString())
     };
 
     var securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(TokenConfig.RefreshSecret));
@@ -29,12 +29,12 @@ public static class Tokens
     return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
   }
 
-  public static string CreateAccessToken(User user)
+  public static string CreateAccessToken(User user, Guid sessionId)
   {
     var claims = new[]
     {
       new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-      new Claim(ClaimTypes.Version, user.TokenVersion.ToString())
+      new Claim(ClaimTypes.Version, sessionId.ToString())
     };
 
     var securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(TokenConfig.AccessSecret));
@@ -73,12 +73,11 @@ public static class Tokens
   public static string CreateEmptyRefreshTokenCookie()
   {
     return CreateCookie(TokenConfig.RefreshTokenCookie, "", 0);
-
   }
 
   public static string CreateCookie(string aCookieName, string aCookieValue, long aMaxAge)
   {
     return
-      $"{aCookieName}={aCookieValue}; SameSite=Strict; Secure; HttpOnly; Path=/api/auth/tokens; Max-Age={aMaxAge};";
+      $"{aCookieName}={aCookieValue}; SameSite=Strict; HttpOnly; Path=/api/auth/tokens; Max-Age={aMaxAge};";
   }
 }
