@@ -11,4 +11,5 @@ public record UserResponse
   public bool isTestAccount { get; init; }
   public string CreatedAt { get; init; }
   public IEnumerable<Address> Addresses { get; init; }
+  public IEnumerable<SessionResponse> Sessions { get; init; }
 }

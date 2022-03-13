@@ -24,10 +24,17 @@ public class UserController : BaseController
   public async Task<ActionResult<UserResponse>> GetMe()
   {
     var userId = GetUserId();
+    var currentSessionId = GetSessionId();
 
     var user = await _userRepo.GetById(userId);
     if (user == null) return NotFound("User not found");
 
-    return Ok(_mapper.Map<UserResponse>(user));
+    var mappedResponse = _mapper.Map<UserResponse>(user);
+
+    foreach (var session in mappedResponse.Sessions)
+      if (session.Id == currentSessionId)
+        session.isCurrentSession = true;
+
+    return Ok(mappedResponse);
   }
 }

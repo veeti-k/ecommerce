@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using api.Controllers;
+using api.DTOs;
 using api.Mapping;
 using api.Models;
 using api.Repositories.User;
@@ -33,7 +34,6 @@ public class GetMeTests
   public async Task GetMe_WithExistingUser_ReturnsExistingUser_InCorrectFormat()
   {
     var existingUser = Users.CreateFakeUser();
-    var userToReturn = Users.CreateFakeUserToReturn(existingUser);
 
     _mockUserRepo.Setup(repo => repo
         .GetById(It.IsAny<Guid>()))
@@ -60,7 +60,7 @@ public class GetMeTests
 
     (result.Result as OkObjectResult)
       .Value
-      .Should().BeEquivalentTo(userToReturn);
+      .Should().BeEquivalentTo(_mapper.Map<UserResponse>(existingUser));
   }
 
   [Fact]
