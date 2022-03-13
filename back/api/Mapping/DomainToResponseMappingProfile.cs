@@ -9,5 +9,6 @@ public class DomainToResponseMappingProfile : Profile
   public DomainToResponseMappingProfile()
   {
     CreateMap<User, UserResponse>();
+    CreateMap<Session, SessionResponse>();
   }
 }
