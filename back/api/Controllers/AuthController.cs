@@ -80,13 +80,10 @@ public class AuthController : BaseController
 
     var existingUser = await _userRepo.GetById(userId);
 
-    await _sessionRepo.Remove(sessionId);
-    var newSession = await _sessionRepo.Create(existingUser.Id);
-
     Tokens.SendTokens(
       HttpContext,
-      Tokens.CreateAccessToken(existingUser, newSession.Id),
-      Tokens.CreateRefreshToken(existingUser, newSession.Id));
+      Tokens.CreateAccessToken(existingUser, sessionId),
+      Tokens.CreateRefreshToken(existingUser, sessionId));
 
     return NoContent();
   }
