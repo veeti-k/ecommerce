@@ -2,6 +2,8 @@ using System.Security.Claims;
 using System.Text;
 using api.Configs;
 using api.Data;
+using api.Exceptions;
+using api.Repositories.Session;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -19,8 +21,11 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 builder.Services.AddScoped<IDataContext, DataContext>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
+builder.Services.AddScoped<ISessionRepo, SessionRepo>();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
+builder.Services.AddMvc(options => options.Filters.Add(new ExceptionHandler()));
 
 builder.Services.AddAuthentication(options =>
   {
@@ -29,39 +34,56 @@ builder.Services.AddAuthentication(options =>
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
   })
   .AddJwtBearer("AccessToken", options =>
-    options.TokenValidationParameters = new TokenValidationParameters()
     {
-      ValidateIssuer = true,
-      ValidateAudience = true,
-      ValidateLifetime = true,
-      ValidateIssuerSigningKey = true,
+      options.TokenValidationParameters = new TokenValidationParameters()
+      {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
 
-      RequireAudience = true,
-      RequireSignedTokens = true,
-      RequireExpirationTime = true,
-      ClockSkew = TimeSpan.Zero,
+        RequireAudience = true,
+        RequireSignedTokens = true,
+        RequireExpirationTime = true,
+        ClockSkew = TimeSpan.Zero,
 
-      ValidIssuer = TokenConfig.AccessIss,
-      ValidAudience = TokenConfig.AccessAud,
-      IssuerSigningKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(TokenConfig.AccessSecret))
-    })
+        ValidIssuer = TokenConfig.AccessIss,
+        ValidAudience = TokenConfig.AccessAud,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(TokenConfig.AccessSecret))
+      };
+    }
+  )
   .AddJwtBearer("RefreshToken", options =>
-    options.TokenValidationParameters = new TokenValidationParameters()
     {
-      ValidateIssuer = true,
-      ValidateAudience = true,
-      ValidateLifetime = true,
-      ValidateIssuerSigningKey = true,
+      options.Events = new JwtBearerEvents()
+      {
+        OnMessageReceived = context =>
+        {
+          var goodCookie =
+            context.HttpContext.Request.Cookies.TryGetValue(TokenConfig.RefreshTokenCookie, out var token);
+          if (goodCookie) context.Token = token;
 
-      RequireAudience = true,
-      RequireSignedTokens = true,
-      RequireExpirationTime = true,
-      ClockSkew = TimeSpan.Zero,
+          return Task.CompletedTask;
+        }
+      };
+      options.TokenValidationParameters = new TokenValidationParameters()
+      {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
 
-      ValidIssuer = TokenConfig.RefreshIss,
-      ValidAudience = TokenConfig.RefreshAud,
-      IssuerSigningKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(TokenConfig.RefreshSecret))
-    });
+        RequireAudience = true,
+        RequireSignedTokens = true,
+        RequireExpirationTime = true,
+        ClockSkew = TimeSpan.Zero,
+
+        ValidIssuer = TokenConfig.RefreshIss,
+        ValidAudience = TokenConfig.RefreshAud,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(TokenConfig.RefreshSecret))
+      };
+    }
+  );
 
 builder.Services.AddAuthorization(options =>
 {
@@ -70,19 +92,20 @@ builder.Services.AddAuthorization(options =>
     .RequireClaim(ClaimTypes.NameIdentifier)
     .RequireClaim(ClaimTypes.Version)
     .AddAuthenticationSchemes("AccessToken")
-    .AddRequirements(new ValidTokenVersionRequirement())
+    .AddRequirements(new ValidSessionRequirement())
     .Build();
 
   options.AddPolicy("ValidRefreshToken", policy =>
   {
     policy.RequireAuthenticatedUser();
-    policy.AddAuthenticationSchemes("RefreshToken");
     policy.RequireClaim(ClaimTypes.NameIdentifier);
     policy.RequireClaim(ClaimTypes.Version);
+    policy.AddAuthenticationSchemes("RefreshToken");
+    policy.AddRequirements(new ValidSessionRequirement());
   });
 });
 
-builder.Services.AddScoped<IAuthorizationHandler, ValidTokenVersionHandler>();
+builder.Services.AddScoped<IAuthorizationHandler, ValidSessionHandler>();
 
 var app = builder.Build();
 
