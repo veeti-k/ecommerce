@@ -6,6 +6,7 @@ using api.Configs;
 using api.Controllers;
 using api.DTOs.Auth;
 using api.Models;
+using api.Repositories.Session;
 using api.Repositories.User;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
@@ -19,6 +20,7 @@ namespace tests.ControllerTests.AuthControllerTests;
 public class RegisterTests
 {
   private readonly Mock<IUserRepo> _mockUserRepo = new();
+  private readonly Mock<ISessionRepo> _mockSessionRepo = new();
   private readonly TokenDecoding _tokenDecoding;
 
   public RegisterTests()
@@ -39,15 +41,15 @@ public class RegisterTests
     };
 
     _mockUserRepo.Setup(mock => mock
-        .GetOneByEmail(It.IsAny<string>()))
+        .GetByEmail(It.IsAny<string>()))
       .ReturnsAsync((User) null);
 
     _mockUserRepo.Setup(mock => mock
-        .GetOneByPhoneNumber(It.IsAny<string>()))
+        .GetByPhoneNumber(It.IsAny<string>()))
       .ReturnsAsync((User) null);
 
     var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_mockUserRepo.Object)
+    var controller = new AuthController(_mockUserRepo.Object, _mockSessionRepo.Object)
     {
       ControllerContext = new ControllerContext()
       {
@@ -102,15 +104,15 @@ public class RegisterTests
     var user = Users.CreateFakeUser();
 
     _mockUserRepo.Setup(mock => mock
-        .GetOneByEmail(It.IsAny<string>()))
+        .GetByEmail(It.IsAny<string>()))
       .ReturnsAsync(user);
 
     _mockUserRepo.Setup(mock => mock
-        .GetOneByPhoneNumber(It.IsAny<string>()))
+        .GetByPhoneNumber(It.IsAny<string>()))
       .ReturnsAsync((User) null);
 
     var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_mockUserRepo.Object)
+    var controller = new AuthController(_mockUserRepo.Object, _mockSessionRepo.Object)
     {
       ControllerContext = new ControllerContext()
       {
@@ -131,7 +133,7 @@ public class RegisterTests
     (result.Result as ConflictObjectResult)
       .Value.Should().Be("Email in use");
   }
-  
+
   [Fact]
   public async Task Register_WithExistingPhoneNumber_DoesNotSetHeaders_ReturnsConflict_ReturnsCorrectMessage()
   {
@@ -147,15 +149,15 @@ public class RegisterTests
     var user = Users.CreateFakeUser();
 
     _mockUserRepo.Setup(mock => mock
-        .GetOneByEmail(It.IsAny<string>()))
+        .GetByEmail(It.IsAny<string>()))
       .ReturnsAsync((User) null);
 
     _mockUserRepo.Setup(mock => mock
-        .GetOneByPhoneNumber(It.IsAny<string>()))
+        .GetByPhoneNumber(It.IsAny<string>()))
       .ReturnsAsync(user);
 
     var fakeContext = new DefaultHttpContext();
-    var controller = new AuthController(_mockUserRepo.Object)
+    var controller = new AuthController(_mockUserRepo.Object, _mockSessionRepo.Object)
     {
       ControllerContext = new ControllerContext()
       {

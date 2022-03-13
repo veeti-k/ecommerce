@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using api.Configs;
 using api.Controllers;
 using api.Models;
+using api.Repositories.Session;
 using api.Repositories.User;
 using api.Utils;
 using FluentAssertions;
@@ -19,73 +19,28 @@ namespace tests.ControllerTests.AuthControllerTests;
 public class LogoutTests
 {
   private readonly Mock<IUserRepo> _mockUserRepo = new();
-
-  [Fact]
-  public async Task Logout_NotAuthenticated_ReturnsNoContent_DoesNotQueryDb_SetsCorrectHeaders()
-  {
-    _mockUserRepo.Setup(repo => repo
-        .GetOneById(It.IsAny<Guid>()))
-      .Verifiable();
-
-    var fakeContext = new DefaultHttpContext();
-    var claims = new List<Claim>()
-    {
-      new(ClaimTypes.NameIdentifier, "this is not a guid so the userId will be null in the controller"),
-      new(ClaimTypes.Version, "a not valid token version here even though this is not getting tested")
-    };
-    var identity = new ClaimsIdentity(claims, "test");
-    var claimsPrincipal = new ClaimsPrincipal(identity);
-
-    fakeContext.User = claimsPrincipal;
-
-    var controller = new AuthController(_mockUserRepo.Object)
-    {
-      ControllerContext = new ControllerContext()
-      {
-        HttpContext = fakeContext
-      }
-    };
-
-    var result = await controller.Logout();
-
-    var resRefreshToken = fakeContext.Response.Headers.SetCookie.ToString();
-    var resAccessToken = fakeContext.Response.Headers[TokenConfig.AccessTokenHeader].ToString();
-
-    _mockUserRepo.Verify(repo => repo
-      .GetOneById(It.IsAny<Guid>()), Times.Never());
-
-    result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
-
-    resRefreshToken.Should().Be(Tokens.CreateEmptyRefreshTokenCookie());
-    resAccessToken.Should().Be("");
-  }
+  private readonly Mock<ISessionRepo> _mockSessionRepo = new();
 
   [Fact]
   public async Task
-    Logout_Authenticated_WithNotATestAccount_ReturnsNoContent_QueriesDb_DoesNotDeleteAccount_SetsCorrectHeaders()
+    Logout_Authenticated_WithNotATestAccount_QueriesDb_DoesNotDeleteAccount_DeletesSession_SetsCorrectHeaders_ReturnsNoContent()
   {
     var existingUser = Users.CreateFakeUser();
 
     _mockUserRepo.Setup(repo => repo
-        .GetOneById(It.IsAny<Guid>()))
+        .GetById(It.IsAny<Guid>()))
       .ReturnsAsync(existingUser);
 
     _mockUserRepo.Setup(repo => repo
-        .Delete(It.IsAny<User>()))
+        .Remove(It.IsAny<User>()))
       .Verifiable();
 
-    var fakeContext = new DefaultHttpContext();
-    var claims = new List<Claim>()
+    var fakeContext = new DefaultHttpContext
     {
-      new(ClaimTypes.NameIdentifier, existingUser.Id.ToString()),
-      new(ClaimTypes.Version, existingUser.TokenVersion.ToString())
+      User = Identity.CreateFakeClaimsPrincipal(existingUser.Id, Guid.NewGuid())
     };
-    var identity = new ClaimsIdentity(claims, "test");
-    var claimsPrincipal = new ClaimsPrincipal(identity);
 
-    fakeContext.User = claimsPrincipal;
-
-    var controller = new AuthController(_mockUserRepo.Object)
+    var controller = new AuthController(_mockUserRepo.Object, _mockSessionRepo.Object)
     {
       ControllerContext = new ControllerContext()
       {
@@ -98,11 +53,13 @@ public class LogoutTests
     var resRefreshToken = fakeContext.Response.Headers.SetCookie.ToString();
     var resAccessToken = fakeContext.Response.Headers[TokenConfig.AccessTokenHeader].ToString();
 
-    _mockUserRepo.Verify(repo => repo
-      .GetOneById(It.IsAny<Guid>()), Times.Once());
+    _mockSessionRepo.Verify(repo => repo
+        .Remove(It.IsAny<Guid>()),
+      Times.Once());
 
     _mockUserRepo.Verify(repo => repo
-      .Delete(It.IsAny<User>()), Times.Never());
+        .Remove(It.IsAny<User>()),
+      Times.Never());
 
     result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
 
@@ -112,30 +69,24 @@ public class LogoutTests
 
   [Fact]
   public async Task
-    Logout_Authenticated_WithATestAccount_ReturnsNoContent_QueriesDb_DeletesAccount_SetsCorrectHeaders()
+    Logout_Authenticated_WithATestAccount_QueriesDb_DeletesAccount_DeletesSession_SetsCorrectHeaders_ReturnsNoContent()
   {
     var existingUser = Users.CreateFakeUser(isTestAccount: true);
 
     _mockUserRepo.Setup(repo => repo
-        .GetOneById(It.IsAny<Guid>()))
+        .GetById(It.IsAny<Guid>()))
       .ReturnsAsync(existingUser);
 
     _mockUserRepo.Setup(repo => repo
-        .Delete(It.IsAny<User>()))
+        .Remove(It.IsAny<User>()))
       .Verifiable();
 
-    var fakeContext = new DefaultHttpContext();
-    var claims = new List<Claim>()
+    var fakeContext = new DefaultHttpContext
     {
-      new(ClaimTypes.NameIdentifier, existingUser.Id.ToString()),
-      new(ClaimTypes.Version, existingUser.TokenVersion.ToString())
+      User = Identity.CreateFakeClaimsPrincipal(existingUser.Id, Guid.NewGuid())
     };
-    var identity = new ClaimsIdentity(claims, "test");
-    var claimsPrincipal = new ClaimsPrincipal(identity);
 
-    fakeContext.User = claimsPrincipal;
-
-    var controller = new AuthController(_mockUserRepo.Object)
+    var controller = new AuthController(_mockUserRepo.Object, _mockSessionRepo.Object)
     {
       ControllerContext = new ControllerContext()
       {
@@ -148,11 +99,13 @@ public class LogoutTests
     var resRefreshToken = fakeContext.Response.Headers.SetCookie.ToString();
     var resAccessToken = fakeContext.Response.Headers[TokenConfig.AccessTokenHeader].ToString();
 
-    _mockUserRepo.Verify(repo => repo
-      .GetOneById(It.IsAny<Guid>()), Times.Once());
+    _mockSessionRepo.Verify(repo => repo
+        .Remove(It.IsAny<Guid>()),
+      Times.Once());
 
     _mockUserRepo.Verify(repo => repo
-      .Delete(It.IsAny<User>()), Times.Once);
+        .Remove(It.IsAny<User>()),
+      Times.Once());
 
     result.StatusCode.Should().Be(StatusCodes.Status204NoContent);
 

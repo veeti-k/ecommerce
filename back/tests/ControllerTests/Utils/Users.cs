@@ -16,15 +16,14 @@ public static class Users
       Email = Guid.NewGuid().ToString(),
       PhoneNumber = "12345678",
       Password = Hashing.HashToString(password ?? Guid.NewGuid().ToString()),
-      TokenVersion = Guid.NewGuid(),
-      CreatedAt = new DateTime(),
+      CreatedAt = DateTime.UtcNow.ToString("o"),
       isTestAccount = isTestAccount
     };
   }
 
-  public static UserToReturn CreateFakeUserToReturn(User user)
+  public static UserResponse CreateFakeUserToReturn(User user)
   {
-    return new UserToReturn()
+    return new UserResponse()
     {
       Id = user.Id,
       Name = user.Name,
