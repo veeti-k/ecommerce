@@ -12,7 +12,7 @@ public class ExceptionHandler : ExceptionFilterAttribute
       var ex = context.Exception as NotFoundException;
       context.Exception = null;
 
-      context.Result = new JsonResult(ex.Message);
+      context.Result = new JsonResult(new {message = ex.Message});
       context.HttpContext.Response.StatusCode = ex.StatusCode;
     }
     else if (context.Exception is BadRequestException)
@@ -20,7 +20,7 @@ public class ExceptionHandler : ExceptionFilterAttribute
       var ex = context.Exception as BadRequestException;
       context.Exception = null;
 
-      context.Result = new JsonResult(ex.Message);
+      context.Result = new JsonResult(new {message = ex.Message});
       context.HttpContext.Response.StatusCode = ex.StatusCode;
     }
   }
