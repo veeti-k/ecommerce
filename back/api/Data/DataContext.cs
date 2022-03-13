@@ -19,14 +19,12 @@ public class DataContext : DbContext, IDataContext
 
     aBuilder.Entity<User>()
       .HasMany(user => user.Addresses)
-      .WithOne(address => address.User)
-      .HasForeignKey(address => address.UserId)
+      .WithOne()
       .OnDelete(DeleteBehavior.Cascade);
 
     aBuilder.Entity<User>()
       .HasMany(user => user.Sessions)
-      .WithOne(session => session.User)
-      .HasForeignKey(session => session.UserId)
+      .WithOne()
       .OnDelete(DeleteBehavior.Cascade);
   }
 

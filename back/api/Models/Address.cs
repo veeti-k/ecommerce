@@ -14,6 +14,4 @@ public class Address
   [Required] public string City { get; init; }
   [Required] public string State { get; init; }
   [Required] public string ZipCode { get; init; }
-
-  public virtual User User { get; set; }
 }

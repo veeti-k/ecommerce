@@ -2,7 +2,6 @@
 using api.Data;
 using api.DTOs.Auth;
 using api.Exceptions;
-using api.Models;
 using api.Utils;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,29 +17,7 @@ public class UserRepo : IUserRepo
     _context = context;
     _populatedUsers = _context.Users
       .Include(user => user.Addresses)
-      .Select(user => new Models.User()
-      {
-        Id = user.Id,
-        Name = user.Name,
-        Email = user.Email,
-        Password = user.Password,
-        PhoneNumber = user.PhoneNumber,
-        CreatedAt = user.CreatedAt,
-        isTestAccount = user.isTestAccount,
-        Addresses = user.Addresses.Select(address => new Address()
-        {
-          Id = address.Id,
-          UserId = address.UserId,
-          Name = address.Name,
-          PhoneNumber = address.PhoneNumber,
-          Email = address.Email,
-          Line1 = address.Line1,
-          Line2 = address.Line2,
-          City = address.City,
-          State = address.State,
-          ZipCode = address.ZipCode
-        })
-      });
+      .Include(user => user.Sessions);
   }
 
   public async Task<Models.User?> GetOneByFilter(Expression<Func<Models.User, bool>> aFilter)
@@ -91,7 +68,7 @@ public class UserRepo : IUserRepo
     await _context.SaveChangesAsync();
 
     return newUser;
-  } 
+  }
 
   public async Task Remove(Models.User user)
   {
@@ -102,7 +79,7 @@ public class UserRepo : IUserRepo
   public async Task Remove(Guid? aId)
   {
     if (aId == null) return;
-    
+
     var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == aId);
     if (user == null) return;
 
