@@ -1,16 +1,16 @@
 ﻿using System.Security.Claims;
-using api.Repositories.Session;
+using api.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 
 namespace api.Security.Policies.Handlers;
 
 public class ValidSessionHandler : AuthorizationHandler<ValidSessionRequirement>
 {
-  private readonly ISessionRepo _sessionRepo;
+  private readonly ISessionService _sessionService;
 
-  public ValidSessionHandler(ISessionRepo sessionRepo)
+  public ValidSessionHandler(ISessionService aSessionService)
   {
-    _sessionRepo = sessionRepo;
+    _sessionService = aSessionService;
   }
 
   protected override async Task<Task> HandleRequirementAsync(
@@ -29,14 +29,14 @@ public class ValidSessionHandler : AuthorizationHandler<ValidSessionRequirement>
     var tokenVersionIsGuid = Guid.TryParse(tokenVersionClaim.Value, out var tokenVersion);
     if (!tokenVersionIsGuid) return Task.CompletedTask;
 
-    var sessions = await _sessionRepo.GetUserSessions(userId);
+    var sessions = await _sessionService.GetUserSessions(userId);
     if (!sessions.Any()) return Task.CompletedTask;
 
     foreach (var session in sessions)
     {
       if (session.Id != tokenVersion) continue;
 
-      await _sessionRepo.UpdateLastUsedAt(session.Id);
+      await _sessionService.UpdateLastUsedAt(session.Id);
       context.Succeed(requirement);
     }
 

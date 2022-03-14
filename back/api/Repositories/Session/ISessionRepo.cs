@@ -1,9 +1,12 @@
-﻿namespace api.Repositories.Session;
+﻿using System.Linq.Expressions;
+
+namespace api.Repositories.Session;
 
 public interface ISessionRepo
 {
-  public Task<IEnumerable<Models.Session?>> GetUserSessions(Guid aUserId);
-  public Task<Models.Session> Create(Guid aUserId);
-  public Task Remove(Guid aSessionId);
-  public Task UpdateLastUsedAt(Guid aSessionId);
+  public Task<Models.Session?> GetOneByFilter(Expression<Func<Models.Session, bool>> aFilter);
+  public Task<IEnumerable<Models.Session?>> GetManyByFilter(Expression<Func<Models.Session, bool>> aFilter);
+  public Task Create(Models.Session aSession);
+  public Task Remove(Models.Session aSession);
+  public Task Update(Models.Session aSession);
 }

@@ -1,6 +1,0 @@
-﻿namespace api.Configs;
-
-public static class DbConfig
-{
-  public const string ConnectionString = "";
-}

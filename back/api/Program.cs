@@ -10,6 +10,10 @@ using Microsoft.IdentityModel.Tokens;
 using api.Repositories.User;
 using api.Security.Policies;
 using api.Security.Policies.Handlers;
+using api.Services;
+using api.Services.Interfaces;
+using api.Utils;
+using api.Utils.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,16 +21,29 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddDbContext<DataContext>(options =>
-  options.UseNpgsql(DbConfig.ConnectionString));
+  options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IDataContext, DataContext>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<ISessionRepo, SessionRepo>();
 
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ISessionService, SessionService>();
+
+builder.Services.AddSingleton<ICookieUtils, CookieUtils>();
+builder.Services.AddSingleton<ITokenUtils, TokenUtils>();
+builder.Services.AddScoped<IAuthUtils, AuthUtils>();
+
+builder.Services.AddScoped<IAuthorizationHandler, ValidSessionHandler>();
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddRouting(options => options.LowercaseUrls = true);
+builder.Services.Configure<TokenOptions>(
+  builder.Configuration.GetSection(TokenOptions.Position));
 
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddMvc(options => options.Filters.Add(new ExceptionHandler()));
 
 builder.Services.AddAuthentication(options =>
@@ -49,9 +66,11 @@ builder.Services.AddAuthentication(options =>
         RequireExpirationTime = true,
         ClockSkew = TimeSpan.Zero,
 
-        ValidIssuer = TokenConfig.AccessIss,
-        ValidAudience = TokenConfig.AccessAud,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(TokenConfig.AccessSecret))
+        ValidIssuer = builder.Configuration[$"{TokenOptions.Position}:AccessIss"],
+        ValidAudience = builder.Configuration[$"{TokenOptions.Position}:AccessAud"],
+        IssuerSigningKey =
+          new SymmetricSecurityKey(
+            Encoding.Default.GetBytes(builder.Configuration[$"{TokenOptions.Position}:AccessSecret"]))
       };
     }
   )
@@ -62,7 +81,9 @@ builder.Services.AddAuthentication(options =>
         OnMessageReceived = context =>
         {
           var goodCookie =
-            context.HttpContext.Request.Cookies.TryGetValue(TokenConfig.RefreshTokenCookie, out var token);
+            context.HttpContext.Request.Cookies.TryGetValue(
+              builder.Configuration[$"{TokenOptions.Position}:RefreshTokenCookieName"], out var token);
+
           if (goodCookie) context.Token = token;
 
           return Task.CompletedTask;
@@ -80,9 +101,11 @@ builder.Services.AddAuthentication(options =>
         RequireExpirationTime = true,
         ClockSkew = TimeSpan.Zero,
 
-        ValidIssuer = TokenConfig.RefreshIss,
-        ValidAudience = TokenConfig.RefreshAud,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(TokenConfig.RefreshSecret))
+        ValidIssuer = builder.Configuration[$"{TokenOptions.Position}:RefreshIss"],
+        ValidAudience = builder.Configuration[$"{TokenOptions.Position}:RefreshAud"],
+        IssuerSigningKey =
+          new SymmetricSecurityKey(
+            Encoding.Default.GetBytes(builder.Configuration[$"{TokenOptions.Position}:RefreshSecret"]))
       };
     }
   );
@@ -107,7 +130,6 @@ builder.Services.AddAuthorization(options =>
   });
 });
 
-builder.Services.AddScoped<IAuthorizationHandler, ValidSessionHandler>();
 
 var app = builder.Build();
 

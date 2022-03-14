@@ -1,5 +1,5 @@
 ﻿using api.DTOs;
-using api.Repositories.User;
+using api.Services.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,12 +10,12 @@ namespace api.Controllers;
 [Route("api/users")]
 public class UserController : BaseController
 {
-  private readonly IUserRepo _userRepo;
+  private readonly IUserService _userService;
   private readonly IMapper _mapper;
 
-  public UserController(IUserRepo aUserRepo, IMapper mapper)
+  public UserController(IUserService aUserService, IMapper mapper)
   {
-    _userRepo = aUserRepo;
+    _userService = aUserService;
     _mapper = mapper;
   }
 
@@ -23,14 +23,14 @@ public class UserController : BaseController
   [Authorize]
   public async Task<ActionResult<UserResponse>> GetMe()
   {
-    var userId = GetUserId();
-    var currentSessionId = GetSessionId();
+    var userId = GetUserId().GetValueOrDefault();
+    var currentSessionId = GetSessionId().GetValueOrDefault();
 
-    var user = await _userRepo.GetById(userId);
-    if (user == null) return NotFound("User not found");
+    var user = await _userService.GetById(userId);
 
     var mappedResponse = _mapper.Map<UserResponse>(user);
 
+    // mark current session as true
     foreach (var session in mappedResponse.Sessions)
       if (session.Id == currentSessionId)
         session.isCurrentSession = true;
