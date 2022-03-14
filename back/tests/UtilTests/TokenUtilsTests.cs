@@ -2,7 +2,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using api.Utils;
 using FluentAssertions;
 using Microsoft.IdentityModel.Tokens;

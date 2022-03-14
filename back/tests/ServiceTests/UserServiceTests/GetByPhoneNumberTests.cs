@@ -34,13 +34,13 @@ public class GetByPhoneNumberTests
       .ReturnsAsync(existingUser);
 
     Func<Task<User>> test = async () => await _userService.GetByPhoneNumber(existingUser.PhoneNumber);
-    
+
     await test.Should().NotThrowAsync();
     var result = await test();
-    
+
     result.Should().BeSameAs(existingUser);
   }
-  
+
   [Fact]
   public async Task GetByPhoneNumber_WithNoExistingUser_NotRequired_DoesNotThrow_ReturnsNull()
   {
@@ -55,7 +55,7 @@ public class GetByPhoneNumberTests
 
     result.Should().BeNull();
   }
-  
+
   [Fact]
   public async Task GetByPhoneNumber_WithNoExistingUser_Required_ThrowsNotFoundException()
   {

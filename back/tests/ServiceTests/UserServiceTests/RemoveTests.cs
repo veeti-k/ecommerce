@@ -32,12 +32,12 @@ public class RemoveTests
     _mockUserRepo.Setup(repo => repo
         .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
       .ReturnsAsync(existingUser);
-    
+
     Func<Task> test = async () => await _userService.Remove(existingUser);
 
     await test.Should().NotThrowAsync();
   }
-  
+
   [Fact]
   public async Task Remove_WithUserModel_WithNoExistingUser_ThrowsNotFoundException()
   {
@@ -46,7 +46,7 @@ public class RemoveTests
     _mockUserRepo.Setup(repo => repo
         .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
       .ReturnsAsync((User) null);
-    
+
     Func<Task> test = async () => await _userService.Remove(fakeUser);
 
     (await test.Should().ThrowAsync<NotFoundException>())
@@ -56,7 +56,7 @@ public class RemoveTests
         Message = "User not found"
       });
   }
-  
+
   [Fact]
   public async Task Remove_WithUserId_WithExistingUser_DoesNotThrow()
   {
@@ -65,19 +65,19 @@ public class RemoveTests
     _mockUserRepo.Setup(repo => repo
         .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
       .ReturnsAsync(existingUser);
-    
+
     Func<Task> test = async () => await _userService.Remove(Guid.NewGuid());
 
     await test.Should().NotThrowAsync();
   }
-  
+
   [Fact]
   public async Task Remove_WithUserId_WithNoExistingUser_ThrowsNotFoundException()
   {
     _mockUserRepo.Setup(repo => repo
         .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
       .ReturnsAsync((User) null);
-    
+
     Func<Task> test = async () => await _userService.Remove(Guid.NewGuid());
 
     (await test.Should().ThrowAsync<NotFoundException>())

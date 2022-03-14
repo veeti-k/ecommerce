@@ -34,13 +34,14 @@ public class GetByIdTests
       .ReturnsAsync(existingUser);
 
     Func<Task<User>> test = async () => await _userService.GetById(existingUser.Id);
-    
+
     await test.Should().NotThrowAsync();
     var result = await test();
-    
-    result.Should().BeSameAs(existingUser);;
+
+    result.Should().BeSameAs(existingUser);
+    ;
   }
-  
+
   [Fact]
   public async Task GetById_WithNoExistingUser_NotRequired_DoesNotThrow_ReturnsNull()
   {
@@ -55,7 +56,7 @@ public class GetByIdTests
 
     result.Should().BeNull();
   }
-  
+
   [Fact]
   public async Task GetById_WithNoExistingUser_Required_ThrowsNotFoundException()
   {

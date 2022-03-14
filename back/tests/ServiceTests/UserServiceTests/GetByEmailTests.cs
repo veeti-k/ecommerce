@@ -34,13 +34,13 @@ public class GetByEmailTests
       .ReturnsAsync(existingUser);
 
     Func<Task<User>> test = async () => await _userService.GetByEmail(existingUser.Email);
-    
+
     await test.Should().NotThrowAsync();
     var result = await test();
-    
+
     result.Should().BeSameAs(existingUser);
   }
-  
+
   [Fact]
   public async Task GetByEmail_WithNoExistingUser_NotRequired_DoesNotThrow_ReturnsNull()
   {
@@ -55,7 +55,7 @@ public class GetByEmailTests
 
     result.Should().BeNull();
   }
-  
+
   [Fact]
   public async Task GetByEmail_WithNoExistingUser_Required_ThrowsNotFoundException()
   {

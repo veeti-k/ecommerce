@@ -37,7 +37,7 @@ public class CookieUtilsTests
       DateTime.Now.AddSeconds(_tokenOptions.RefreshTokenCookieExpSeconds),
       TimeSpan.FromSeconds(5));
   }
-  
+
   [Fact]
   public void CreateExpiredRefreshTokenCookie_ReturnsACookie_ThatIsExpired_WithCorrectValue_WithValuesFromConfig()
   {
