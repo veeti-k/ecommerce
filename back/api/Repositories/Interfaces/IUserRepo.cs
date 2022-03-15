@@ -1,7 +1,6 @@
 ﻿using System.Linq.Expressions;
-using api.DTOs.Auth;
 
-namespace api.Repositories.User;
+namespace api.Repositories.Interfaces;
 
 public interface IUserRepo
 {

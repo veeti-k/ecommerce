@@ -1,8 +1,9 @@
 ﻿using System.Linq.Expressions;
 using api.Data;
+using api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace api.Repositories.Session;
+namespace api.Repositories;
 
 public class SessionRepo : ISessionRepo
 {

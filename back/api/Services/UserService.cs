@@ -2,7 +2,7 @@
 using api.DTOs.Auth;
 using api.Exceptions;
 using api.Models;
-using api.Repositories.User;
+using api.Repositories.Interfaces;
 using api.Services.Interfaces;
 using api.Utils;
 

@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace api.Repositories.Session;
+namespace api.Repositories.Interfaces;
 
 public interface ISessionRepo
 {

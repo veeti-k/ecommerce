@@ -1,5 +1,5 @@
 ﻿using api.Models;
-using api.Repositories.Session;
+using api.Repositories.Interfaces;
 using api.Services.Interfaces;
 
 namespace api.Services;

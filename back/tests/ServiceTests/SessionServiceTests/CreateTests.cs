@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using api.Models;
-using api.Repositories.Session;
+using api.Repositories.Interfaces;
 using api.Services;
 using api.Services.Interfaces;
 using FluentAssertions;

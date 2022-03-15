@@ -1,8 +1,9 @@
 ﻿using System.Linq.Expressions;
 using api.Data;
+using api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace api.Repositories.User;
+namespace api.Repositories;
 
 public class UserRepo : IUserRepo
 {
