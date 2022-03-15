@@ -33,12 +33,11 @@ obj/
 .vs/
 
 *.csproj.user
+*.DotSettings.user
 appsettings.Development.json
 
 .idea/
 .vscode/
 /DATA
 .env.postgres
-DbConfig.cs
-TokenConfig.cs
-
+Migrations
