@@ -33,7 +33,7 @@ public class CreateTests
 
     session.Id.ToString().Should().NotBeNullOrWhiteSpace();
     session.UserId.Should().Be(newSession.UserId);
-    session.CreatedAt.Should().NotBeNullOrWhiteSpace();
-    session.LastUsedAt.Should().NotBeNullOrWhiteSpace();
+    session.CreatedAt.Should().BeCloseTo(DateTimeOffset.UtcNow, TimeSpan.FromSeconds(5));
+    session.LastUsedAt.Should().BeCloseTo(DateTimeOffset.UtcNow, TimeSpan.FromSeconds(5));
   }
 }

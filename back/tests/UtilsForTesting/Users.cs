@@ -22,7 +22,7 @@ public static class Users
       Email = Guid.NewGuid().ToString(),
       PhoneNumber = "12345678",
       Password = Hashing.HashToString(password ?? Guid.NewGuid().ToString()),
-      CreatedAt = DateTime.UtcNow.ToString("o"),
+      CreatedAt = DateTimeOffset.UtcNow,
       isTestAccount = isTestAccount,
       Addresses = addresses ?? new Address[] { },
       Sessions = sessions ?? new Session[] { },

@@ -114,5 +114,6 @@ public class CreateUserTests
     user.Name.Should().Be($"{testDto.FirstName} {testDto.LastName}");
     user.Password.Should().NotBeNullOrWhiteSpace();
     user.PhoneNumber.Should().Be(testDto.PhoneNumber);
+    user.CreatedAt.Should().BeCloseTo(DateTimeOffset.UtcNow, TimeSpan.FromSeconds(5));
   }
 }

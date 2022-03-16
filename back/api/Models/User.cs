@@ -10,7 +10,7 @@ public class User
   [Required] public string Password { get; init; }
   public string? PhoneNumber { get; init; }
   public bool isTestAccount { get; init; }
-  public string CreatedAt { get; init; }
+  public DateTimeOffset CreatedAt { get; init; }
 
   public virtual IEnumerable<Session> Sessions { get; init; }
   public virtual IEnumerable<Address> Addresses { get; init; }

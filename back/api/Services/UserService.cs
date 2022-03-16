@@ -50,7 +50,7 @@ public class UserService : IUserService
       PhoneNumber = aDto.PhoneNumber,
       isTestAccount = aDto.isTestAccount,
       Password = Hashing.HashToString(aDto.Password),
-      CreatedAt = DateTime.UtcNow.ToString("o")
+      CreatedAt = DateTimeOffset.UtcNow,
     };
 
     await _userRepo.Add(newUser);

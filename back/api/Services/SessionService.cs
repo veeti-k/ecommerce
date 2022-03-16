@@ -22,8 +22,8 @@ public class SessionService : ISessionService
     {
       Id = Guid.NewGuid(),
       UserId = aUserId,
-      CreatedAt = DateTime.UtcNow.ToString("o"),
-      LastUsedAt = DateTime.UtcNow.ToString("o"),
+      CreatedAt = DateTimeOffset.UtcNow,
+      LastUsedAt = DateTimeOffset.UtcNow,
     };
 
     await _sessionRepo.Create(newSession);
@@ -43,7 +43,7 @@ public class SessionService : ISessionService
     var session = await _sessionRepo.GetOneByFilter(session => session.Id == aSessionId);
     if (session == null) return;
 
-    session.LastUsedAt = DateTime.UtcNow.ToString("o");
+    session.LastUsedAt = DateTimeOffset.UtcNow;
     await _sessionRepo.Update(session);
   }
 }

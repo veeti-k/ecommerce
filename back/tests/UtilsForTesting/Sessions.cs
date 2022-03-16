@@ -11,8 +11,8 @@ public static class Sessions
     {
       Id = Guid.NewGuid(),
       UserId = aUserId,
-      CreatedAt = DateTime.UtcNow.ToString("o"),
-      LastUsedAt = DateTime.UtcNow.ToString("o")
+      CreatedAt = DateTimeOffset.UtcNow,
+      LastUsedAt = DateTimeOffset.UtcNow,
     };
   }
 }
