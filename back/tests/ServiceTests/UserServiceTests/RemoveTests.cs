@@ -55,6 +55,9 @@ public class RemoveTests
         StatusCode = StatusCodes.Status404NotFound,
         Message = "User not found"
       });
+    
+    _mockUserRepo.Verify(mock => mock
+      .Remove(It.IsAny<User>()), Times.Never);
   }
 
   [Fact]
@@ -86,5 +89,8 @@ public class RemoveTests
         StatusCode = StatusCodes.Status404NotFound,
         Message = "User not found"
       });
+    
+    _mockUserRepo.Verify(mock => mock
+      .Remove(It.IsAny<User>()), Times.Never);
   }
 }

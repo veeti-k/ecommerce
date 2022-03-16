@@ -50,6 +50,9 @@ public class CreateUserTests
         StatusCode = StatusCodes.Status400BadRequest,
         Message = "Email in use"
       });
+
+    _mockUserRepo.Verify(mock => mock
+      .Add(It.IsAny<User>()), Times.Never);
   }
 
   [Fact]
@@ -78,6 +81,9 @@ public class CreateUserTests
         StatusCode = StatusCodes.Status400BadRequest,
         Message = "Phone number in use"
       });
+    
+    _mockUserRepo.Verify(mock => mock
+      .Add(It.IsAny<User>()), Times.Never);
   }
 
   [Fact]
@@ -100,6 +106,9 @@ public class CreateUserTests
     Func<Task<User>> test = async () => await _userService.Create(testDto);
 
     var user = await test();
+    
+    _mockUserRepo.Verify(mock => mock
+      .Add(It.IsAny<User>()), Times.Once);
 
     user.Email.Should().Be(testDto.Email);
     user.Name.Should().Be($"{testDto.FirstName} {testDto.LastName}");
