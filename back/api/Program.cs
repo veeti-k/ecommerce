@@ -15,7 +15,6 @@ using api.Services.Interfaces;
 using api.Utils;
 using api.Utils.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,9 +28,11 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IDataContext, DataContext>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<ISessionRepo, SessionRepo>();
+builder.Services.AddScoped<IAddressRepo, AddressRepo>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ISessionService, SessionService>();
+builder.Services.AddScoped<IAddressService, AddressService>();
 
 builder.Services.AddSingleton<ICookieUtils, CookieUtils>();
 builder.Services.AddSingleton<ITokenUtils, TokenUtils>();

@@ -6,12 +6,12 @@ public class Address
 {
   [Key] public Guid Id { get; init; }
   [Required] public Guid UserId { get; init; }
-  [Required] public string Name { get; init; }
-  [Required] public string PhoneNumber { get; init; }
-  [Required] public string Email { get; init; }
-  [Required] public string Line1 { get; init; }
-  [Required] public string Line2 { get; init; }
-  [Required] public string City { get; init; }
-  [Required] public string State { get; init; }
-  [Required] public string ZipCode { get; init; }
+  [Required] public string Name { get; set; }
+  [Required] public string PhoneNumber { get; set; }
+  [Required] public string Email { get; set; }
+  [Required] public string Line1 { get; set; }
+  [Required] public string Line2 { get; set; }
+  [Required] public string City { get; set; }
+  [Required] public string State { get; set; }
+  [Required] public string Zip { get; set; }
 }

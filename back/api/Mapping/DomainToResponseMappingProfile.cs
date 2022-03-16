@@ -10,5 +10,6 @@ public class DomainToResponseMappingProfile : Profile
   {
     CreateMap<User, UserResponse>();
     CreateMap<Session, SessionResponse>();
+    CreateMap<Address, AddressResponse>();
   }
 }
