@@ -15,6 +15,7 @@ using api.Services.Interfaces;
 using api.Utils;
 using api.Utils.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -130,10 +131,11 @@ builder.Services.AddAuthorization(options =>
   });
 });
 
-
 var app = builder.Build();
 
+app.UsePathBase("/api");
 app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
