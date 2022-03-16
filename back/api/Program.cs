@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using api.Security.Policies;
 using api.Security.Policies.Handlers;
+using api.Security.Policies.Requirements;
 using api.Services;
 using api.Services.Interfaces;
 using api.Utils;
@@ -116,19 +117,21 @@ builder.Services.AddAuthorization(options =>
 {
   options.DefaultPolicy = new AuthorizationPolicyBuilder()
     .RequireAuthenticatedUser()
+    .AddAuthenticationSchemes("AccessToken")
     .RequireClaim(ClaimTypes.NameIdentifier)
     .RequireClaim(ClaimTypes.Version)
-    .AddAuthenticationSchemes("AccessToken")
     .AddRequirements(new ValidSessionRequirement())
+    .AddRequirements(new ValidUserIdRequirement())
     .Build();
 
   options.AddPolicy("ValidRefreshToken", policy =>
   {
     policy.RequireAuthenticatedUser();
+    policy.AddAuthenticationSchemes("RefreshToken");
     policy.RequireClaim(ClaimTypes.NameIdentifier);
     policy.RequireClaim(ClaimTypes.Version);
-    policy.AddAuthenticationSchemes("RefreshToken");
     policy.AddRequirements(new ValidSessionRequirement());
+    policy.AddRequirements(new ValidUserIdRequirement());
   });
 });
 
