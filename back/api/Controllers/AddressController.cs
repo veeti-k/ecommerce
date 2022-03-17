@@ -48,7 +48,7 @@ public class AddressController : BaseController
 
     var created = await _addressService.Create(dto, userId.GetValueOrDefault());
 
-    return Created(String.Empty, _mapper.Map<AddressResponse>(created));
+    return Created(string.Empty, _mapper.Map<AddressResponse>(created));
   }
 
   [HttpPatch("me/addresses/{addressId:Guid}")]
@@ -61,16 +61,16 @@ public class AddressController : BaseController
     return Ok(_mapper.Map<AddressResponse>(updated));
   }
 
-  [HttpGet("{userId:Guid}/addresses")]
-  public async Task<ActionResult<AddressResponse>> GetAllAddresses(Guid userId)
+  [HttpGet("{userId:int}/addresses")]
+  public async Task<ActionResult<AddressResponse>> GetAllAddresses(int userId)
   {
     var addresses = await _addressService.GetMany(userId);
 
     return Ok(_mapper.Map<IEnumerable<AddressResponse>>(addresses));
   }
 
-  [HttpGet("{userId:Guid}/addresses/{addressId:Guid}")]
-  public async Task<ActionResult<AddressResponse>> GetOneAddress(Guid userId, Guid addressId)
+  [HttpGet("{userId:int}/addresses/{addressId:Guid}")]
+  public async Task<ActionResult<AddressResponse>> GetOneAddress(int userId, Guid addressId)
   {
     var address = await _addressService
       .GetOne(addressId, userId);
@@ -78,16 +78,16 @@ public class AddressController : BaseController
     return Ok(_mapper.Map<AddressResponse>(address));
   }
 
-  [HttpPost("{userId:Guid}/addresses")]
-  public async Task<ActionResult<AddressResponse>> AddAddress(CreateAddressDTO dto, Guid userId)
+  [HttpPost("{userId:int}/addresses")]
+  public async Task<ActionResult<AddressResponse>> AddAddress(CreateAddressDTO dto, int userId)
   {
     var created = await _addressService.Create(dto, userId);
 
-    return Created(String.Empty, _mapper.Map<AddressResponse>(created));
+    return Created(string.Empty, _mapper.Map<AddressResponse>(created));
   }
 
-  [HttpPatch("{userId:Guid}/addresses/{addressId:Guid}")]
-  public async Task<ActionResult<AddressResponse>> UpdateAddress(UpdateAddressDTO dto, Guid userId, Guid addressId)
+  [HttpPatch("{userId:int}/addresses/{addressId:Guid}")]
+  public async Task<ActionResult<AddressResponse>> UpdateAddress(UpdateAddressDTO dto, int userId, Guid addressId)
   {
     var updated = await _addressService.Update(dto, userId, addressId);
 

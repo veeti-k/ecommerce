@@ -1,10 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace api.Models.User;
 
 public class User
 {
-  [Key] public Guid Id { get; init; }
+  [Key]
+  [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+  public int Id { get; init; }
+
   [Required] public string Name { get; init; }
   [Required] public string Email { get; init; }
   [Required] public string Password { get; init; }

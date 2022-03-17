@@ -17,39 +17,38 @@ public class UserService : IUserService
     _userRepo = userRepo;
   }
 
-  private async Task<User> GetOneByFilter(Expression<Func<User, bool>> aFilter, bool require)
+  private async Task<User> GetOneByFilter(Expression<Func<User, bool>> filter, bool require)
   {
-    var user = await _userRepo.GetOneByFilter(aFilter);
+    var user = await _userRepo.GetOneByFilter(filter);
     if (require && user == null) throw new NotFoundException("User not found");
 
     return user;
   }
 
-  public async Task<User> GetById(Guid aId, bool require = false) =>
-    await GetOneByFilter(user => user.Id == aId, require);
+  public async Task<User> GetById(int id, bool require = false) =>
+    await GetOneByFilter(user => user.Id == id, require);
 
-  public async Task<User> GetByEmail(string aEmail, bool require = false) =>
-    await GetOneByFilter(user => user.Email == aEmail, require);
+  public async Task<User> GetByEmail(string email, bool require = false) =>
+    await GetOneByFilter(user => user.Email == email, require);
 
-  public async Task<User> GetByPhoneNumber(string aPhoneNumber, bool require = false) =>
-    await GetOneByFilter(user => user.PhoneNumber == aPhoneNumber, require);
+  public async Task<User> GetByPhoneNumber(string phoneNumber, bool require = false) =>
+    await GetOneByFilter(user => user.PhoneNumber == phoneNumber, require);
 
-  public async Task<User> Create(RegisterDTO aDto)
+  public async Task<User> Create(RegisterDTO dto)
   {
-    if (await GetByEmail(aDto.Email) != null)
+    if (await GetByEmail(dto.Email) != null)
       throw new BadRequestException("Email in use");
 
-    if (await GetByPhoneNumber(aDto.PhoneNumber) != null)
+    if (await GetByPhoneNumber(dto.PhoneNumber) != null)
       throw new BadRequestException("Phone number in use");
 
     User newUser = new()
     {
-      Id = Guid.NewGuid(),
-      Email = aDto.Email,
-      Name = $"{aDto.FirstName} {aDto.LastName}",
-      PhoneNumber = aDto.PhoneNumber,
-      isTestAccount = aDto.isTestAccount,
-      Password = Hashing.HashToString(aDto.Password),
+      Email = dto.Email,
+      Name = $"{dto.FirstName} {dto.LastName}",
+      PhoneNumber = dto.PhoneNumber,
+      isTestAccount = dto.isTestAccount,
+      Password = Hashing.HashToString(dto.Password),
       CreatedAt = DateTimeOffset.UtcNow,
     };
 
@@ -57,15 +56,15 @@ public class UserService : IUserService
     return newUser;
   }
 
-  public async Task Remove(User aUser)
+  public async Task Remove(User user)
   {
-    var userToRemove = await GetById(aUser.Id, true);
+    var userToRemove = await GetById(user.Id, true);
     await _userRepo.Remove(userToRemove);
   }
 
-  public async Task Remove(Guid aId)
+  public async Task Remove(int id)
   {
-    var userToRemove = await GetById(aId, true);
+    var userToRemove = await GetById(id, true);
     await _userRepo.Remove(userToRemove);
   }
 }

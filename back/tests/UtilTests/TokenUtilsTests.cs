@@ -17,6 +17,8 @@ public class TokenUtilsTests
   private readonly TokenValidationParameters _accessTokenValidationParameters;
   private readonly TokenValidationParameters _refreshTokenValidationParameters;
 
+  private readonly int randomNumber = new Random().Next(1, Int32.MaxValue);
+
   public TokenUtilsTests(TokenThingsFixture tokenThings)
   {
     _accessTokenValidationParameters = tokenThings.AccessTokenValidationParameters;
@@ -30,7 +32,7 @@ public class TokenUtilsTests
   [Fact]
   public void CreateAccessToken_ReturnsCreatedToken_TokenIsValid()
   {
-    var userId = Guid.NewGuid();
+    var userId = randomNumber;
     var sessionId = Guid.NewGuid();
 
     var resultToken = _tokenUtils.CreateAccessToken(userId, sessionId);
@@ -55,7 +57,7 @@ public class TokenUtilsTests
   [Fact]
   public void CreateRefreshToken_ReturnsCreatedToken_TokenIsValid()
   {
-    var userId = Guid.NewGuid();
+    var userId = randomNumber;
     var sessionId = Guid.NewGuid();
 
     var resultToken = _tokenUtils.CreateRefreshToken(userId, sessionId);

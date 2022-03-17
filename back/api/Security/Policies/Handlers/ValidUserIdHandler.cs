@@ -21,8 +21,8 @@ public class ValidUserIdHandler : AuthorizationHandler<ValidUserIdRequirement>
     var userIdClaim = context.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier);
     if (userIdClaim is null) return Task.CompletedTask;
 
-    var userIdIsGuid = Guid.TryParse(userIdClaim.Value, out var userId);
-    if (!userIdIsGuid) return Task.CompletedTask;
+    var goodUserId = int.TryParse(userIdClaim.Value, out var userId);
+    if (!goodUserId) return Task.CompletedTask;
 
     var user = await _userService.GetById(userId);
     if (user != null) context.Succeed(requirement);

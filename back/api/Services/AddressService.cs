@@ -35,14 +35,14 @@ public class AddressService : IAddressService
   public async Task<Address> GetById(Guid addressId, bool require) =>
     await GetOneByFilter(address => address.Id == addressId, require);
 
-  public async Task<IEnumerable<Address>> GetMany(Guid userId) =>
+  public async Task<IEnumerable<Address>> GetMany(int userId) =>
     await GetManyByFilter(address => address.UserId == userId, require: true);
 
-  public async Task<Address> GetOne(Guid aAddressId, Guid userId) =>
+  public async Task<Address> GetOne(Guid addressId, int userId) =>
     await GetOneByFilter(address => address.UserId == userId
-                                    && address.Id == aAddressId, require: true);
+                                    && address.Id == addressId, require: true);
 
-  public async Task<Address> Create(CreateAddressDTO aDto, Guid userId)
+  public async Task<Address> Create(CreateAddressDTO aDto, int userId)
   {
     Address newAddress = new()
     {
@@ -62,7 +62,7 @@ public class AddressService : IAddressService
     return newAddress;
   }
 
-  public async Task<Address> Update(UpdateAddressDTO dto, Guid userId, Guid addressId)
+  public async Task<Address> Update(UpdateAddressDTO dto, int userId, Guid addressId)
   {
     var existingAddress = await GetOne(addressId, userId);
 
@@ -80,9 +80,9 @@ public class AddressService : IAddressService
     return existingAddress;
   }
 
-  public async Task Remove(Address aAddress)
+  public async Task Remove(Address address)
   {
-    var addressToRemove = await GetById(aAddress.Id, require: true);
+    var addressToRemove = await GetById(address.Id, require: true);
     await _addressRepo.Remove(addressToRemove);
   }
 

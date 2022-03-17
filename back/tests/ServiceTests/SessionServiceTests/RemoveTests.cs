@@ -15,7 +15,8 @@ public class RemoveTests
 {
   private readonly Mock<ISessionRepo> _mockSessionRepo = new();
   private ISessionService _sessionService;
-
+  private readonly int randomNumber = new Random().Next(1, Int32.MaxValue);
+  
   public RemoveTests()
   {
     _sessionService = new SessionService(_mockSessionRepo.Object);
@@ -24,7 +25,7 @@ public class RemoveTests
   [Fact]
   public async Task Remove_WithExistingSession_RemovesSession()
   {
-    var existingSession = Sessions.CreateFakeSession(Guid.NewGuid());
+    var existingSession = Sessions.CreateFakeSession(randomNumber);
 
     _mockSessionRepo.Setup(mock => mock
         .GetOneByFilter(It.IsAny<Expression<Func<Session, bool>>>()))

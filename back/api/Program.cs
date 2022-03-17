@@ -5,17 +5,16 @@ using api.Data;
 using api.Exceptions;
 using api.Repositories;
 using api.Repositories.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using api.Security.Policies;
 using api.Security.Policies.Handlers;
 using api.Security.Policies.Requirements;
 using api.Services;
 using api.Services.Interfaces;
 using api.Utils;
 using api.Utils.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,7 +57,7 @@ builder.Services.AddAuthentication(options =>
   })
   .AddJwtBearer("AccessToken", options =>
     {
-      options.TokenValidationParameters = new TokenValidationParameters()
+      options.TokenValidationParameters = new TokenValidationParameters
       {
         ValidateIssuer = true,
         ValidateAudience = true,
@@ -80,7 +79,7 @@ builder.Services.AddAuthentication(options =>
   )
   .AddJwtBearer("RefreshToken", options =>
     {
-      options.Events = new JwtBearerEvents()
+      options.Events = new JwtBearerEvents
       {
         OnMessageReceived = context =>
         {
@@ -93,7 +92,7 @@ builder.Services.AddAuthentication(options =>
           return Task.CompletedTask;
         }
       };
-      options.TokenValidationParameters = new TokenValidationParameters()
+      options.TokenValidationParameters = new TokenValidationParameters
       {
         ValidateIssuer = true,
         ValidateAudience = true,

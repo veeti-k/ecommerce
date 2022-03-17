@@ -13,15 +13,15 @@ public class SessionService : ISessionService
     _sessionRepo = aSessionRepo;
   }
 
-  public async Task<IEnumerable<Session?>> GetUserSessions(Guid aUserId) =>
-    await _sessionRepo.GetManyByFilter(session => session.UserId == aUserId);
+  public async Task<IEnumerable<Session?>> GetUserSessions(int userId) =>
+    await _sessionRepo.GetManyByFilter(session => session.UserId == userId);
 
-  public async Task<Session> Create(Guid aUserId)
+  public async Task<Session> Create(int userId)
   {
     Session newSession = new()
     {
       Id = Guid.NewGuid(),
-      UserId = aUserId,
+      UserId = userId,
       CreatedAt = DateTimeOffset.UtcNow,
       LastUsedAt = DateTimeOffset.UtcNow,
     };
@@ -30,17 +30,17 @@ public class SessionService : ISessionService
     return newSession;
   }
 
-  public async Task Remove(Guid aSessionId)
+  public async Task Remove(Guid sessionId)
   {
-    var session = await _sessionRepo.GetOneByFilter(session => session.Id == aSessionId);
+    var session = await _sessionRepo.GetOneByFilter(session => session.Id == sessionId);
     if (session == null) return;
 
     await _sessionRepo.Remove(session);
   }
 
-  public async Task UpdateLastUsedAt(Guid aSessionId)
+  public async Task UpdateLastUsedAt(Guid sessionId)
   {
-    var session = await _sessionRepo.GetOneByFilter(session => session.Id == aSessionId);
+    var session = await _sessionRepo.GetOneByFilter(session => session.Id == sessionId);
     if (session == null) return;
 
     session.LastUsedAt = DateTimeOffset.UtcNow;

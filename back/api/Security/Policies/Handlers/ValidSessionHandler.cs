@@ -24,8 +24,8 @@ public class ValidSessionHandler : AuthorizationHandler<ValidSessionRequirement>
     var userIdClaim = context.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier);
     if (userIdClaim is null) return Task.CompletedTask;
 
-    var userIdIsGuid = Guid.TryParse(userIdClaim.Value, out var userId);
-    if (!userIdIsGuid) return Task.CompletedTask;
+    var goodUserId = int.TryParse(userIdClaim.Value, out var userId);
+    if (!goodUserId) return Task.CompletedTask;
 
     var tokenVersionIsGuid = Guid.TryParse(tokenVersionClaim.Value, out var tokenVersion);
     if (!tokenVersionIsGuid) return Task.CompletedTask;

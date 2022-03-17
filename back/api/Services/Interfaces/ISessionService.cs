@@ -4,8 +4,8 @@ namespace api.Services.Interfaces;
 
 public interface ISessionService
 {
-  public Task<IEnumerable<Session?>> GetUserSessions(Guid aUserId);
-  public Task<Session> Create(Guid aUserId);
-  public Task Remove(Guid aSessionId);
-  public Task UpdateLastUsedAt(Guid aSessionId);
+  public Task<IEnumerable<Session?>> GetUserSessions(int userId);
+  public Task<Session> Create(int userId);
+  public Task Remove(Guid sessionId);
+  public Task UpdateLastUsedAt(Guid sessionId);
 }

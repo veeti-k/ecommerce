@@ -4,7 +4,4 @@ namespace api.Security.Policies.Requirements;
 
 public class ValidUserIdRequirement : IAuthorizationRequirement
 {
-  public ValidUserIdRequirement()
-  {
-  }
 }

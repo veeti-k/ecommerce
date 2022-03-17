@@ -16,6 +16,7 @@ public class UpdateLastUsedTests
 {
   private readonly Mock<ISessionRepo> _mockSessionRepo = new();
   private ISessionService _sessionService;
+  private readonly int randomNumber = new Random().Next(1, Int32.MaxValue);
 
   public UpdateLastUsedTests()
   {
@@ -25,7 +26,7 @@ public class UpdateLastUsedTests
   [Fact]
   public async Task UpdateLastUsedAt_WithExistingSession_UpdatesSession()
   {
-    var existingSession = Sessions.CreateFakeSession(Guid.NewGuid());
+    var existingSession = Sessions.CreateFakeSession(randomNumber);
     var lastUsedAt = existingSession.LastUsedAt;
 
     _mockSessionRepo.Setup(mock => mock

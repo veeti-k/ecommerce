@@ -17,11 +17,11 @@ public class TokenUtils : ITokenUtils
     _tokenOptions = aTokenOptions.Value;
   }
 
-  public string CreateAccessToken(Guid aUserId, Guid aSessionId)
+  public string CreateAccessToken(int userId, Guid aSessionId)
   {
     var claims = new[]
     {
-      new Claim(ClaimTypes.NameIdentifier, aUserId.ToString()),
+      new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
       new Claim(ClaimTypes.Version, aSessionId.ToString())
     };
 
@@ -37,11 +37,11 @@ public class TokenUtils : ITokenUtils
     return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
   }
 
-  public string CreateRefreshToken(Guid aUserId, Guid aSessionId)
+  public string CreateRefreshToken(int userId, Guid aSessionId)
   {
     var claims = new[]
     {
-      new Claim(ClaimTypes.NameIdentifier, aUserId.ToString()),
+      new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
       new Claim(ClaimTypes.Version, aSessionId.ToString())
     };
 

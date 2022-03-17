@@ -69,7 +69,7 @@ public class RemoveTests
         .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
       .ReturnsAsync(existingUser);
 
-    Func<Task> test = async () => await _userService.Remove(Guid.NewGuid());
+    Func<Task> test = async () => await _userService.Remove(3);
 
     await test.Should().NotThrowAsync();
   }
@@ -81,7 +81,7 @@ public class RemoveTests
         .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
       .ReturnsAsync((User) null);
 
-    Func<Task> test = async () => await _userService.Remove(Guid.NewGuid());
+    Func<Task> test = async () => await _userService.Remove(3);
 
     (await test.Should().ThrowAsync<NotFoundException>())
       .And.Should().BeEquivalentTo(new

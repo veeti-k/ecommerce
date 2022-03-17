@@ -18,6 +18,7 @@ public class RemoveTests
 {
   private readonly Mock<IAddressRepo> _mockAddressRepo = new();
   private readonly IAddressService _addressService;
+  private readonly int randomNumber = new Random().Next(1, Int32.MaxValue);
 
   public RemoveTests()
   {
@@ -27,7 +28,7 @@ public class RemoveTests
   [Fact]
   public async Task Remove_WithExistingAddress_RemovesAddress()
   {
-    var existingAddress = Addresses.CreateFakeAddress(Guid.NewGuid());
+    var existingAddress = Addresses.CreateFakeAddress(randomNumber);
 
     _mockAddressRepo.Setup(mock => mock
         .GetOneByFilter(It.IsAny<Expression<Func<Address, bool>>>()))

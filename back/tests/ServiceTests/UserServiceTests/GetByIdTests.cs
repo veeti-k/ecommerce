@@ -49,7 +49,7 @@ public class GetByIdTests
         .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
       .ReturnsAsync((User) null);
 
-    Func<Task<User>> test = async () => await _userService.GetById(Guid.NewGuid());
+    Func<Task<User>> test = async () => await _userService.GetById(23);
 
     await test.Should().NotThrowAsync();
     var result = await test();
@@ -64,7 +64,7 @@ public class GetByIdTests
         .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
       .ReturnsAsync((User) null);
 
-    Func<Task<User>> test = async () => await _userService.GetById(Guid.NewGuid(), true);
+    Func<Task<User>> test = async () => await _userService.GetById(23, true);
 
     (await test.Should().ThrowAsync<NotFoundException>())
       .And.Should().BeEquivalentTo(new

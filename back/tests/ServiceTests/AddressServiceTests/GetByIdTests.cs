@@ -18,6 +18,7 @@ public class GetByIdTests
 {
   private readonly Mock<IAddressRepo> _mockAddressRepo = new();
   private readonly IAddressService _addressService;
+  private readonly int randomNumber = new Random().Next(1, Int32.MaxValue);
 
   public GetByIdTests()
   {
@@ -27,7 +28,7 @@ public class GetByIdTests
   [Fact]
   public async Task GetById_WithExistingAddress_NotRequired_DoesNotThrow_ReturnsExistingAddress()
   {
-    var userId = Guid.NewGuid();
+    var userId = randomNumber;
     var existingAddress = Addresses.CreateFakeAddress(userId);
 
     _mockAddressRepo.Setup(repo => repo

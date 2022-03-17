@@ -18,6 +18,7 @@ public class UpdateTests
 {
   private readonly Mock<IAddressRepo> _mockAddressRepo = new();
   private readonly IAddressService _addressService;
+  private readonly int randomNumber = new Random().Next(1, Int32.MaxValue);
 
   public UpdateTests()
   {
@@ -27,7 +28,7 @@ public class UpdateTests
   [Fact]
   public async Task Update_WithExistingAddress_UpdatesAddress_ReturnsUpdatedAddress()
   {
-    var userId = Guid.NewGuid();
+    var userId = randomNumber;
     var existingAddress = Addresses.CreateFakeAddress(userId);
     var testDto = Addresses.CreateFakeUpdateAddressDTO();
 
@@ -62,7 +63,7 @@ public class UpdateTests
   [Fact]
   public async Task Update_WithNoExistingAddress_ThrowsNotFoundException()
   {
-    var userId = Guid.NewGuid();
+    var userId = randomNumber;
     var testDto = Addresses.CreateFakeUpdateAddressDTO();
 
     _mockAddressRepo.Setup(mock => mock

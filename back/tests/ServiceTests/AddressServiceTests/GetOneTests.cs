@@ -18,6 +18,7 @@ public class GetOneTests
 {
   private readonly Mock<IAddressRepo> _mockAddressRepo = new();
   private readonly IAddressService _addressService;
+  private readonly int randomNumber = new Random().Next(1, Int32.MaxValue);
 
   public GetOneTests()
   {
@@ -27,11 +28,11 @@ public class GetOneTests
   [Fact]
   public async Task GetOne_WithExistingAddresses_ReturnsAddresses()
   {
-    var userId = Guid.NewGuid();
+    var userId = randomNumber;
 
     var existingAddress = Addresses.CreateFakeAddress(userId);
-      
-      _mockAddressRepo.Setup(mock => mock
+
+    _mockAddressRepo.Setup(mock => mock
         .GetOneByFilter(It.IsAny<Expression<Func<Address, bool>>>()))
       .ReturnsAsync(existingAddress);
 
@@ -43,13 +44,13 @@ public class GetOneTests
   [Fact]
   public async Task GetOne_WithNoExistingAddresses_ThrowsNotFoundException()
   {
-    var userId = Guid.NewGuid();
+    var userId = randomNumber;
 
     _mockAddressRepo.Setup(mock => mock
         .GetOneByFilter(It.IsAny<Expression<Func<Address, bool>>>()))
       .ReturnsAsync((Address) null);
 
-    Func<Task<Address>> test = async () => await _addressService.GetOne(Guid.NewGuid(),userId);
+    Func<Task<Address>> test = async () => await _addressService.GetOne(Guid.NewGuid(), userId);
 
     (await test.Should().ThrowAsync<NotFoundException>())
       .And.Should().BeEquivalentTo(new

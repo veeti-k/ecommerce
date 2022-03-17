@@ -16,6 +16,6 @@ public class TokenOptions
   public string AccessSecret { get; set; }
   public string AccessIss { get; set; }
   public string AccessAud { get; set; }
-  public long AccessExpSeconds { get; set; } =  60 * 15; // 15 minutes
+  public long AccessExpSeconds { get; set; } = 60 * 15; // 15 minutes
   public string AccessTokenHeaderName { get; set; }
 }

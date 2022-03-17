@@ -6,7 +6,7 @@ namespace tests.ControllerTests.Utils;
 
 public static class Addresses
 {
-  public static Address CreateFakeAddress(Guid aUserId)
+  public static Address CreateFakeAddress(int userId)
   {
     return new()
     {
@@ -18,7 +18,7 @@ public static class Addresses
       Name = Guid.NewGuid().ToString(),
       State = Guid.NewGuid().ToString(),
       PhoneNumber = Guid.NewGuid().ToString(),
-      UserId = aUserId,
+      UserId = userId,
       Zip = Guid.NewGuid().ToString(),
     };
   }

@@ -15,6 +15,7 @@ public class CreateTests
 {
   private readonly Mock<ISessionRepo> _mockSessionRepo = new();
   private ISessionService _sessionService;
+  private readonly int randomNumber = new Random().Next(1, Int32.MaxValue);
 
   public CreateTests()
   {
@@ -24,7 +25,7 @@ public class CreateTests
   [Fact]
   public async Task Create_CreatesNewSession_CallsDb_ReturnsNewSession()
   {
-    var newSession = Sessions.CreateFakeSession(Guid.NewGuid());
+    var newSession = Sessions.CreateFakeSession(randomNumber);
 
     var session = await _sessionService.Create(newSession.UserId);
 

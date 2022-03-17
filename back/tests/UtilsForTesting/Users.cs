@@ -8,7 +8,7 @@ namespace tests.ControllerTests.Utils;
 public static class Users
 {
   public static User CreateFakeUser(
-    Guid? userId = null,
+    int? userId = null,
     string? password = null,
     bool isTestAccount = false,
     IEnumerable<Address>? addresses = null,
@@ -16,7 +16,7 @@ public static class Users
   {
     return new User()
     {
-      Id = userId ?? Guid.NewGuid(),
+      Id = userId ?? new Random().Next(1, Int32.MaxValue),
       Name = Guid.NewGuid().ToString(),
       Email = Guid.NewGuid().ToString(),
       PhoneNumber = "12345678",

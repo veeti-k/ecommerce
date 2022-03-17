@@ -20,6 +20,7 @@ public class GetManyTests
 {
   private readonly Mock<IAddressRepo> _mockAddressRepo = new();
   private readonly IAddressService _addressService;
+  private readonly int randomNumber = new Random().Next(1, Int32.MaxValue);
 
   public GetManyTests()
   {
@@ -29,7 +30,7 @@ public class GetManyTests
   [Fact]
   public async Task GetMany_WithExistingAddresses_ReturnsAddresses()
   {
-    var userId = Guid.NewGuid();
+    var userId = randomNumber;
 
     var existingAddresses = new List<Address>()
     {
@@ -51,7 +52,7 @@ public class GetManyTests
   [Fact]
   public async Task GetMany_WithNoExistingAddresses_ThrowsNotFoundException()
   {
-    var userId = Guid.NewGuid();
+    var userId = randomNumber;
 
     _mockAddressRepo.Setup(mock => mock
         .GetManyByFilter(It.IsAny<Expression<Func<Address, bool>>>()))

@@ -15,7 +15,8 @@ public class CreateTests
 {
   private readonly Mock<IAddressRepo> _mockAddressRepo = new();
   private readonly IAddressService _addressService;
-
+  private readonly int randomNumber = new Random().Next(1, Int32.MaxValue);
+  
   public CreateTests()
   {
     _addressService = new AddressService(_mockAddressRepo.Object);
@@ -24,7 +25,7 @@ public class CreateTests
   [Fact]
   public async Task Create_CreatesNewAddress_ReturnsCorrectAddress()
   {
-    var userId = Guid.NewGuid();
+    var userId = randomNumber;
     var testDto = Addresses.CreateFakeCreateAddressDTO();
 
     var address = await _addressService.Create(testDto, userId);
