@@ -8,9 +8,9 @@ public class User
   [Required] public string Name { get; init; }
   [Required] public string Email { get; init; }
   [Required] public string Password { get; init; }
-  public string? PhoneNumber { get; init; }
-  public bool isTestAccount { get; init; }
-  public DateTimeOffset CreatedAt { get; init; }
+  [Required] public string? PhoneNumber { get; init; }
+  [Required] public bool isTestAccount { get; init; }
+  [Required] public DateTimeOffset CreatedAt { get; init; }
 
   public virtual IEnumerable<Session> Sessions { get; init; }
   public virtual IEnumerable<Address> Addresses { get; init; }
