@@ -1,5 +1,5 @@
 ﻿using System;
-using api.Models;
+using api.Models.User;
 
 namespace tests.ControllerTests.Utils;
 

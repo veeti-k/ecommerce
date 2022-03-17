@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using api.DTOs.Auth;
 using api.Exceptions;
-using api.Models;
+using api.Models.User;
 using api.Repositories.Interfaces;
 using api.Services;
 using api.Services.Interfaces;

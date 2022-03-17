@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using api.Data;
+using api.Models.User;
 using api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +9,7 @@ namespace api.Repositories;
 public class UserRepo : IUserRepo
 {
   private readonly DataContext _context;
-  private readonly IQueryable<Models.User?> _populatedUsers;
+  private readonly IQueryable<User?> _populatedUsers;
 
   public UserRepo(DataContext context)
   {
@@ -18,23 +19,23 @@ public class UserRepo : IUserRepo
       .Include(user => user.Sessions);
   }
 
-  public async Task<Models.User?> GetOneByFilter(Expression<Func<Models.User, bool>> aFilter)
+  public async Task<User?> GetOneByFilter(Expression<Func<User, bool>> aFilter)
   {
     return await _populatedUsers.Where(aFilter).FirstOrDefaultAsync();
   }
 
-  public async Task<IEnumerable<Models.User?>> GetManyByFilter(Expression<Func<Models.User, bool>> aFilter)
+  public async Task<IEnumerable<User?>> GetManyByFilter(Expression<Func<User, bool>> aFilter)
   {
     return await _populatedUsers.Where(aFilter).ToListAsync();
   }
 
-  public async Task Add(Models.User user)
+  public async Task Add(User user)
   {
     _context.Add(user);
     await _context.SaveChangesAsync();
   }
 
-  public async Task Remove(Models.User user)
+  public async Task Remove(User user)
   {
     _context.Remove(user);
     await _context.SaveChangesAsync();

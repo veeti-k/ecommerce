@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using api.Data;
+using api.Models.User;
 using api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,26 +15,26 @@ public class SessionRepo : ISessionRepo
     _context = context;
   }
 
-  public async Task<IEnumerable<Models.Session?>> GetManyByFilter(Expression<Func<Models.Session, bool>> aFilter) =>
+  public async Task<IEnumerable<Session?>> GetManyByFilter(Expression<Func<Session, bool>> aFilter) =>
     await _context.Sessions.Where(aFilter).ToListAsync();
 
 
-  public async Task<Models.Session?> GetOneByFilter(Expression<Func<Models.Session, bool>> aFilter) =>
+  public async Task<Session?> GetOneByFilter(Expression<Func<Session, bool>> aFilter) =>
     await _context.Sessions.Where(aFilter).FirstOrDefaultAsync();
 
-  public async Task Create(Models.Session aSession)
+  public async Task Create(Session aSession)
   {
     _context.Add(aSession);
     await _context.SaveChangesAsync();
   }
 
-  public async Task Remove(Models.Session aSession)
+  public async Task Remove(Session aSession)
   {
     _context.Remove(aSession);
     await _context.SaveChangesAsync();
   }
 
-  public async Task Update(Models.Session aSession)
+  public async Task Update(Session aSession)
   {
     _context.Update(aSession);
     await _context.SaveChangesAsync();

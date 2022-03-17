@@ -1,5 +1,5 @@
 ﻿using api.DTOs.Auth;
-using api.Models;
+using api.Models.User;
 
 namespace api.Services.Interfaces;
 

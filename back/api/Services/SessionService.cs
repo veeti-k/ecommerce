@@ -1,4 +1,4 @@
-﻿using api.Models;
+﻿using api.Models.User;
 using api.Repositories.Interfaces;
 using api.Services.Interfaces;
 

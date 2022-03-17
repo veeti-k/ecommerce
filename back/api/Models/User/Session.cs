@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace api.Models;
+namespace api.Models.User;
 
 public class Session
 {

@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 using api.Data;
-using api.Models;
+using api.Models.User;
 using api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using api.DTOs;
-using api.Models;
+using api.Models.User;
 using api.Utils;
 
 namespace tests.ControllerTests.Utils;

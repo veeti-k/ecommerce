@@ -1,12 +1,13 @@
 ﻿using System.Linq.Expressions;
+using api.Models.User;
 
 namespace api.Repositories.Interfaces;
 
 public interface ISessionRepo
 {
-  public Task<Models.Session?> GetOneByFilter(Expression<Func<Models.Session, bool>> aFilter);
-  public Task<IEnumerable<Models.Session?>> GetManyByFilter(Expression<Func<Models.Session, bool>> aFilter);
-  public Task Create(Models.Session aSession);
-  public Task Remove(Models.Session aSession);
-  public Task Update(Models.Session aSession);
+  public Task<Session?> GetOneByFilter(Expression<Func<Session, bool>> aFilter);
+  public Task<IEnumerable<Session?>> GetManyByFilter(Expression<Func<Session, bool>> aFilter);
+  public Task Create(Session aSession);
+  public Task Remove(Session aSession);
+  public Task Update(Session aSession);
 }
