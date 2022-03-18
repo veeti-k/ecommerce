@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using api.Exceptions;
 using api.Security.Policies.Requirements;
 using api.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -25,8 +26,9 @@ public class ValidUserIdHandler : AuthorizationHandler<ValidUserIdRequirement>
     if (!goodUserId) return Task.CompletedTask;
 
     var user = await _userService.GetById(userId);
-    if (user != null) context.Succeed(requirement);
+    if (user == null) throw new UnauthorizedException("Invalid userId");
 
+      context.Succeed(requirement);
     return Task.CompletedTask;
   }
 }

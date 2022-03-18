@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using api.Exceptions;
 using api.Security.Policies.Requirements;
 using api.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -31,15 +32,14 @@ public class ValidSessionHandler : AuthorizationHandler<ValidSessionRequirement>
     if (!tokenVersionIsGuid) return Task.CompletedTask;
 
     var sessions = await _sessionService.GetUserSessions(userId);
-    if (!sessions.Any()) return Task.CompletedTask;
+    if (!sessions.Any()) throw new ForbiddenException("No sessions");
 
-    foreach (var session in sessions)
-    {
-      if (session.Id != tokenVersion) continue;
+    var correspondingSession = sessions.FirstOrDefault(session => session.Id == tokenVersion);
 
-      await _sessionService.UpdateLastUsedAt(session.Id);
-      context.Succeed(requirement);
-    }
+    if (correspondingSession == null) throw new ForbiddenException("Invalid session");
+
+    await _sessionService.UpdateLastUsedAt(correspondingSession.Id);
+    context.Succeed(requirement);
 
     return Task.CompletedTask;
   }
