@@ -29,10 +29,12 @@ builder.Services.AddScoped<IDataContext, DataContext>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<ISessionRepo, SessionRepo>();
 builder.Services.AddScoped<IAddressRepo, AddressRepo>();
+builder.Services.AddScoped<IProductRepo, ProductRepo>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddSingleton<ICookieUtils, CookieUtils>();
 builder.Services.AddSingleton<ITokenUtils, TokenUtils>();
