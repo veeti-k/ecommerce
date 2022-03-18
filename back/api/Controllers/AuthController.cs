@@ -1,4 +1,5 @@
-﻿using api.DTOs.Auth;
+﻿using api.DTOs;
+using api.DTOs.Auth;
 using api.Services.Interfaces;
 using api.Utils;
 using api.Utils.Interfaces;
@@ -28,7 +29,6 @@ public class AuthController : BaseController
     _userService = aUserService;
     _sessionService = aSessionRepo;
   }
-
 
   [HttpPost("register")]
   public async Task<ActionResult<string>> Register(RegisterDTO aDto)
@@ -82,7 +82,7 @@ public class AuthController : BaseController
 
   [HttpGet("tokens")]
   [Authorize(Policy = "ValidRefreshToken")]
-  public ActionResult<string> GetTokens()
+  public ActionResult GetTokens()
   {
     var userId = GetUserId().GetValueOrDefault();
     var sessionId = GetSessionId().GetValueOrDefault();

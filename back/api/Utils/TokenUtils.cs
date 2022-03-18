@@ -12,6 +12,8 @@ public class TokenUtils : ITokenUtils
 {
   private readonly TokenOptions _tokenOptions;
 
+  private readonly string SecurityAlg = SecurityAlgorithms.HmacSha256Signature;
+  
   public TokenUtils(IOptions<TokenOptions> aTokenOptions)
   {
     _tokenOptions = aTokenOptions.Value;
@@ -26,7 +28,7 @@ public class TokenUtils : ITokenUtils
     };
 
     var securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(_tokenOptions.AccessSecret));
-    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+    var credentials = new SigningCredentials(securityKey, SecurityAlg);
     var tokenDescriptor = new JwtSecurityToken(
       _tokenOptions.AccessIss,
       _tokenOptions.AccessAud,
@@ -46,7 +48,7 @@ public class TokenUtils : ITokenUtils
     };
 
     var securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(_tokenOptions.RefreshSecret));
-    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+    var credentials = new SigningCredentials(securityKey, SecurityAlg);
     var tokenDescriptor = new JwtSecurityToken(
       _tokenOptions.RefreshIss,
       _tokenOptions.RefreshAud,
@@ -56,4 +58,5 @@ public class TokenUtils : ITokenUtils
 
     return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
   }
+
 }
