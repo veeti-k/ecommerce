@@ -41,7 +41,6 @@ builder.Services.AddSingleton<ITokenUtils, TokenUtils>();
 builder.Services.AddScoped<IAuthUtils, AuthUtils>();
 
 builder.Services.AddScoped<IAuthorizationHandler, ValidSessionHandler>();
-builder.Services.AddScoped<IAuthorizationHandler, ValidUserIdHandler>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -114,7 +113,6 @@ builder.Services.AddAuthorization(options =>
     .RequireAuthenticatedUser()
     .AddAuthenticationSchemes("AccessToken")
     .AddRequirements(new ValidSessionRequirement())
-    .AddRequirements(new ValidUserIdRequirement())
     .Build();
 
   options.AddPolicy("ValidRefreshToken", policy =>
@@ -122,7 +120,6 @@ builder.Services.AddAuthorization(options =>
     policy.RequireAuthenticatedUser();
     policy.AddAuthenticationSchemes("RefreshToken");
     policy.AddRequirements(new ValidSessionRequirement());
-    policy.AddRequirements(new ValidUserIdRequirement());
   });
 });
 
