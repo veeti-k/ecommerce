@@ -38,6 +38,15 @@ public class SessionService : ISessionService
     await _sessionRepo.Remove(session);
   }
 
+  public async Task RemoveMany(List<Guid> sessionIds, int userId)
+  {
+    var sessions = await _sessionRepo
+      .GetManyByFilter(session => sessionIds.Contains(session.Id)
+                                  && session.UserId == userId);
+
+    _sessionRepo.RemoveMany(sessions);
+  }
+
   public async Task UpdateLastUsedAt(Guid sessionId)
   {
     var session = await _sessionRepo.GetOneByFilter(session => session.Id == sessionId);

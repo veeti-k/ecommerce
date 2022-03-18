@@ -9,5 +9,6 @@ public interface ISessionRepo
   public Task<IEnumerable<Session?>> GetManyByFilter(Expression<Func<Session, bool>> aFilter);
   public Task Create(Session aSession);
   public Task Remove(Session aSession);
+  public Task RemoveMany(IEnumerable<Session> sessions);
   public Task Update(Session aSession);
 }

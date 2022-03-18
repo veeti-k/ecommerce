@@ -34,6 +34,16 @@ public class SessionRepo : ISessionRepo
     await _context.SaveChangesAsync();
   }
 
+  public async Task RemoveMany(IEnumerable<Session> sessions)
+  {
+    foreach (var session in sessions)
+    {
+      _context.Remove(session);
+    }
+
+    await _context.SaveChangesAsync();
+  }
+
   public async Task Update(Session aSession)
   {
     _context.Update(aSession);
