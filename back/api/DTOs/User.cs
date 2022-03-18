@@ -10,6 +10,6 @@ public record UserResponse
   public string? PhoneNumber { get; init; }
   public bool isTestAccount { get; init; }
   public string CreatedAt { get; init; }
-  public IEnumerable<Address> Addresses { get; init; }
+  public IEnumerable<AddressResponse> Addresses { get; init; }
   public IEnumerable<SessionResponse> Sessions { get; init; }
 }
