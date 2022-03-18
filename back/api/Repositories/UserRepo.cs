@@ -35,9 +35,9 @@ public class UserRepo : IUserRepo
     await _context.SaveChangesAsync();
   }
 
-  public async Task Remove(User user)
+  public async Task Update(User user)
   {
-    _context.Remove(user);
+    _context.Update(user);
     await _context.SaveChangesAsync();
   }
 }

@@ -46,12 +46,6 @@ public class ProductRepo : IProductRepo
     return addedProduct.Entity;
   }
 
-  public async Task Remove(Product product)
-  {
-    _context.Remove(product);
-    await _context.SaveChangesAsync();
-  }
-
   public async Task Update(Product product)
   {
     _context.Update(product);

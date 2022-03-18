@@ -31,12 +31,6 @@ public class AddressRepo : IAddressRepo
     await _context.SaveChangesAsync();
   }
 
-  public async Task Remove(Address aAddress)
-  {
-    _context.Remove(aAddress);
-    await _context.SaveChangesAsync();
-  }
-  
   public async Task Update(Address aAddress)
   {
     _context.Update(aAddress);

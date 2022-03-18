@@ -73,7 +73,7 @@ public class AuthController : BaseController
       await _sessionService.Remove(sessionId);
 
       var user = await _userService.GetById(userId);
-      if (user != null && user.isTestAccount) await _userService.Remove(user); // delete test accounts on logout
+      if (user != null && user.isTestAccount) await _userService.Remove(user.Id); // delete test accounts on logout
     }
 
     _authUtils.SendLogout();

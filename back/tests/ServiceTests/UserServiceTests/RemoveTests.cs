@@ -25,42 +25,6 @@ public class RemoveTests
   }
 
   [Fact]
-  public async Task Remove_WithUserModel_WithExistingUser_DoesNotThrow()
-  {
-    var existingUser = Users.CreateFakeUser();
-
-    _mockUserRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
-      .ReturnsAsync(existingUser);
-
-    Func<Task> test = async () => await _userService.Remove(existingUser);
-
-    await test.Should().NotThrowAsync();
-  }
-
-  [Fact]
-  public async Task Remove_WithUserModel_WithNoExistingUser_ThrowsNotFoundException()
-  {
-    var fakeUser = Users.CreateFakeUser();
-
-    _mockUserRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
-      .ReturnsAsync((User) null);
-
-    Func<Task> test = async () => await _userService.Remove(fakeUser);
-
-    (await test.Should().ThrowAsync<NotFoundException>())
-      .And.Should().BeEquivalentTo(new
-      {
-        StatusCode = StatusCodes.Status404NotFound,
-        Message = "User not found"
-      });
-    
-    _mockUserRepo.Verify(mock => mock
-      .Remove(It.IsAny<User>()), Times.Never);
-  }
-
-  [Fact]
   public async Task Remove_WithUserId_WithExistingUser_DoesNotThrow()
   {
     var existingUser = Users.CreateFakeUser();
@@ -72,6 +36,10 @@ public class RemoveTests
     Func<Task> test = async () => await _userService.Remove(3);
 
     await test.Should().NotThrowAsync();
+    existingUser.IsDeleted.Should().BeTrue();
+
+    _mockUserRepo.Verify(mock => mock
+      .Update(It.IsAny<User>()), Times.Once);
   }
 
   [Fact]
@@ -89,8 +57,8 @@ public class RemoveTests
         StatusCode = StatusCodes.Status404NotFound,
         Message = "User not found"
       });
-    
+
     _mockUserRepo.Verify(mock => mock
-      .Remove(It.IsAny<User>()), Times.Never);
+      .Update(It.IsAny<User>()), Times.Never);
   }
 }

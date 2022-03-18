@@ -9,6 +9,5 @@ public interface IUserService
   public Task<User> GetByEmail(string email, bool require = false);
   public Task<User> GetByPhoneNumber(string phoneNumber, bool require = false);
   public Task<User> Create(RegisterDTO dto);
-  public Task Remove(User user);
   public Task Remove(int id);
 }

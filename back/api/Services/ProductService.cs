@@ -55,14 +55,6 @@ public class ProductService : IProductService
     return createdProduct;
   }
 
-  public async Task Remove(int productId)
-  {
-    var product = await _productRepo.GetById(productId);
-    if (product is null) throw new NotFoundException("Product not found");
-
-    await _productRepo.Remove(product);
-  }
-
   public async Task<Product> Update(UpdateProductDTO dto, int productId)
   {
     var existingProduct = await _productRepo.GetById(productId);
@@ -78,5 +70,15 @@ public class ProductService : IProductService
     await _productRepo.Update(existingProduct);
 
     return existingProduct;
+  }
+  
+  public async Task Remove(int productId)
+  {
+    var product = await _productRepo.GetById(productId);
+    if (product is null) throw new NotFoundException("Product not found");
+
+    product.IsDeleted = true;
+    
+    await _productRepo.Update(product);
   }
 }

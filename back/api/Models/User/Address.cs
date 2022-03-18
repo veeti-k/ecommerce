@@ -14,4 +14,5 @@ public class Address
   [Required] public string City { get; set; }
   [Required] public string State { get; set; }
   [Required] public string Zip { get; set; }
+  [Required] public bool IsDeleted { get; set; }
 }

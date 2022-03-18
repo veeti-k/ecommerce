@@ -56,15 +56,12 @@ public class UserService : IUserService
     return newUser;
   }
 
-  public async Task Remove(User user)
+  public async Task Remove(int userId)
   {
-    var userToRemove = await GetById(user.Id, true);
-    await _userRepo.Remove(userToRemove);
-  }
+    var userToRemove = await GetById(userId, true);
 
-  public async Task Remove(int id)
-  {
-    var userToRemove = await GetById(id, true);
-    await _userRepo.Remove(userToRemove);
+    userToRemove.IsDeleted = true;
+
+    await _userRepo.Update(userToRemove);
   }
 }

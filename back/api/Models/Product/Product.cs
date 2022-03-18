@@ -16,6 +16,7 @@ public class Product
   [Required] public float DiscountPercent { get; set; }
   [Required] public double DiscountAmount { get; set; }
   [Required] public bool IsDiscounted { get; set; }
+  [Required] public bool IsDeleted { get; set; }
 
   public virtual IEnumerable<ProductSpecification> Specifications { get; init; }
   public virtual IEnumerable<ProductReview> Reviews { get; init; }

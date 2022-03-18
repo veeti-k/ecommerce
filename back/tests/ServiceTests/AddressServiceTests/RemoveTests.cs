@@ -37,7 +37,9 @@ public class RemoveTests
     await _addressService.Remove(existingAddress.Id);
 
     _mockAddressRepo.Verify(mock => mock
-      .Remove(It.IsAny<Address>()), Times.Once);
+      .Update(It.IsAny<Address>()), Times.Once);
+
+    existingAddress.IsDeleted.Should().BeTrue();
   }
 
   [Fact]
@@ -46,7 +48,6 @@ public class RemoveTests
     _mockAddressRepo.Setup(mock => mock
         .GetOneByFilter(It.IsAny<Expression<Func<Address, bool>>>()))
       .ReturnsAsync((Address) null);
-
 
     Func<Task> test = async () => await _addressService.Remove(Guid.NewGuid());
 
@@ -58,6 +59,6 @@ public class RemoveTests
       });
 
     _mockAddressRepo.Verify(mock => mock
-      .Remove(It.IsAny<Address>()), Times.Never);
+      .Update(It.IsAny<Address>()), Times.Never);
   }
 }

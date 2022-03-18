@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using api.DTOs;
 using api.Exceptions;
+using api.Mapping.MappedTypes;
 using api.Models.User;
 using api.Repositories.Interfaces;
 using api.Services.Interfaces;
@@ -80,15 +81,12 @@ public class AddressService : IAddressService
     return existingAddress;
   }
 
-  public async Task Remove(Address address)
-  {
-    var addressToRemove = await GetById(address.Id, require: true);
-    await _addressRepo.Remove(addressToRemove);
-  }
-
   public async Task Remove(Guid addressId)
   {
     var addressToRemove = await GetById(addressId, require: true);
-    await _addressRepo.Remove(addressToRemove);
+    
+    addressToRemove.IsDeleted = true;
+    
+    await _addressRepo.Update(addressToRemove);
   }
 }
