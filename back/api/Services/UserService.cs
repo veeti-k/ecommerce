@@ -20,7 +20,7 @@ public class UserService : IUserService
   private async Task<User> GetOneByFilter(Expression<Func<User, bool>> filter, bool require)
   {
     var user = await _userRepo.GetOneByFilter(filter);
-    if (require && user == null) throw new NotFoundException("User not found");
+    if (require && user is null) throw new NotFoundException("User not found");
 
     return user;
   }

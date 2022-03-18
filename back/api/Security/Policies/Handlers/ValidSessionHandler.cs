@@ -36,7 +36,7 @@ public class ValidSessionHandler : AuthorizationHandler<ValidSessionRequirement>
 
     var correspondingSession = sessions.FirstOrDefault(session => session.Id == tokenVersion);
 
-    if (correspondingSession == null) throw new ForbiddenException("Invalid session");
+    if (correspondingSession is null) throw new ForbiddenException("Invalid session");
 
     await _sessionService.UpdateLastUsedAt(correspondingSession.Id);
     context.Succeed(requirement);

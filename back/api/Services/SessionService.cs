@@ -33,7 +33,7 @@ public class SessionService : ISessionService
   public async Task Remove(Guid sessionId)
   {
     var session = await _sessionRepo.GetOneByFilter(session => session.Id == sessionId);
-    if (session == null) return;
+    if (session is null) return;
 
     await _sessionRepo.Remove(session);
   }
@@ -52,7 +52,7 @@ public class SessionService : ISessionService
   public async Task UpdateLastUsedAt(Guid sessionId)
   {
     var session = await _sessionRepo.GetOneByFilter(session => session.Id == sessionId);
-    if (session == null) return;
+    if (session is null) return;
 
     session.LastUsedAt = DateTimeOffset.UtcNow;
     await _sessionRepo.Update(session);

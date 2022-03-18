@@ -24,7 +24,7 @@ public class AuthUtils : IAuthUtils
   public void SendTokens(string aAccessToken, string aRefreshToken)
   {
     var context = _accessor.HttpContext;
-    if (context == null) return;
+    if (context is null) return;
 
     context.Response.Headers.SetCookie =
       _cookieUtils.CreateRefreshTokenCookie(aRefreshToken).ToString();
@@ -36,7 +36,7 @@ public class AuthUtils : IAuthUtils
   public void SendLogout()
   {
     var context = _accessor.HttpContext;
-    if (context == null) return;
+    if (context is null) return;
 
     context.Response.Headers
       .SetCookie = _cookieUtils.CreateExpiredRefreshTokenCookie().ToString();

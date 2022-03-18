@@ -48,7 +48,7 @@ public class AuthController : BaseController
   public async Task<ActionResult<string>> Login(LoginDTO aDto)
   {
     var existingUser = await _userService.GetByEmail(aDto.Email);
-    if (existingUser == null) return NotFound("User not found");
+    if (existingUser is null) return NotFound("User not found");
 
     var passwordMatch = Hashing.Verify(aDto.Password, existingUser.Password);
     if (!passwordMatch) return BadRequest("Invalid password");

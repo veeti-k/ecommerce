@@ -19,7 +19,7 @@ public class AddressService : IAddressService
   private async Task<Address> GetOneByFilter(Expression<Func<Address, bool>> filter, bool require)
   {
     var address = await _addressRepo.GetOneByFilter(filter);
-    if (require && address == null) throw new NotFoundException("Address not found");
+    if (require && address is null) throw new NotFoundException("Address not found");
 
     return address;
   }

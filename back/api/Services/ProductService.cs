@@ -33,7 +33,7 @@ public class ProductService : IProductService
   public async Task<ProductPageProductResponse?> GetOneProductPageProduct(int productId)
   {
     var product = await _productRepo.GetOneWithEverything(productId);
-    if (product == null) throw new NotFoundException("Product not found");
+    if (product is null) throw new NotFoundException("Product not found");
 
     return _mapper.Map<ProductPageProductResponse>(product);
   }
@@ -58,7 +58,7 @@ public class ProductService : IProductService
   public async Task Remove(int productId)
   {
     var product = await _productRepo.GetById(productId);
-    if (product == null) throw new NotFoundException("Product not found");
+    if (product is null) throw new NotFoundException("Product not found");
 
     await _productRepo.Remove(product);
   }
