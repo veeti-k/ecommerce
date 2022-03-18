@@ -13,7 +13,8 @@ public class Product
   [Required] public string Description { get; set; }
   [Required] public double Price { get; set; }
   [Required] public double DiscountedPrice { get; set; }
-  [Required] public int DiscountPercent { get; set; }
+  [Required] public float DiscountPercent { get; set; }
+  [Required] public double DiscountAmount { get; set; }
   [Required] public bool IsDiscounted { get; set; }
 
   public virtual IEnumerable<ProductSpecification> Specifications { get; init; }
