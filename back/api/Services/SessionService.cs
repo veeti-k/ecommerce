@@ -16,6 +16,13 @@ public class SessionService : ISessionService
   public async Task<IEnumerable<Session?>> GetUserSessions(int userId) =>
     await _sessionRepo.GetManyByFilter(session => session.UserId == userId);
 
+  public async Task<Session?> GetSession(Guid sessionId, int userId)
+  {
+    return await _sessionRepo
+      .GetOneByFilter(session => session.Id == sessionId
+                                 && session.UserId == userId);
+  }
+
   public async Task<Session> Create(int userId)
   {
     Session newSession = new()

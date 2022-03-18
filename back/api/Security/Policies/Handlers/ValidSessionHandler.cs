@@ -31,14 +31,10 @@ public class ValidSessionHandler : AuthorizationHandler<ValidSessionRequirement>
     var tokenVersionIsGuid = Guid.TryParse(tokenVersionClaim.Value, out var tokenVersion);
     if (!tokenVersionIsGuid) return Task.CompletedTask;
 
-    var sessions = await _sessionService.GetUserSessions(userId);
-    if (!sessions.Any()) throw new ForbiddenException("No sessions");
+    var session = await _sessionService.GetSession(tokenVersion, userId);
+    if (session is null) throw new ForbiddenException("Invalid session");
 
-    var correspondingSession = sessions.FirstOrDefault(session => session.Id == tokenVersion);
-
-    if (correspondingSession is null) throw new ForbiddenException("Invalid session");
-
-    await _sessionService.UpdateLastUsedAt(correspondingSession.Id);
+    await _sessionService.UpdateLastUsedAt(session.Id);
     context.Succeed(requirement);
 
     return Task.CompletedTask;
