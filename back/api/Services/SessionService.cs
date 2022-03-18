@@ -44,7 +44,9 @@ public class SessionService : ISessionService
       .GetManyByFilter(session => sessionIds.Contains(session.Id)
                                   && session.UserId == userId);
 
-    _sessionRepo.RemoveMany(sessions);
+    if (!sessions.Any()) return;
+
+    await _sessionRepo.RemoveMany(sessions);
   }
 
   public async Task UpdateLastUsedAt(Guid sessionId)
