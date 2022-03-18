@@ -1,4 +1,4 @@
-﻿using api.DTOs;
+﻿using api.Mapping.MappedTypes;
 using api.Services.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
