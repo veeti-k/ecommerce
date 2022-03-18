@@ -1,10 +1,8 @@
 ﻿namespace api.Exceptions;
 
-public class BadRequestException : Exception
+public class BadRequestException : MyException
 {
-  public int StatusCode = StatusCodes.Status400BadRequest;
-
-  public BadRequestException(string message) : base(message)
+  public BadRequestException(string message) : base(message, StatusCodes.Status400BadRequest)
   {
   }
 }

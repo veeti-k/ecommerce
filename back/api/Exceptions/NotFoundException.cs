@@ -1,10 +1,8 @@
 ﻿namespace api.Exceptions;
 
-public class NotFoundException : Exception
+public class NotFoundException : MyException
 {
-  public int StatusCode = StatusCodes.Status404NotFound;
-
-  public NotFoundException(string message) : base(message)
+  public NotFoundException(string message) : base(message, StatusCodes.Status404NotFound)
   {
   }
 }

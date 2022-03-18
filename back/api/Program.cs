@@ -1,3 +1,4 @@
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using api.Configs;
@@ -17,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.AddControllers();
 
 builder.Services.AddDbContext<DataContext>(options =>
@@ -47,79 +47,70 @@ builder.Services.Configure<TokenOptions>(
   builder.Configuration.GetSection(TokenOptions.Position));
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
-builder.Services.AddMvc(options => options.Filters.Add(new ExceptionHandler()));
 
-builder.Services.AddAuthentication(options =>
-  {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-  })
+builder.Services.AddAuthentication(options => options.DefaultScheme = "AccessToken")
   .AddJwtBearer("AccessToken", options =>
+  {
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-      options.TokenValidationParameters = new TokenValidationParameters
-      {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
+      ValidateIssuer = true,
+      ValidateAudience = true,
+      ValidateLifetime = true,
+      ValidateIssuerSigningKey = true,
 
-        RequireAudience = true,
-        RequireSignedTokens = true,
-        RequireExpirationTime = true,
-        ClockSkew = TimeSpan.Zero,
+      RequireAudience = true,
+      RequireSignedTokens = true,
+      RequireExpirationTime = true,
+      ClockSkew = TimeSpan.Zero,
 
-        ValidIssuer = builder.Configuration[$"{TokenOptions.Position}:AccessIss"],
-        ValidAudience = builder.Configuration[$"{TokenOptions.Position}:AccessAud"],
-        IssuerSigningKey =
-          new SymmetricSecurityKey(
-            Encoding.Default.GetBytes(builder.Configuration[$"{TokenOptions.Position}:AccessSecret"]))
-      };
-    }
-  )
+      ValidIssuer = builder.Configuration[$"{TokenOptions.Position}:AccessIss"],
+      ValidAudience = builder.Configuration[$"{TokenOptions.Position}:AccessAud"],
+      ValidAlgorithms = new List<string>() {SecurityAlgorithms.HmacSha256Signature},
+      IssuerSigningKey =
+        new SymmetricSecurityKey(
+          Encoding.Default.GetBytes(builder.Configuration[$"{TokenOptions.Position}:AccessSecret"]))
+    };
+  })
   .AddJwtBearer("RefreshToken", options =>
+  {
+    options.Events = new JwtBearerEvents
     {
-      options.Events = new JwtBearerEvents
+      OnMessageReceived = context =>
       {
-        OnMessageReceived = context =>
-        {
-          var goodCookie =
-            context.HttpContext.Request.Cookies.TryGetValue(
-              builder.Configuration[$"{TokenOptions.Position}:RefreshTokenCookieName"], out var token);
+        var goodCookie =
+          context.HttpContext.Request.Cookies.TryGetValue(
+            builder.Configuration[$"{TokenOptions.Position}:RefreshTokenCookieName"], out var token);
 
-          if (goodCookie) context.Token = token;
+        if (goodCookie) context.Token = token;
 
-          return Task.CompletedTask;
-        }
-      };
-      options.TokenValidationParameters = new TokenValidationParameters
-      {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
+        return Task.CompletedTask;
+      }
+    };
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+      ValidateIssuer = true,
+      ValidateAudience = true,
+      ValidateLifetime = true,
+      ValidateIssuerSigningKey = true,
 
-        RequireAudience = true,
-        RequireSignedTokens = true,
-        RequireExpirationTime = true,
-        ClockSkew = TimeSpan.Zero,
+      RequireAudience = true,
+      RequireSignedTokens = true,
+      RequireExpirationTime = true,
+      ClockSkew = TimeSpan.Zero,
 
-        ValidIssuer = builder.Configuration[$"{TokenOptions.Position}:RefreshIss"],
-        ValidAudience = builder.Configuration[$"{TokenOptions.Position}:RefreshAud"],
-        IssuerSigningKey =
-          new SymmetricSecurityKey(
-            Encoding.Default.GetBytes(builder.Configuration[$"{TokenOptions.Position}:RefreshSecret"]))
-      };
-    }
-  );
+      ValidIssuer = builder.Configuration[$"{TokenOptions.Position}:RefreshIss"],
+      ValidAudience = builder.Configuration[$"{TokenOptions.Position}:RefreshAud"],
+      IssuerSigningKey =
+        new SymmetricSecurityKey(
+          Encoding.Default.GetBytes(builder.Configuration[$"{TokenOptions.Position}:RefreshSecret"]))
+    };
+  });
 
 builder.Services.AddAuthorization(options =>
 {
   options.DefaultPolicy = new AuthorizationPolicyBuilder()
     .RequireAuthenticatedUser()
     .AddAuthenticationSchemes("AccessToken")
-    .RequireClaim(ClaimTypes.NameIdentifier)
-    .RequireClaim(ClaimTypes.Version)
     .AddRequirements(new ValidSessionRequirement())
     .AddRequirements(new ValidUserIdRequirement())
     .Build();
@@ -128,8 +119,6 @@ builder.Services.AddAuthorization(options =>
   {
     policy.RequireAuthenticatedUser();
     policy.AddAuthenticationSchemes("RefreshToken");
-    policy.RequireClaim(ClaimTypes.NameIdentifier);
-    policy.RequireClaim(ClaimTypes.Version);
     policy.AddRequirements(new ValidSessionRequirement());
     policy.AddRequirements(new ValidUserIdRequirement());
   });
@@ -138,6 +127,7 @@ builder.Services.AddAuthorization(options =>
 var app = builder.Build();
 
 app.UsePathBase("/api");
+app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseRouting();
 
 app.UseAuthentication();
