@@ -1,5 +1,5 @@
-﻿using api.DTOs;
-using api.DTOs.Auth;
+﻿using api.DTOs.Auth;
+using api.Security;
 using api.Services.Interfaces;
 using api.Utils;
 using api.Utils.Interfaces;
@@ -73,7 +73,8 @@ public class AuthController : BaseController
       await _sessionService.Remove(sessionId);
 
       var user = await _userService.GetById(userId);
-      if (user != null && user.isTestAccount) await _userService.Remove(user.Id); // delete test accounts on logout
+      if (user != null && Flags.HasFlag(user.Flags, Flags.TEST_ACCOUNT))
+        await _userService.Remove(user.Id); // delete test accounts on logout
     }
 
     _authUtils.SendLogout();
@@ -81,7 +82,7 @@ public class AuthController : BaseController
   }
 
   [HttpGet("tokens")]
-  [Authorize(Policy = "ValidRefreshToken")]
+  [Authorize(Policy = CrucialStrings.ValidRefreshToken)]
   public ActionResult GetTokens()
   {
     var userId = GetUserId().GetValueOrDefault();

@@ -1,11 +1,10 @@
-using System.Net;
-using System.Security.Claims;
 using System.Text;
 using api.Configs;
 using api.Data;
 using api.Exceptions;
 using api.Repositories;
 using api.Repositories.Interfaces;
+using api.Security;
 using api.Security.Policies.Handlers;
 using api.Security.Policies.Requirements;
 using api.Services;
@@ -50,8 +49,8 @@ builder.Services.Configure<TokenOptions>(
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
-builder.Services.AddAuthentication(options => options.DefaultScheme = "AccessToken")
-  .AddJwtBearer("AccessToken", options =>
+builder.Services.AddAuthentication(options => options.DefaultScheme = CrucialStrings.AccessToken)
+  .AddJwtBearer(CrucialStrings.AccessToken, options =>
   {
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -73,7 +72,7 @@ builder.Services.AddAuthentication(options => options.DefaultScheme = "AccessTok
           Encoding.Default.GetBytes(builder.Configuration[$"{TokenOptions.Position}:AccessSecret"]))
     };
   })
-  .AddJwtBearer("RefreshToken", options =>
+  .AddJwtBearer(CrucialStrings.RefreshToken, options =>
   {
     options.Events = new JwtBearerEvents
     {
@@ -112,15 +111,21 @@ builder.Services.AddAuthorization(options =>
 {
   options.DefaultPolicy = new AuthorizationPolicyBuilder()
     .RequireAuthenticatedUser()
-    .AddAuthenticationSchemes("AccessToken")
+    .AddAuthenticationSchemes(CrucialStrings.AccessToken)
     .AddRequirements(new ValidSessionRequirement())
     .Build();
 
-  options.AddPolicy("ValidRefreshToken", policy =>
+  options.AddPolicy(CrucialStrings.ValidRefreshToken, policy =>
   {
     policy.RequireAuthenticatedUser();
-    policy.AddAuthenticationSchemes("RefreshToken");
+    policy.AddAuthenticationSchemes(CrucialStrings.RefreshToken);
     policy.AddRequirements(new ValidSessionRequirement());
+  });
+  
+  options.AddPolicy(CrucialStrings.ManageProducts, policy =>
+  {
+    policy.RequireAuthenticatedUser();
+    policy.AddRequirements(new FlagRequirement(Flags.MANAGE_PRODUCTS));
   });
 });
 
