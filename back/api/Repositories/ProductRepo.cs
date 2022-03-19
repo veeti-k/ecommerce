@@ -46,9 +46,11 @@ public class ProductRepo : IProductRepo
     return addedProduct.Entity;
   }
 
-  public async Task Update(Product product)
+  public async Task<Product> Update(Product product)
   {
-    _context.Update(product);
+    var updatedProduct = _context.Update(product);
     await _context.SaveChangesAsync();
+
+    return updatedProduct.Entity;
   }
 }

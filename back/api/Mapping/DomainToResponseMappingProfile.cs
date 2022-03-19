@@ -24,6 +24,8 @@ public class DomainToResponseMappingProfile : Profile
     CreateMap<Session, SessionResponse>();
     CreateMap<Address, AddressResponse>();
 
+    CreateMap<Product, ProductCreatedResponse>();
+    CreateMap<Product, ProductUpdatedResponse>();
     CreateMap<Product, ShowCaseProductResponse>()
       .ForMember(dest => dest.AverageStars,
         options => options

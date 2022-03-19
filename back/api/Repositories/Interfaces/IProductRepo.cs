@@ -9,5 +9,5 @@ public interface IProductRepo
   public Task<IEnumerable<Product?>> GetManyWithReviews(Expression<Func<Product, bool>> filter);
   public Task<Product?> GetOneWithEverything(int productId);
   public Task<Product> Add(Product product);
-  public Task Update(Product product);
+  public Task<Product> Update(Product product);
 }

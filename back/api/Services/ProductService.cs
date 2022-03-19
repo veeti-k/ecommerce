@@ -38,7 +38,7 @@ public class ProductService : IProductService
     return _mapper.Map<ProductPageProductResponse>(product);
   }
 
-  public async Task<Product> Create(CreateProductDTO dto)
+  public async Task<ProductCreatedResponse> Create(CreateProductDTO dto)
   {
     var newProduct = new Product()
     {
@@ -52,10 +52,10 @@ public class ProductService : IProductService
     };
 
     var createdProduct = await _productRepo.Add(newProduct);
-    return createdProduct;
+    return _mapper.Map<ProductCreatedResponse>(createdProduct);
   }
 
-  public async Task<Product> Update(UpdateProductDTO dto, int productId)
+  public async Task<ProductUpdatedResponse> Update(UpdateProductDTO dto, int productId)
   {
     var existingProduct = await _productRepo.GetById(productId);
 
@@ -67,18 +67,18 @@ public class ProductService : IProductService
     existingProduct.DiscountAmount = dto.DiscountAmount ?? existingProduct.DiscountAmount;
     existingProduct.IsDiscounted = dto.IsDiscounted ?? existingProduct.IsDiscounted;
 
-    await _productRepo.Update(existingProduct);
+    var updatedProduct = await _productRepo.Update(existingProduct);
 
-    return existingProduct;
+    return _mapper.Map<ProductUpdatedResponse>(updatedProduct);
   }
-  
+
   public async Task Remove(int productId)
   {
     var product = await _productRepo.GetById(productId);
     if (product is null) throw new NotFoundException("Product not found");
 
     product.IsDeleted = true;
-    
+
     await _productRepo.Update(product);
   }
 }

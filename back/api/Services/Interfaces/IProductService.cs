@@ -8,7 +8,7 @@ public interface IProductService
 {
   public Task<IEnumerable<ShowCaseProductResponse?>> GetManyShowcaseProducts(string query);
   public Task<ProductPageProductResponse?> GetOneProductPageProduct(int productId);
-  public Task<Product> Create(CreateProductDTO dto);
+  public Task<ProductCreatedResponse> Create(CreateProductDTO dto);
   public Task Remove(int productId);
-  public Task<Product> Update(UpdateProductDTO dto, int productId);
+  public Task<ProductUpdatedResponse> Update(UpdateProductDTO dto, int productId);
 }
