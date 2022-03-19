@@ -25,15 +25,19 @@ public class AddressRepo : IAddressRepo
     return await _context.Addresses.Where(aFilter).ToListAsync();
   }
 
-  public async Task Add(Address aAddress)
+  public async Task<Address> Add(Address aAddress)
   {
-    _context.Add(aAddress);
+    var added = _context.Add(aAddress);
     await _context.SaveChangesAsync();
+
+    return added.Entity;
   }
 
-  public async Task Update(Address aAddress)
+  public async Task<Address> Update(Address aAddress)
   {
-    _context.Update(aAddress);
+    var updated = _context.Update(aAddress);
     await _context.SaveChangesAsync();
+
+    return updated.Entity;
   }
 }

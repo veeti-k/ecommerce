@@ -29,15 +29,19 @@ public class UserRepo : IUserRepo
     return await _populatedUsers.Where(aFilter).ToListAsync();
   }
 
-  public async Task Add(User user)
+  public async Task<User> Add(User user)
   {
-    _context.Add(user);
+    var added = _context.Add(user);
     await _context.SaveChangesAsync();
+
+    return added.Entity;
   }
 
-  public async Task Update(User user)
+  public async Task<User> Update(User user)
   {
-    _context.Update(user);
+    var updated = _context.Update(user);
     await _context.SaveChangesAsync();
+
+    return updated.Entity;
   }
 }
