@@ -10,5 +10,4 @@ public record ProductReviewResponse
   public string Content { get; init; }
   public int Stars { get; init; }
   public DateTimeOffset CreatedAt { get; init; }
-  public bool IsDeleted { get; init; }
 }
