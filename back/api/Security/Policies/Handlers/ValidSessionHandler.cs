@@ -32,7 +32,7 @@ public class ValidSessionHandler : AuthorizationHandler<ValidSessionRequirement>
     if (!tokenVersionIsGuid) return;
 
     var session = await _sessionService.GetSession(tokenVersion, userId);
-    if (session is null) throw new ForbiddenException("Invalid session");
+    if (session is null) return;
 
     await _sessionService.UpdateLastUsedAt(session.Id);
     context.Succeed(requirement);
