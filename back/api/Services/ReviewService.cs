@@ -67,6 +67,7 @@ public class ReviewService : IReviewService
   public async Task<ProductReviewResponse> CreateReview(CreateProductReviewDTO dto, int productId)
   {
     var product = await _productService.GetById(productId);
+    if (product is null) throw new NotFoundException("Product not found");
 
     var userId = _contextService.GetCurrentUserId();
     var user = await _userService.GetById(userId, false);
