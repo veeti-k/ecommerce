@@ -5,7 +5,7 @@ using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace api.Endpoints.Users.UserId.Addresses;
+namespace api.Endpoints.Users._UserId_.Addresses;
 
 public class UserIdGetAddressRequest
 {

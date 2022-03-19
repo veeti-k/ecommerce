@@ -1,8 +1,7 @@
 ﻿using api.DTOs.Product;
-using api.Mapping.MappedTypes;
 using api.Mapping.MappedTypes.Product;
 using api.Security.Policies;
-using api.Services.Interfaces;
+using api.Services.Interfaces.ProductServices;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

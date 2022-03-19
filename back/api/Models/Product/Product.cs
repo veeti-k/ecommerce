@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using api.Models.Product.Question;
+using api.Models.Product.Review;
 
 namespace api.Models.Product;
 

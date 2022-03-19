@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace api.Models.Product;
+namespace api.Models.Product.Review;
 
 public class ProductReview
 {

@@ -1,3 +1,5 @@
+
+using api.Models;
 using api.Models.Product;
 
 namespace api.Mapping.MappedTypes.Product;

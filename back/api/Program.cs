@@ -1,22 +1,20 @@
-using System.Text;
 using api.Configs;
 using api.Data;
 using api.Exceptions;
 using api.Repositories;
 using api.Repositories.Interfaces;
-using api.Security;
-using api.Security.Policies;
+using api.Repositories.Interfaces.ProductRepos;
+using api.Repositories.ProductRepos;
 using api.Security.Policies.Handlers;
-using api.Security.Policies.Requirements;
 using api.Services;
 using api.Services.Interfaces;
+using api.Services.Interfaces.ProductServices;
+using api.Services.ProductServices;
 using api.Startup;
 using api.Utils;
 using api.Utils.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -39,7 +37,7 @@ builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IContextService, ContextService>();
-builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<IProductReviewService, ProductReviewService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddSingleton<ICookieUtils, CookieUtils>();

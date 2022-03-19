@@ -4,7 +4,7 @@ using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace api.Endpoints.Users.UserId.Sessions;
+namespace api.Endpoints.Users._UserId_.Sessions;
 
 public class UserIdDeleteSessionsRequest
 {

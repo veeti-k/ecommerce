@@ -1,6 +1,9 @@
 ﻿using api.Mapping.MappedTypes;
 using api.Mapping.MappedTypes.Product;
+using api.Models;
 using api.Models.Product;
+using api.Models.Product.Question;
+using api.Models.Product.Review;
 using api.Models.User;
 using AutoMapper;
 
