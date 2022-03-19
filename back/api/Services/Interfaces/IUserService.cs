@@ -8,7 +8,6 @@ public interface IUserService
 {
   public Task<UserResponse> GetById(int id);
   public Task<User?> GetByEmail(string email);
-  public Task<User?> GetByPhoneNumber(string phoneNumber);
   public Task<UserResponse> Create(RegisterDTO dto);
   public Task Remove(int id);
 }

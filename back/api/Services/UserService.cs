@@ -31,7 +31,7 @@ public class UserService : IUserService
   public async Task<User?> GetByEmail(string email) =>
     await _userRepo.GetOneByFilter(user => user.Email == email);
 
-  public async Task<User?> GetByPhoneNumber(string phoneNumber) =>
+  private async Task<User?> GetByPhoneNumber(string phoneNumber) =>
     await _userRepo.GetOneByFilter(user => user.PhoneNumber == phoneNumber);
 
   public async Task<UserResponse> Create(RegisterDTO dto)
