@@ -16,7 +16,7 @@ public class Register : EndpointBaseAsync
     _authService = aAuthService;
   }
 
-  [HttpGet(Routes.Auth.Register)]
+  [HttpPost(Routes.Auth.Register)]
   public override async Task<ActionResult> HandleAsync(
     RegisterDTO dto,
     CancellationToken cancellationToken = new CancellationToken())

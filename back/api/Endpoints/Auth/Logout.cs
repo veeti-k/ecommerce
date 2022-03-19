@@ -15,7 +15,7 @@ public class Logout : EndpointBaseAsync
     _authService = aAuthService;
   }
 
-  [HttpGet(Routes.Auth.Logout)]
+  [HttpPost(Routes.Auth.Logout)]
   public override async Task<ActionResult> HandleAsync(
     CancellationToken cancellationToken = new CancellationToken())
   {
