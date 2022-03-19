@@ -1,6 +1,6 @@
 ﻿using api.DTOs.Product;
 using api.Mapping.MappedTypes;
-using api.Security;
+using api.Security.Policies;
 using api.Services.Interfaces;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
@@ -25,7 +25,7 @@ public class UpdateProduct : EndpointBaseAsync
     _productService = aProductService;
   }
 
-  [Authorize(Policy = CrucialStrings.ManageProducts)]
+  [Authorize(Policy = Policies.ManageProducts)]
   [HttpPatch(Routes.Products.Product)]
   public override async Task<ActionResult<ProductUpdatedResponse>> HandleAsync(
     [FromRoute] UpdateProductRequest request,

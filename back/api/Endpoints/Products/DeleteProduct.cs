@@ -1,4 +1,4 @@
-﻿using api.Security;
+﻿using api.Security.Policies;
 using api.Services.Interfaces;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
@@ -17,7 +17,7 @@ public class DeleteProduct : EndpointBaseAsync
     _productService = aProductService;
   }
 
-  [Authorize(Policy = CrucialStrings.ManageProducts)]
+  [Authorize(Policy = Policies.ManageProducts)]
   [HttpDelete(Routes.Products.Product)]
   public override async Task<ActionResult> HandleAsync(
     int productId, 

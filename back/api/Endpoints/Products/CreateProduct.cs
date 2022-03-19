@@ -1,6 +1,6 @@
 ﻿using api.DTOs.Product;
 using api.Mapping.MappedTypes;
-using api.Security;
+using api.Security.Policies;
 using api.Services.Interfaces;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
@@ -20,7 +20,7 @@ public class CreateProduct : EndpointBaseAsync
     _productService = aProductService;
   }
 
-  [Authorize(Policy = CrucialStrings.ManageProducts)]
+  [Authorize(Policy = Policies.ManageProducts)]
   [HttpPost(Routes.Products.Main)]
   public override async Task<ActionResult<ProductCreatedResponse>> HandleAsync(
     CreateProductDTO dto, 

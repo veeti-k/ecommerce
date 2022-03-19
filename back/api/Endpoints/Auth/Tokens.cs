@@ -1,4 +1,5 @@
 ﻿using api.Security;
+using api.Security.Policies;
 using api.Services.Interfaces;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
@@ -17,7 +18,7 @@ public class Tokens : EndpointBaseSync
     _authService = aAuthService;
   }
 
-  [Authorize(Policy = CrucialStrings.ValidRefreshToken)]
+  [Authorize(Policy = Policies.ValidRefreshToken)]
   [HttpGet(Routes.Auth.Tokens)]
   public override ActionResult Handle()
   {

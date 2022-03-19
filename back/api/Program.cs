@@ -5,6 +5,7 @@ using api.Exceptions;
 using api.Repositories;
 using api.Repositories.Interfaces;
 using api.Security;
+using api.Security.Policies;
 using api.Security.Policies.Handlers;
 using api.Security.Policies.Requirements;
 using api.Services;
@@ -50,8 +51,8 @@ builder.Services.Configure<TokenOptions>(
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
-builder.Services.AddAuthentication(options => options.DefaultScheme = CrucialStrings.AccessToken)
-  .AddJwtBearer(CrucialStrings.AccessToken, options =>
+builder.Services.AddAuthentication(options => options.DefaultScheme = AuthenticationSchemes.AccessToken)
+  .AddJwtBearer(AuthenticationSchemes.AccessToken, options =>
   {
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -73,7 +74,7 @@ builder.Services.AddAuthentication(options => options.DefaultScheme = CrucialStr
           Encoding.Default.GetBytes(builder.Configuration[$"{TokenOptions.Position}:AccessSecret"]))
     };
   })
-  .AddJwtBearer(CrucialStrings.RefreshToken, options =>
+  .AddJwtBearer(AuthenticationSchemes.RefreshToken, options =>
   {
     options.Events = new JwtBearerEvents
     {
@@ -112,18 +113,18 @@ builder.Services.AddAuthorization(options =>
 {
   options.DefaultPolicy = new AuthorizationPolicyBuilder()
     .RequireAuthenticatedUser()
-    .AddAuthenticationSchemes(CrucialStrings.AccessToken)
+    .AddAuthenticationSchemes(AuthenticationSchemes.AccessToken)
     .AddRequirements(new ValidSessionRequirement())
     .Build();
 
-  options.AddPolicy(CrucialStrings.ValidRefreshToken, policy =>
+  options.AddPolicy(Policies.ValidRefreshToken, policy =>
   {
     policy.RequireAuthenticatedUser();
-    policy.AddAuthenticationSchemes(CrucialStrings.RefreshToken);
+    policy.AddAuthenticationSchemes(AuthenticationSchemes.RefreshToken);
     policy.AddRequirements(new ValidSessionRequirement());
   });
   
-  options.AddPolicy(CrucialStrings.ManageProducts, policy =>
+  options.AddPolicy(Policies.ManageProducts, policy =>
   {
     policy.RequireAuthenticatedUser();
     policy.AddRequirements(new FlagRequirement(Flags.MANAGE_PRODUCTS));
