@@ -7,7 +7,7 @@ public record UserResponse
   public string Email { get; init; }
   public string? PhoneNumber { get; init; }
   public long Flags { get; init; }
-  public string CreatedAt { get; init; }
+  public DateTimeOffset CreatedAt { get; init; }
   public IEnumerable<AddressResponse> Addresses { get; init; }
   public IEnumerable<SessionResponse> Sessions { get; init; }
 }
