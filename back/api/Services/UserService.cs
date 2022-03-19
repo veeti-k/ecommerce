@@ -1,40 +1,40 @@
-﻿using System.Linq.Expressions;
-using api.DTOs.Auth;
+﻿using api.DTOs.Auth;
 using api.Exceptions;
+using api.Mapping.MappedTypes;
 using api.Models.User;
 using api.Repositories.Interfaces;
 using api.Services.Interfaces;
 using api.Utils;
+using AutoMapper;
 
 namespace api.Services;
 
 public class UserService : IUserService
 {
   private readonly IUserRepo _userRepo;
+  private readonly IMapper _mapper;
 
-  public UserService(IUserRepo userRepo)
+  public UserService(IUserRepo userRepo, IMapper aMapper)
   {
     _userRepo = userRepo;
+    _mapper = aMapper;
   }
 
-  private async Task<User> GetOneByFilter(Expression<Func<User, bool>> filter, bool require)
+  public async Task<UserResponse> GetById(int id)
   {
-    var user = await _userRepo.GetOneByFilter(filter);
-    if (require && user is null) throw new NotFoundException("User not found");
+    var user = await _userRepo.GetOneByFilter(user => user.Id == id);
+    if (user is null) throw new NotFoundException("User not found");
 
-    return user;
+    return _mapper.Map<UserResponse>(user);
   }
 
-  public async Task<User> GetById(int id, bool require = false) =>
-    await GetOneByFilter(user => user.Id == id, require);
+  public async Task<User?> GetByEmail(string email) =>
+    await _userRepo.GetOneByFilter(user => user.Email == email);
 
-  public async Task<User> GetByEmail(string email, bool require = false) =>
-    await GetOneByFilter(user => user.Email == email, require);
+  public async Task<User?> GetByPhoneNumber(string phoneNumber) =>
+    await _userRepo.GetOneByFilter(user => user.PhoneNumber == phoneNumber);
 
-  public async Task<User> GetByPhoneNumber(string phoneNumber, bool require = false) =>
-    await GetOneByFilter(user => user.PhoneNumber == phoneNumber, require);
-
-  public async Task<User> Create(RegisterDTO dto)
+  public async Task<UserResponse> Create(RegisterDTO dto)
   {
     if (await GetByEmail(dto.Email) != null)
       throw new BadRequestException("Email in use");
@@ -52,13 +52,15 @@ public class UserService : IUserService
       CreatedAt = DateTimeOffset.UtcNow,
     };
 
-    await _userRepo.Add(newUser);
-    return newUser;
+    var createdUser = await _userRepo.Add(newUser);
+    return _mapper.Map<UserResponse>(createdUser);
   }
 
   public async Task Remove(int userId)
   {
-    var userToRemove = await GetById(userId, true);
+    var userToRemove = await _userRepo.GetOneByFilter(user => user.Id == userId);
+    if (userToRemove is null)
+      throw new NotFoundException("User not found");
 
     userToRemove.IsDeleted = true;
 

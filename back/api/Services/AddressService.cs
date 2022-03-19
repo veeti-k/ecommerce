@@ -5,45 +5,38 @@ using api.Mapping.MappedTypes;
 using api.Models.User;
 using api.Repositories.Interfaces;
 using api.Services.Interfaces;
+using AutoMapper;
 
 namespace api.Services;
 
 public class AddressService : IAddressService
 {
   private readonly IAddressRepo _addressRepo;
+  private readonly IMapper _mapper;
 
-  public AddressService(IAddressRepo addressRepo)
+  public AddressService(IAddressRepo addressRepo, IMapper aMapper)
   {
     _addressRepo = addressRepo;
+    _mapper = aMapper;
   }
 
-  private async Task<Address> GetOneByFilter(Expression<Func<Address, bool>> filter, bool require)
+  public async Task<AddressResponse> GetUserAddress(Guid addressId, int userId)
   {
-    var address = await _addressRepo.GetOneByFilter(filter);
-    if (require && address is null) throw new NotFoundException("Address not found");
+    var address = await _addressRepo.GetOneByFilter(address => address.Id == addressId && address.UserId == userId);
+    if (address is null) throw new NotFoundException("Address not found");
 
-    return address;
+    return _mapper.Map<AddressResponse>(address);
   }
 
-  private async Task<IEnumerable<Address>> GetManyByFilter(Expression<Func<Address, bool>> filter, bool require)
+  public async Task<IEnumerable<AddressResponse>> GetUserAddresses(int userId)
   {
-    var addresses = await _addressRepo.GetManyByFilter(filter);
-    if (require && !addresses.Any()) throw new NotFoundException("No addresses found");
+    var addresses = await _addressRepo.GetManyByFilter(address => address.UserId == userId);
+    if (!addresses.Any()) throw new NotFoundException("No addresses found");
 
-    return addresses;
+    return _mapper.Map<IEnumerable<AddressResponse>>(addresses);
   }
 
-  public async Task<Address> GetById(Guid addressId, bool require) =>
-    await GetOneByFilter(address => address.Id == addressId, require);
-
-  public async Task<IEnumerable<Address>> GetMany(int userId) =>
-    await GetManyByFilter(address => address.UserId == userId, require: true);
-
-  public async Task<Address> GetOne(Guid addressId, int userId) =>
-    await GetOneByFilter(address => address.UserId == userId
-                                    && address.Id == addressId, require: true);
-
-  public async Task<Address> Create(CreateAddressDTO aDto, int userId)
+  public async Task<AddressResponse> Create(CreateAddressDTO aDto, int userId)
   {
     Address newAddress = new()
     {
@@ -59,13 +52,16 @@ public class AddressService : IAddressService
       Zip = aDto.Zip
     };
 
-    await _addressRepo.Add(newAddress);
-    return newAddress;
+    var created = await _addressRepo.Add(newAddress);
+    return _mapper.Map<AddressResponse>(created);
   }
 
-  public async Task<Address> Update(UpdateAddressDTO dto, int userId, Guid addressId)
+  public async Task<AddressResponse> Update(UpdateAddressDTO dto, int userId, Guid addressId)
   {
-    var existingAddress = await GetOne(addressId, userId);
+    var existingAddress = await _addressRepo
+      .GetOneByFilter(address => address.Id == addressId && address.UserId == userId);
+
+    if (existingAddress is null) throw new NotFoundException("Address not found");
 
     existingAddress.Name = dto.Name ?? existingAddress.Name;
     existingAddress.City = dto.City ?? existingAddress.City;
@@ -76,17 +72,18 @@ public class AddressService : IAddressService
     existingAddress.PhoneNumber = dto.PhoneNumber ?? existingAddress.PhoneNumber;
     existingAddress.Zip = dto.Zip ?? existingAddress.Zip;
 
-    await _addressRepo.Update(existingAddress);
+    var updated = await _addressRepo.Update(existingAddress);
 
-    return existingAddress;
+    return _mapper.Map<AddressResponse>(updated);
   }
 
   public async Task Remove(Guid addressId)
   {
-    var addressToRemove = await GetById(addressId, require: true);
-    
+    var addressToRemove = await _addressRepo.GetOneByFilter(address => address.Id == addressId);
+    if (addressToRemove is null) throw new NotFoundException("Address not found");
+
     addressToRemove.IsDeleted = true;
-    
+
     await _addressRepo.Update(addressToRemove);
   }
 }
