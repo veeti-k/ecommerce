@@ -21,13 +21,14 @@ public class GetMe : EndpointBaseAsync
 
   [Authorize]
   [HttpGet(Routes.Users.Me.Main)]
-  public override async Task<ActionResult<UserResponse>> HandleAsync(CancellationToken cancellationToken = new CancellationToken())
+  public override async Task<ActionResult<UserResponse>> HandleAsync(
+    CancellationToken cancellationToken = new CancellationToken())
   {
     var userId = _contextService.GetCurrentUserId();
     var sessionId = _contextService.GetCurrentSessionId();
 
     var user = await _userService.GetById(userId);
-    
+
     // mark current session
     foreach (var session in user.Sessions)
       if (session.Id == sessionId)

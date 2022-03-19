@@ -23,7 +23,7 @@ public class CreateAddress : EndpointBaseAsync
   [Authorize]
   [HttpPost(Routes.Users.Me.Addresses)]
   public override async Task<ActionResult<AddressResponse>> HandleAsync(
-    CreateAddressDTO request, 
+    CreateAddressDTO request,
     CancellationToken cancellationToken = new CancellationToken())
   {
     var userId = _contextService.GetCurrentUserId();

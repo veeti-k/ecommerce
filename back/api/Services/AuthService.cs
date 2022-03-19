@@ -19,7 +19,7 @@ public class AuthService : IAuthService
     IAuthUtils aAuthUtils,
     ITokenUtils aTokenUtils,
     IUserService aUserService,
-    ISessionService aSessionService, 
+    ISessionService aSessionService,
     IContextService aContextService)
   {
     _authUtils = aAuthUtils;

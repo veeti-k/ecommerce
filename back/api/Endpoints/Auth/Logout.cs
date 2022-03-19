@@ -20,7 +20,7 @@ public class Logout : EndpointBaseAsync
     CancellationToken cancellationToken = new CancellationToken())
   {
     await _authService.Logout();
-    
+
     return NoContent();
   }
 }

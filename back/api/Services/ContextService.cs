@@ -3,7 +3,7 @@ using api.Services.Interfaces;
 
 namespace api.Services;
 
-public class ContextService: IContextService
+public class ContextService : IContextService
 {
   private readonly IHttpContextAccessor _accessor;
 
@@ -23,7 +23,7 @@ public class ContextService: IContextService
 
     return !goodUserId ? default : userId;
   }
-  
+
   public Guid GetCurrentSessionId()
   {
     var context = _accessor.HttpContext;

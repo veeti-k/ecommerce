@@ -13,7 +13,7 @@ public class TokenUtils : ITokenUtils
   private readonly TokenOptions _tokenOptions;
 
   private readonly string SecurityAlg = SecurityAlgorithms.HmacSha256Signature;
-  
+
   public TokenUtils(IOptions<TokenOptions> aTokenOptions)
   {
     _tokenOptions = aTokenOptions.Value;
@@ -58,5 +58,4 @@ public class TokenUtils : ITokenUtils
 
     return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
   }
-
 }

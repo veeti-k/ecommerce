@@ -20,7 +20,7 @@ public class DeleteProduct : EndpointBaseAsync
   [Authorize(Policy = Policies.ManageProducts)]
   [HttpDelete(Routes.Products.Product)]
   public override async Task<ActionResult> HandleAsync(
-    int productId, 
+    int productId,
     CancellationToken cancellationToken = new CancellationToken())
   {
     await _productService.Remove(productId);

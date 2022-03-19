@@ -39,28 +39,28 @@ public class DataContext : DbContext, IDataContext
       .WithOne()
       .HasForeignKey(specification => specification.ProductId)
       .OnDelete(DeleteBehavior.Cascade);
-    
+
     // one-to-many product - questions
     aBuilder.Entity<Product>()
       .HasMany(product => product.Questions)
       .WithOne()
       .HasForeignKey(question => question.ProductId)
       .OnDelete(DeleteBehavior.Cascade);
-    
+
     // one-to-many question - answers
     aBuilder.Entity<ProductQuestion>()
       .HasMany(question => question.Answers)
       .WithOne()
       .HasForeignKey(answer => answer.QuestionId)
       .OnDelete(DeleteBehavior.Cascade);
-    
+
     // one-to-many product - reviews
     aBuilder.Entity<Product>()
       .HasMany(product => product.Reviews)
       .WithOne()
       .HasForeignKey(review => review.ProductId)
       .OnDelete(DeleteBehavior.Cascade);
-    
+
     // one-to-many review - comments
     aBuilder.Entity<ProductReview>()
       .HasMany(question => question.Comments)

@@ -18,7 +18,7 @@ public class GetProducts : EndpointBaseAsync
 
   [HttpGet(Routes.Products.Main)]
   public override async Task<ActionResult<IEnumerable<ShowCaseProductResponse>>> HandleAsync(
-    string query, 
+    string query,
     CancellationToken cancellationToken = new CancellationToken())
   {
     var products = await _productService.GetManyShowcaseProducts(query);

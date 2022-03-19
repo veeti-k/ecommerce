@@ -14,7 +14,7 @@ public class AddressRepo : IAddressRepo
   {
     _context = context;
   }
-  
+
   public async Task<Address?> GetOneByFilter(Expression<Func<Address, bool>> aFilter)
   {
     return await _context.Addresses.Where(aFilter).FirstOrDefaultAsync();

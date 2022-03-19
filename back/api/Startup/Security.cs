@@ -100,13 +100,13 @@ public static class Security
         policy.RequireAuthenticatedUser();
         policy.AddRequirements(new FlagRequirement(Flags.MANAGE_REVIEWS));
       });
-      
+
       options.AddPolicy(Policies.ManageQuestions, policy =>
       {
         policy.RequireAuthenticatedUser();
         policy.AddRequirements(new FlagRequirement(Flags.MANAGE_QUESTIONS));
       });
-      
+
       options.AddPolicy(Policies.ViewUsers, policy =>
       {
         policy.RequireAuthenticatedUser();

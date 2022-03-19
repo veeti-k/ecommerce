@@ -14,7 +14,7 @@ public class ProductQuestionRepo : IProductQuestionRepo
   {
     _context = aContext;
   }
-  
+
   public async Task<ProductQuestion?> GetById(Guid reviewId)
   {
     return await _context.ProductQuestions.Where(rev => rev.Id == reviewId).FirstOrDefaultAsync();

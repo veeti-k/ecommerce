@@ -22,7 +22,7 @@ public class Login : EndpointBaseAsync
     CancellationToken cancellationToken = new CancellationToken())
   {
     await _authService.Login(dto);
-    
+
     return NoContent();
   }
 }

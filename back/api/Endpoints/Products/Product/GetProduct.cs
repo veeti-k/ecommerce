@@ -18,7 +18,7 @@ public class GetProduct : EndpointBaseAsync
 
   [HttpGet(Routes.Products.Product)]
   public override async Task<ActionResult<ProductPageProductResponse>> HandleAsync(
-    int productId, 
+    int productId,
     CancellationToken cancellationToken = new CancellationToken())
   {
     var products = await _productService.GetOneProductPageProduct(productId);

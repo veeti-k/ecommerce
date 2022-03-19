@@ -19,7 +19,7 @@ public static class Routes
     private const string UsersPrefix = $"{GlobalPrefix}/users";
     private const string UserId = "{userId:int}";
     private const string AddressId = "{addressId:Guid}";
-    
+
     public static class Me
     {
       public const string Main = $"{UsersPrefix}/me";
@@ -32,7 +32,7 @@ public static class Routes
     public static class User
     {
       public const string Main = $"{UsersPrefix}/{UserId}";
-      
+
       public const string Addresses = $"{Main}/addresses";
       public const string AddressesAddress = $"{Addresses}/{AddressId}";
       public const string Sessions = $"{Main}/sessions";
@@ -43,20 +43,20 @@ public static class Routes
   {
     public const string Main = $"{GlobalPrefix}/products";
     private const string ProductId = "{productId:int}";
-    
+
     private const string ReviewId = "{reviewId:Guid}";
     private const string CommentId = "{commentId:Guid}";
-    
+
     private const string QuestionId = "{questionId:Guid}";
     private const string AnswerId = "{answerId:Guid}";
 
     public const string Product = $"{Main}/{ProductId}";
-    
+
     public const string Reviews = $"{Main}/{ProductId}/reviews";
     public const string ReviewsReview = $"{Reviews}/{ReviewId}";
     public const string ReviewComments = $"{ReviewsReview}/comments";
     public const string ReviewCommentsComment = $"{ReviewComments}/{CommentId}";
-   
+
     public const string Questions = $"{Main}/{ProductId}/questions";
     public const string QuestionsQuestion = $"{Questions}/{QuestionId}";
     public const string QuestionAnswers = $"{QuestionsQuestion}/answers";

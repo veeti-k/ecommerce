@@ -23,4 +23,3 @@ public record UpdateAddressDTO
   public string? State { get; init; }
   public string? Zip { get; init; }
 }
-
