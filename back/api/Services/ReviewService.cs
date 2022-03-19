@@ -35,7 +35,7 @@ public class ReviewService : IReviewService
   }
 
   public async Task<ProductReviewCommentResponse> CreateComment(
-    CreateProductReviewCommentDTO dto, 
+    CreateProductReviewCommentDTO dto,
     Guid reviewId,
     int productId)
   {
@@ -47,7 +47,7 @@ public class ReviewService : IReviewService
 
     var userId = _contextService.GetCurrentUserId();
     var user = await _userService.GetById(userId, false);
-    
+
     var isEmployee = user is not null && Flags.HasFlag(user.Flags, Flags.EMPLOYEE);
 
     ProductReviewComment newComment = new()
@@ -63,7 +63,7 @@ public class ReviewService : IReviewService
     var added = await _productReviewCommentRepo.Add(newComment);
     return _mapper.Map<ProductReviewCommentResponse>(added);
   }
-  
+
   public async Task<ProductReviewResponse> CreateReview(CreateProductReviewDTO dto, int productId)
   {
     var product = await _productService.GetById(productId);
@@ -86,6 +86,14 @@ public class ReviewService : IReviewService
 
     var added = await _reviewRepo.Add(newReview);
     return _mapper.Map<ProductReviewResponse>(added);
+  }
+
+  public async Task<IEnumerable<ProductReviewResponse>> GetProductReviews(int productId)
+  {
+    var reviews = await _reviewRepo.GetByProductId(productId);
+    if (!reviews.Any()) throw new NotFoundException("No reviews found");
+
+    return _mapper.Map<IEnumerable<ProductReviewResponse>>(reviews);
   }
 
   public async Task RemoveReview(Guid reviewId)

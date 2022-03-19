@@ -11,6 +11,7 @@ public interface IReviewService
     int productId);
 
   public Task<ProductReviewResponse> CreateReview(CreateProductReviewDTO dto, int productId);
+  public Task<IEnumerable<ProductReviewResponse>> GetProductReviews(int productId);
   public Task RemoveReview(Guid reviewId);
   public Task RemoveComment(Guid commentId);
 }

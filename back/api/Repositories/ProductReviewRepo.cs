@@ -18,7 +18,12 @@ public class ReviewRepo : IReviewRepo
   {
     return await _context.ProductReviews.Where(rev => rev.Id == reviewId).FirstOrDefaultAsync();
   }
-  
+
+  public async Task<IEnumerable<ProductReview?>> GetByProductId(int productId)
+  {
+    return await _context.ProductReviews.Where(rev => rev.ProductId == productId).ToListAsync();
+  }
+
   public async Task<ProductReview> Add(ProductReview productReview)
   {
     var added = _context.Add(productReview);
