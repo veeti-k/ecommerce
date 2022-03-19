@@ -10,7 +10,7 @@ public static class Users
   public static User CreateFakeUser(
     int? userId = null,
     string? password = null,
-    bool isTestAccount = false,
+    long flags = 0,
     IEnumerable<Address>? addresses = null,
     IEnumerable<Session>? sessions = null)
   {
@@ -22,7 +22,7 @@ public static class Users
       PhoneNumber = "12345678",
       Password = Hashing.HashToString(password ?? Guid.NewGuid().ToString()),
       CreatedAt = DateTimeOffset.UtcNow,
-      isTestAccount = isTestAccount,
+      Flags = flags,
       Addresses = addresses ?? new Address[] { },
       Sessions = sessions ?? new Session[] { },
     };

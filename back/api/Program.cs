@@ -41,6 +41,7 @@ builder.Services.AddSingleton<ITokenUtils, TokenUtils>();
 builder.Services.AddScoped<IAuthUtils, AuthUtils>();
 
 builder.Services.AddScoped<IAuthorizationHandler, ValidSessionHandler>();
+builder.Services.AddScoped<IAuthorizationHandler, FlagHandler>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

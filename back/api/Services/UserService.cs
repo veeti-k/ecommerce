@@ -47,7 +47,7 @@ public class UserService : IUserService
       Email = dto.Email,
       Name = $"{dto.FirstName} {dto.LastName}",
       PhoneNumber = dto.PhoneNumber,
-      isTestAccount = dto.isTestAccount,
+      Flags = 0,
       Password = Hashing.HashToString(dto.Password),
       CreatedAt = DateTimeOffset.UtcNow,
     };
