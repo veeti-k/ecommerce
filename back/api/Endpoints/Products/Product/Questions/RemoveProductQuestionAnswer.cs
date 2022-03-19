@@ -25,7 +25,7 @@ public class RemoveProductQuestionAnswer : EndpointBaseAsync
   }
 
   [Authorize(Policy = Policies.ManageQuestions)]
-  [HttpDelete(Routes.Products.QuestionAnswersAnswer)]
+  [HttpDelete(Routes.Products.Product.Questions.Quesion.Answers.Answer)]
   public override async Task<ActionResult> HandleAsync(
     RemoveProductQuestionAnswerRequest request,
     CancellationToken cancellationToken = new CancellationToken())

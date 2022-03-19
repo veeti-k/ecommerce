@@ -23,7 +23,7 @@ public class CreateProductReview : EndpointBaseAsync
     _productReviewService = aProductProductReviewService;
   }
 
-  [HttpPost(Routes.Products.Reviews)]
+  [HttpPost(Routes.Products.Product.ReviewsRoot)]
   public override async Task<ActionResult<ProductReviewResponse>> HandleAsync(
     [FromRoute] CreateProductReviewRequest request,
     CancellationToken cancellationToken = new CancellationToken())

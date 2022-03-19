@@ -18,7 +18,7 @@ public class RemoveProductReview : EndpointBaseAsync
   }
 
   [Authorize(Policy = Policies.ManageReviews)]
-  [HttpDelete(Routes.Products.ReviewsReview)]
+  [HttpDelete(Routes.Products.Product.ReviewsRoot)]
   public override async Task<ActionResult> HandleAsync(
     Guid reviewId,
     CancellationToken cancellationToken = new CancellationToken())

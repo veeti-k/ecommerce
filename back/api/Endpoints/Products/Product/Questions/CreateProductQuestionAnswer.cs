@@ -19,7 +19,7 @@ public class CreateProductQuestionAnswer : EndpointBaseAsync
 {
   private readonly IProductQuestionAnswerService _productQuestionAnswerService;
 
-  [HttpPost(Routes.Products.QuestionAnswers)]
+  [HttpPost(Routes.Products.Product.Questions.Quesion.AnswersRoot)]
   public override async Task<ActionResult<ProductQuestionAnswerResponse>> HandleAsync(
     [FromRoute] CreateProductQuestionAnswerRequest request,
     CancellationToken cancellationToken = new CancellationToken())

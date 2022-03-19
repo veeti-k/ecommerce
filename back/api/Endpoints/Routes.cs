@@ -39,9 +39,10 @@ public static class Routes
     }
   }
 
+  public const string ProductsRoot = $"{GlobalPrefix}/products";
+
   public static class Products
   {
-    public const string Main = $"{GlobalPrefix}/products";
     private const string ProductId = "{productId:int}";
 
     private const string ReviewId = "{reviewId:Guid}";
@@ -50,16 +51,43 @@ public static class Routes
     private const string QuestionId = "{questionId:Guid}";
     private const string AnswerId = "{answerId:Guid}";
 
-    public const string Product = $"{Main}/{ProductId}";
+    public const string ProductRoot = $"{ProductsRoot}/{ProductId}";
 
-    public const string Reviews = $"{Main}/{ProductId}/reviews";
-    public const string ReviewsReview = $"{Reviews}/{ReviewId}";
-    public const string ReviewComments = $"{ReviewsReview}/comments";
-    public const string ReviewCommentsComment = $"{ReviewComments}/{CommentId}";
+    public static class Product
+    {
+      public const string ReviewsRoot = $"{ProductRoot}/reviews";
 
-    public const string Questions = $"{Main}/{ProductId}/questions";
-    public const string QuestionsQuestion = $"{Questions}/{QuestionId}";
-    public const string QuestionAnswers = $"{QuestionsQuestion}/answers";
-    public const string QuestionAnswersAnswer = $"{QuestionAnswers}/{AnswerId}";
+      public static class Reviews
+      {
+        public const string ReviewRoot = $"{ReviewsRoot}/{ReviewId}";
+
+        public static class Review
+        {
+          public const string CommentsRoot = $"{ReviewRoot}/comments";
+
+          public static class Comments
+          {
+            public const string Comment = $"{CommentsRoot}/{CommentId}";
+          }
+        }
+      }
+
+      public const string QuestionsRoot = $"{ProductRoot}/questions";
+
+      public static class Questions
+      {
+        public const string QuestionRoot = $"{QuestionsRoot}/{QuestionId}";
+
+        public static class Quesion
+        {
+          public const string AnswersRoot = $"{QuestionRoot}/answers";
+
+          public static class Answers
+          {
+            public const string Answer = $"{AnswersRoot}/{AnswerId}";
+          }
+        }
+      }
+    }
   }
 }

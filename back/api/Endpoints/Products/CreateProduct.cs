@@ -20,7 +20,7 @@ public class CreateProduct : EndpointBaseAsync
   }
 
   [Authorize(Policy = Policies.ManageProducts)]
-  [HttpPost(Routes.Products.Main)]
+  [HttpPost(Routes.ProductsRoot)]
   public override async Task<ActionResult<ProductCreatedResponse>> HandleAsync(
     CreateProductDTO dto,
     CancellationToken cancellationToken = new CancellationToken())

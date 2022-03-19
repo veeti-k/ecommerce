@@ -26,7 +26,7 @@ public class UpdateProduct : EndpointBaseAsync
   }
 
   [Authorize(Policy = Policies.ManageProducts)]
-  [HttpPatch(Routes.Products.Product)]
+  [HttpPatch(Routes.Products.ProductRoot)]
   public override async Task<ActionResult<ProductUpdatedResponse>> HandleAsync(
     [FromRoute] UpdateProductRequest request,
     CancellationToken cancellationToken = new CancellationToken())

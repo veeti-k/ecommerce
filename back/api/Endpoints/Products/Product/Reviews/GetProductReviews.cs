@@ -16,7 +16,7 @@ public class GetProductReviews : EndpointBaseAsync
     _productReviewService = aProductProductReviewService;
   }
 
-  [HttpGet(Routes.Products.Reviews)]
+  [HttpGet(Routes.Products.Product.ReviewsRoot)]
   public override async Task<ActionResult<IEnumerable<ProductReviewResponse>>> HandleAsync(
     int productId,
     CancellationToken cancellationToken = new CancellationToken())
