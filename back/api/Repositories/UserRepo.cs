@@ -9,14 +9,21 @@ namespace api.Repositories;
 public class UserRepo : IUserRepo
 {
   private readonly DataContext _context;
+  private readonly IQueryable<User?> _users;
   private readonly IQueryable<User?> _populatedUsers;
 
   public UserRepo(DataContext context)
   {
     _context = context;
-    _populatedUsers = _context.Users
+    _users = _context.Users.Where(user => !user.IsDeleted);
+    _populatedUsers = _users
       .Include(user => user.Addresses)
       .Include(user => user.Sessions);
+  }
+
+  public async Task<User?> GetById(int userId)
+  {
+    return await _users.Where(user => user.Id == userId).FirstOrDefaultAsync();
   }
 
   public async Task<User?> GetOneByFilter(Expression<Func<User, bool>> aFilter)
