@@ -23,6 +23,36 @@ public static class Addresses
     };
   }
   
+  public static Address CreateFakeAddressFromDto(CreateAddressDTO dto, int userId) =>
+    new Address()
+    {
+      Id = Guid.NewGuid(),
+      City = dto.City,
+      Email = dto.Email,
+      Line1 = dto.Line1,
+      Line2 = dto.Line2,
+      Name = dto.Name,
+      State = dto.State,
+      PhoneNumber = dto.PhoneNumber,
+      UserId = userId,
+      Zip = dto.Zip,
+    };
+  
+  public static Address CreateFakeAddressFromDto(UpdateAddressDTO dto, int userId) =>
+    new Address()
+    {
+      Id = Guid.NewGuid(),
+      City = dto.City,
+      Email = dto.Email,
+      Line1 = dto.Line1,
+      Line2 = dto.Line2,
+      Name = dto.Name,
+      State = dto.State,
+      PhoneNumber = dto.PhoneNumber,
+      UserId = userId,
+      Zip = dto.Zip,
+    };
+  
   public static CreateAddressDTO CreateFakeCreateAddressDTO()
   {
     return new()

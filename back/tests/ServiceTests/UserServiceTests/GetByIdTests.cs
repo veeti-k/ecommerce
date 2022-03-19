@@ -2,10 +2,13 @@
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using api.Exceptions;
+using api.Mapping;
+using api.Mapping.MappedTypes;
 using api.Models.User;
 using api.Repositories.Interfaces;
 using api.Services;
 using api.Services.Interfaces;
+using AutoMapper;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Moq;
@@ -18,10 +21,15 @@ public class GetByIdTests
 {
   private readonly Mock<IUserRepo> _mockUserRepo = new();
   private readonly IUserService _userService;
+  private readonly IMapper _mapper;
 
   public GetByIdTests()
   {
-    _userService = new UserService(_mockUserRepo.Object);
+    var mapperConf = new MapperConfiguration(config => config
+      .AddProfile(new DomainToResponseMappingProfile()));
+    _mapper = mapperConf.CreateMapper();
+    
+    _userService = new UserService(_mockUserRepo.Object, _mapper);
   }
 
   [Fact]
@@ -33,38 +41,23 @@ public class GetByIdTests
         .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
       .ReturnsAsync(existingUser);
 
-    Func<Task<User>> test = async () => await _userService.GetById(existingUser.Id);
+    Func<Task<UserResponse>> test = async () => await _userService.GetById(existingUser.Id);
 
     await test.Should().NotThrowAsync();
     var result = await test();
 
-    result.Should().BeSameAs(existingUser);
+    result.Should().BeEquivalentTo(_mapper.Map<UserResponse>(existingUser))
     ;
   }
 
   [Fact]
-  public async Task GetById_WithNoExistingUser_NotRequired_DoesNotThrow_ReturnsNull()
+  public async Task GetById_WithNoExistingUser_ThrowsNotFoundException()
   {
     _mockUserRepo.Setup(repo => repo
         .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
       .ReturnsAsync((User) null);
 
-    Func<Task<User>> test = async () => await _userService.GetById(23);
-
-    await test.Should().NotThrowAsync();
-    var result = await test();
-
-    result.Should().BeNull();
-  }
-
-  [Fact]
-  public async Task GetById_WithNoExistingUser_Required_ThrowsNotFoundException()
-  {
-    _mockUserRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
-      .ReturnsAsync((User) null);
-
-    Func<Task<User>> test = async () => await _userService.GetById(23, true);
+    Func<Task<UserResponse>> test = async () => await _userService.GetById(23);
 
     (await test.Should().ThrowAsync<NotFoundException>())
       .And.Should().BeEquivalentTo(new

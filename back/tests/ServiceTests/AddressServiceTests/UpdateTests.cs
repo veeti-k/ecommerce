@@ -2,10 +2,13 @@
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using api.Exceptions;
+using api.Mapping;
+using api.Mapping.MappedTypes;
 using api.Models.User;
 using api.Repositories.Interfaces;
 using api.Services;
 using api.Services.Interfaces;
+using AutoMapper;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Moq;
@@ -18,11 +21,16 @@ public class UpdateTests
 {
   private readonly Mock<IAddressRepo> _mockAddressRepo = new();
   private readonly IAddressService _addressService;
+  private readonly IMapper _mapper;
   private readonly int randomNumber = new Random().Next(1, Int32.MaxValue);
 
   public UpdateTests()
   {
-    _addressService = new AddressService(_mockAddressRepo.Object);
+    var mapperConf = new MapperConfiguration(config => config
+      .AddProfile(new DomainToResponseMappingProfile()));
+    _mapper = mapperConf.CreateMapper();
+
+    _addressService = new AddressService(_mockAddressRepo.Object, _mapper);
   }
 
   [Fact]
@@ -31,7 +39,12 @@ public class UpdateTests
     var userId = randomNumber;
     var existingAddress = Addresses.CreateFakeAddress(userId);
     var testDto = Addresses.CreateFakeUpdateAddressDTO();
+    var updatedAddress = Addresses.CreateFakeAddressFromDto(testDto, userId);
 
+    _mockAddressRepo.Setup(mock => mock
+        .Update(It.IsAny<Address>()))
+      .ReturnsAsync(updatedAddress);
+    
     _mockAddressRepo.Setup(mock => mock
         .GetOneByFilter(It.IsAny<Expression<Func<Address, bool>>>()))
       .ReturnsAsync(existingAddress);
@@ -40,6 +53,9 @@ public class UpdateTests
 
     _mockAddressRepo.Verify(mock => mock
       .Update(It.IsAny<Address>()), Times.Once);
+
+    updated.Should().BeOfType<AddressResponse>();
+    updated.Should().BeEquivalentTo(_mapper.Map<AddressResponse>(updatedAddress));
 
     updated.Name.Should().Be(testDto.Name);
     updated.City.Should().Be(testDto.City);
@@ -70,7 +86,7 @@ public class UpdateTests
         .GetOneByFilter(It.IsAny<Expression<Func<Address, bool>>>()))
       .ReturnsAsync((Address) null);
 
-    Func<Task<Address>> test = async () => await _addressService.Update(testDto, userId, Guid.NewGuid());
+    Func<Task<AddressResponse>> test = async () => await _addressService.Update(testDto, userId, Guid.NewGuid());
 
     _mockAddressRepo.Verify(mock => mock
       .Update(It.IsAny<Address>()), Times.Never);

@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using api.DTOs.Auth;
+using api.Endpoints.Auth;
 using api.Models.User;
 using api.Utils;
 
@@ -27,4 +30,19 @@ public static class Users
       Sessions = sessions ?? new Session[] { },
     };
   }
+
+  public static User CreateFakeUserFromDto(RegisterDTO dto) =>
+    new User()
+    {
+      Id = new Random().Next(1, Int32.MaxValue),
+      Name = $"{dto.FirstName} {dto.LastName}",
+      Email = dto.Email,
+      PhoneNumber = dto.PhoneNumber,
+      Password = Hashing.HashToString(dto.Password),
+      CreatedAt = DateTimeOffset.UtcNow,
+      Flags = 0,
+      Addresses = new Address[] { },
+      Sessions = new Session[] { },
+      IsDeleted = false
+    };
 }

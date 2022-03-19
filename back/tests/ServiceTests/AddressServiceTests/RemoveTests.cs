@@ -2,10 +2,12 @@
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using api.Exceptions;
+using api.Mapping;
 using api.Models.User;
 using api.Repositories.Interfaces;
 using api.Services;
 using api.Services.Interfaces;
+using AutoMapper;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Moq;
@@ -18,11 +20,16 @@ public class RemoveTests
 {
   private readonly Mock<IAddressRepo> _mockAddressRepo = new();
   private readonly IAddressService _addressService;
+  private readonly IMapper _mapper;
   private readonly int randomNumber = new Random().Next(1, Int32.MaxValue);
 
   public RemoveTests()
   {
-    _addressService = new AddressService(_mockAddressRepo.Object);
+    var mapperConf = new MapperConfiguration(config => config
+      .AddProfile(new DomainToResponseMappingProfile()));
+    _mapper = mapperConf.CreateMapper();
+
+    _addressService = new AddressService(_mockAddressRepo.Object, _mapper);
   }
 
   [Fact]

@@ -2,10 +2,12 @@
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using api.Exceptions;
+using api.Mapping;
 using api.Models.User;
 using api.Repositories.Interfaces;
 using api.Services;
 using api.Services.Interfaces;
+using AutoMapper;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Moq;
@@ -18,10 +20,15 @@ public class RemoveTests
 {
   private readonly Mock<IUserRepo> _mockUserRepo = new();
   private readonly IUserService _userService;
+  private readonly IMapper _mapper;
 
   public RemoveTests()
   {
-    _userService = new UserService(_mockUserRepo.Object);
+    var mapperConf = new MapperConfiguration(config => config
+      .AddProfile(new DomainToResponseMappingProfile()));
+    _mapper = mapperConf.CreateMapper();
+    
+    _userService = new UserService(_mockUserRepo.Object, _mapper);
   }
 
   [Fact]
