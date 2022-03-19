@@ -1,6 +1,6 @@
 using api.Models.Product;
 
-namespace api.Mapping.MappedTypes;
+namespace api.Mapping.MappedTypes.Product;
 
 public record ShowCaseProductResponse
 {

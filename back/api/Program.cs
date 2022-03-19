@@ -30,12 +30,16 @@ builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<ISessionRepo, SessionRepo>();
 builder.Services.AddScoped<IAddressRepo, AddressRepo>();
 builder.Services.AddScoped<IProductRepo, ProductRepo>();
+builder.Services.AddScoped<IReviewRepo, ReviewRepo>();
+builder.Services.AddScoped<IProductReviewCommentRepo, ProductReviewCommentRepo>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IContextService, ContextService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddSingleton<ICookieUtils, CookieUtils>();
 builder.Services.AddSingleton<ITokenUtils, TokenUtils>();
@@ -128,6 +132,12 @@ builder.Services.AddAuthorization(options =>
   {
     policy.RequireAuthenticatedUser();
     policy.AddRequirements(new FlagRequirement(Flags.MANAGE_PRODUCTS));
+  });
+  
+  options.AddPolicy(Policies.ManageReviews, policy =>
+  {
+    policy.RequireAuthenticatedUser();
+    policy.AddRequirements(new FlagRequirement(Flags.MANAGE_REVIEWS));
   });
 });
 

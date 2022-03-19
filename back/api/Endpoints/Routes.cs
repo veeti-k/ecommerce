@@ -43,7 +43,13 @@ public static class Routes
   {
     public const string Main = $"{GlobalPrefix}/products";
     private const string ProductId = "{productId:int}";
+    private const string ReviewId = "{reviewId:Guid}";
+    private const string CommentId = "{commentId:Guid}";
 
     public const string Product = $"{Main}/{ProductId}";
+    public const string Reviews = $"{Main}/{ProductId}/reviews";
+    public const string ReviewsReview = $"{Reviews}/{ReviewId}";
+    public const string ReviewComments = $"{ReviewsReview}/comments";
+    public const string ReviewCommentsComment = $"{ReviewComments}/{CommentId}";
   }
 }

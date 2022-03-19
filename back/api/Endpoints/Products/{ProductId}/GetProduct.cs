@@ -1,4 +1,5 @@
 ﻿using api.Mapping.MappedTypes;
+using api.Mapping.MappedTypes.Product;
 using api.Services.Interfaces;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;

@@ -11,5 +11,4 @@ public class ProductReviewComment
   [Required] public string Title { get; init; }
   [Required] public string Content { get; init; }
   [Required] public DateTimeOffset CreatedAt { get; init; }
-  [Required] public bool IsDeleted { get; init; }
 }

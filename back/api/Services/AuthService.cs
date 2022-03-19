@@ -7,7 +7,7 @@ using api.Utils.Interfaces;
 
 namespace api.Services;
 
-public class AuthService
+public class AuthService : IAuthService
 {
   private readonly IAuthUtils _authUtils;
   private readonly ITokenUtils _tokenUtils;

@@ -10,13 +10,16 @@ namespace api.Repositories;
 public class ProductRepo : IProductRepo
 {
   private readonly DataContext _context;
+  private readonly IQueryable<Product> _products;
   private readonly IQueryable<Product> _productsWithReviews;
   private readonly IQueryable<Product> _productsWithEverything;
 
   public ProductRepo(DataContext context)
   {
     _context = context;
-    _productsWithReviews = _context.Products
+    _products = _context.Products.Where(product => !product.IsDeleted);
+
+    _productsWithReviews = _products
       .Include(product => product.Reviews);
     _productsWithEverything = _productsWithReviews
       .Include(product => product.Questions);
@@ -24,7 +27,7 @@ public class ProductRepo : IProductRepo
 
   public async Task<Product?> GetById(int productId)
   {
-    return await _context.Products.Where(product => product.Id == productId).FirstOrDefaultAsync();
+    return await _products.Where(product => product.Id == productId).FirstOrDefaultAsync();
   }
 
   public async Task<IEnumerable<Product?>> GetManyWithReviews(Expression<Func<Product, bool>> filter)

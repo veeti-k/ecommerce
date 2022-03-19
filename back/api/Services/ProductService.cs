@@ -1,6 +1,7 @@
 using api.DTOs.Product;
 using api.Exceptions;
 using api.Mapping.MappedTypes;
+using api.Mapping.MappedTypes.Product;
 using api.Models.Product;
 using api.Repositories.Interfaces;
 using api.Services.Interfaces;
@@ -17,6 +18,15 @@ public class ProductService : IProductService
   {
     _productRepo = productRepo;
     _mapper = mapper;
+  }
+
+
+  public async Task<Product> GetById(int productId)
+  {
+    var product = await _productRepo.GetById(productId);
+    if (product is null) throw new NotFoundException("Product not found");
+
+    return product;
   }
 
   public async Task<IEnumerable<ShowCaseProductResponse?>> GetManyShowcaseProducts(string query)

@@ -20,10 +20,10 @@ public class UserService : IUserService
     _mapper = aMapper;
   }
 
-  public async Task<UserResponse> GetById(int id)
+  public async Task<UserResponse> GetById(int id, bool required = true)
   {
     var user = await _userRepo.GetOneByFilter(user => user.Id == id);
-    if (user is null) throw new NotFoundException("User not found");
+    if (required && user is null) throw new NotFoundException("User not found");
 
     return _mapper.Map<UserResponse>(user);
   }

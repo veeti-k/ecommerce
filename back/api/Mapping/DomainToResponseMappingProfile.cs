@@ -1,4 +1,5 @@
 ﻿using api.Mapping.MappedTypes;
+using api.Mapping.MappedTypes.Product;
 using api.Models.Product;
 using api.Models.User;
 using AutoMapper;
@@ -48,5 +49,8 @@ public class DomainToResponseMappingProfile : Profile
       .ForMember(dest => dest.QuestionCount,
         options => options
           .MapFrom(src => src.Questions.Count()));
+
+    CreateMap<ProductReview, ProductReviewResponse>();
+    CreateMap<ProductReviewComment, ProductReviewCommentResponse>();
   }
 }

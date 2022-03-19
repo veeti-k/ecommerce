@@ -12,7 +12,6 @@ public class ProductReview
   [Required] public string Content { get; init; }
   [Required] public int Stars { get; init; }
   [Required] public DateTimeOffset CreatedAt { get; init; }
-  [Required] public bool IsDeleted { get; init; }
 
   public virtual IEnumerable<ProductReviewComment> Comments { get; init; }
 }

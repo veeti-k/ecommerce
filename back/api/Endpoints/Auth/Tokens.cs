@@ -1,5 +1,4 @@
-﻿using api.Security;
-using api.Security.Policies;
+﻿using api.Security.Policies;
 using api.Services.Interfaces;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
