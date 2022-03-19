@@ -8,6 +8,7 @@ public static class Flags
   public const long TEST_ACCOUNT = 1 << 3;
   public const long EMPLOYEE = 1 << 4;
   public const long MANAGE_REVIEWS = 1 << 5;
+  public const long MANAGE_QUESTIONS = 1 << 6;
 
   public static bool HasFlag(long userFlags, long flagToCheckFor)
   {

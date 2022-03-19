@@ -52,5 +52,7 @@ public class DomainToResponseMappingProfile : Profile
 
     CreateMap<ProductReview, ProductReviewResponse>();
     CreateMap<ProductReviewComment, ProductReviewCommentResponse>();
+    CreateMap<ProductQuestion, ProductQuestionResponse>();
+    CreateMap<ProductQuestionAnswer, ProductQuestionAnswerResponse>();
   }
 }

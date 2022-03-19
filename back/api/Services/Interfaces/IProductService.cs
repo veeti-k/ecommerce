@@ -1,5 +1,4 @@
 using api.DTOs.Product;
-using api.Mapping.MappedTypes;
 using api.Mapping.MappedTypes.Product;
 using api.Models.Product;
 
