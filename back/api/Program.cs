@@ -34,6 +34,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IContextService, ContextService>();
 
 builder.Services.AddSingleton<ICookieUtils, CookieUtils>();
 builder.Services.AddSingleton<ITokenUtils, TokenUtils>();
@@ -131,7 +132,6 @@ builder.Services.AddAuthorization(options =>
 
 var app = builder.Build();
 
-app.UsePathBase("/api");
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseRouting();
 
