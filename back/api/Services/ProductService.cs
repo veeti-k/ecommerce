@@ -68,6 +68,7 @@ public class ProductService : IProductService
   public async Task<ProductUpdatedResponse> Update(UpdateProductDTO dto, int productId)
   {
     var existingProduct = await _productRepo.GetById(productId);
+    if (existingProduct is null) throw new NotFoundException("Product not found");
 
     existingProduct.Name = dto.Name ?? existingProduct.Name;
     existingProduct.Description = dto.Description ?? existingProduct.Description;
