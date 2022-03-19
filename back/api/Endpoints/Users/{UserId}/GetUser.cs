@@ -1,4 +1,5 @@
 ﻿using api.Mapping.MappedTypes;
+using api.Security.Policies;
 using api.Services.Interfaces;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
@@ -17,7 +18,7 @@ public class GetUser : EndpointBaseAsync
     _userService = aUserService;
   }
 
-  [Authorize]
+  [Authorize(Policy = Policies.ViewUsers)]
   [HttpGet(Routes.Users.User.Main)]
   public override async Task<ActionResult<UserResponse>> HandleAsync([FromRoute] int userId,
     CancellationToken cancellationToken = new CancellationToken())

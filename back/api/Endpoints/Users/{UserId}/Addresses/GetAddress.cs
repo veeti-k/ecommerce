@@ -1,4 +1,5 @@
 ﻿using api.Mapping.MappedTypes;
+using api.Security.Policies;
 using api.Services.Interfaces;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
@@ -23,7 +24,7 @@ public class GetAddress : EndpointBaseAsync
     _addressService = addressService;
   }
 
-  [Authorize]
+  [Authorize(Policy = Policies.ViewUsers)]
   [HttpGet(Routes.Users.User.AddressesAddress)]
   public override async Task<ActionResult<AddressResponse>> HandleAsync(
     [FromRoute] UserIdGetAddressRequest request,
