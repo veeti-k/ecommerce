@@ -58,12 +58,10 @@ public class UserService : IUserService
 
   public async Task Remove(int userId)
   {
-    var userToRemove = await _userRepo.GetOneByFilter(user => user.Id == userId);
+    var userToRemove = await _userRepo.GetById(userId);
     if (userToRemove is null)
       throw new NotFoundException("User not found");
 
-    userToRemove.IsDeleted = true;
-
-    await _userRepo.Update(userToRemove);
+    await _userRepo.Remove(userToRemove);
   }
 }

@@ -43,6 +43,5 @@ public static class Users
       Flags = 0,
       Addresses = new Address[] { },
       Sessions = new Session[] { },
-      IsDeleted = false
     };
 }

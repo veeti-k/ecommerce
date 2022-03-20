@@ -14,7 +14,6 @@ public class User
   [Required] public string Password { get; set; }
   [Required] public string? PhoneNumber { get; set; }
   [Required] public long Flags { get; set; }
-  [Required] public bool IsDeleted { get; set; }
   [Required] public DateTimeOffset CreatedAt { get; init; }
 
   public virtual IEnumerable<Session> Sessions { get; init; }

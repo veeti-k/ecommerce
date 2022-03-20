@@ -9,5 +9,5 @@ public interface IUserRepo
   public Task<User?> GetOneByFilter(Expression<Func<User, bool>> aFilter);
   public Task<IEnumerable<User?>> GetManyByFilter(Expression<Func<User, bool>> aFilter);
   public Task<User> Add(User user);
-  public Task<User> Update(User user);
+  public Task Remove(User user);
 }

@@ -9,21 +9,19 @@ namespace api.Repositories;
 public class UserRepo : IUserRepo
 {
   private readonly DataContext _context;
-  private readonly IQueryable<User?> _users;
   private readonly IQueryable<User?> _populatedUsers;
 
   public UserRepo(DataContext context)
   {
     _context = context;
-    _users = _context.Users.Where(user => !user.IsDeleted);
-    _populatedUsers = _users
+    _populatedUsers = _context.Users
       .Include(user => user.Addresses)
       .Include(user => user.Sessions);
   }
 
   public async Task<User?> GetById(int userId)
   {
-    return await _users.Where(user => user.Id == userId).FirstOrDefaultAsync();
+    return await _context.Users.Where(user => user.Id == userId).FirstOrDefaultAsync();
   }
 
   public async Task<User?> GetOneByFilter(Expression<Func<User, bool>> aFilter)
@@ -44,11 +42,9 @@ public class UserRepo : IUserRepo
     return added.Entity;
   }
 
-  public async Task<User> Update(User user)
+  public async Task Remove(User user)
   {
-    var updated = _context.Update(user);
+    _context.Remove(user);
     await _context.SaveChangesAsync();
-
-    return updated.Entity;
   }
 }
