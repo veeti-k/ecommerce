@@ -62,11 +62,33 @@ public class ProductReviewService : IProductReviewService
   {
     var product = await _productRepo.GetById(productId);
     if (product is null) throw new NotFoundException("Product not found");
-    
+
     var reviews = await _productReviewRepo.GetWithCommentsByProductId(productId);
     if (!reviews.Any()) throw new NotFoundException("No reviews found");
 
     return _mapper.Map<IEnumerable<ProductReviewResponse>>(reviews);
+  }
+
+  public async Task<ProductReviewResponse> ApproveProductReview(int productId, Guid reviewId)
+  {
+    var product = await _productRepo.GetById(productId);
+    if (product is null) throw new NotFoundException("Product not found");
+
+    var review = await _productReviewRepo.GetById(reviewId);
+    if (review is null) throw new NotFoundException("Review not found");
+
+    var reviews = await _productReviewRepo.GetApprovedByProductId(productId);
+
+    review.IsApproved = true;
+
+    product.ReviewCount += 1;
+    var totalStars = review.Stars + reviews.Aggregate(0, (acc, review) => review.Stars);
+    var newAverageStars = (float)totalStars / product.ReviewCount;
+    product.AverageStars = newAverageStars;
+    
+    var updated = await _productReviewRepo.Update(review, false);
+    await _productRepo.Update(product);
+    return _mapper.Map<ProductReviewResponse>(updated);
   }
 
   public async Task RemoveReview(Guid reviewId)

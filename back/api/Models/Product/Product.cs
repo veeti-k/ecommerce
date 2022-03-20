@@ -19,6 +19,9 @@ public class Product
   [Required] public double DiscountAmount { get; set; }
   [Required] public bool IsDiscounted { get; set; }
   [Required] public bool IsDeleted { get; set; }
+  [Required] public float AverageStars { get; set; }
+  [Required] public int ReviewCount { get; set; }
+  [Required] public int QuestionCount { get; set; }
 
   public virtual IEnumerable<ProductSpecification> Specifications { get; init; }
   public virtual IEnumerable<ProductReview> Reviews { get; init; }

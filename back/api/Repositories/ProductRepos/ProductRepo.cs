@@ -29,6 +29,11 @@ public class ProductRepo : IProductRepo
     return await _products.Where(product => product.Id == productId).FirstOrDefaultAsync();
   }
 
+  public async Task<Product?> GetWithApprovedReviewsById(int productId)
+  {
+    return await _productsWithReviews.Where(product => product.Id == productId).FirstOrDefaultAsync();
+  }
+
   public async Task<IEnumerable<Product?>> GetManyWithReviews(Expression<Func<Product, bool>> filter)
   {
     return await _productsWithReviews.Where(filter).ToListAsync();

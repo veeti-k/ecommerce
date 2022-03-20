@@ -14,12 +14,19 @@ public class ProductProductReviewRepo : IProductReviewRepo
   {
     _context = aContext;
     _productReviewsWithComments = _context.ProductReviews
+      .Where(review => review.IsApproved)
       .Include(review => review.Comments);
   }
 
   public async Task<ProductReview?> GetById(Guid reviewId)
   {
     return await _context.ProductReviews.Where(rev => rev.Id == reviewId).FirstOrDefaultAsync();
+  }
+
+  public async Task<IEnumerable<ProductReview?>> GetApprovedByProductId(int productId)
+  {
+    return await _context.ProductReviews
+      .Where(review => review.ProductId == productId && review.IsApproved).ToListAsync();
   }
 
   public async Task<IEnumerable<ProductReview?>> GetWithCommentsByProductId(int productId)
@@ -33,6 +40,14 @@ public class ProductProductReviewRepo : IProductReviewRepo
     await _context.SaveChangesAsync();
 
     return added.Entity;
+  }
+
+  public async Task<ProductReview> Update(ProductReview productReview, bool saveNow = true)
+  {
+    var updated = _context.Update(productReview);
+    if (saveNow) await _context.SaveChangesAsync();
+
+    return updated.Entity;
   }
 
   public async Task Remove(ProductReview productReview)

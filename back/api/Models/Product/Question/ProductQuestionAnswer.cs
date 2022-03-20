@@ -10,5 +10,7 @@ public class ProductQuestionAnswer
   [Required] public bool ByEmployee { get; init; }
   [Required] public string Title { get; init; }
   [Required] public string Content { get; init; }
+  [Required] public bool IsApproved { get; set; }
+
   [Required] public DateTimeOffset CreatedAt { get; init; }
 }

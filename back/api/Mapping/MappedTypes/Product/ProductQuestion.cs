@@ -8,4 +8,5 @@ public class ProductQuestionResponse
   public string Title { get; init; }
   public string Content { get; init; }
   public DateTimeOffset CreatedAt { get; init; }
+  public bool IsApproved { get; init; }
 }

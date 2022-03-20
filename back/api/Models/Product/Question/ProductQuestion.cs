@@ -10,6 +10,7 @@ public class ProductQuestion
   [Required] public string Title { get; init; }
   [Required] public string Content { get; init; }
   [Required] public DateTimeOffset CreatedAt { get; init; }
+  [Required] public bool IsApproved { get; set; }
 
   public virtual IEnumerable<ProductQuestionAnswer> Answers { get; init; }
 }
