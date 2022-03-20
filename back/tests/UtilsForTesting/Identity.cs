@@ -6,7 +6,7 @@ namespace tests.ControllerTests.Utils;
 
 public static class Identity
 {
-  public static ClaimsPrincipal CreateFakeClaimsPrincipal(Guid aNameIdentifier, Guid aVersion)
+  public static ClaimsPrincipal CreateFakeClaimsPrincipal(object aNameIdentifier, object aVersion)
   {
     var claims = new List<Claim>()
     {
