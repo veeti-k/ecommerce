@@ -15,22 +15,22 @@ public class ProductReviewService : IProductReviewService
 {
   private readonly IMapper _mapper;
   private readonly IUserRepo _userRepo;
-  private readonly IProductReviewRepo _productReviewRepo;
   private readonly IProductRepo _productRepo;
   private readonly IContextService _contextService;
+  private readonly IProductReviewRepo _productReviewRepo;
 
   public ProductReviewService(
     IMapper aMapper,
     IUserRepo aUserRepo,
-    IProductReviewRepo aProductReviewRepo,
     IProductRepo aProductRepo,
-    IContextService aContextService)
+    IContextService aContextService,
+    IProductReviewRepo aProductReviewRepo)
   {
     _mapper = aMapper;
     _userRepo = aUserRepo;
-    _productReviewRepo = aProductReviewRepo;
     _productRepo = aProductRepo;
     _contextService = aContextService;
+    _productReviewRepo = aProductReviewRepo;
   }
 
   public async Task<ProductReviewResponse> CreateReview(CreateProductReviewDTO dto, int productId)
@@ -60,7 +60,7 @@ public class ProductReviewService : IProductReviewService
 
   public async Task<IEnumerable<ProductReviewResponse>> GetProductReviews(int productId)
   {
-    var reviews = await _productReviewRepo.GetByProductId(productId);
+    var reviews = await _productReviewRepo.GetWithCommentsByProductId(productId);
     if (!reviews.Any()) throw new NotFoundException("No reviews found");
 
     return _mapper.Map<IEnumerable<ProductReviewResponse>>(reviews);
