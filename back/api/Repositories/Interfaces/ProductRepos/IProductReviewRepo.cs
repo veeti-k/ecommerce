@@ -2,7 +2,7 @@
 
 namespace api.Repositories.Interfaces.ProductRepos;
 
-public interface IReviewRepo
+public interface IProductReviewRepo
 {
   public Task<ProductReview?> GetById(Guid reviewId);
   public Task<IEnumerable<ProductReview?>> GetByProductId(int productId);

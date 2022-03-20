@@ -15,7 +15,7 @@ public class ProductReviewCommentService : IProductReviewCommentService
 {
   private readonly IMapper _mapper;
   private readonly IUserRepo _userRepo;
-  private readonly IReviewRepo _reviewRepo;
+  private readonly IProductReviewRepo _productReviewRepo;
   private readonly IProductRepo _productRepo;
   private readonly IContextService _contextService;
   private readonly IProductReviewCommentRepo _productReviewCommentRepo;
@@ -23,14 +23,14 @@ public class ProductReviewCommentService : IProductReviewCommentService
   public ProductReviewCommentService(
     IMapper aMapper,
     IUserRepo aUserRepo,
-    IReviewRepo aReviewRepo,
+    IProductReviewRepo aProductReviewRepo,
     IProductRepo aProductRepo,
     IContextService aContextService,
     IProductReviewCommentRepo aProductReviewCommentRepo)
   {
     _mapper = aMapper;
     _userRepo = aUserRepo;
-    _reviewRepo = aReviewRepo;
+    _productReviewRepo = aProductReviewRepo;
     _productRepo = aProductRepo;
     _contextService = aContextService;
     _productReviewCommentRepo = aProductReviewCommentRepo;
@@ -44,7 +44,7 @@ public class ProductReviewCommentService : IProductReviewCommentService
     var product = await _productRepo.GetById(productId);
     if (product is null) throw new NotFoundException("Product not found");
 
-    var review = await _reviewRepo.GetById(reviewId);
+    var review = await _productReviewRepo.GetById(reviewId);
     if (review is null) throw new NotFoundException("Review not found");
 
     var userId = _contextService.GetCurrentUserId();
@@ -71,7 +71,7 @@ public class ProductReviewCommentService : IProductReviewCommentService
     var product = await _productRepo.GetById(productId);
     if (product is null) throw new NotFoundException("Product not found");
 
-    var review = await _reviewRepo.GetById(reviewId);
+    var review = await _productReviewRepo.GetById(reviewId);
     if (review is null) throw new NotFoundException("Review not found");
 
     var comment = await _productReviewCommentRepo.GetById(commentId);

@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace api.Repositories.ProductRepos;
 
-public class ReviewRepo : IReviewRepo
+public class ProductProductReviewRepo : IProductReviewRepo
 {
   private readonly DataContext _context;
 
-  public ReviewRepo(DataContext aContext)
+  public ProductProductReviewRepo(DataContext aContext)
   {
     _context = aContext;
   }

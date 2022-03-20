@@ -29,16 +29,21 @@ builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<ISessionRepo, SessionRepo>();
 builder.Services.AddScoped<IAddressRepo, AddressRepo>();
 builder.Services.AddScoped<IProductRepo, ProductRepo>();
-builder.Services.AddScoped<IReviewRepo, ReviewRepo>();
+builder.Services.AddScoped<IProductReviewRepo, ProductProductReviewRepo>();
 builder.Services.AddScoped<IProductReviewCommentRepo, ProductReviewCommentRepo>();
+builder.Services.AddScoped<IProductQuestionRepo, ProductQuestionRepo>();
+builder.Services.AddScoped<IProductQuestionAnswerRepo, ProductQuestionAnswerRepo>();
 
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
-builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IContextService, ContextService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductReviewService, ProductReviewService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IProductReviewCommentService, ProductReviewCommentService>();
+builder.Services.AddScoped<IProductQuestionService, ProductQuestionService>();
+builder.Services.AddScoped<IProductQuestionAnswerService, ProductQuestionAnswerService>();
 
 builder.Services.AddSingleton<ICookieUtils, CookieUtils>();
 builder.Services.AddSingleton<ITokenUtils, TokenUtils>();

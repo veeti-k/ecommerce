@@ -15,20 +15,20 @@ public class ProductReviewService : IProductReviewService
 {
   private readonly IMapper _mapper;
   private readonly IUserRepo _userRepo;
-  private readonly IReviewRepo _reviewRepo;
+  private readonly IProductReviewRepo _productReviewRepo;
   private readonly IProductRepo _productRepo;
   private readonly IContextService _contextService;
 
   public ProductReviewService(
     IMapper aMapper,
     IUserRepo aUserRepo,
-    IReviewRepo aReviewRepo,
+    IProductReviewRepo aProductReviewRepo,
     IProductRepo aProductRepo,
     IContextService aContextService)
   {
     _mapper = aMapper;
     _userRepo = aUserRepo;
-    _reviewRepo = aReviewRepo;
+    _productReviewRepo = aProductReviewRepo;
     _productRepo = aProductRepo;
     _contextService = aContextService;
   }
@@ -54,13 +54,13 @@ public class ProductReviewService : IProductReviewService
       Stars = dto.Stars,
     };
 
-    var added = await _reviewRepo.Add(newReview);
+    var added = await _productReviewRepo.Add(newReview);
     return _mapper.Map<ProductReviewResponse>(added);
   }
 
   public async Task<IEnumerable<ProductReviewResponse>> GetProductReviews(int productId)
   {
-    var reviews = await _reviewRepo.GetByProductId(productId);
+    var reviews = await _productReviewRepo.GetByProductId(productId);
     if (!reviews.Any()) throw new NotFoundException("No reviews found");
 
     return _mapper.Map<IEnumerable<ProductReviewResponse>>(reviews);
@@ -68,9 +68,9 @@ public class ProductReviewService : IProductReviewService
 
   public async Task RemoveReview(Guid reviewId)
   {
-    var review = await _reviewRepo.GetById(reviewId);
+    var review = await _productReviewRepo.GetById(reviewId);
     if (review is null) throw new NotFoundException("Review not found");
 
-    await _reviewRepo.Remove(review);
+    await _productReviewRepo.Remove(review);
   }
 }
