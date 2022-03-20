@@ -6,7 +6,7 @@ public class ProductReview
 {
   [Key] public Guid Id { get; init; }
   [Required] public int ProductId { get; init; }
-  [Required] public string RevieweesNickname { get; init; }
+  [Required] public string ReviewersNickname { get; init; }
   [Required] public bool ByEmployee { get; init; }
   [Required] public string Title { get; init; }
   [Required] public string Content { get; init; }

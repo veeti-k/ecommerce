@@ -46,7 +46,7 @@ public class ProductReviewService : IProductReviewService
     ProductReview newReview = new()
     {
       ProductId = product.Id,
-      RevieweesNickname = dto.RevieweesNickname,
+      ReviewersNickname = dto.ReviewersNickname,
       Title = dto.Title,
       Content = dto.Content,
       ByEmployee = isEmployee,
@@ -60,6 +60,9 @@ public class ProductReviewService : IProductReviewService
 
   public async Task<IEnumerable<ProductReviewResponse>> GetProductReviews(int productId)
   {
+    var product = await _productRepo.GetById(productId);
+    if (product is null) throw new NotFoundException("Product not found");
+    
     var reviews = await _productReviewRepo.GetWithCommentsByProductId(productId);
     if (!reviews.Any()) throw new NotFoundException("No reviews found");
 
