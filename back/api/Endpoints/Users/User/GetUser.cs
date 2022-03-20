@@ -5,7 +5,7 @@ using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace api.Endpoints.Users._UserId_;
+namespace api.Endpoints.Users.User;
 
 public class GetUser : EndpointBaseAsync
   .WithRequest<int>
