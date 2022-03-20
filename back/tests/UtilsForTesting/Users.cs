@@ -44,4 +44,18 @@ public static class Users
       Addresses = new Address[] { },
       Sessions = new Session[] { },
     };
+
+  public static User CreateFakeUserFromDto(LoginDTO dto) =>
+    new User()
+    {
+      Id = new Random().Next(1, Int32.MaxValue),
+      Name = Guid.NewGuid().ToString(),
+      Email = dto.Email,
+      PhoneNumber = Guid.NewGuid().ToString(),
+      Password = Hashing.HashToString(dto.Password),
+      CreatedAt = DateTimeOffset.UtcNow,
+      Flags = 0,
+      Addresses = new Address[] { },
+      Sessions = new Session[] { },
+    };
 }

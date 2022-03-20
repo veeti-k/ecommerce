@@ -24,8 +24,6 @@ public class TokenUtilsTests
     _accessTokenValidationParameters = tokenThings.AccessTokenValidationParameters;
     _refreshTokenValidationParameters = tokenThings.RefreshTokenValidationParameters;
 
-    var test = tokenThings.AccessTokenValidationParameters;
-
     _tokenUtils = new TokenUtils(tokenThings.TokenOptions);
   }
 
