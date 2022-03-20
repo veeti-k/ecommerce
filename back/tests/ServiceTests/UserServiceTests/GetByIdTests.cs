@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using api.Exceptions;
 using api.Mapping;
@@ -28,7 +27,7 @@ public class GetByIdTests
     var mapperConf = new MapperConfiguration(config => config
       .AddProfile(new DomainToResponseMappingProfile()));
     _mapper = mapperConf.CreateMapper();
-    
+
     _userService = new UserService(_mockUserRepo.Object, _mapper);
   }
 
@@ -38,7 +37,7 @@ public class GetByIdTests
     var existingUser = Users.CreateFakeUser();
 
     _mockUserRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
+        .GetById(It.IsAny<int>()))
       .ReturnsAsync(existingUser);
 
     Func<Task<UserResponse>> test = async () => await _userService.GetById(existingUser.Id);
@@ -47,14 +46,14 @@ public class GetByIdTests
     var result = await test();
 
     result.Should().BeEquivalentTo(_mapper.Map<UserResponse>(existingUser))
-    ;
+      ;
   }
 
   [Fact]
   public async Task GetById_WithNoExistingUser_ThrowsNotFoundException()
   {
     _mockUserRepo.Setup(repo => repo
-        .GetOneByFilter(It.IsAny<Expression<Func<User, bool>>>()))
+        .GetById(It.IsAny<int>()))
       .ReturnsAsync((User) null);
 
     Func<Task<UserResponse>> test = async () => await _userService.GetById(23);

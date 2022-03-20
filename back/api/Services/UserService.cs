@@ -1,10 +1,7 @@
-﻿using api.DTOs.Auth;
-using api.Exceptions;
+﻿using api.Exceptions;
 using api.Mapping.MappedTypes;
-using api.Models.User;
 using api.Repositories.Interfaces;
 using api.Services.Interfaces;
-using api.Utils;
 using AutoMapper;
 
 namespace api.Services;
@@ -20,40 +17,20 @@ public class UserService : IUserService
     _mapper = aMapper;
   }
 
-  public async Task<UserResponse> GetById(int id, bool required = true)
+  public async Task<UserResponse> GetById(int id)
   {
-    var user = await _userRepo.GetOneByFilter(user => user.Id == id);
-    if (required && user is null) throw new NotFoundException("User not found");
+    var user = await _userRepo.GetById(id);
+    if (user is null) throw new NotFoundException("User not found");
 
     return _mapper.Map<UserResponse>(user);
   }
 
-  public async Task<User?> GetByEmail(string email) =>
-    await _userRepo.GetOneByFilter(user => user.Email == email);
-
-  private async Task<User?> GetByPhoneNumber(string phoneNumber) =>
-    await _userRepo.GetOneByFilter(user => user.PhoneNumber == phoneNumber);
-
-  public async Task<UserResponse> Create(RegisterDTO dto)
+  public async Task<UserResponse?> GetByEmail(string email)
   {
-    if (await GetByEmail(dto.Email) != null)
-      throw new BadRequestException("Email in use");
+    var user = await _userRepo.GetByEmail(email);
+    if (user is null) throw new NotFoundException("User not found");
 
-    if (await GetByPhoneNumber(dto.PhoneNumber) != null)
-      throw new BadRequestException("Phone number in use");
-
-    User newUser = new()
-    {
-      Email = dto.Email,
-      Name = $"{dto.FirstName} {dto.LastName}",
-      PhoneNumber = dto.PhoneNumber,
-      Flags = 0,
-      Password = Hashing.HashToString(dto.Password),
-      CreatedAt = DateTimeOffset.UtcNow,
-    };
-
-    var createdUser = await _userRepo.Add(newUser);
-    return _mapper.Map<UserResponse>(createdUser);
+    return _mapper.Map<UserResponse>(user);
   }
 
   public async Task Remove(int userId)

@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using api.Data;
+﻿using api.Data;
 using api.Models.User;
 using api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -9,14 +8,10 @@ namespace api.Repositories;
 public class UserRepo : IUserRepo
 {
   private readonly DataContext _context;
-  private readonly IQueryable<User?> _populatedUsers;
 
   public UserRepo(DataContext context)
   {
     _context = context;
-    _populatedUsers = _context.Users
-      .Include(user => user.Addresses)
-      .Include(user => user.Sessions);
   }
 
   public async Task<User?> GetById(int userId)
@@ -24,20 +19,20 @@ public class UserRepo : IUserRepo
     return await _context.Users.Where(user => user.Id == userId).FirstOrDefaultAsync();
   }
 
-  public async Task<User?> GetOneByFilter(Expression<Func<User, bool>> aFilter)
+  public async Task<User?> GetByEmail(string email)
   {
-    return await _populatedUsers.Where(aFilter).FirstOrDefaultAsync();
+    return await _context.Users.Where(user => user.Email == email).FirstOrDefaultAsync();
   }
 
-  public async Task<IEnumerable<User?>> GetManyByFilter(Expression<Func<User, bool>> aFilter)
+  public async Task<User?> GetByPhoneNumber(string phoneNumber)
   {
-    return await _populatedUsers.Where(aFilter).ToListAsync();
+    return await _context.Users.Where(user => user.PhoneNumber == phoneNumber).FirstOrDefaultAsync();
   }
 
-  public async Task<User> Add(User user)
+  public async Task<User> Add(User user, bool saveNow = true)
   {
     var added = _context.Add(user);
-    await _context.SaveChangesAsync();
+    if (saveNow) await _context.SaveChangesAsync();
 
     return added.Entity;
   }
