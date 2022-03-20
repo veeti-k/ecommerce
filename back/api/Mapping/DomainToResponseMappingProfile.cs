@@ -16,21 +16,21 @@ public class DomainToResponseMappingProfile : Profile
     CreateMap<Session, SessionResponse>();
     CreateMap<Address, AddressResponse>();
 
-    CreateMap<Product, ProductCreatedResponse>();
-    CreateMap<Product, ProductUpdatedResponse>();
+    CreateMap<Product, ProductResponse>();
     CreateMap<Product, ShowCaseProductResponse>()
       .ForMember(dest => dest.ImportantSpecifications,
         options => options
           .MapFrom(src => src
             .Specifications.Select(spec => spec.IsImportant)));
-    CreateMap<Product, ProductPageProductResponse>()
-      .ForMember(dest => dest.QuestionCount,
-        options => options
-          .MapFrom(src => src.Questions.Count()));
 
     CreateMap<ProductReview, ProductReviewResponse>();
     CreateMap<ProductReviewComment, ProductReviewCommentResponse>();
-    CreateMap<ProductQuestion, ProductQuestionResponse>();
+    CreateMap<ProductQuestion, ProductQuestionResponse>()
+      // alternative method of getting only the approved answers, 
+      // but this way the database wouldn't do the filtering, the server would
+      /*.ForMember(dest => dest.Answers,
+        options => options
+          .MapFrom(src => src.Answers.Where(answer => answer.IsApproved)))*/;
     CreateMap<ProductQuestionAnswer, ProductQuestionAnswerResponse>();
   }
 }

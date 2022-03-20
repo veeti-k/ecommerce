@@ -19,6 +19,11 @@ public class CreateProductQuestionAnswer : EndpointBaseAsync
 {
   private readonly IProductQuestionAnswerService _productQuestionAnswerService;
 
+  public CreateProductQuestionAnswer(IProductQuestionAnswerService aProductQuestionAnswerService)
+  {
+    _productQuestionAnswerService = aProductQuestionAnswerService;
+  }
+
   [HttpPost(Routes.Products.Product.Questions.Quesion.AnswersRoot)]
   public override async Task<ActionResult<ProductQuestionAnswerResponse>> HandleAsync(
     [FromRoute] CreateProductQuestionAnswerRequest request,

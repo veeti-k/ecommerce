@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using api.Data;
 using api.Models.Product;
 using api.Repositories.Interfaces.ProductRepos;
@@ -17,11 +16,6 @@ public class ProductRepo : IProductRepo
   {
     _context = context;
     _products = _context.Products.Where(product => !product.IsDeleted);
-
-    _productsWithReviews = _products
-      .Include(product => product.Reviews);
-    _productsWithEverything = _productsWithReviews
-      .Include(product => product.Questions);
   }
 
   public async Task<Product?> GetById(int productId)
@@ -29,22 +23,11 @@ public class ProductRepo : IProductRepo
     return await _products.Where(product => product.Id == productId).FirstOrDefaultAsync();
   }
 
-  public async Task<Product?> GetWithApprovedReviewsById(int productId)
+  public async Task<IEnumerable<Product?>> GetAll()
   {
-    return await _productsWithReviews.Where(product => product.Id == productId).FirstOrDefaultAsync();
+    return await _products.ToListAsync();
   }
-
-  public async Task<IEnumerable<Product?>> GetManyWithReviews(Expression<Func<Product, bool>> filter)
-  {
-    return await _productsWithReviews.Where(filter).ToListAsync();
-  }
-
-  public async Task<Product?> GetOneWithEverything(int productId)
-  {
-    return await _productsWithEverything
-      .Where(product => product.Id == productId).FirstOrDefaultAsync();
-  }
-
+  
   public async Task<Product> Add(Product product)
   {
     var addedProduct = _context.Add(product);

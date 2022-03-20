@@ -48,9 +48,9 @@ public class ProductQuestionService : IProductQuestionService
     var product = await _productRepo.GetById(productId);
     if (product is null) throw new NotFoundException("Product not found");
 
-    var questions = await _productQuestionRepo.GetByProductId(productId);
+    var questions = await _productQuestionRepo.GetApprovedWithAnswersByProductId(productId);
     if (!questions.Any()) throw new NotFoundException("No questions found");
-    
+     
     return _mapper.Map<IEnumerable<ProductQuestionResponse>>(questions);
   }
 

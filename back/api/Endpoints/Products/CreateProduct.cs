@@ -10,7 +10,7 @@ namespace api.Endpoints.Products;
 
 public class CreateProduct : EndpointBaseAsync
   .WithRequest<CreateProductDTO>
-  .WithActionResult<ProductCreatedResponse>
+  .WithActionResult<ProductResponse>
 {
   private readonly IProductService _productService;
 
@@ -21,7 +21,7 @@ public class CreateProduct : EndpointBaseAsync
 
   [Authorize(Policy = Policies.ManageProducts)]
   [HttpPost(Routes.ProductsRoot)]
-  public override async Task<ActionResult<ProductCreatedResponse>> HandleAsync(
+  public override async Task<ActionResult<ProductResponse>> HandleAsync(
     CreateProductDTO dto,
     CancellationToken cancellationToken = new CancellationToken())
   {

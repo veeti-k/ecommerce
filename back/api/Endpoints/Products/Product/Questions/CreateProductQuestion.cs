@@ -25,7 +25,7 @@ public class CreateProductQuestion : EndpointBaseAsync
 
   [HttpPost(Routes.Products.Product.QuestionsRoot)]
   public override async Task<ActionResult<ProductQuestionResponse>> HandleAsync(
-    CreateProductQuestionRequest request,
+    [FromRoute] CreateProductQuestionRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
     var added = await _productQuestionService.CreateQuestion(request.Dto, request.ProductId);

@@ -16,7 +16,7 @@ public class UpdateProductRequest
 
 public class UpdateProduct : EndpointBaseAsync
   .WithRequest<UpdateProductRequest>
-  .WithActionResult<ProductUpdatedResponse>
+  .WithActionResult<ProductResponse>
 {
   private readonly IProductService _productService;
 
@@ -27,7 +27,7 @@ public class UpdateProduct : EndpointBaseAsync
 
   [Authorize(Policy = Policies.ManageProducts)]
   [HttpPatch(Routes.Products.ProductRoot)]
-  public override async Task<ActionResult<ProductUpdatedResponse>> HandleAsync(
+  public override async Task<ActionResult<ProductResponse>> HandleAsync(
     [FromRoute] UpdateProductRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {

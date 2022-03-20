@@ -19,7 +19,6 @@ public class ProductService : IProductService
     _mapper = mapper;
   }
 
-
   public async Task<Product> GetById(int productId)
   {
     var product = await _productRepo.GetById(productId);
@@ -28,26 +27,14 @@ public class ProductService : IProductService
     return product;
   }
 
-  public async Task<IEnumerable<ShowCaseProductResponse?>> GetManyShowcaseProducts(string query)
+  // temporary, will be removed when searching, filtering and stuff is implemented
+  public async Task<IEnumerable<ShowCaseProductResponse?>> GetAll()
   {
-    var products = await _productRepo
-      .GetManyWithReviews(product => product.Name.ToLower().Contains(query)
-                                     || product.Id.ToString().ToLower().Contains(query));
-
-    if (!products.Any()) throw new NotFoundException("No products found");
-
+    var products = await _productRepo.GetAll();
     return _mapper.Map<IEnumerable<ShowCaseProductResponse>>(products);
   }
 
-  public async Task<ProductPageProductResponse?> GetOneProductPageProduct(int productId)
-  {
-    var product = await _productRepo.GetOneWithEverything(productId);
-    if (product is null) throw new NotFoundException("Product not found");
-
-    return _mapper.Map<ProductPageProductResponse>(product);
-  }
-
-  public async Task<ProductCreatedResponse> Create(CreateProductDTO dto)
+  public async Task<ProductResponse> Create(CreateProductDTO dto)
   {
     var newProduct = new Product
     {
@@ -61,10 +48,10 @@ public class ProductService : IProductService
     };
 
     var createdProduct = await _productRepo.Add(newProduct);
-    return _mapper.Map<ProductCreatedResponse>(createdProduct);
+    return _mapper.Map<ProductResponse>(createdProduct);
   }
 
-  public async Task<ProductUpdatedResponse> Update(UpdateProductDTO dto, int productId)
+  public async Task<ProductResponse> Update(UpdateProductDTO dto, int productId)
   {
     var existingProduct = await _productRepo.GetById(productId);
     if (existingProduct is null) throw new NotFoundException("Product not found");
@@ -79,7 +66,7 @@ public class ProductService : IProductService
 
     var updatedProduct = await _productRepo.Update(existingProduct);
 
-    return _mapper.Map<ProductUpdatedResponse>(updatedProduct);
+    return _mapper.Map<ProductResponse>(updatedProduct);
   }
 
   public async Task Remove(int productId)

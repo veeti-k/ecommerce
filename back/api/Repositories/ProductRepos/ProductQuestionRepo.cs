@@ -14,14 +14,28 @@ public class ProductQuestionRepo : IProductQuestionRepo
     _context = aContext;
   }
 
-  public async Task<ProductQuestion?> GetById(Guid reviewId)
+  public async Task<ProductQuestion?> GetById(Guid questionId)
   {
-    return await _context.ProductQuestions.Where(rev => rev.Id == reviewId).FirstOrDefaultAsync();
+    return await _context.ProductQuestions.Where(question => question.Id == questionId).FirstOrDefaultAsync();
   }
 
-  public async Task<IEnumerable<ProductQuestion?>> GetByProductId(int productId)
+  public async Task<IEnumerable<ProductQuestion?>> GetApprovedWithAnswersByProductId(int productId)
   {
-    return await _context.ProductQuestions.Where(rev => rev.ProductId == productId).ToListAsync();
+    return await _context.ProductQuestions
+      .Include(question => question.Answers)
+      .Where(question => question.ProductId == productId && question.IsApproved)
+      .Select(question => new ProductQuestion()
+      {
+        Id = question.Id,
+        Content = question.Content,
+        Title = question.Title,
+        CreatedAt = question.CreatedAt,
+        ProductId = question.ProductId,
+        IsApproved = question.IsApproved,
+        QuestionersNickname = question.QuestionersNickname,
+        Answers = question.Answers.Where(answer => answer.IsApproved)
+      })
+      .ToListAsync();
   }
 
   public async Task<ProductQuestion> Add(ProductQuestion productQuestion)

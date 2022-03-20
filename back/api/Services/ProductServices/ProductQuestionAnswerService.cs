@@ -54,11 +54,13 @@ public class ProductQuestionAnswerService : IProductQuestionAnswerService
 
     ProductQuestionAnswer newAnswer = new()
     {
+      QuestionId = question.Id,
       AnswerersNickname = dto.AnswerersNickname,
       Title = dto.Title,
       Content = dto.Content,
       CreatedAt = DateTimeOffset.UtcNow,
       ByEmployee = isEmployee,
+      IsApproved = false
     };
 
     var added = await _productQuestionAnswerRepo.Add(newAnswer);
