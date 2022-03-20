@@ -17,19 +17,21 @@ public class CreateProductReviewComment : EndpointBaseAsync
   .WithRequest<CreateProductReviewCommentRequest>
   .WithActionResult<ProductReviewCommentResponse>
 {
-  private readonly IProductReviewService _productReviewService;
+  private readonly IProductReviewCommentService _productReviewCommentService;
 
-  public CreateProductReviewComment(IProductReviewService aProductProductReviewService)
+  public CreateProductReviewComment(IProductReviewCommentService aProductProductReviewCommentService)
   {
-    _productReviewService = aProductProductReviewService;
+    _productReviewCommentService = aProductProductReviewCommentService;
   }
+
 
   [HttpPost(Routes.Products.Product.Reviews.Review.CommentsRoot)]
   public override async Task<ActionResult<ProductReviewCommentResponse>> HandleAsync(
     [FromRoute] CreateProductReviewCommentRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var created = await _productReviewService.CreateComment(request.Dto, request.ReviewId, request.ProductId);
+    var created = await _productReviewCommentService
+      .CreateComment(request.Dto, request.ReviewId, request.ProductId);
 
     return Created("", created);
   }

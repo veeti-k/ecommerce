@@ -11,66 +11,72 @@ using AutoMapper;
 
 namespace api.Services.ProductServices;
 
-public class ProductReviewService : IProductReviewService
+public class ProductReviewCommentService : IProductReviewCommentService
 {
   private readonly IMapper _mapper;
   private readonly IUserRepo _userRepo;
   private readonly IReviewRepo _reviewRepo;
   private readonly IProductRepo _productRepo;
   private readonly IContextService _contextService;
+  private readonly IProductReviewCommentRepo _productReviewCommentRepo;
 
-  public ProductReviewService(
+  public ProductReviewCommentService(
     IMapper aMapper,
     IUserRepo aUserRepo,
     IReviewRepo aReviewRepo,
     IProductRepo aProductRepo,
-    IContextService aContextService)
+    IContextService aContextService,
+    IProductReviewCommentRepo aProductReviewCommentRepo)
   {
     _mapper = aMapper;
     _userRepo = aUserRepo;
     _reviewRepo = aReviewRepo;
     _productRepo = aProductRepo;
     _contextService = aContextService;
+    _productReviewCommentRepo = aProductReviewCommentRepo;
   }
 
-  public async Task<ProductReviewResponse> CreateReview(CreateProductReviewDTO dto, int productId)
+  public async Task<ProductReviewCommentResponse> CreateComment(
+    CreateProductReviewCommentDTO dto,
+    Guid reviewId,
+    int productId)
   {
     var product = await _productRepo.GetById(productId);
     if (product is null) throw new NotFoundException("Product not found");
+
+    var review = await _reviewRepo.GetById(reviewId);
+    if (review is null) throw new NotFoundException("Review not found");
 
     var userId = _contextService.GetCurrentUserId();
     var user = await _userRepo.GetById(userId);
 
     var isEmployee = user is not null && Flags.HasFlag(user.Flags, Flags.EMPLOYEE);
 
-    ProductReview newReview = new()
+    ProductReviewComment newComment = new()
     {
-      ProductId = product.Id,
-      RevieweesNickname = dto.RevieweesNickname,
+      CommentersNickname = dto.CommentersNickname,
       Title = dto.Title,
       Content = dto.Content,
-      ByEmployee = isEmployee,
       CreatedAt = DateTimeOffset.UtcNow,
-      Stars = dto.Stars,
+      ReviewId = review.Id,
+      ByEmployee = isEmployee
     };
 
-    var added = await _reviewRepo.Add(newReview);
-    return _mapper.Map<ProductReviewResponse>(added);
+    var added = await _productReviewCommentRepo.Add(newComment);
+    return _mapper.Map<ProductReviewCommentResponse>(added);
   }
 
-  public async Task<IEnumerable<ProductReviewResponse>> GetProductReviews(int productId)
+  public async Task RemoveComment(int productId, Guid reviewId, Guid commentId)
   {
-    var reviews = await _reviewRepo.GetByProductId(productId);
-    if (!reviews.Any()) throw new NotFoundException("No reviews found");
+    var product = await _productRepo.GetById(productId);
+    if (product is null) throw new NotFoundException("Product not found");
 
-    return _mapper.Map<IEnumerable<ProductReviewResponse>>(reviews);
-  }
-
-  public async Task RemoveReview(Guid reviewId)
-  {
     var review = await _reviewRepo.GetById(reviewId);
     if (review is null) throw new NotFoundException("Review not found");
 
-    await _reviewRepo.Remove(review);
+    var comment = await _productReviewCommentRepo.GetById(commentId);
+    if (comment is null) throw new NotFoundException("Comment not found");
+
+    await _productReviewCommentRepo.Remove(comment);
   }
 }

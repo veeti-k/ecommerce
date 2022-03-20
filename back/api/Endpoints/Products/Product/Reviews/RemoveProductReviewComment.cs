@@ -6,24 +6,31 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Endpoints.Products.Product.Reviews;
 
+public class RemoveProductReviewCommentRequest
+{
+  [FromRoute(Name = "productId")] public int ProductId { get; set; }
+  [FromRoute(Name = "reviewId")] public Guid ReviewId { get; set; }
+  [FromRoute(Name = "commentId")] public Guid CommentId { get; set; }
+}
+
 public class RemoveProductReviewComment : EndpointBaseAsync
-  .WithRequest<Guid>
+  .WithRequest<RemoveProductReviewCommentRequest>
   .WithActionResult
 {
-  private readonly IProductReviewService _productReviewService;
+  private readonly IProductReviewCommentService _productReviewCommentService;
 
-  public RemoveProductReviewComment(IProductReviewService aProductProductReviewService)
+  public RemoveProductReviewComment(IProductReviewCommentService aProductProductReviewCommentService)
   {
-    _productReviewService = aProductProductReviewService;
+    _productReviewCommentService = aProductProductReviewCommentService;
   }
 
   [Authorize(Policy = Policies.ManageReviews)]
   [HttpDelete(Routes.Products.Product.Reviews.Review.Comments.Comment)]
   public override async Task<ActionResult> HandleAsync(
-    Guid commentId,
+    RemoveProductReviewCommentRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    await _productReviewService.RemoveComment(commentId);
+    await _productReviewCommentService.RemoveComment(request.ProductId, request.ReviewId, request.CommentId);
 
     return NoContent();
   }

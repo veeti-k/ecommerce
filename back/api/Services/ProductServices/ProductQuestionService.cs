@@ -1,7 +1,6 @@
 ﻿using api.DTOs.Product;
 using api.Exceptions;
 using api.Mapping.MappedTypes.Product;
-using api.Models;
 using api.Models.Product.Question;
 using api.Repositories.Interfaces.ProductRepos;
 using api.Services.Interfaces.ProductServices;
