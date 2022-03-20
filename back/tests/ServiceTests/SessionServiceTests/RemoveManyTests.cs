@@ -16,7 +16,7 @@ namespace tests.ServiceTests.SessionServiceTests;
 public class RemoveManyTests
 {
   private readonly Mock<ISessionRepo> _mockSessionRepo = new();
-  private readonly int randomNumber = new Random().Next(1, Int32.MaxValue);
+  private readonly int randomNumber = new Random().Next(1, 20);
 
   private ISessionService _sessionService;
 
