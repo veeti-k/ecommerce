@@ -26,6 +26,14 @@ public class ProductQuestionAnswerRepo : IProductQuestionAnswerRepo
 
     return added.Entity;
   }
+  
+  public async Task<ProductQuestionAnswer> Update(ProductQuestionAnswer productReviewComment)
+  {
+    var updated = _context.Update(productReviewComment);
+    await _context.SaveChangesAsync();
+
+    return updated.Entity;
+  }
 
   public async Task Remove(ProductQuestionAnswer productReviewComment)
   {

@@ -35,7 +35,8 @@ public class ProductQuestionService : IProductQuestionService
       Title = dto.Title,
       Content = dto.Content,
       CreatedAt = DateTimeOffset.UtcNow,
-      ProductId = product.Id
+      ProductId = product.Id,
+      IsApproved = false
     };
 
     var added = await _productQuestionRepo.Add(newQuestion);
@@ -51,6 +52,23 @@ public class ProductQuestionService : IProductQuestionService
     if (!questions.Any()) throw new NotFoundException("No questions found");
     
     return _mapper.Map<IEnumerable<ProductQuestionResponse>>(questions);
+  }
+
+  public async Task<ProductQuestionResponse> ApproveProductQuestion(int productId, Guid questionId)
+  {
+    var product = await _productRepo.GetById(productId);
+    if (product is null) throw new NotFoundException("Product not found");
+
+    var question = await _productQuestionRepo.GetById(questionId);
+    if (question is null) throw new NotFoundException("Question not found");
+
+    question.IsApproved = true;
+    product.QuestionCount += 1;
+
+    var updatedQuestion = await _productQuestionRepo.Update(question, false);
+    await _productRepo.Update(product);
+
+    return _mapper.Map<ProductQuestionResponse>(updatedQuestion);
   }
 
   public async Task RemoveProductQuestion(int productId, Guid questionId)

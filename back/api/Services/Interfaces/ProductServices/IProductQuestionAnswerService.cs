@@ -9,6 +9,7 @@ public interface IProductQuestionAnswerService
     CreateProductQuestionAnswerDTO dto,
     Guid questionId,
     int productId);
-
+  
+  public Task<ProductQuestionAnswerResponse> ApproveAnswer(int productId, Guid questionId, Guid answerId);  
   public Task RemoveAnswer(int productId, Guid questionId, Guid answerId);
 }

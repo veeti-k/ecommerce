@@ -4,7 +4,7 @@ using api.Services.Interfaces.ProductServices;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 
-namespace api.Endpoints.Products.Product.Reviews;
+namespace api.Endpoints.Products.Product.Reviews.Comments;
 
 public class CreateProductReviewCommentRequest
 {

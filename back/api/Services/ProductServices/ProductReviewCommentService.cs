@@ -66,6 +66,23 @@ public class ProductReviewCommentService : IProductReviewCommentService
     return _mapper.Map<ProductReviewCommentResponse>(added);
   }
 
+  public async Task<ProductReviewCommentResponse> ApproveComment(int productId, Guid reviewId, Guid commentId)
+  {
+    var product = await _productRepo.GetById(productId);
+    if (product is null) throw new NotFoundException("Product not found");
+
+    var review = await _productReviewRepo.GetById(reviewId);
+    if (review is null) throw new NotFoundException("Review not found");
+
+    var comment = await _productReviewCommentRepo.GetById(commentId);
+    if (comment is null) throw new NotFoundException("Comment not found");
+
+    comment.IsApproved = true;
+
+    var updated = await _productReviewCommentRepo.Update(comment);
+    return _mapper.Map<ProductReviewCommentResponse>(updated);
+  }
+
   public async Task RemoveComment(int productId, Guid reviewId, Guid commentId)
   {
     var product = await _productRepo.GetById(productId);

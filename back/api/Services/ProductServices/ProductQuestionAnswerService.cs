@@ -65,6 +65,23 @@ public class ProductQuestionAnswerService : IProductQuestionAnswerService
     return _mapper.Map<ProductQuestionAnswerResponse>(added);
   }
 
+  public async Task<ProductQuestionAnswerResponse> ApproveAnswer(int productId, Guid questionId, Guid answerId)
+  {
+    var product = await _productRepo.GetById(productId);
+    if (product is null) throw new NotFoundException("Product not found");
+
+    var question = await _productQuestionRepo.GetById(questionId);
+    if (question is null) throw new NotFoundException("Question not found");
+
+    var answer = await _productQuestionAnswerRepo.GetById(answerId);
+    if (answer is null) throw new NotFoundException("Answer not found");
+
+    answer.IsApproved = true;
+
+    var updated = await _productQuestionAnswerRepo.Update(answer);
+    return _mapper.Map<ProductQuestionAnswerResponse>(updated);
+  }
+
   public async Task RemoveAnswer(int productId, Guid questionId, Guid answerId)
   {
     var product = await _productRepo.GetById(productId);

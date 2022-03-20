@@ -27,6 +27,14 @@ public class ProductReviewCommentRepo : IProductReviewCommentRepo
     return added.Entity;
   }
 
+  public async Task<ProductReviewComment> Update(ProductReviewComment productReviewComment)
+  {
+    var updated = _context.Update(productReviewComment);
+    await _context.SaveChangesAsync();
+
+    return updated.Entity;
+  }
+
   public async Task Remove(ProductReviewComment productReviewComment)
   {
     _context.Remove(productReviewComment);

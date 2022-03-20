@@ -11,5 +11,6 @@ public interface IProductReviewCommentService
     int productId
   );
 
+  public Task<ProductReviewCommentResponse> ApproveComment(int productId, Guid reviewId, Guid commentId);  
   public Task RemoveComment(int productId, Guid reviewId, Guid commentId);
 }

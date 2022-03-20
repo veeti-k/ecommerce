@@ -7,5 +7,6 @@ public interface IProductQuestionRepo
   public Task<ProductQuestion?> GetById(Guid reviewId);
   public Task<IEnumerable<ProductQuestion?>> GetByProductId(int productId);
   public Task<ProductQuestion> Add(ProductQuestion productReview);
+  public Task<ProductQuestion> Update(ProductQuestion productQuestion, bool saveNow = true);
   public Task Remove(ProductQuestion productReview);
 }
