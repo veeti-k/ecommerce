@@ -16,7 +16,7 @@ public static class Security
     builder.Services.AddAuthentication(options => options.DefaultScheme = AuthenticationSchemes.AccessToken)
       .AddJwtBearer(AuthenticationSchemes.AccessToken, options =>
       {
-        options.TokenValidationParameters = new TokenValidationParameters()
+        options.TokenValidationParameters = new TokenValidationParameters
         {
           ValidateIssuer = true,
           ValidateAudience = true,
@@ -30,7 +30,7 @@ public static class Security
 
           ValidIssuer = builder.Configuration[$"{TokenOptions.Position}:AccessIss"],
           ValidAudience = builder.Configuration[$"{TokenOptions.Position}:AccessAud"],
-          ValidAlgorithms = new List<string>() {SecurityAlgorithms.HmacSha256Signature},
+          ValidAlgorithms = new List<string> {SecurityAlgorithms.HmacSha256Signature},
           IssuerSigningKey =
             new SymmetricSecurityKey(
               Encoding.Default.GetBytes(builder.Configuration[$"{TokenOptions.Position}:AccessSecret"]))
@@ -38,7 +38,7 @@ public static class Security
       })
       .AddJwtBearer(AuthenticationSchemes.RefreshToken, options =>
       {
-        options.Events = new JwtBearerEvents()
+        options.Events = new JwtBearerEvents
         {
           OnMessageReceived = context =>
           {

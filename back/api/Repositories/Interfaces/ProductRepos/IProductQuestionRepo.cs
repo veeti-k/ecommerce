@@ -1,5 +1,4 @@
-﻿using api.Models;
-using api.Models.Product.Question;
+﻿using api.Models.Product.Question;
 
 namespace api.Repositories.Interfaces.ProductRepos;
 

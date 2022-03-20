@@ -1,9 +1,8 @@
 using System.Linq.Expressions;
 using api.Data;
+using api.Models.Product;
 using api.Repositories.Interfaces.ProductRepos;
 using Microsoft.EntityFrameworkCore;
-using api.Models;
-using api.Models.Product;
 
 namespace api.Repositories.ProductRepos;
 

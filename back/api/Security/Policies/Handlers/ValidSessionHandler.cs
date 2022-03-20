@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using api.Exceptions;
 using api.Security.Policies.Requirements;
 using api.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;

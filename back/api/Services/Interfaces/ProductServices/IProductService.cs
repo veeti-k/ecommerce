@@ -1,6 +1,5 @@
 using api.DTOs.Product;
 using api.Mapping.MappedTypes.Product;
-using api.Models;
 using api.Models.Product;
 
 namespace api.Services.Interfaces.ProductServices;

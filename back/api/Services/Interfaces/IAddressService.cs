@@ -1,6 +1,5 @@
 ﻿using api.DTOs;
 using api.Mapping.MappedTypes;
-using api.Models.User;
 
 namespace api.Services.Interfaces;
 

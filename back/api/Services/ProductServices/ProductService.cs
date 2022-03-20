@@ -1,7 +1,6 @@
 using api.DTOs.Product;
 using api.Exceptions;
 using api.Mapping.MappedTypes.Product;
-using api.Models;
 using api.Models.Product;
 using api.Repositories.Interfaces.ProductRepos;
 using api.Services.Interfaces.ProductServices;
@@ -50,7 +49,7 @@ public class ProductService : IProductService
 
   public async Task<ProductCreatedResponse> Create(CreateProductDTO dto)
   {
-    var newProduct = new Product()
+    var newProduct = new Product
     {
       Name = dto.Name,
       Description = dto.Description,
