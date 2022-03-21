@@ -26,9 +26,9 @@ public class ProductRepo : IProductRepo
 
   public async Task<IEnumerable<Product?>> GetAll()
   {
-    return await _products.ToListAsync();
+    return await _products.Include(product => product.BulletPoints).ToListAsync();
   }
-  
+
   public async Task<Product> Add(Product product)
   {
     var addedProduct = _context.Add(product);

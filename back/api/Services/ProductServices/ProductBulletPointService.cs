@@ -40,12 +40,10 @@ public class ProductBulletPointService : IProductBulletPointService
     return _mapper.Map<IEnumerable<ProductBulletPointResponse>>(bulletPoints);
   }
 
-  public async Task<IEnumerable<ProductBulletPointResponse>> CreateMany(CreateProductBulletPointDTO dto, int productId)
+  public async Task CreateMany(CreateProductBulletPointDTO dto, int productId)
   {
     var product = await _productRepo.GetById(productId);
     if (product is null) throw new NotFoundException("Product not found");
-
-    var createdBulletPoints = Enumerable.Empty<ProductBulletPoint>();
 
     var i = 0;
     foreach (var bulletPoint in dto.BulletPoints)
@@ -58,11 +56,8 @@ public class ProductBulletPointService : IProductBulletPointService
       };
       i++;
 
-      var added = await _productBulletPointRepo.Add(newBulletPoint, i == dto.BulletPoints.Count());
-      createdBulletPoints.Append(added);
+      await _productBulletPointRepo.Add(newBulletPoint, i == dto.BulletPoints.Count());
     }
-
-    return _mapper.Map<IEnumerable<ProductBulletPointResponse>>(createdBulletPoints);
   }
 
   public async Task<ProductBulletPointResponse> Update(

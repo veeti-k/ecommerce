@@ -31,9 +31,9 @@ public class AddBulletPoints : EndpointBaseAsync
     [FromRoute] AddBulletPointsRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var added = await _productBulletPointService
+    await _productBulletPointService
       .CreateMany(request.Dto, request.ProductId);
 
-    return Created("", added);
+    return NoContent();
   }
 }
