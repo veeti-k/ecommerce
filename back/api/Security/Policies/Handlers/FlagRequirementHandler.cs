@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using api.Repositories.Interfaces;
 using api.Security.Policies.Requirements;
 using api.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -7,11 +8,11 @@ namespace api.Security.Policies.Handlers;
 
 public class FlagHandler : AuthorizationHandler<FlagRequirement>
 {
-  private readonly IUserService _userService;
+  private readonly IUserRepo _userRepo;
 
-  public FlagHandler(IUserService aUserService)
+  public FlagHandler(IUserRepo aUserRepo)
   {
-    _userService = aUserService;
+    _userRepo = aUserRepo;
   }
 
   protected override async Task HandleRequirementAsync(
@@ -24,7 +25,7 @@ public class FlagHandler : AuthorizationHandler<FlagRequirement>
     var goodUserId = int.TryParse(userIdClaim.Value, out var userId);
     if (!goodUserId) return;
 
-    var user = await _userService.GetById(userId);
+    var user = await _userRepo.GetById(userId);
     if (user is null) return;
 
     if (Flags.HasFlag(user.Flags, Flags.ADMINISTRATOR))
