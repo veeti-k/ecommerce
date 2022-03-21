@@ -29,10 +29,10 @@ public class UserRepo : IUserRepo
     return await _context.Users.Where(user => user.PhoneNumber == phoneNumber).FirstOrDefaultAsync();
   }
 
-  public async Task<User> Add(User user, bool saveNow = true)
+  public async Task<User> Add(User user)
   {
     var added = _context.Add(user);
-    if (saveNow) await _context.SaveChangesAsync();
+    await _context.SaveChangesAsync();
 
     return added.Entity;
   }

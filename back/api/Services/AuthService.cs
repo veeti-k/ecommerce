@@ -81,8 +81,8 @@ public class AuthService : IAuthService
       CreatedAt = DateTimeOffset.UtcNow,
     };
 
-    var createdUser = await _userRepo.Add(newUser, false);
-    var newSession = await _sessionService.Create(newUser.Id);
+    var createdUser = await _userRepo.Add(newUser);
+    var newSession = await _sessionService.Create(createdUser.Id);
 
     _authUtils.SendTokens(
       _tokenUtils.CreateAccessToken(createdUser.Id, newSession.Id),
