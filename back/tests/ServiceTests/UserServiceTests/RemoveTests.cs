@@ -18,16 +18,18 @@ namespace tests.ServiceTests.UserServiceTests;
 
 public class RemoveTests
 {
-  private readonly Mock<IUserRepo> _mockUserRepo = new();
   private readonly IUserService _userService;
+  private readonly Mock<IUserRepo> _mockUserRepo = new();
+  private readonly Mock<IHttpContextAccessor> _mockAccessor = new();
 
   public RemoveTests()
   {
     var mapperConf = new MapperConfiguration(config => config
       .AddProfile(new DomainToResponseMappingProfile()));
     var mapper = mapperConf.CreateMapper();
-    
-    _userService = new UserService(_mockUserRepo.Object, mapper);
+
+    IContextService contextService = new ContextService(_mockAccessor.Object);
+    _userService = new UserService(mapper, _mockUserRepo.Object, contextService);
   }
 
   [Fact]

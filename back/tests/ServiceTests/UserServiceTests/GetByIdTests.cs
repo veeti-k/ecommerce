@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Threading.Tasks;
 using api.Exceptions;
 using api.Mapping;
@@ -18,9 +18,10 @@ namespace tests.ServiceTests.UserServiceTests;
 
 public class GetByIdTests
 {
-  private readonly Mock<IUserRepo> _mockUserRepo = new();
-  private readonly IUserService _userService;
   private readonly IMapper _mapper;
+  private readonly IUserService _userService;
+  private readonly Mock<IUserRepo> _mockUserRepo = new();
+  private readonly Mock<IHttpContextAccessor> _mockAccessor = new();
 
   public GetByIdTests()
   {
@@ -28,11 +29,12 @@ public class GetByIdTests
       .AddProfile(new DomainToResponseMappingProfile()));
     _mapper = mapperConf.CreateMapper();
 
-    _userService = new UserService(_mockUserRepo.Object, _mapper);
+    IContextService contextService = new ContextService(_mockAccessor.Object);
+    _userService = new UserService(_mapper, _mockUserRepo.Object, contextService);
   }
 
   [Fact]
-  public async Task GetById_WithExistingUser_NotRequired_DoesNotThrow_ReturnsExistingUser()
+  public async Task GetById_WithExistingUser_DoesNotThrow_ReturnsExistingUser()
   {
     var existingUser = Users.CreateFakeUser();
 
@@ -45,8 +47,7 @@ public class GetByIdTests
     await test.Should().NotThrowAsync();
     var result = await test();
 
-    result.Should().BeEquivalentTo(_mapper.Map<UserResponse>(existingUser))
-      ;
+    result.Should().BeEquivalentTo(_mapper.Map<UserResponse>(existingUser));
   }
 
   [Fact]
@@ -65,4 +66,4 @@ public class GetByIdTests
         Message = "User not found"
       });
   }
-}
+}*/

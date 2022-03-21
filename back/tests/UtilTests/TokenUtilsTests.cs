@@ -18,6 +18,7 @@ public class TokenUtilsTests
   private readonly TokenValidationParameters _refreshTokenValidationParameters;
 
   private readonly int randomNumber = new Random().Next(1, Int32.MaxValue);
+  private readonly long randomLong = new Random().Next(1, 10);
 
   public TokenUtilsTests(TokenThingsFixture tokenThings)
   {
@@ -32,8 +33,9 @@ public class TokenUtilsTests
   {
     var userId = randomNumber;
     var sessionId = Guid.NewGuid();
+    var flags = randomLong;
 
-    var resultToken = _tokenUtils.CreateAccessToken(userId, sessionId);
+    var resultToken = _tokenUtils.CreateAccessToken(userId, sessionId, flags);
 
     resultToken.Should().NotBeNull();
 
@@ -43,13 +45,16 @@ public class TokenUtilsTests
 
     var claims = (token as JwtSecurityToken).Claims;
 
-    claims.Count().Should().Be(5);
+    claims.Count().Should().Be(6);
 
     claims.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier)
       .Value.Should().Be(userId.ToString());
 
     claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Version)
       .Value.Should().Be(sessionId.ToString());
+
+    claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid)
+      .Value.Should().Be(flags.ToString());
   }
 
   [Fact]
@@ -57,8 +62,9 @@ public class TokenUtilsTests
   {
     var userId = randomNumber;
     var sessionId = Guid.NewGuid();
+    var flags = randomLong;
 
-    var resultToken = _tokenUtils.CreateRefreshToken(userId, sessionId);
+    var resultToken = _tokenUtils.CreateRefreshToken(userId, sessionId, flags);
 
     resultToken.Should().NotBeNull();
 
@@ -68,12 +74,15 @@ public class TokenUtilsTests
 
     var claims = (token as JwtSecurityToken).Claims;
 
-    claims.Count().Should().Be(5);
+    claims.Count().Should().Be(6);
 
     claims.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier)
       .Value.Should().Be(userId.ToString());
 
     claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Version)
       .Value.Should().Be(sessionId.ToString());
+
+    claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid)
+      .Value.Should().Be(flags.ToString());
   }
 }
