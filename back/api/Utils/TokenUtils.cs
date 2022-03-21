@@ -19,12 +19,13 @@ public class TokenUtils : ITokenUtils
     _tokenOptions = aTokenOptions.Value;
   }
 
-  public string CreateAccessToken(int userId, Guid aSessionId)
+  public string CreateAccessToken(int userId, Guid sessionId, long userFlags)
   {
     var claims = new[]
     {
       new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-      new Claim(ClaimTypes.Version, aSessionId.ToString())
+      new Claim(ClaimTypes.Version, sessionId.ToString()),
+      new Claim(ClaimTypes.Sid, userFlags.ToString())
     };
 
     var securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(_tokenOptions.AccessSecret));
@@ -39,12 +40,13 @@ public class TokenUtils : ITokenUtils
     return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
   }
 
-  public string CreateRefreshToken(int userId, Guid aSessionId)
+  public string CreateRefreshToken(int userId, Guid sessionId, long userFlags)
   {
     var claims = new[]
     {
       new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-      new Claim(ClaimTypes.Version, aSessionId.ToString())
+      new Claim(ClaimTypes.Version, sessionId.ToString()),
+      new Claim(ClaimTypes.Sid, userFlags.ToString())
     };
 
     var securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(_tokenOptions.RefreshSecret));

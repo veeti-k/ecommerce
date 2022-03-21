@@ -35,4 +35,16 @@ public class ContextService : IContextService
 
     return !goodSessionId ? default : userId;
   }
+  
+  public long GetCurrentUserFlags()
+  {
+    var context = _accessor.HttpContext;
+    if (context is null) return default;
+
+    var goodFlags =
+      long.TryParse(context.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid)?.Value,
+        out var flags);
+
+    return !goodFlags ? default : flags;
+  }
 }

@@ -36,6 +36,14 @@ public class UserRepo : IUserRepo
 
     return added.Entity;
   }
+  
+  public async Task<User> Update(User user)
+  {
+    var updated = _context.Update(user);
+    await _context.SaveChangesAsync();
+
+    return updated.Entity;
+  }
 
   public async Task Remove(User user)
   {

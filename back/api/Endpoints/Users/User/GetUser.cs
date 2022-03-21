@@ -18,8 +18,7 @@ public class GetUser : EndpointBaseAsync
     _userService = aUserService;
   }
 
-  [Authorize(Policy = Policies.ViewUsers)]
-  [HttpGet(Routes.Users.User.Main)]
+  [HttpGet(Routes.Users.UserRoot)]
   public override async Task<ActionResult<UserResponse>> HandleAsync([FromRoute] int userId,
     CancellationToken cancellationToken = new CancellationToken())
   {

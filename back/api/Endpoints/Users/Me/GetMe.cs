@@ -20,7 +20,7 @@ public class GetMe : EndpointBaseAsync
   }
 
   [Authorize]
-  [HttpGet(Routes.Users.Me.Main)]
+  [HttpGet(Routes.Users.MeRoot)]
   public override async Task<ActionResult<UserResponse>> HandleAsync(
     CancellationToken cancellationToken = new CancellationToken())
   {

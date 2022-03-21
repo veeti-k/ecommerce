@@ -20,22 +20,23 @@ public static class Routes
     private const string UserId = "{userId:int}";
     private const string AddressId = "{addressId:Guid}";
 
+    public const string MeRoot = $"{UsersPrefix}/me";
+
     public static class Me
     {
-      public const string Main = $"{UsersPrefix}/me";
-
-      public const string Addresses = $"{Main}/addresses";
+      public const string Addresses = $"{MeRoot}/addresses";
       public const string AddressesAddress = $"{Addresses}/{AddressId}";
-      public const string Sessions = $"{Main}/sessions";
+      public const string Sessions = $"{MeRoot}/sessions";
     }
+
+    public const string UserRoot = $"{UsersPrefix}/{UserId}";
 
     public static class User
     {
-      public const string Main = $"{UsersPrefix}/{UserId}";
-
-      public const string Addresses = $"{Main}/addresses";
+      public const string Flags = $"{UserRoot}/flags";
+      public const string Addresses = $"{UserRoot}/addresses";
       public const string AddressesAddress = $"{Addresses}/{AddressId}";
-      public const string Sessions = $"{Main}/sessions";
+      public const string Sessions = $"{UserRoot}/sessions";
     }
   }
 

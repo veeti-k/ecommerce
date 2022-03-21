@@ -42,8 +42,8 @@ public class AuthService : IAuthService
     var newSession = await _sessionService.Create(existingUser.Id);
 
     _authUtils.SendTokens(
-      _tokenUtils.CreateAccessToken(existingUser.Id, newSession.Id),
-      _tokenUtils.CreateRefreshToken(existingUser.Id, newSession.Id)
+      _tokenUtils.CreateAccessToken(existingUser.Id, newSession.Id, existingUser.Flags),
+      _tokenUtils.CreateRefreshToken(existingUser.Id, newSession.Id, existingUser.Flags)
     );
   }
 
@@ -74,7 +74,8 @@ public class AuthService : IAuthService
     User newUser = new()
     {
       Email = dto.Email,
-      Name = $"{dto.FirstName} {dto.LastName}",
+      FirstName = dto.FirstName,
+      LastName = dto.LastName,
       PhoneNumber = dto.PhoneNumber,
       Flags = 0,
       Password = Hashing.HashToString(dto.Password),
@@ -85,8 +86,8 @@ public class AuthService : IAuthService
     var newSession = await _sessionService.Create(createdUser.Id);
 
     _authUtils.SendTokens(
-      _tokenUtils.CreateAccessToken(createdUser.Id, newSession.Id),
-      _tokenUtils.CreateRefreshToken(createdUser.Id, newSession.Id)
+      _tokenUtils.CreateAccessToken(createdUser.Id, newSession.Id, newUser.Flags),
+      _tokenUtils.CreateRefreshToken(createdUser.Id, newSession.Id, newUser.Flags)
     );
   }
 
@@ -94,9 +95,10 @@ public class AuthService : IAuthService
   {
     var userId = _contextService.GetCurrentUserId();
     var sessionId = _contextService.GetCurrentSessionId();
+    var userFlags = _contextService.GetCurrentUserFlags();
 
     _authUtils.SendTokens(
-      _tokenUtils.CreateAccessToken(userId, sessionId),
-      _tokenUtils.CreateRefreshToken(userId, sessionId));
+      _tokenUtils.CreateAccessToken(userId, sessionId, userFlags),
+      _tokenUtils.CreateRefreshToken(userId, sessionId, userFlags));
   }
 }
