@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using api.Exceptions;
 using api.Mapping;
+using api.Mapping.MappedTypes.Product;
 using api.Models.Product;
 using api.Repositories.Interfaces.ProductRepos;
 using api.Services.Interfaces.ProductServices;
@@ -17,6 +18,7 @@ namespace tests.ServiceTests.ProductServiceTests;
 
 public class GetByIdTests
 {
+  private readonly IMapper _mapper;
   private readonly Mock<IProductRepo> _mockProductRepo = new();
   private readonly IProductService _productService;
   private readonly int randomNumber = new Random().Next(1, Int32.MaxValue);
@@ -25,9 +27,9 @@ public class GetByIdTests
   {
     var mapperConf = new MapperConfiguration(config => config
       .AddProfile(new DomainToResponseMappingProfile()));
-    var mapper = mapperConf.CreateMapper();
+    _mapper = mapperConf.CreateMapper();
 
-    _productService = new ProductService(_mockProductRepo.Object, mapper);
+    _productService = new ProductService(_mockProductRepo.Object, _mapper);
   }
 
   [Fact]
@@ -39,12 +41,12 @@ public class GetByIdTests
         .GetById(It.IsAny<int>()))
       .ReturnsAsync(existingProduct);
 
-    Func<Task<Product>> test = async () => await _productService.GetById(existingProduct.Id);
+    Func<Task<ProductResponse>> test = async () => await _productService.GetById(existingProduct.Id);
 
     await test.Should().NotThrowAsync();
     var result = await test();
 
-    result.Should().BeEquivalentTo(existingProduct);
+    result.Should().BeEquivalentTo(_mapper.Map<ProductResponse>(existingProduct));
   }
 
   [Fact]
@@ -54,7 +56,7 @@ public class GetByIdTests
         .GetById(It.IsAny<int>()))
       .ReturnsAsync((Product) null);
 
-    Func<Task<Product>> test = async () => await _productService.GetById(randomNumber);
+    Func<Task<ProductResponse>> test = async () => await _productService.GetById(randomNumber);
 
     (await test.Should().ThrowAsync<NotFoundException>())
       .And.Should().BeEquivalentTo(new

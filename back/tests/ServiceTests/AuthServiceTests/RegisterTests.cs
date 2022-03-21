@@ -60,14 +60,14 @@ public class RegisterTests
       .ReturnsAsync((User) null);
 
     _mockUserRepo.Setup(mock => mock
-        .Add(It.IsAny<User>(), It.IsAny<bool>()))
+        .Add(It.IsAny<User>()))
       .ReturnsAsync(createdUser);
 
     await new AuthService(_mockUserRepo.Object, _authUtils, _tokenUtils, _sessionService, _contextService)
       .Register(registerDto);
 
     _mockUserRepo.Verify(mock => mock
-      .Add(It.IsAny<User>(), It.IsAny<bool>()), Times.Once);
+      .Add(It.IsAny<User>()), Times.Once);
 
     _mockSessionRepo.Verify(mock => mock
       .Create(It.IsAny<Session>()), Times.Once);
@@ -106,7 +106,7 @@ public class RegisterTests
       });
 
     _mockUserRepo.Verify(mock => mock
-      .Add(It.IsAny<User>(), It.IsAny<bool>()), Times.Never);
+      .Add(It.IsAny<User>()), Times.Never);
 
     _mockSessionRepo.Verify(mock => mock
       .Create(It.IsAny<Session>()), Times.Never);
@@ -145,7 +145,7 @@ public class RegisterTests
       });
 
     _mockUserRepo.Verify(mock => mock
-      .Add(It.IsAny<User>(), It.IsAny<bool>()), Times.Never);
+      .Add(It.IsAny<User>()), Times.Never);
 
     _mockSessionRepo.Verify(mock => mock
       .Create(It.IsAny<Session>()), Times.Never);
