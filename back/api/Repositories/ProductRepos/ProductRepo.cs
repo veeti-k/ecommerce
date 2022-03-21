@@ -9,8 +9,6 @@ public class ProductRepo : IProductRepo
 {
   private readonly DataContext _context;
   private readonly IQueryable<Product> _products;
-  private readonly IQueryable<Product> _productsWithReviews;
-  private readonly IQueryable<Product> _productsWithEverything;
 
   public ProductRepo(DataContext context)
   {
@@ -20,7 +18,10 @@ public class ProductRepo : IProductRepo
 
   public async Task<Product?> GetById(int productId)
   {
-    return await _products.Where(product => product.Id == productId).FirstOrDefaultAsync();
+    return await _products
+      .Include(product => product.BulletPoints)
+      .Where(product => product.Id == productId)
+      .FirstOrDefaultAsync();
   }
 
   public async Task<IEnumerable<Product?>> GetAll()

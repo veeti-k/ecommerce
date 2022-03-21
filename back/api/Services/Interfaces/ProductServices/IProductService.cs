@@ -6,7 +6,7 @@ namespace api.Services.Interfaces.ProductServices;
 
 public interface IProductService
 {
-  public Task<Product> GetById(int productId);
+  public Task<ProductResponse> GetById(int productId);
   public Task<IEnumerable<ShowCaseProductResponse?>> GetAll();
   public Task<ProductResponse> Create(CreateProductDTO dto);
   public Task Remove(int productId);

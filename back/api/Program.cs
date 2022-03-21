@@ -33,6 +33,7 @@ builder.Services.AddScoped<IProductReviewRepo, ProductProductReviewRepo>();
 builder.Services.AddScoped<IProductReviewCommentRepo, ProductReviewCommentRepo>();
 builder.Services.AddScoped<IProductQuestionRepo, ProductQuestionRepo>();
 builder.Services.AddScoped<IProductQuestionAnswerRepo, ProductQuestionAnswerRepo>();
+builder.Services.AddScoped<IProductBulletPointRepo, ProductBulletPointRepo>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -44,6 +45,7 @@ builder.Services.AddScoped<IProductReviewService, ProductReviewService>();
 builder.Services.AddScoped<IProductReviewCommentService, ProductReviewCommentService>();
 builder.Services.AddScoped<IProductQuestionService, ProductQuestionService>();
 builder.Services.AddScoped<IProductQuestionAnswerService, ProductQuestionAnswerService>();
+builder.Services.AddScoped<IProductBulletPointService, ProductBulletPointService>();
 
 builder.Services.AddSingleton<ICookieUtils, CookieUtils>();
 builder.Services.AddSingleton<ITokenUtils, TokenUtils>();

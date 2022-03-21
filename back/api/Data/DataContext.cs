@@ -34,7 +34,7 @@ public class DataContext : DbContext, IDataContext
 
     // one-to-many product - specifications
     aBuilder.Entity<Product>()
-      .HasMany(product => product.Specifications)
+      .HasMany(product => product.BulletPoints)
       .WithOne()
       .HasForeignKey(specification => specification.ProductId)
       .OnDelete(DeleteBehavior.Cascade);
@@ -73,7 +73,7 @@ public class DataContext : DbContext, IDataContext
   public DbSet<Session> Sessions { get; set; }
 
   public DbSet<Product> Products { get; set; }
-  public DbSet<ProductSpecification> ProductSpecifications { get; set; }
+  public DbSet<ProductBulletPoint> ProductBulletPoints { get; set; }
   public DbSet<ProductQuestion> ProductQuestions { get; set; }
   public DbSet<ProductQuestionAnswer> ProductQuestionAnswers { get; set; }
   public DbSet<ProductReview> ProductReviews { get; set; }

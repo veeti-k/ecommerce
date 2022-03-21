@@ -1,5 +1,3 @@
-using api.Models.Product;
-
 namespace api.Mapping.MappedTypes.Product;
 
 public record ProductResponse
@@ -16,9 +14,10 @@ public record ProductResponse
   public float AverageStars { get; set; }
   public int ReviewCount { get; set; }
   public int QuestionCount { get; set; }
+  public IEnumerable<ProductBulletPointResponse> BulletPoints { get; init; }
 }
 
 public record ShowCaseProductResponse : ProductResponse
 {
-  public IEnumerable<ProductSpecification> ImportantSpecifications { get; init; }
+  public IEnumerable<ProductBulletPointResponse> ImportantBulletpoints { get; init; }
 }

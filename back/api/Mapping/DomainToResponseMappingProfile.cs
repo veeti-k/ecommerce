@@ -18,10 +18,10 @@ public class DomainToResponseMappingProfile : Profile
 
     CreateMap<Product, ProductResponse>();
     CreateMap<Product, ShowCaseProductResponse>()
-      .ForMember(dest => dest.ImportantSpecifications,
+      .ForMember(dest => dest.ImportantBulletpoints,
         options => options
           .MapFrom(src => src
-            .Specifications.Select(spec => spec.IsImportant)));
+            .BulletPoints.Where(point => point.IsImportant)));
 
     CreateMap<ProductReview, ProductReviewResponse>();
     CreateMap<ProductReviewComment, ProductReviewCommentResponse>();
@@ -32,5 +32,6 @@ public class DomainToResponseMappingProfile : Profile
         options => options
           .MapFrom(src => src.Answers.Where(answer => answer.IsApproved)))*/;
     CreateMap<ProductQuestionAnswer, ProductQuestionAnswerResponse>();
+    CreateMap<ProductBulletPoint, ProductBulletPointResponse>();
   }
 }

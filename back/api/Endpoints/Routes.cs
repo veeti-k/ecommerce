@@ -51,10 +51,19 @@ public static class Routes
     private const string QuestionId = "{questionId:Guid}";
     private const string AnswerId = "{answerId:Guid}";
 
+    private const string BulletPointId = "{bulletPointId:Guid}";
+
     public const string ProductRoot = $"{ProductsRoot}/{ProductId}";
 
     public static class Product
     {
+      public const string BulletPointsRoot = $"{ProductRoot}/bullet-points";
+
+      public static class BulletPoints
+      {
+        public const string BulletPoint = $"{BulletPointsRoot}/{BulletPointId}";
+      }
+
       public const string ReviewsRoot = $"{ProductRoot}/reviews";
 
       public static class Reviews

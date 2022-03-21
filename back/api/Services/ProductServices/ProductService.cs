@@ -19,12 +19,12 @@ public class ProductService : IProductService
     _mapper = mapper;
   }
 
-  public async Task<Product> GetById(int productId)
+  public async Task<ProductResponse> GetById(int productId)
   {
     var product = await _productRepo.GetById(productId);
     if (product is null) throw new NotFoundException("Product not found");
 
-    return product;
+    return _mapper.Map<ProductResponse>(product);
   }
 
   // temporary, will be removed when searching, filtering and stuff is implemented
