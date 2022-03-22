@@ -1,12 +1,8 @@
 import type { NextPage } from "next";
-import { styled } from "../stitches.config";
-
-const TestDiv = styled("div", {
-  color: "blue",
-});
+import { Layout } from "../components/layouts/Layout";
 
 const Home: NextPage = () => {
-  return <TestDiv>ready</TestDiv>;
+  return <Layout></Layout>;
 };
 
 export default Home;
