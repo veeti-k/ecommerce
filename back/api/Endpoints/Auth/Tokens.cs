@@ -8,7 +8,7 @@ namespace api.Endpoints.Auth;
 
 public class Tokens : EndpointBaseSync
   .WithoutRequest
-  .WithActionResult
+  .WithActionResult<object>
 {
   private readonly IAuthService _authService;
 
@@ -19,10 +19,10 @@ public class Tokens : EndpointBaseSync
 
   [Authorize(Policy = Policies.ValidRefreshToken)]
   [HttpGet(Routes.Auth.Tokens)]
-  public override ActionResult Handle()
+  public override ActionResult<object> Handle()
   {
-    _authService.RefreshTokens();
+    var accessToken = _authService.RefreshTokens();
 
-    return NoContent();
+    return Ok(new {accessToken});
   }
 }

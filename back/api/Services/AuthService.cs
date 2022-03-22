@@ -99,14 +99,18 @@ public class AuthService : IAuthService
     return accessToken;
   }
 
-  public void RefreshTokens()
+  public string RefreshTokens()
   {
     var userId = _contextService.GetCurrentUserId();
     var sessionId = _contextService.GetCurrentSessionId();
     var userFlags = _contextService.GetCurrentUserFlags();
 
+    var accessToken = _tokenUtils.CreateAccessToken(userId, sessionId, userFlags);
+
     _authUtils.SendTokens(
-      _tokenUtils.CreateAccessToken(userId, sessionId, userFlags),
+      accessToken,
       _tokenUtils.CreateRefreshToken(userId, sessionId, userFlags));
+
+    return accessToken;
   }
 }
