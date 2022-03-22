@@ -31,7 +31,7 @@ public class AuthService : IAuthService
     _contextService = aContextService;
   }
 
-  public async Task Login(LoginDTO dto)
+  public async Task<string> Login(LoginDTO dto)
   {
     var existingUser = await _userRepo.GetByEmail(dto.Email);
     if (existingUser is null) throw new UnauthorizedException("Invalid email");
@@ -41,10 +41,14 @@ public class AuthService : IAuthService
 
     var newSession = await _sessionService.Create(existingUser.Id);
 
+    var accessToken = _tokenUtils.CreateAccessToken(existingUser.Id, newSession.Id, existingUser.Flags);
+
     _authUtils.SendTokens(
-      _tokenUtils.CreateAccessToken(existingUser.Id, newSession.Id, existingUser.Flags),
+      accessToken,
       _tokenUtils.CreateRefreshToken(existingUser.Id, newSession.Id, existingUser.Flags)
     );
+
+    return accessToken;
   }
 
   public async Task Logout()
@@ -63,7 +67,7 @@ public class AuthService : IAuthService
     _authUtils.SendLogout();
   }
 
-  public async Task Register(RegisterDTO dto)
+  public async Task<string> Register(RegisterDTO dto)
   {
     if (await _userRepo.GetByEmail(dto.Email) != null)
       throw new BadRequestException("Email in use");
@@ -85,10 +89,14 @@ public class AuthService : IAuthService
     var createdUser = await _userRepo.Add(newUser);
     var newSession = await _sessionService.Create(createdUser.Id);
 
+    var accessToken = _tokenUtils.CreateAccessToken(createdUser.Id, newSession.Id, newUser.Flags);
+
     _authUtils.SendTokens(
-      _tokenUtils.CreateAccessToken(createdUser.Id, newSession.Id, newUser.Flags),
+      accessToken,
       _tokenUtils.CreateRefreshToken(createdUser.Id, newSession.Id, newUser.Flags)
     );
+
+    return accessToken;
   }
 
   public void RefreshTokens()

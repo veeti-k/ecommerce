@@ -7,7 +7,7 @@ namespace api.Endpoints.Auth;
 
 public class Register : EndpointBaseAsync
   .WithRequest<RegisterDTO>
-  .WithActionResult
+  .WithActionResult<object>
 {
   private readonly IAuthService _authService;
 
@@ -17,12 +17,12 @@ public class Register : EndpointBaseAsync
   }
 
   [HttpPost(Routes.Auth.Register)]
-  public override async Task<ActionResult> HandleAsync(
+  public override async Task<ActionResult<object>> HandleAsync(
     RegisterDTO dto,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    await _authService.Register(dto);
+    var accessToken = await _authService.Register(dto);
 
-    return NoContent();
+    return Ok(new {accessToken});
   }
 }

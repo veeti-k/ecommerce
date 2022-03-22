@@ -7,7 +7,7 @@ namespace api.Endpoints.Auth;
 
 public class Login : EndpointBaseAsync
   .WithRequest<LoginDTO>
-  .WithActionResult
+  .WithActionResult<object>
 {
   private readonly IAuthService _authService;
 
@@ -17,12 +17,12 @@ public class Login : EndpointBaseAsync
   }
 
   [HttpPost(Routes.Auth.Login)]
-  public override async Task<ActionResult> HandleAsync(
+  public override async Task<ActionResult<object>> HandleAsync(
     LoginDTO dto,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    await _authService.Login(dto);
+    var accessToken = await _authService.Login(dto);
 
-    return NoContent();
+    return Ok(new {accessToken});
   }
 }
