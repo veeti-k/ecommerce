@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { AuthPageLayout } from "../../components/layouts/AuthPageLayout";
 import { FormEvent, useState } from "react";
-import { authRequest } from "../../utils/requests";
+import { tokenRequest } from "../../utils/requests";
 import { FormWrapper } from "../../components/FormWrapper";
 import { InputContainer } from "../../components/Containers";
 import { Label } from "../../components/Text";
@@ -9,21 +9,29 @@ import { Input, Heading, Text, Button, InputGroup, InputRightElement } from "@ch
 import { Tab, TabsContent, TabsList } from "../../components/Auth";
 import { Card } from "../../components/Card";
 import { useRouter } from "next/router";
+import { useAuthPageRedirector } from "../../hooks/useAuthPageRedirector";
 
 const Login: NextPage = () => {
+  useAuthPageRedirector();
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPw, setShowPw] = useState<boolean>(false);
 
   const router = useRouter();
 
+  const pushToSignup = () => router.push("/signup");
+  const pushToIndex = () => router.push("/");
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await authRequest({ email, password });
-    if (res) console.log(res.data);
+    const res = await tokenRequest({
+      method: "POST",
+      path: "/auth/login",
+      body: { email, password },
+    });
+    if (res) pushToIndex();
   };
-
-  const pushToSignup = () => router.push("/signup");
 
   const submitDisabled = !email || !password;
 
@@ -47,6 +55,7 @@ const Login: NextPage = () => {
                   type="email"
                   id="email"
                   onChange={(e) => setEmail(e.target.value)}
+                  autoComplete="username"
                   required
                 />
                 <Label htmlFor="password">
@@ -57,6 +66,7 @@ const Login: NextPage = () => {
                     type={showPw ? "text" : "password"}
                     id="password"
                     onChange={(e) => setPassword(e.target.value)}
+                    autoComplete="current-password"
                     required
                   />
                   <InputRightElement width="4.5rem">

@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { AuthPageLayout } from "../../components/layouts/AuthPageLayout";
 import { FormEvent, useState } from "react";
-import { authRequest } from "../../utils/requests";
+import { tokenRequest } from "../../utils/requests";
 import { FormWrapper } from "../../components/FormWrapper";
 import { InputContainer } from "../../components/Containers";
 import { Label } from "../../components/Text";
@@ -21,13 +21,17 @@ const Signup: NextPage = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await authRequest({ email, pw });
+    const res = await tokenRequest({
+      method: "POST",
+      path: "/auth/register",
+      body: { email, pw },
+    });
     if (res) console.log(res.data);
   };
 
   const pushToLogin = () => router.push("/login");
 
-  const submitDisabled = !email || !pw;
+  const submitDisabled = !email || !pw || !pwAgain || pw !== pwAgain;
 
   return (
     <AuthPageLayout title="Sign up">

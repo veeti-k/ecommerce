@@ -13,7 +13,7 @@ export const Layout: FC<Props> = ({ children, title }) => {
         <title>{title ?? "DEMO"}</title>
       </Head>
       <Menubar />
-      <main></main>
+      <main>{children}</main>
     </>
   );
 };
