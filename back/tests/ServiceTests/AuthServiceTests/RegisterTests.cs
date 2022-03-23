@@ -43,8 +43,7 @@ public class RegisterTests
     RegisterDTO registerDto = new()
     {
       Email = Guid.NewGuid().ToString(),
-      FirstName = Guid.NewGuid().ToString(),
-      LastName = Guid.NewGuid().ToString(),
+      Name = Guid.NewGuid().ToString(),
       Password = Guid.NewGuid().ToString(),
       PhoneNumber = Guid.NewGuid().ToString(),
     };
@@ -79,8 +78,7 @@ public class RegisterTests
     RegisterDTO registerDto = new()
     {
       Email = Guid.NewGuid().ToString(),
-      FirstName = Guid.NewGuid().ToString(),
-      LastName = Guid.NewGuid().ToString(),
+      Name = Guid.NewGuid().ToString(),
       Password = Guid.NewGuid().ToString(),
       PhoneNumber = Guid.NewGuid().ToString(),
     };
@@ -118,8 +116,7 @@ public class RegisterTests
     RegisterDTO registerDto = new()
     {
       Email = Guid.NewGuid().ToString(),
-      FirstName = Guid.NewGuid().ToString(),
-      LastName = Guid.NewGuid().ToString(),
+      Name = Guid.NewGuid().ToString(),
       Password = Guid.NewGuid().ToString(),
       PhoneNumber = Guid.NewGuid().ToString(),
     };

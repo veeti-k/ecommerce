@@ -60,8 +60,7 @@ public class UpdateTests
     updated.Name.Should().Be(testDto.Name);
     updated.City.Should().Be(testDto.City);
     updated.Email.Should().Be(testDto.Email);
-    updated.Line1.Should().Be(testDto.Line1);
-    updated.Line2.Should().Be(testDto.Line2);
+    updated.StreetAddress.Should().Be(testDto.StreetAddress);
     updated.State.Should().Be(testDto.State);
     updated.PhoneNumber.Should().Be(testDto.PhoneNumber);
     updated.Zip.Should().Be(testDto.Zip);
@@ -69,8 +68,7 @@ public class UpdateTests
     existingAddress.Name.Should().Be(testDto.Name);
     existingAddress.City.Should().Be(testDto.City);
     existingAddress.Email.Should().Be(testDto.Email);
-    existingAddress.Line1.Should().Be(testDto.Line1);
-    existingAddress.Line2.Should().Be(testDto.Line2);
+    existingAddress.StreetAddress.Should().Be(testDto.StreetAddress);
     existingAddress.State.Should().Be(testDto.State);
     existingAddress.PhoneNumber.Should().Be(testDto.PhoneNumber);
     existingAddress.Zip.Should().Be(testDto.Zip);

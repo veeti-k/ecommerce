@@ -35,28 +35,29 @@ public class RemoveTests
   [Fact]
   public async Task Remove_WithExistingAddress_RemovesAddress()
   {
+    var userId = randomNumber;
     var existingAddress = Addresses.CreateFakeAddress(randomNumber);
 
     _mockAddressRepo.Setup(mock => mock
         .GetOneByFilter(It.IsAny<Expression<Func<Address, bool>>>()))
       .ReturnsAsync(existingAddress);
 
-    await _addressService.Remove(existingAddress.Id);
+    await _addressService.Remove(userId, existingAddress.Id);
 
     _mockAddressRepo.Verify(mock => mock
-      .Update(It.IsAny<Address>()), Times.Once);
-
-    existingAddress.IsDeleted.Should().BeTrue();
+      .Remove(It.IsAny<Address>()), Times.Once);
   }
 
   [Fact]
   public async Task Remove_WithNoExistingAddress_ThrowsNotFoundException()
   {
+    var userId = randomNumber;
+
     _mockAddressRepo.Setup(mock => mock
         .GetOneByFilter(It.IsAny<Expression<Func<Address, bool>>>()))
       .ReturnsAsync((Address) null);
 
-    Func<Task> test = async () => await _addressService.Remove(Guid.NewGuid());
+    Func<Task> test = async () => await _addressService.Remove(userId, Guid.NewGuid());
 
     (await test.Should().ThrowAsync<NotFoundException>())
       .And.Should().BeEquivalentTo(new
@@ -66,6 +67,6 @@ public class RemoveTests
       });
 
     _mockAddressRepo.Verify(mock => mock
-      .Update(It.IsAny<Address>()), Times.Never);
+      .Remove(It.IsAny<Address>()), Times.Never);
   }
 }

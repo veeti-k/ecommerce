@@ -40,4 +40,10 @@ public class AddressRepo : IAddressRepo
 
     return updated.Entity;
   }
+
+  public async Task Remove(Address aAddress)
+  {
+    _context.Remove(aAddress);
+    await _context.SaveChangesAsync();
+  }
 }

@@ -21,7 +21,7 @@ public class CreateAddress : EndpointBaseAsync
   }
 
   [Authorize]
-  [HttpPost(Routes.Users.Me.Addresses)]
+  [HttpPost(Routes.Users.Me.AddressesRoot)]
   public override async Task<ActionResult<AddressResponse>> HandleAsync(
     CreateAddressDTO request,
     CancellationToken cancellationToken = new CancellationToken())

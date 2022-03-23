@@ -44,8 +44,7 @@ public class AddressService : IAddressService
       Name = aDto.Name,
       PhoneNumber = aDto.PhoneNumber,
       Email = aDto.Email,
-      Line1 = aDto.Line1,
-      Line2 = aDto.Line2,
+      StreetAddress = aDto.StreetAddress,
       City = aDto.City,
       State = aDto.State,
       Zip = aDto.Zip
@@ -65,8 +64,7 @@ public class AddressService : IAddressService
     existingAddress.Name = dto.Name ?? existingAddress.Name;
     existingAddress.City = dto.City ?? existingAddress.City;
     existingAddress.Email = dto.Email ?? existingAddress.Email;
-    existingAddress.Line1 = dto.Line1 ?? existingAddress.Line1;
-    existingAddress.Line2 = dto.Line2 ?? existingAddress.Line2;
+    existingAddress.StreetAddress = dto.StreetAddress ?? existingAddress.StreetAddress;
     existingAddress.State = dto.State ?? existingAddress.State;
     existingAddress.PhoneNumber = dto.PhoneNumber ?? existingAddress.PhoneNumber;
     existingAddress.Zip = dto.Zip ?? existingAddress.Zip;
@@ -76,13 +74,14 @@ public class AddressService : IAddressService
     return _mapper.Map<AddressResponse>(updated);
   }
 
-  public async Task Remove(Guid addressId)
+  public async Task Remove(int userId, Guid addressId)
   {
-    var addressToRemove = await _addressRepo.GetOneByFilter(address => address.Id == addressId);
+    var addressToRemove = await _addressRepo
+      .GetOneByFilter(address => address.Id == addressId &&
+                                 address.UserId == userId);
+    
     if (addressToRemove is null) throw new NotFoundException("Address not found");
-
-    addressToRemove.IsDeleted = true;
-
-    await _addressRepo.Update(addressToRemove);
+    
+    await _addressRepo.Remove(addressToRemove);
   }
 }

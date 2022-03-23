@@ -27,7 +27,7 @@ public class UpdateAddress : EndpointBaseAsync
   }
 
   [Authorize]
-  [HttpPatch(Routes.Users.Me.AddressesAddress)]
+  [HttpPatch(Routes.Users.Me.Addresses.Address)]
   public override async Task<ActionResult<AddressResponse>> HandleAsync(
     [FromRoute] MeUpdateAddressRequest request,
     CancellationToken cancellationToken = new CancellationToken())

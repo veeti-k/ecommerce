@@ -19,7 +19,7 @@ public class GetAddresses : EndpointBaseAsync
   }
 
   [Authorize(Policy = Policies.ViewUsers)]
-  [HttpGet(Routes.Users.User.Addresses)]
+  [HttpGet(Routes.Users.User.AddressesRoot)]
   public override async Task<ActionResult<IEnumerable<AddressResponse>>> HandleAsync(
     [FromRoute] int userId,
     CancellationToken cancellationToken = new CancellationToken())

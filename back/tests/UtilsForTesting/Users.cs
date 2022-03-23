@@ -20,8 +20,7 @@ public static class Users
     return new User()
     {
       Id = userId ?? new Random().Next(1, Int32.MaxValue),
-      FirstName = Guid.NewGuid().ToString(),
-      LastName = Guid.NewGuid().ToString(),
+      Name = Guid.NewGuid().ToString(),
       Email = Guid.NewGuid().ToString(),
       PhoneNumber = "12345678",
       Password = Hashing.HashToString(password ?? Guid.NewGuid().ToString()),
@@ -36,8 +35,7 @@ public static class Users
     new User()
     {
       Id = new Random().Next(1, Int32.MaxValue),
-      FirstName = dto.FirstName,
-      LastName = dto.LastName,
+      Name = dto.Name,
       Email = dto.Email,
       PhoneNumber = dto.PhoneNumber,
       Password = Hashing.HashToString(dto.Password),
@@ -51,8 +49,7 @@ public static class Users
     new User()
     {
       Id = new Random().Next(1, Int32.MaxValue),
-      FirstName = Guid.NewGuid().ToString(),
-      LastName = Guid.NewGuid().ToString(),
+      Name = Guid.NewGuid().ToString(),
       Email = dto.Email,
       PhoneNumber = Guid.NewGuid().ToString(),
       Password = Hashing.HashToString(dto.Password),

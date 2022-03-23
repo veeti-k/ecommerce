@@ -9,5 +9,5 @@ public interface IAddressService
   public Task<IEnumerable<AddressResponse>> GetUserAddresses(int userId);
   public Task<AddressResponse> Create(CreateAddressDTO aDto, int userId);
   public Task<AddressResponse> Update(UpdateAddressDTO dto, int userId, Guid addressId);
-  public Task Remove(Guid addressId);
+  public Task Remove(int userId, Guid addressId);
 }

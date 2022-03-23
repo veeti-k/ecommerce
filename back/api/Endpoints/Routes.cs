@@ -24,9 +24,15 @@ public static class Routes
 
     public static class Me
     {
-      public const string Addresses = $"{MeRoot}/addresses";
-      public const string AddressesAddress = $"{Addresses}/{AddressId}";
+      public const string Flags = $"{MeRoot}/flags";
       public const string Sessions = $"{MeRoot}/sessions";
+
+      public const string AddressesRoot = $"{MeRoot}/addresses";
+
+      public static class Addresses
+      {
+        public const string Address = $"{AddressesRoot}/{AddressId}";
+      }
     }
 
     public const string UserRoot = $"{UsersPrefix}/{UserId}";
@@ -34,9 +40,14 @@ public static class Routes
     public static class User
     {
       public const string Flags = $"{UserRoot}/flags";
-      public const string Addresses = $"{UserRoot}/addresses";
-      public const string AddressesAddress = $"{Addresses}/{AddressId}";
       public const string Sessions = $"{UserRoot}/sessions";
+
+      public const string AddressesRoot = $"{UserRoot}/addresses";
+
+      public static class Addresses
+      {
+        public const string Address = $"{AddressesRoot}/{AddressId}";
+      }
     }
   }
 

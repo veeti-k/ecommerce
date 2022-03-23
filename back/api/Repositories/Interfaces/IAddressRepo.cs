@@ -9,4 +9,5 @@ public interface IAddressRepo
   public Task<IEnumerable<Address?>> GetManyByFilter(Expression<Func<Address, bool>> aFilter);
   public Task<Address> Add(Address aAddress);
   public Task<Address> Update(Address aAddress);
+  public Task Remove(Address aAddress);
 }

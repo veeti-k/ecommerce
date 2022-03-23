@@ -54,8 +54,7 @@ public class UserService : IUserService
     var user = await _userRepo.GetById(userId);
     if (user is null) throw new NotFoundException("User not found");
 
-    user.FirstName = dto.FirstName ?? user.FirstName;
-    user.LastName = dto.LastName ?? user.LastName;
+    user.Name = dto.Name ?? user.Name;
     user.PhoneNumber = dto.PhoneNumber ?? user.PhoneNumber;
     user.Email = dto.Email ?? user.Email;
 

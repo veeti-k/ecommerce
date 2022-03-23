@@ -78,8 +78,7 @@ public class AuthService : IAuthService
     User newUser = new()
     {
       Email = dto.Email,
-      FirstName = dto.FirstName,
-      LastName = dto.LastName,
+      Name = dto.Name,
       PhoneNumber = dto.PhoneNumber,
       Flags = 0,
       Password = Hashing.HashToString(dto.Password),
