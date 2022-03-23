@@ -16,7 +16,7 @@ export const useGetMe = () => {
 
       const res = await request({
         method: "GET",
-        path: apiRoutes.getUser("me"),
+        path: apiRoutes.userRoute("me"),
       });
 
       if (res) dispatch({ type: Actions.SetUser, payload: res.data });

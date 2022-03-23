@@ -16,5 +16,5 @@ export const apiRoutes = {
   register: "/auth/register",
   tokens: "/auth/tokens",
 
-  getUser: (user: string) => `/users/${user}`,
+  userRoute: (user: string) => `/users/${user}`,
 };
