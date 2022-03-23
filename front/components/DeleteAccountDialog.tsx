@@ -7,7 +7,7 @@ import {
   AlertDialogContent,
   AlertDialogTrigger,
 } from "./AlertDialog";
-import { FlexRow } from "./Containers";
+import { FlexDiv } from "./Containers";
 
 export const DeleteAccountDialog = () => {
   return (
@@ -23,14 +23,14 @@ export const DeleteAccountDialog = () => {
           Delete account?
         </Text>
         <Text>This action can&#39;t be undone. Your account will be permanently deleted.</Text>
-        <FlexRow gap05 flexEnd>
+        <FlexDiv gap05 flexEnd>
           <AlertDialogCancel asChild>
             <Button colorScheme="gray">Cancel</Button>
           </AlertDialogCancel>
           <AlertDialogAction asChild>
             <Button colorScheme="red">Yes, delete account</Button>
           </AlertDialogAction>
-        </FlexRow>
+        </FlexDiv>
       </AlertDialogContent>
     </AlertDialog>
   );

@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { Button, Input, Text } from "@chakra-ui/react";
 import { LogOut } from "react-feather";
-import { FlexRow } from "../../components/Containers";
+import { FlexDiv } from "../../components/Containers";
 import {
   TempCard,
   PageSelectorButtons,
@@ -16,7 +16,7 @@ import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 import { Separator } from "../../components/Separator";
 import { Layout } from "../../components/layouts/Layout";
 import { Label } from "../../components/Text";
-import { useContext, useEffect, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import { GlobalStateContext } from "../../globalState/store";
 import { DeleteAccountDialog } from "../../components/DeleteAccountDialog";
 
@@ -59,11 +59,15 @@ const Account: NextPage = () => {
     (!email || email.trim() === ogEmail) &&
     (!phoneNumber || phoneNumber.trim() === ogPhoneNumber);
 
+  const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+
   return (
     <Layout>
       {isLoggedIn ? (
         <>
-          <FlexRow spaceBetween align style={{ paddingTop: "1rem" }}>
+          <FlexDiv spaceBetween align style={{ paddingTop: "1rem" }}>
             <div>
               <Text fontSize="3xl" fontWeight="bold">
                 Account settings
@@ -72,14 +76,14 @@ const Account: NextPage = () => {
             </div>
 
             <Button colorScheme="red">
-              <FlexRow gap05 align>
+              <FlexDiv gap05 align>
                 <LogOut /> Log out
-              </FlexRow>
+              </FlexDiv>
             </Button>
-          </FlexRow>
+          </FlexDiv>
           <TempCard>
             <MainGrid>
-              <PageSelectorButtons />
+              <PageSelectorButtons activePage="account" />
               <Content>
                 <TitleContainer>
                   <Text fontWeight="bold">General Info</Text>
@@ -88,49 +92,51 @@ const Account: NextPage = () => {
                   </Text>
                 </TitleContainer>
 
-                <Grid>
-                  <InputLabelContainer>
-                    <Label htmlFor="first-name">First Name</Label>
-                    <Input
-                      id="first-name"
-                      autoComplete="given-name"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                    />
-                  </InputLabelContainer>
+                <form onSubmit={onFormSubmit}>
+                  <Grid>
+                    <InputLabelContainer>
+                      <Label htmlFor="first-name">First Name</Label>
+                      <Input
+                        id="first-name"
+                        autoComplete="given-name"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                      />
+                    </InputLabelContainer>
 
-                  <InputLabelContainer>
-                    <Label htmlFor="last-name">Last Name</Label>
-                    <Input
-                      id="last-name"
-                      autoComplete="family-name"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                    />
-                  </InputLabelContainer>
+                    <InputLabelContainer>
+                      <Label htmlFor="last-name">Last Name</Label>
+                      <Input
+                        id="last-name"
+                        autoComplete="family-name"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                      />
+                    </InputLabelContainer>
 
-                  <InputLabelContainer>
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      autoComplete="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </InputLabelContainer>
+                    <InputLabelContainer>
+                      <Label htmlFor="email">Email</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        autoComplete="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </InputLabelContainer>
 
-                  <InputLabelContainer>
-                    <Label htmlFor="phone-number">Phone number</Label>
-                    <Input
-                      id="phone-number"
-                      type="tel"
-                      autoComplete="tel"
-                      value={phoneNumber ?? ""}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
-                    />
-                  </InputLabelContainer>
-                </Grid>
+                    <InputLabelContainer>
+                      <Label htmlFor="phone-number">Phone number</Label>
+                      <Input
+                        id="phone-number"
+                        type="tel"
+                        autoComplete="tel"
+                        value={phoneNumber ?? ""}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                      />
+                    </InputLabelContainer>
+                  </Grid>
+                </form>
 
                 <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: "1rem" }}>
                   <Button colorScheme="blue" disabled={saveDisabled}>
@@ -140,7 +146,7 @@ const Account: NextPage = () => {
 
                 <Separator orientation="horizontal" />
 
-                <FlexRow spaceBetween align>
+                <FlexDiv spaceBetween align>
                   <div>
                     <Text fontWeight="bold">Delete account</Text>
                     <Text fontWeight="light" fontSize="sm">
@@ -149,7 +155,7 @@ const Account: NextPage = () => {
                   </div>
 
                   <DeleteAccountDialog />
-                </FlexRow>
+                </FlexDiv>
               </Content>
             </MainGrid>
           </TempCard>

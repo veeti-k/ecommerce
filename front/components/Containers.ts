@@ -43,7 +43,7 @@ export const MainGrid = styled("div", {
   gap: "1rem",
 });
 
-export const FlexRow = styled("div", {
+export const FlexDiv = styled("div", {
   display: "flex",
   flexDirection: "row",
   gap: "1rem",

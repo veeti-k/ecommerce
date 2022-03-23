@@ -68,6 +68,14 @@ export const Grid = styled("div", {
   display: "grid",
   gridTemplateColumns: "1fr 1fr",
   gap: "1rem",
+
+  variants: {
+    col1: {
+      true: {
+        gridTemplateColumns: "1fr",
+      },
+    },
+  },
 });
 
 export const InputLabelContainer = styled("div", {
@@ -76,7 +84,11 @@ export const InputLabelContainer = styled("div", {
   gap: "0.4rem",
 });
 
-export const PageSelectorButtons = () => {
+type Props = {
+  activePage: string;
+};
+
+export const PageSelectorButtons = ({ activePage }: Props) => {
   const router = useRouter();
 
   const onClick = (e: MouseEvent, path: string) => {
@@ -88,7 +100,7 @@ export const PageSelectorButtons = () => {
     <PageSelectorButtonsContainer>
       <Link href="/settings/account">
         <a onClick={(e) => onClick(e, "/settings/account")}>
-          <PageSelectorButton active>
+          <PageSelectorButton active={activePage == "account"}>
             <User size={20} /> <Text style={{ color: "black" }}>Account</Text>
           </PageSelectorButton>
         </a>
@@ -96,21 +108,21 @@ export const PageSelectorButtons = () => {
 
       <Link href="/settings/password">
         <a onClick={(e) => onClick(e, "/settings/password")}>
-          <PageSelectorButton>
+          <PageSelectorButton active={activePage == "password"}>
             <Lock size={20} /> <Text style={{ color: "black" }}>Password</Text>
           </PageSelectorButton>
         </a>
       </Link>
       <Link href="/settings/addresses">
         <a onClick={(e) => onClick(e, "/settings/addresses")}>
-          <PageSelectorButton>
+          <PageSelectorButton active={activePage == "addresses"}>
             <Truck size={20} /> <Text style={{ color: "black" }}>Addresses</Text>
           </PageSelectorButton>
         </a>
       </Link>
       <Link href="/settings/sessions">
         <a onClick={(e) => onClick(e, "/settings/sessions")}>
-          <PageSelectorButton>
+          <PageSelectorButton active={activePage == "sessions"}>
             <Shield size={20} /> <Text style={{ color: "black" }}>Sessions</Text>
           </PageSelectorButton>
         </a>
