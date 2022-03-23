@@ -1,14 +1,12 @@
 import { Button, Text, Tooltip } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { useContext } from "react";
-import { Trash2 } from "react-feather";
 import { Card } from "../../components/Card";
 import { FlexDiv } from "../../components/Containers";
 import { TrashIcon } from "../../components/Icons";
 import { Layout } from "../../components/layouts/Layout";
 import {
   Content,
-  Grid,
   MainGrid,
   PageSelectorButtons,
   TempCard,
