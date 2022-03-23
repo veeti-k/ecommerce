@@ -8,11 +8,12 @@ import { CgProfile } from "react-icons/cg";
 import { pushUser } from "../../utils/router";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { UserIcon } from "../Icons";
+import { LoginIcon, UserIcon } from "../Icons";
 import { routes } from "../../utils/routes";
 import { useContext } from "react";
 import { UserContext } from "../../UserProvider/provider";
 import { logout } from "../../utils/logout";
+import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 
 const slideUpAndFade = keyframes({
   "0%": { opacity: 0, transform: "translateY(3px)" },
@@ -83,6 +84,7 @@ const Atag = styled("a", {
 
 export const ProfileDropdown = () => {
   const router = useRouter();
+  const isLoggedIn = useIsLoggedIn(false);
 
   const { dispatch } = useContext(UserContext);
 
@@ -94,22 +96,39 @@ export const ProfileDropdown = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent sideOffset={10}>
-        <Link href={routes.settingsAccount} passHref>
-          <Atag
-            onClick={(e) => {
-              e.preventDefault();
-              pushUser(router, routes.settingsAccount, "dropDownMenu::onClick");
-            }}
-          >
-            <DropdownMenuItem>
-              <CgProfile style={{ transform: "scale(1.4)" }} /> Account
-            </DropdownMenuItem>
-          </Atag>
-        </Link>
+        {isLoggedIn ? (
+          <>
+            <Link href={routes.settingsAccount} passHref>
+              <Atag
+                onClick={(e) => {
+                  e.preventDefault();
+                  pushUser(router, routes.settingsAccount, "dropDownMenu::onClick");
+                }}
+              >
+                <DropdownMenuItem>
+                  <CgProfile style={{ transform: "scale(1.4)" }} /> Account
+                </DropdownMenuItem>
+              </Atag>
+            </Link>
 
-        <DropdownMenuItem onClick={() => logout(router, dispatch, routes.home)}>
-          <MdOutlineLogout style={{ transform: "scale(1.4)" }} /> Logout
-        </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => logout(router, dispatch, routes.home)}>
+              <MdOutlineLogout style={{ transform: "scale(1.4)" }} /> Logout
+            </DropdownMenuItem>
+          </>
+        ) : (
+          <Link href={routes.settingsAccount} passHref>
+            <Atag
+              onClick={(e) => {
+                e.preventDefault();
+                pushUser(router, routes.login, "dropDownMenu::onClick");
+              }}
+            >
+              <DropdownMenuItem>
+                <LoginIcon /> Login
+              </DropdownMenuItem>
+            </Atag>
+          </Link>
+        )}
 
         <DropdownMenuArrow offset={18} />
       </DropdownMenuContent>
