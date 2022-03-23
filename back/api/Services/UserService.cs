@@ -26,18 +26,6 @@ public class UserService : IUserService
 
   public async Task<UserResponse> GetById(int userId)
   {
-    // this should be an authorization attribute
-    // allowed if user has required flag(s) OR userId parameter is the current user's id
-    var currentUserId = _contextService.GetCurrentUserId();
-    var currentUserFlags = _contextService.GetCurrentUserFlags();
-
-    if (currentUserId != userId
-        && !Flags.HasFlag(currentUserFlags, Flags.ADMINISTRATOR)
-        && !Flags.HasFlag(currentUserFlags, Flags.VIEW_USERS)
-       )
-      throw new ForbiddenException("You are only allowed to get yourself");
-    // this should be an authorization attribute
-
     var user = await _userRepo.GetById(userId);
     if (user is null) throw new NotFoundException("User not found");
 
@@ -63,15 +51,6 @@ public class UserService : IUserService
 
   public async Task<UserResponse> Update(UpdateUserDTO dto, int userId)
   {
-    // this should be an authorization attribute
-    // allowed if user has required flag(s) OR userId parameter is the current user's id
-    var currentUserId = _contextService.GetCurrentUserId();
-    var currentUserFlags = _contextService.GetCurrentUserFlags();
-
-    if (currentUserId != userId && Flags.HasFlag(currentUserFlags, Flags.ADMINISTRATOR))
-      throw new ForbiddenException("You are only allowed to edit yourself");
-    // this should be an authorization attribute
-
     var user = await _userRepo.GetById(userId);
     if (user is null) throw new NotFoundException("User not found");
 

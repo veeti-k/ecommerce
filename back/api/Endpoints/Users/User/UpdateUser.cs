@@ -25,7 +25,7 @@ public class UpdateUser : EndpointBaseAsync
     _userService = aUserService;
   }
 
-  [Authorize]
+  [Authorize(Policy = Policies.Administrator)]
   [HttpPatch(Routes.Users.UserRoot)]
   public override async Task<ActionResult<UserResponse>> HandleAsync(
     [FromRoute] UpdateUserRequest request,
