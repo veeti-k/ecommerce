@@ -99,7 +99,7 @@ export const TitleAndLogout = () => {
         <Text>Edit your account settings</Text>
       </div>
 
-      <Button colorScheme="red">
+      <Button colorScheme="red" style={{ boxShadow: "2px 4px 12px rgb(0 0 0 / 8%)" }}>
         <FlexDiv gap05 align>
           <LogOut /> Log out
         </FlexDiv>
