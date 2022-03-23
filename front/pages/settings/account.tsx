@@ -81,6 +81,8 @@ const Account: NextPage = () => {
 
     if (res) {
       dispatch({ type: Actions.SetUser, payload: res.data });
+
+      toast.error("Account settings updated successfully!", toastOptions);
     }
   };
 
