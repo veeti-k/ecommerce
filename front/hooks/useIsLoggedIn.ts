@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { logger } from "../utils/logger";
 import { tokenRequest } from "../utils/requests";
 import { pushUser } from "../utils/router";
+import { apiRoutes, routes } from "../utils/routes";
 import { getToken } from "../utils/token";
 
-export const useIsLoggedIn = () => {
+export const useIsLoggedIn = (ShouldRedirect401?: boolean) => {
   const [isLoggedIn, setIsLoggedIn] = useState(!!getToken());
 
   const router = useRouter();
@@ -20,12 +21,15 @@ export const useIsLoggedIn = () => {
       );
       const res = await tokenRequest({
         method: "GET",
-        path: "/auth/tokens",
+        path: apiRoutes.tokens,
       });
 
       if (!res || !res.data?.accessToken) {
         logger.logHook("useIsLoggedIn", "Didn't get token from token endpoint");
-        pushUser(router, "/login", "useIsLoggedIn");
+
+        if (!ShouldRedirect401) return;
+
+        pushUser(router, routes.login, "useIsLoggedIn");
         return;
       }
 
