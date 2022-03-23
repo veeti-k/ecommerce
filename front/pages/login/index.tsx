@@ -10,6 +10,7 @@ import { AuthPageCard } from "../../components/Card";
 import { useRouter } from "next/router";
 import { useAuthPageRedirector } from "../../hooks/useAuthPageRedirector";
 import { pushUser } from "../../utils/router";
+import { apiRoutes, routes } from "../../utils/routes";
 
 const Login: NextPage = () => {
   useAuthPageRedirector();
@@ -24,10 +25,10 @@ const Login: NextPage = () => {
     e.preventDefault();
     const res = await tokenRequest({
       method: "POST",
-      path: "/auth/login",
+      path: apiRoutes.login,
       body: { email, password },
     });
-    if (res) pushUser(router, "/", "login success");
+    if (res) pushUser(router, routes.home, "login success");
   };
 
   const submitDisabled = !email || !password;
@@ -37,7 +38,7 @@ const Login: NextPage = () => {
       <AuthPageCard>
         <TabsList>
           <Tab active>Login</Tab>
-          <Tab onClick={() => pushUser(router, "/signup", "login tab")}>Sign Up</Tab>
+          <Tab onClick={() => pushUser(router, routes.register, "login tab")}>Sign Up</Tab>
         </TabsList>
         <TabsContent>
           <BigHeading>Login</BigHeading>

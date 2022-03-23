@@ -1,24 +1,24 @@
 import { useContext, useEffect } from "react";
-import { UserActionTypes } from "../globalState/reducers/userReducer";
-import { GlobalStateContext } from "../globalState/store";
+import { UserContext } from "../UserProvider/provider";
+import { Actions } from "../UserProvider/types";
 import { logger } from "../utils/logger";
 import { request } from "../utils/requests";
 
 export const useGetMe = () => {
-  const { state, dispatch } = useContext(GlobalStateContext);
+  const { state, dispatch } = useContext(UserContext);
 
   useEffect(() => {
     (async () => {
       logger.logHook("useGetMe");
 
-      if (state?.user?.id) return logger.logHook("useGetMe", "stopped, user already set");
+      if (state?.id) return logger.logHook("useGetMe", "stopped, user already set");
 
       const res = await request({
         method: "GET",
         path: "/users/me",
       });
 
-      if (res) dispatch({ type: UserActionTypes.SetUser, payload: res.data });
+      if (res) dispatch({ type: Actions.SetUser, payload: res.data });
     })();
   }, []);
 };

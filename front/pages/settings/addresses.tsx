@@ -14,7 +14,7 @@ import {
   TitleContainer,
 } from "../../components/pages/Settings";
 import { Heading, Paragraph } from "../../components/Text";
-import { GlobalStateContext } from "../../globalState/store";
+import { UserContext } from "../../UserProvider/provider";
 import { useGetMe } from "../../hooks/useGetMe";
 import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 import { styled } from "../../stitches.config";
@@ -37,7 +37,7 @@ export const Addresses: NextPage = () => {
   const isLoggedIn = useIsLoggedIn();
   useGetMe();
 
-  const { state } = useContext(GlobalStateContext);
+  const { state } = useContext(UserContext);
 
   return (
     <Layout>
@@ -54,7 +54,7 @@ export const Addresses: NextPage = () => {
                 </TitleContainer>
 
                 <Grid>
-                  {state.user.addresses.map((address) => (
+                  {state.addresses.map((address) => (
                     <AddressCard key={address.id}>
                       <div>
                         <div style={{ paddingBottom: "0.3rem" }}>

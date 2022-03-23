@@ -15,7 +15,7 @@ import {
 } from "../../components/pages/Settings";
 import { PulsingCircle } from "../../components/pulsingCircle";
 import { Heading, Paragraph } from "../../components/Text";
-import { GlobalStateContext } from "../../globalState/store";
+import { UserContext } from "../../UserProvider/provider";
 import { useGetMe } from "../../hooks/useGetMe";
 import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 import { styled } from "../../stitches.config";
@@ -43,7 +43,7 @@ const Sessions: NextPage = () => {
   const isLoggedIn = useIsLoggedIn();
   useGetMe();
 
-  const { state } = useContext(GlobalStateContext);
+  const { state } = useContext(UserContext);
 
   return (
     <Layout>
@@ -60,7 +60,7 @@ const Sessions: NextPage = () => {
                 </TitleContainer>
 
                 <TestDiv>
-                  {state.user?.sessions.map((session) => {
+                  {state.sessions.map((session) => {
                     const lastUsedAt = new Date(session.lastUsedAt);
 
                     return (

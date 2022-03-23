@@ -1,10 +1,13 @@
 import { Button, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { MouseEvent } from "react";
+import { MouseEvent, useContext } from "react";
 import { Lock, LogOut, Shield, Truck } from "react-feather";
+import { UserContext } from "../../UserProvider/provider";
 import { styled } from "../../stitches.config";
+import { logout } from "../../utils/logout";
 import { pushUser } from "../../utils/router";
+import { routes } from "../../utils/routes";
 import { Card } from "../Card";
 import { FlexDiv } from "../Containers";
 import { UserIcon } from "../Icons";
@@ -87,6 +90,9 @@ type Props = {
 };
 
 export const TitleAndLogout = () => {
+  const router = useRouter();
+  const { dispatch } = useContext(UserContext);
+
   return (
     <FlexDiv spaceBetween align style={{ paddingTop: "1rem" }}>
       <div>
@@ -94,7 +100,11 @@ export const TitleAndLogout = () => {
         <Paragraph>Edit your account settings</Paragraph>
       </div>
 
-      <Button colorScheme="red" style={{ boxShadow: "2px 4px 12px rgb(0 0 0 / 8%)" }}>
+      <Button
+        colorScheme="red"
+        style={{ boxShadow: "2px 4px 12px rgb(0 0 0 / 8%)" }}
+        onClick={() => logout(router, dispatch, routes.home)}
+      >
         <FlexDiv gap05 align>
           <LogOut /> Log out
         </FlexDiv>
@@ -113,30 +123,30 @@ export const PageSelectorButtons = ({ activePage }: Props) => {
 
   return (
     <PageSelectorButtonsContainer>
-      <Link href="/settings/account">
-        <a onClick={(e) => onClick(e, "/settings/account")}>
+      <Link href={routes.settingsAccount}>
+        <a onClick={(e) => onClick(e, routes.settingsAccount)}>
           <PageSelectorButton active={activePage == "account"}>
             <UserIcon size={20} /> <Text style={{ color: "black" }}>Account</Text>
           </PageSelectorButton>
         </a>
       </Link>
 
-      <Link href="/settings/password">
-        <a onClick={(e) => onClick(e, "/settings/password")}>
+      <Link href={routes.settingsPassword}>
+        <a onClick={(e) => onClick(e, routes.settingsPassword)}>
           <PageSelectorButton active={activePage == "password"}>
             <Lock size={20} /> <Text style={{ color: "black" }}>Password</Text>
           </PageSelectorButton>
         </a>
       </Link>
-      <Link href="/settings/addresses">
-        <a onClick={(e) => onClick(e, "/settings/addresses")}>
+      <Link href={routes.settingsAddresses}>
+        <a onClick={(e) => onClick(e, routes.settingsAddresses)}>
           <PageSelectorButton active={activePage == "addresses"}>
             <Truck size={20} /> <Text style={{ color: "black" }}>Addresses</Text>
           </PageSelectorButton>
         </a>
       </Link>
-      <Link href="/settings/sessions">
-        <a onClick={(e) => onClick(e, "/settings/sessions")}>
+      <Link href={routes.settingsSessions}>
+        <a onClick={(e) => onClick(e, routes.settingsSessions)}>
           <PageSelectorButton active={activePage == "sessions"}>
             <Shield size={20} /> <Text style={{ color: "black" }}>Sessions</Text>
           </PageSelectorButton>

@@ -9,8 +9,9 @@ import { Tab, TabsContent, TabsList } from "../../components/pages/Auth";
 import { useRouter } from "next/router";
 import { AuthPageCard } from "../../components/Card";
 import { pushUser } from "../../utils/router";
+import { apiRoutes, routes } from "../../utils/routes";
 
-const Signup: NextPage = () => {
+const Register: NextPage = () => {
   const [email, setEmail] = useState<string>("");
   const [pw, setPw] = useState<string>("");
   const [pwAgain, setPwAgain] = useState<string>("");
@@ -23,23 +24,23 @@ const Signup: NextPage = () => {
     e.preventDefault();
     const res = await tokenRequest({
       method: "POST",
-      path: "/auth/register",
+      path: apiRoutes.register,
       body: { email, pw },
     });
-    if (res) console.log(res.data);
+    if (res) pushUser(router, routes.home, "register success");
   };
 
   const submitDisabled = !email || !pw || !pwAgain || pw !== pwAgain;
 
   return (
-    <AuthPageLayout title="Sign up">
+    <AuthPageLayout title="Register">
       <AuthPageCard>
         <TabsList>
-          <Tab onClick={() => pushUser(router, "/login", "signup tab")}>Login</Tab>
-          <Tab active>Sign Up</Tab>
+          <Tab onClick={() => pushUser(router, routes.login, "register tab")}>Login</Tab>
+          <Tab active>Register</Tab>
         </TabsList>
         <TabsContent>
-          <BigHeading>Sign up</BigHeading>
+          <BigHeading>Register</BigHeading>
           <Paragraph style={{ paddingTop: "0.5rem" }}>Create an account</Paragraph>
           <form onSubmit={handleSubmit}>
             <FormWrapper>
@@ -105,4 +106,4 @@ const Signup: NextPage = () => {
   );
 };
 
-export default Signup;
+export default Register;

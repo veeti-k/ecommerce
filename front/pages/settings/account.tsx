@@ -16,39 +16,39 @@ import { Separator } from "../../components/Separator";
 import { Layout } from "../../components/layouts/Layout";
 import { Heading, Label, Paragraph } from "../../components/Text";
 import { FormEvent, useContext, useEffect, useState } from "react";
-import { GlobalStateContext } from "../../globalState/store";
 import { DeleteAccountDialog } from "../../components/DeleteAccountDialog";
+import { UserContext } from "../../UserProvider/provider";
 
 const Account: NextPage = () => {
   const isLoggedIn = useIsLoggedIn();
   useGetMe();
 
-  const { state } = useContext(GlobalStateContext);
+  const { state } = useContext(UserContext);
 
-  const [firstName, setFirstName] = useState<string>(state.user.firstName);
-  const [ogFirstName, setOgFirstName] = useState<string>(state.user.firstName);
+  const [firstName, setFirstName] = useState<string>(state.firstName);
+  const [ogFirstName, setOgFirstName] = useState<string>(state.firstName);
 
-  const [lastName, setLastName] = useState<string>(state.user.lastName);
-  const [ogLastName, setOgLastName] = useState<string>(state.user.lastName);
+  const [lastName, setLastName] = useState<string>(state.lastName);
+  const [ogLastName, setOgLastName] = useState<string>(state.lastName);
 
-  const [email, setEmail] = useState<string>(state.user.email);
-  const [ogEmail, setOgEmail] = useState<string>(state.user.email);
+  const [email, setEmail] = useState<string>(state.email);
+  const [ogEmail, setOgEmail] = useState<string>(state.email);
 
-  const [phoneNumber, setPhoneNumber] = useState<string | null>(state.user.phoneNumber);
-  const [ogPhoneNumber, setOgPhoneNumber] = useState<string | null>(state.user.phoneNumber);
+  const [phoneNumber, setPhoneNumber] = useState<string | null>(state.phoneNumber);
+  const [ogPhoneNumber, setOgPhoneNumber] = useState<string | null>(state.phoneNumber);
 
   useEffect(() => {
     // state is not populated at first render
     // so changes to the state needs to be listened for :/
-    setFirstName(state.user.firstName);
-    setOgFirstName(state.user.firstName);
-    setLastName(state.user.lastName);
-    setOgLastName(state.user.lastName);
-    setEmail(state.user.email);
-    setOgEmail(state.user.email);
-    setPhoneNumber(state.user.phoneNumber);
-    setOgPhoneNumber(state.user.phoneNumber);
-  }, [state.user]);
+    setFirstName(state.firstName);
+    setOgFirstName(state.firstName);
+    setLastName(state.lastName);
+    setOgLastName(state.lastName);
+    setEmail(state.email);
+    setOgEmail(state.email);
+    setPhoneNumber(state.phoneNumber);
+    setOgPhoneNumber(state.phoneNumber);
+  }, [state]);
 
   // disable save button if nothing has changed or
   // some of the fields are empty

@@ -1,14 +1,14 @@
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
-import { UserActionTypes } from "../globalState/reducers/userReducer";
-import { GlobalStateContext } from "../globalState/store";
+import { UserContext } from "../UserProvider/provider";
+import { Actions } from "../UserProvider/types";
 import { logger } from "../utils/logger";
 import { request } from "../utils/requests";
 import { pushUser } from "../utils/router";
 
 export const useAuthPageRedirector = () => {
   const router = useRouter();
-  const { dispatch } = useContext(GlobalStateContext);
+  const { dispatch } = useContext(UserContext);
 
   useEffect(() => {
     (async () => {
@@ -23,7 +23,7 @@ export const useAuthPageRedirector = () => {
       if (!res || !res?.data?.id) return;
 
       pushUser(router, "/", "useAuthPageRedirector");
-      dispatch({ type: UserActionTypes.SetUser, payload: res.data });
+      dispatch({ type: Actions.SetUser, payload: res.data });
     })();
   }, []);
 };

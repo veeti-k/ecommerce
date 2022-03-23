@@ -2,19 +2,19 @@ import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ChakraProvider } from "@chakra-ui/react";
 import "../globals.css";
-import { GlobalStateProvider } from "../globalState/store";
+import { UserProvider } from "../UserProvider/provider";
 
 const queryClient = new QueryClient();
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <GlobalStateProvider>
+    <UserProvider>
       <ChakraProvider>
         <QueryClientProvider client={queryClient}>
           <Component {...pageProps} />
         </QueryClientProvider>
       </ChakraProvider>
-    </GlobalStateProvider>
+    </UserProvider>
   );
 }
 

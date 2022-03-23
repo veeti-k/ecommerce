@@ -9,6 +9,10 @@ import { pushUser } from "../../utils/router";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { UserIcon } from "../Icons";
+import { routes } from "../../utils/routes";
+import { useContext } from "react";
+import { UserContext } from "../../UserProvider/provider";
+import { logout } from "../../utils/logout";
 
 const slideUpAndFade = keyframes({
   "0%": { opacity: 0, transform: "translateY(3px)" },
@@ -80,6 +84,8 @@ const Atag = styled("a", {
 export const ProfileDropdown = () => {
   const router = useRouter();
 
+  const { dispatch } = useContext(UserContext);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -88,11 +94,11 @@ export const ProfileDropdown = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent sideOffset={10}>
-        <Link href="/account" passHref>
+        <Link href={routes.settingsAccount} passHref>
           <Atag
             onClick={(e) => {
               e.preventDefault();
-              pushUser(router, "/settings/account", "dropDownMenu::onClick");
+              pushUser(router, routes.settingsAccount, "dropDownMenu::onClick");
             }}
           >
             <DropdownMenuItem>
@@ -101,13 +107,9 @@ export const ProfileDropdown = () => {
           </Atag>
         </Link>
 
-        <Link href="/account" passHref>
-          <Atag>
-            <DropdownMenuItem>
-              <MdOutlineLogout style={{ transform: "scale(1.4)" }} /> Logout
-            </DropdownMenuItem>
-          </Atag>
-        </Link>
+        <DropdownMenuItem onClick={() => logout(router, dispatch, routes.home)}>
+          <MdOutlineLogout style={{ transform: "scale(1.4)" }} /> Logout
+        </DropdownMenuItem>
 
         <DropdownMenuArrow offset={18} />
       </DropdownMenuContent>
