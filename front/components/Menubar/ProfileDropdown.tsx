@@ -57,7 +57,7 @@ const DropdownMenuItem = styled(DropdownMenuPrimitive.Item, {
   display: "flex",
   alignItems: "center",
   borderRadius: "0.2rem",
-  transition: "all .2s cubic-bezier(0,0,.5,1)",
+  transition: "$buttonHover",
   padding: "0.5rem",
   gap: "0.8rem",
 

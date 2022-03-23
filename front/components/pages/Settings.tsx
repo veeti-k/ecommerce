@@ -47,6 +47,7 @@ export const PageSelectorButton = styled("div", {
   paddingRight: "5rem",
   paddingLeft: "1rem",
   fontWeight: "light",
+  transition: "$buttonHover",
 
   "&:hover": {
     cursor: "pointer",
