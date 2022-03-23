@@ -6,6 +6,9 @@ import { styled } from "../../stitches.config";
 import { MdOutlineLogout } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { PersonIcon } from "@radix-ui/react-icons";
+import { pushUser } from "../../utils/router";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 const slideUpAndFade = keyframes({
   "0%": { opacity: 0, transform: "translateY(3px)" },
@@ -34,31 +37,32 @@ const DropdownMenuContent = styled(DropdownMenuPrimitive.Content, {
   boxShadow: "rgba(0, 0, 0, 0.08) 0px 4px 12px",
   padding: "0.5rem",
   borderRadius: "0.5rem",
+  backgroundColor: "white",
 
-  "@media (prefers-reduced-motion: no-preference)": {
-    animationDuration: "400ms",
-    animationTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-    animationFillMode: "forwards",
-    willChange: "transform, opacity",
-    '&[data-state="open"]': {
-      '&[data-side="top"]': { animationName: slideDownAndFade },
-      '&[data-side="right"]': { animationName: slideLeftAndFade },
-      '&[data-side="bottom"]': { animationName: slideUpAndFade },
-      '&[data-side="left"]': { animationName: slideRightAndFade },
-    },
+  animationDuration: "400ms",
+  animationTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+  animationFillMode: "forwards",
+  willChange: "transform, opacity",
+  '&[data-state="open"]': {
+    '&[data-side="top"]': { animationName: slideDownAndFade },
+    '&[data-side="right"]': { animationName: slideLeftAndFade },
+    '&[data-side="bottom"]': { animationName: slideUpAndFade },
+    '&[data-side="left"]': { animationName: slideRightAndFade },
   },
 });
 
 const DropdownMenuItem = styled(DropdownMenuPrimitive.Item, {
   all: "unset",
-  padding: "0.5rem",
   position: "relative",
   display: "flex",
   alignItems: "center",
   borderRadius: "0.2rem",
+  transition: "all .2s cubic-bezier(0,0,.5,1)",
+  padding: "0.5rem",
+  gap: "0.8rem",
 
   "&:focus": {
-    backgroundColor: "LightGray",
+    backgroundColor: "#ededed",
     border: "none",
     cursor: "pointer",
   },
@@ -68,31 +72,45 @@ const DropdownMenuArrow = styled(DropdownMenuPrimitive.Arrow, {
   fill: "white",
 });
 
-const Div = styled("div", {
-  display: "flex",
-  alignItems: "center",
-  gap: "1rem",
+const Atag = styled("a", {
+  all: "unset",
+  width: "100%",
 });
 
-export const ProfileDropdown = () => (
-  <DropdownMenu>
-    <DropdownMenuTrigger asChild>
-      <Button>
-        <PersonIcon style={{ transform: "scale(1.3)" }} />
-      </Button>
-    </DropdownMenuTrigger>
-    <DropdownMenuContent sideOffset={10}>
-      <DropdownMenuItem>
-        <Div>
-          <CgProfile style={{ transform: "scale(1.4)" }} /> Account
-        </Div>
-      </DropdownMenuItem>
-      <DropdownMenuItem>
-        <Div>
-          <MdOutlineLogout style={{ transform: "scale(1.4)" }} /> Logout
-        </Div>
-      </DropdownMenuItem>
-      <DropdownMenuArrow offset={18} />
-    </DropdownMenuContent>
-  </DropdownMenu>
-);
+export const ProfileDropdown = () => {
+  const router = useRouter();
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button>
+          <PersonIcon style={{ transform: "scale(1.3)" }} />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent sideOffset={10}>
+        <Link href="/account" passHref>
+          <Atag
+            onClick={(e) => {
+              e.preventDefault();
+              pushUser(router, "/settings/account", "dropDownMenu::onClick");
+            }}
+          >
+            <DropdownMenuItem>
+              <CgProfile style={{ transform: "scale(1.4)" }} /> Account
+            </DropdownMenuItem>
+          </Atag>
+        </Link>
+
+        <Link href="/account" passHref>
+          <Atag>
+            <DropdownMenuItem>
+              <MdOutlineLogout style={{ transform: "scale(1.4)" }} /> Logout
+            </DropdownMenuItem>
+          </Atag>
+        </Link>
+
+        <DropdownMenuArrow offset={18} />
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};

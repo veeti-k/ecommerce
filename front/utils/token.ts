@@ -6,6 +6,7 @@ export const saveToken = (token: string) => {
 };
 
 export const getToken = () => {
+  if (typeof window === "undefined") return null;
   const token = localStorage.getItem("token");
   logger.log("getToken");
   return token;

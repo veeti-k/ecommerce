@@ -2,12 +2,11 @@ import { NextPage } from "next";
 import { AuthPageLayout } from "../../components/layouts/AuthPageLayout";
 import { FormEvent, useState } from "react";
 import { tokenRequest } from "../../utils/requests";
-import { FormWrapper } from "../../components/FormWrapper";
-import { InputContainer } from "../../components/Containers";
+import { FormWrapper, InputContainer } from "../../components/Containers";
 import { Label } from "../../components/Text";
 import { Input, Heading, Text, Button, InputGroup, InputRightElement } from "@chakra-ui/react";
-import { Tab, TabsContent, TabsList } from "../../components/Auth";
-import { Card } from "../../components/Card";
+import { Tab, TabsContent, TabsList } from "../../components/pages/Auth";
+import { AuthPageCard } from "../../components/Card";
 import { useRouter } from "next/router";
 import { useAuthPageRedirector } from "../../hooks/useAuthPageRedirector";
 
@@ -37,7 +36,7 @@ const Login: NextPage = () => {
 
   return (
     <AuthPageLayout title="Login">
-      <Card>
+      <AuthPageCard>
         <TabsList>
           <Tab active>Login</Tab>
           <Tab onClick={pushToSignup}>Sign Up</Tab>
@@ -82,7 +81,7 @@ const Login: NextPage = () => {
             </FormWrapper>
           </form>
         </TabsContent>
-      </Card>
+      </AuthPageCard>
     </AuthPageLayout>
   );
 };
