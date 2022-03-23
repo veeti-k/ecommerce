@@ -3,6 +3,7 @@ import { NextPage } from "next";
 import { useContext } from "react";
 import { Edit, Trash2 } from "react-feather";
 import { Card } from "../../components/Card";
+import { EditIcon, TrashIcon } from "../../components/Icons";
 import { Layout } from "../../components/layouts/Layout";
 import {
   Content,
@@ -82,13 +83,13 @@ export const Addresses: NextPage = () => {
                       <AddressCardButtons>
                         <Tooltip label="Edit address">
                           <Button colorScheme="blue" size="sm">
-                            <Edit style={{ transform: "scale(0.8)" }} />
+                            <EditIcon />
                           </Button>
                         </Tooltip>
 
                         <Tooltip label="Delete address">
                           <Button colorScheme="red" size="sm">
-                            <Trash2 style={{ transform: "scale(0.9)" }} />
+                            <TrashIcon />
                           </Button>
                         </Tooltip>
                       </AddressCardButtons>
