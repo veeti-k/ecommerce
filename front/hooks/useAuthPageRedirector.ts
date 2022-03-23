@@ -5,6 +5,7 @@ import { Actions } from "../UserProvider/types";
 import { logger } from "../utils/logger";
 import { request } from "../utils/requests";
 import { pushUser } from "../utils/router";
+import { apiRoutes, routes } from "../utils/routes";
 
 export const useAuthPageRedirector = () => {
   const router = useRouter();
@@ -16,13 +17,13 @@ export const useAuthPageRedirector = () => {
 
       const res = await request({
         method: "GET",
-        path: "/users/me",
+        path: apiRoutes.getUser("me"),
         shouldRedirect401: false,
       });
 
       if (!res || !res?.data?.id) return;
 
-      pushUser(router, "/", "useAuthPageRedirector");
+      pushUser(router, routes.home, "useAuthPageRedirector");
       dispatch({ type: Actions.SetUser, payload: res.data });
     })();
   }, []);

@@ -3,6 +3,7 @@ import { UserContext } from "../UserProvider/provider";
 import { Actions } from "../UserProvider/types";
 import { logger } from "../utils/logger";
 import { request } from "../utils/requests";
+import { apiRoutes } from "../utils/routes";
 
 export const useGetMe = () => {
   const { state, dispatch } = useContext(UserContext);
@@ -15,7 +16,7 @@ export const useGetMe = () => {
 
       const res = await request({
         method: "GET",
-        path: "/users/me",
+        path: apiRoutes.getUser("me"),
       });
 
       if (res) dispatch({ type: Actions.SetUser, payload: res.data });
