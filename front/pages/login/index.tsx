@@ -2,13 +2,14 @@ import { NextPage } from "next";
 import { AuthPageLayout } from "../../components/layouts/AuthPageLayout";
 import { FormEvent, useState } from "react";
 import { tokenRequest } from "../../utils/requests";
-import { FormWrapper, InputContainer } from "../../components/Containers";
-import { Label } from "../../components/Text";
-import { Input, Heading, Text, Button, InputGroup, InputRightElement } from "@chakra-ui/react";
+import { FormWrapper, InputLabelContainer } from "../../components/Containers";
+import { BigHeading, Label, Paragraph } from "../../components/Text";
+import { Input, Button, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { Tab, TabsContent, TabsList } from "../../components/pages/Auth";
 import { AuthPageCard } from "../../components/Card";
 import { useRouter } from "next/router";
 import { useAuthPageRedirector } from "../../hooks/useAuthPageRedirector";
+import { pushUser } from "../../utils/router";
 
 const Login: NextPage = () => {
   useAuthPageRedirector();
@@ -19,9 +20,6 @@ const Login: NextPage = () => {
 
   const router = useRouter();
 
-  const pushToSignup = () => router.push("/signup");
-  const pushToIndex = () => router.push("/");
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await tokenRequest({
@@ -29,7 +27,7 @@ const Login: NextPage = () => {
       path: "/auth/login",
       body: { email, password },
     });
-    if (res) pushToIndex();
+    if (res) pushUser(router, "/", "login success");
   };
 
   const submitDisabled = !email || !password;
@@ -39,17 +37,17 @@ const Login: NextPage = () => {
       <AuthPageCard>
         <TabsList>
           <Tab active>Login</Tab>
-          <Tab onClick={pushToSignup}>Sign Up</Tab>
+          <Tab onClick={() => pushUser(router, "/signup", "login tab")}>Sign Up</Tab>
         </TabsList>
         <TabsContent>
-          <Heading>Login</Heading>
-          <Text style={{ paddingTop: "1rem" }}>Login or get a temporary test account</Text>
+          <BigHeading>Login</BigHeading>
+          <Paragraph style={{ paddingTop: "0.5rem" }}>
+            Login or get a temporary test account
+          </Paragraph>
           <form onSubmit={handleSubmit}>
             <FormWrapper>
-              <InputContainer column>
-                <Label htmlFor="email">
-                  <Text fontSize="md">Email</Text>
-                </Label>
+              <InputLabelContainer>
+                <Label htmlFor="email">Email</Label>
                 <Input
                   type="email"
                   id="email"
@@ -57,9 +55,9 @@ const Login: NextPage = () => {
                   autoComplete="username"
                   required
                 />
-                <Label htmlFor="password">
-                  <Text fontSize="md">Password</Text>
-                </Label>
+              </InputLabelContainer>
+              <InputLabelContainer>
+                <Label htmlFor="password">Password</Label>
                 <InputGroup>
                   <Input
                     type={showPw ? "text" : "password"}
@@ -74,7 +72,7 @@ const Login: NextPage = () => {
                     </Button>
                   </InputRightElement>
                 </InputGroup>
-              </InputContainer>
+              </InputLabelContainer>
               <Button type="submit" disabled={submitDisabled} colorScheme="blue">
                 Login
               </Button>

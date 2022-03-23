@@ -1,10 +1,9 @@
 import { FC } from "react";
 import { styled } from "../../stitches.config";
 import { Button } from "@chakra-ui/react";
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { GiShoppingCart } from "react-icons/gi";
 import { ProfileDropdown } from "./ProfileDropdown";
 import { Search } from "./Search";
+import { HamburgerIcon, ShoppingCartIcon } from "../Icons";
 
 const Outer = styled("div", {
   position: "fixed",
@@ -42,11 +41,11 @@ export const Menubar: FC = () => {
         <Inner>
           <HeaderContent>
             <Button>
-              <HamburgerMenuIcon style={{ transform: "scale(1.3)" }} />
+              <HamburgerIcon />
             </Button>
             <Search />
             <Button>
-              <GiShoppingCart style={{ transform: "scale(1.7)" }} />
+              <ShoppingCartIcon />
             </Button>
             <ProfileDropdown />
           </HeaderContent>

@@ -1,4 +1,4 @@
-import { Button, Text, Tooltip } from "@chakra-ui/react";
+import { Button, Tooltip } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { useContext } from "react";
 import { Card } from "../../components/Card";
@@ -14,6 +14,7 @@ import {
   TitleContainer,
 } from "../../components/pages/Settings";
 import { PulsingCircle } from "../../components/pulsingCircle";
+import { Heading, Paragraph } from "../../components/Text";
 import { GlobalStateContext } from "../../globalState/store";
 import { useGetMe } from "../../hooks/useGetMe";
 import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
@@ -54,10 +55,8 @@ const Sessions: NextPage = () => {
               <PageSelectorButtons activePage="sessions" />
               <Content>
                 <TitleContainer>
-                  <Text fontWeight="bold">Sessions</Text>
-                  <Text fontWeight="light" fontSize="sm">
-                    Manage your sessions
-                  </Text>
+                  <Heading>Sessions</Heading>
+                  <Paragraph light>Manage your sessions</Paragraph>
                 </TitleContainer>
 
                 <TestDiv>
@@ -65,7 +64,7 @@ const Sessions: NextPage = () => {
                     const lastUsedAt = new Date(session.lastUsedAt);
 
                     return (
-                      <SessionCard>
+                      <SessionCard key={session.id}>
                         <div>
                           <FlexDiv gap05 align>
                             {session.isCurrentSession ? (
@@ -73,13 +72,13 @@ const Sessions: NextPage = () => {
                                 <PulsingCircle />
                               </Tooltip>
                             ) : null}
-                            <Text fontWeight="bold">123.321.123.321</Text>
+                            <Paragraph bold>123.321.123.321</Paragraph>
                           </FlexDiv>
 
                           <Tooltip label="Last used at">
-                            <Text fontWeight="light" fontSize="sm">
+                            <Paragraph light>
                               {lastUsedAt.toLocaleDateString()} - {lastUsedAt.toLocaleTimeString()}
-                            </Text>
+                            </Paragraph>
                           </Tooltip>
                         </div>
 

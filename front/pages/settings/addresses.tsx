@@ -1,7 +1,6 @@
-import { Button, Text, Tooltip } from "@chakra-ui/react";
+import { Button, Tooltip } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { useContext } from "react";
-import { Edit, Trash2 } from "react-feather";
 import { Card } from "../../components/Card";
 import { EditIcon, TrashIcon } from "../../components/Icons";
 import { Layout } from "../../components/layouts/Layout";
@@ -14,6 +13,7 @@ import {
   TitleAndLogout,
   TitleContainer,
 } from "../../components/pages/Settings";
+import { Heading, Paragraph } from "../../components/Text";
 import { GlobalStateContext } from "../../globalState/store";
 import { useGetMe } from "../../hooks/useGetMe";
 import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
@@ -49,35 +49,27 @@ export const Addresses: NextPage = () => {
               <PageSelectorButtons activePage="addresses" />
               <Content>
                 <TitleContainer>
-                  <Text fontWeight="bold">Addresses</Text>
-                  <Text fontWeight="light" fontSize="sm">
-                    Make changes to your addresses
-                  </Text>
+                  <Heading>Addresses</Heading>
+                  <Paragraph light>Make changes to your addresses</Paragraph>
                 </TitleContainer>
 
                 <Grid>
                   {state.user.addresses.map((address) => (
-                    <AddressCard>
+                    <AddressCard key={address.id}>
                       <div>
                         <div style={{ paddingBottom: "0.3rem" }}>
-                          <Text fontWeight="bold" fontSize="sm">
-                            {address.name}
-                          </Text>
-                          <Text fontSize="sm">{address.line1}</Text>
-                          {address.line2 ? <Text fontSize="sm">{address.line2}</Text> : null}
-                          <Text fontSize="sm">
+                          <Paragraph bold>{address.name}</Paragraph>
+                          <Paragraph>{address.line1}</Paragraph>
+                          {address.line2 ? <Paragraph>{address.line2}</Paragraph> : null}
+                          <Paragraph>
                             {address.zip} {address.city}
-                          </Text>
-                          <Text fontSize="sm">{address.state}</Text>
+                          </Paragraph>
+                          <Paragraph>{address.state}</Paragraph>
                         </div>
 
                         <div>
-                          <Text fontSize="sm" fontWeight="bold">
-                            {address.email}
-                          </Text>
-                          <Text fontSize="sm" fontWeight="bold">
-                            {address.phoneNumber}
-                          </Text>
+                          <Paragraph bold>{address.email}</Paragraph>
+                          <Paragraph bold>{address.phoneNumber}</Paragraph>
                         </div>
                       </div>
                       <AddressCardButtons>

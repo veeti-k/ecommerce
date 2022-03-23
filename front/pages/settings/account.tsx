@@ -1,11 +1,10 @@
 import { NextPage } from "next";
-import { Button, Input, Text } from "@chakra-ui/react";
-import { FlexDiv } from "../../components/Containers";
+import { Button, Input } from "@chakra-ui/react";
+import { FlexDiv, InputLabelContainer } from "../../components/Containers";
 import {
   TempCard,
   PageSelectorButtons,
   TitleContainer,
-  InputLabelContainer,
   Grid,
   Content,
   MainGrid,
@@ -15,7 +14,7 @@ import { useGetMe } from "../../hooks/useGetMe";
 import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 import { Separator } from "../../components/Separator";
 import { Layout } from "../../components/layouts/Layout";
-import { Label } from "../../components/Text";
+import { Heading, Label, Paragraph } from "../../components/Text";
 import { FormEvent, useContext, useEffect, useState } from "react";
 import { GlobalStateContext } from "../../globalState/store";
 import { DeleteAccountDialog } from "../../components/DeleteAccountDialog";
@@ -74,10 +73,8 @@ const Account: NextPage = () => {
               <PageSelectorButtons activePage="account" />
               <Content>
                 <TitleContainer>
-                  <Text fontWeight="bold">General Info</Text>
-                  <Text fontWeight="light" fontSize="sm">
-                    Save your changes after editing
-                  </Text>
+                  <Heading>General Info</Heading>
+                  <Paragraph light>Save your changes after editing</Paragraph>
                 </TitleContainer>
 
                 <form onSubmit={onFormSubmit}>
@@ -136,12 +133,9 @@ const Account: NextPage = () => {
 
                 <FlexDiv spaceBetween align>
                   <div>
-                    <Text fontWeight="bold">Delete account</Text>
-                    <Text fontWeight="light" fontSize="sm">
-                      Your account will be permanently deleted
-                    </Text>
+                    <Heading>Delete account</Heading>
+                    <Paragraph light>Your account will be permanently deleted</Paragraph>
                   </div>
-
                   <DeleteAccountDialog />
                 </FlexDiv>
               </Content>

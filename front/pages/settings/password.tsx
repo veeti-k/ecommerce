@@ -1,12 +1,11 @@
-import { Button, Input, InputGroup, InputRightElement, Text } from "@chakra-ui/react";
+import { Button, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { FormEvent, useState } from "react";
-import { FlexDiv } from "../../components/Containers";
+import { FlexDiv, InputLabelContainer } from "../../components/Containers";
 import { Layout } from "../../components/layouts/Layout";
 import {
   Content,
   Grid,
-  InputLabelContainer,
   MainGrid,
   PageSelectorButtons,
   TempCard,
@@ -14,7 +13,7 @@ import {
   TitleContainer,
 } from "../../components/pages/Settings";
 import { Separator } from "../../components/Separator";
-import { Label } from "../../components/Text";
+import { Heading, Label, Paragraph } from "../../components/Text";
 import { useGetMe } from "../../hooks/useGetMe";
 import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 
@@ -47,10 +46,8 @@ const Password: NextPage = () => {
               <PageSelectorButtons activePage="password" />
               <Content>
                 <TitleContainer>
-                  <Text fontWeight="bold">Password</Text>
-                  <Text fontWeight="light" fontSize="sm">
-                    Change or reset your password
-                  </Text>
+                  <Heading>Password</Heading>
+                  <Paragraph light>Change or reset your password</Paragraph>
                 </TitleContainer>
 
                 <form onSubmit={onFormSubmit}>
@@ -134,10 +131,8 @@ const Password: NextPage = () => {
                 <Separator orientation="horizontal" />
                 <FlexDiv spaceBetween align>
                   <div>
-                    <Text fontWeight="bold">Forgot your password?</Text>
-                    <Text fontWeight="light" fontSize="sm">
-                      Let&#39;s reset it
-                    </Text>
+                    <Heading>Forgot your password?</Heading>
+                    <Paragraph light>Let&#39;s reset it</Paragraph>
                   </div>
 
                   <Button>Reset password</Button>

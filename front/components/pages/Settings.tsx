@@ -2,11 +2,13 @@ import { Button, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { MouseEvent } from "react";
-import { Lock, LogOut, Shield, Truck, User } from "react-feather";
+import { Lock, LogOut, Shield, Truck } from "react-feather";
 import { styled } from "../../stitches.config";
 import { pushUser } from "../../utils/router";
 import { Card } from "../Card";
 import { FlexDiv } from "../Containers";
+import { UserIcon } from "../Icons";
+import { BigHeading, Paragraph } from "../Text";
 
 export const TempCard = styled(Card, {
   boxShadow: "2px 4px 12px rgb(0 0 0 / 8%)",
@@ -79,12 +81,6 @@ export const Grid = styled("div", {
   },
 });
 
-export const InputLabelContainer = styled("div", {
-  display: "flex",
-  flexDirection: "column",
-  gap: "0.4rem",
-});
-
 type Props = {
   activePage: string;
 };
@@ -93,10 +89,8 @@ export const TitleAndLogout = () => {
   return (
     <FlexDiv spaceBetween align style={{ paddingTop: "1rem" }}>
       <div>
-        <Text fontSize="3xl" fontWeight="bold">
-          Account settings
-        </Text>
-        <Text>Edit your account settings</Text>
+        <BigHeading>Account settings</BigHeading>
+        <Paragraph>Edit your account settings</Paragraph>
       </div>
 
       <Button colorScheme="red" style={{ boxShadow: "2px 4px 12px rgb(0 0 0 / 8%)" }}>
@@ -121,7 +115,7 @@ export const PageSelectorButtons = ({ activePage }: Props) => {
       <Link href="/settings/account">
         <a onClick={(e) => onClick(e, "/settings/account")}>
           <PageSelectorButton active={activePage == "account"}>
-            <User size={20} /> <Text style={{ color: "black" }}>Account</Text>
+            <UserIcon size={20} /> <Text style={{ color: "black" }}>Account</Text>
           </PageSelectorButton>
         </a>
       </Link>

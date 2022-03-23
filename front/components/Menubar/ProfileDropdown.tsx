@@ -5,10 +5,10 @@ import { styled } from "../../stitches.config";
 
 import { MdOutlineLogout } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
-import { PersonIcon } from "@radix-ui/react-icons";
 import { pushUser } from "../../utils/router";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { UserIcon } from "../Icons";
 
 const slideUpAndFade = keyframes({
   "0%": { opacity: 0, transform: "translateY(3px)" },
@@ -84,7 +84,7 @@ export const ProfileDropdown = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button>
-          <PersonIcon style={{ transform: "scale(1.3)" }} />
+          <UserIcon width={14} style={{ transform: "scale(1.6)", paddingTop: 1 }} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent sideOffset={10}>
