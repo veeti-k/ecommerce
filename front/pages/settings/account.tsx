@@ -18,12 +18,19 @@ import { Heading, Label, Paragraph } from "../../components/Text";
 import { FormEvent, useContext, useEffect, useState } from "react";
 import { DeleteAccountDialog } from "../../components/DeleteAccountDialog";
 import { UserContext } from "../../UserProvider/provider";
+import { request } from "../../utils/requests";
+import { apiRoutes } from "../../utils/routes";
+
+import { toast } from "react-hot-toast";
+import { Actions } from "../../UserProvider/types";
+
+import { toastOptions } from "../../utils/toast";
 
 const Account: NextPage = () => {
   const isLoggedIn = useIsLoggedIn();
   useGetMe();
 
-  const { state } = useContext(UserContext);
+  const { state, dispatch } = useContext(UserContext);
 
   const [firstName, setFirstName] = useState<string>(state.firstName);
   const [ogFirstName, setOgFirstName] = useState<string>(state.firstName);
@@ -41,12 +48,12 @@ const Account: NextPage = () => {
     // state is not populated at first render
     // so changes to the state needs to be listened for :/
     setFirstName(state.firstName);
-    setOgFirstName(state.firstName);
     setLastName(state.lastName);
-    setOgLastName(state.lastName);
     setEmail(state.email);
-    setOgEmail(state.email);
     setPhoneNumber(state.phoneNumber);
+    setOgLastName(state.lastName);
+    setOgFirstName(state.firstName);
+    setOgEmail(state.email);
     setOgPhoneNumber(state.phoneNumber);
   }, [state]);
 
@@ -58,8 +65,23 @@ const Account: NextPage = () => {
     (!email || email.trim() === ogEmail) &&
     (!phoneNumber || phoneNumber.trim() === ogPhoneNumber);
 
-  const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const res = await request({
+      method: "PATCH",
+      path: apiRoutes.userRoute("me"),
+      body: {
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+      },
+    });
+
+    if (res) {
+      dispatch({ type: Actions.SetUser, payload: res.data });
+    }
   };
 
   return (
@@ -121,13 +143,13 @@ const Account: NextPage = () => {
                       />
                     </InputLabelContainer>
                   </Grid>
-                </form>
 
-                <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: "1rem" }}>
-                  <Button colorScheme="blue" disabled={saveDisabled}>
-                    Save changes
-                  </Button>
-                </div>
+                  <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: "1rem" }}>
+                    <Button colorScheme="blue" disabled={saveDisabled} type="submit">
+                      Save changes
+                    </Button>
+                  </div>
+                </form>
 
                 <Separator orientation="horizontal" />
 
