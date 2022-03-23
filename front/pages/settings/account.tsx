@@ -63,7 +63,7 @@ const Account: NextPage = () => {
     <Layout>
       {isLoggedIn ? (
         <>
-          <FlexRow spaceBetween align>
+          <FlexRow spaceBetween align style={{ paddingTop: "1rem" }}>
             <div>
               <Text fontSize="3xl" fontWeight="bold">
                 Account settings
