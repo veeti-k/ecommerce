@@ -1,11 +1,12 @@
 import { Text, Button } from "@chakra-ui/react";
+
 import {
   AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogCancel,
   AlertDialogAction,
-} from "@radix-ui/react-alert-dialog";
-import { AlertDialogContent } from "./AlertDialog";
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogTrigger,
+} from "./AlertDialog";
 import { FlexRow } from "./Containers";
 
 export const DeleteAccountDialog = () => {
