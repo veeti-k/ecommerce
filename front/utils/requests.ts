@@ -1,9 +1,8 @@
 import axios, { AxiosResponse, Method } from "axios";
-import { apiBase } from "./envs";
+import { apiBase, toastOptions } from "./consts";
 import { logger } from "./logger";
 import { getToken, saveToken } from "./token";
 import { toast } from "react-hot-toast";
-import { toastOptions } from "./toast";
 
 type ErrorHandlerOptions = {
   error: any;

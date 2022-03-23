@@ -5,7 +5,7 @@ import { MainGrid, VerticalGrid } from "../components/Containers";
 import { Layout } from "../components/layouts/Layout";
 import { styled } from "../stitches.config";
 import { ShowCaseProduct } from "../types";
-import { apiBase } from "../utils/envs";
+import { apiBase } from "../utils/consts";
 
 type Result = {
   products: ShowCaseProduct[];

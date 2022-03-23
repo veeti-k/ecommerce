@@ -23,8 +23,7 @@ import { apiRoutes } from "../../utils/routes";
 
 import { toast } from "react-hot-toast";
 import { Actions } from "../../UserProvider/types";
-
-import { toastOptions } from "../../utils/toast";
+import { toastOptions } from "../../utils/consts";
 
 const Account: NextPage = () => {
   const isLoggedIn = useIsLoggedIn();
