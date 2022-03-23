@@ -1,11 +1,12 @@
-import { Text } from "@chakra-ui/react";
+import { Button, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { MouseEvent } from "react";
-import { Lock, Shield, Truck, User } from "react-feather";
+import { Lock, LogOut, Shield, Truck, User } from "react-feather";
 import { styled } from "../../stitches.config";
 import { pushUser } from "../../utils/router";
 import { Card } from "../Card";
+import { FlexDiv } from "../Containers";
 
 export const TempCard = styled(Card, {
   boxShadow: "2px 4px 12px rgb(0 0 0 / 8%)",
@@ -86,6 +87,25 @@ export const InputLabelContainer = styled("div", {
 
 type Props = {
   activePage: string;
+};
+
+export const TitleAndLogout = () => {
+  return (
+    <FlexDiv spaceBetween align style={{ paddingTop: "1rem" }}>
+      <div>
+        <Text fontSize="3xl" fontWeight="bold">
+          Account settings
+        </Text>
+        <Text>Edit your account settings</Text>
+      </div>
+
+      <Button colorScheme="red">
+        <FlexDiv gap05 align>
+          <LogOut /> Log out
+        </FlexDiv>
+      </Button>
+    </FlexDiv>
+  );
 };
 
 export const PageSelectorButtons = ({ activePage }: Props) => {

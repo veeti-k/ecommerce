@@ -1,6 +1,5 @@
 import { NextPage } from "next";
 import { Button, Input, Text } from "@chakra-ui/react";
-import { LogOut } from "react-feather";
 import { FlexDiv } from "../../components/Containers";
 import {
   TempCard,
@@ -10,6 +9,7 @@ import {
   Grid,
   Content,
   MainGrid,
+  TitleAndLogout,
 } from "../../components/pages/Settings";
 import { useGetMe } from "../../hooks/useGetMe";
 import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
@@ -67,20 +67,8 @@ const Account: NextPage = () => {
     <Layout>
       {isLoggedIn ? (
         <>
-          <FlexDiv spaceBetween align style={{ paddingTop: "1rem" }}>
-            <div>
-              <Text fontSize="3xl" fontWeight="bold">
-                Account settings
-              </Text>
-              <Text>Edit your account settings</Text>
-            </div>
+          <TitleAndLogout />
 
-            <Button colorScheme="red">
-              <FlexDiv gap05 align>
-                <LogOut /> Log out
-              </FlexDiv>
-            </Button>
-          </FlexDiv>
           <TempCard>
             <MainGrid>
               <PageSelectorButtons activePage="account" />
