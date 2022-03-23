@@ -15,7 +15,9 @@ const errorHandler = (options: ErrorHandlerOptions) => {
 
   logger.logRequestError({ ...options.options, error });
 
-  if (error?.response?.status === 401 && shouldRedirect401) {
+  const status = error?.response?.status;
+
+  if ((status === 401 || status === 403) && shouldRedirect401) {
     logger.log("Redirecting to /login...");
     window.location.href = "/login";
   }
@@ -57,10 +59,13 @@ type RequestOptions = {
   path: string;
   body?: any;
   shouldRedirect401?: boolean;
+  shouldRetry401?: boolean;
   isRetry?: boolean;
 };
 
 export const request = async (options: RequestOptions): Promise<AxiosResponse<any> | null> => {
+  const { shouldRetry401 = true } = options;
+
   try {
     logger.logRequesting(options);
 
@@ -78,7 +83,7 @@ export const request = async (options: RequestOptions): Promise<AxiosResponse<an
 
     return res;
   } catch (err) {
-    if (!options.isRetry && err?.response && err.response?.status === 401) {
+    if (!options.isRetry && shouldRetry401 && err?.response && err.response?.status === 401) {
       logger.logRequestError({ ...options, error: err });
       logger.log("Trying to get new tokens and retry...");
 
@@ -86,8 +91,6 @@ export const request = async (options: RequestOptions): Promise<AxiosResponse<an
         method: "GET",
         path: "/auth/tokens",
       });
-
-      logger.log("Got new tokens, retrying the original request...");
 
       return request({ ...options, isRetry: true });
     }

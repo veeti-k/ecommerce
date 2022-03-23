@@ -4,8 +4,7 @@ import { Action, Actions, IUserState, MyDispatch } from "./types";
 
 export const initState: IUserState = {
   id: "",
-  firstName: "",
-  lastName: "",
+  name: "",
   email: "",
   phoneNumber: "",
   flags: "",

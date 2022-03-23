@@ -17,8 +17,9 @@ export const useAuthPageRedirector = () => {
 
       const res = await request({
         method: "GET",
-        path: apiRoutes.userRoute("me"),
+        path: apiRoutes.userRoot("me"),
         shouldRedirect401: false,
+        shouldRetry401: false,
       });
 
       if (!res || !res?.data?.id) return;

@@ -1,14 +1,14 @@
 import { keyframes } from "@stitches/react";
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
-import { styled } from "../stitches.config";
+import { styled } from "../../stitches.config";
 import { FC } from "react";
 
-const overlayShow = keyframes({
+export const overlayShow = keyframes({
   "0%": { opacity: 0 },
   "100%": { opacity: 1 },
 });
 
-const contentShow = keyframes({
+export const contentShow = keyframes({
   "0%": { opacity: 0, transform: "translate(-50%, -48%) scale(.96)" },
   "100%": { opacity: 1, transform: "translate(-50%, -50%) scale(1)" },
 });

@@ -10,9 +10,14 @@ import { useRouter } from "next/router";
 import { AuthPageCard } from "../../components/Card";
 import { pushUser } from "../../utils/router";
 import { apiRoutes, routes } from "../../utils/routes";
+import { useAuthPageRedirector } from "../../hooks/useAuthPageRedirector";
 
 const Register: NextPage = () => {
+  useAuthPageRedirector();
+
+  const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+
   const [pw, setPw] = useState<string>("");
   const [pwAgain, setPwAgain] = useState<string>("");
   const [showPw, setShowPw] = useState<boolean>(false);
@@ -25,7 +30,7 @@ const Register: NextPage = () => {
     const res = await tokenRequest({
       method: "POST",
       path: apiRoutes.register,
-      body: { email, pw },
+      body: { name, email, password: pw },
     });
     if (res) pushUser(router, routes.home, "register success");
   };
@@ -44,6 +49,17 @@ const Register: NextPage = () => {
           <Paragraph style={{ paddingTop: "0.5rem" }}>Create an account</Paragraph>
           <form onSubmit={handleSubmit}>
             <FormWrapper>
+              <InputLabelContainer>
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  type="name"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  autoComplete="name"
+                  required
+                />
+              </InputLabelContainer>
               <InputLabelContainer>
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -77,12 +93,12 @@ const Register: NextPage = () => {
               </InputLabelContainer>
 
               <InputLabelContainer>
-                <Label htmlFor="password">Password again</Label>
+                <Label htmlFor="password-again">Password again</Label>
                 <InputGroup>
                   <Input
                     type={showPwAgain ? "text" : "password"}
                     value={pwAgain}
-                    id="password"
+                    id="password-again"
                     onChange={(e) => setPwAgain(e.target.value)}
                     autoComplete="new-password"
                     required

@@ -17,7 +17,7 @@ export const TempCard = styled(Card, {
   boxShadow: "2px 4px 12px rgb(0 0 0 / 8%)",
   display: "flex",
   flexDirection: "column",
-  marginTop: "1rem",
+  margin: "1rem 0",
 
   gap: "1rem",
 });
@@ -69,17 +69,24 @@ export const PageSelectorButton = styled("div", {
 
 export const TitleContainer = styled("div", {
   marginBottom: "1rem",
+  display: "flex",
+  justifyContent: "space-between",
 });
 
 export const Grid = styled("div", {
   display: "grid",
-  gridTemplateColumns: "1fr 1fr",
+  gridTemplateColumns: "1fr 1fr 1fr",
   gap: "1rem",
 
   variants: {
     col1: {
       true: {
         gridTemplateColumns: "1fr",
+      },
+    },
+    col2: {
+      true: {
+        gridTemplateColumns: "1fr 1fr",
       },
     },
   },

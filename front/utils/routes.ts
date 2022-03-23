@@ -16,5 +16,13 @@ export const apiRoutes = {
   register: "/auth/register",
   tokens: "/auth/tokens",
 
-  userRoute: (user: string) => `/users/${user}`,
+  userRoot: (user: string) => `/users/${user}`,
+
+  user: {
+    addressesRoot: (user: string) => `/users/${user}/addresses`,
+
+    addresses: {
+      address: (user: string, address: string) => `/users/${user}/addresses/${address}`,
+    },
+  },
 };

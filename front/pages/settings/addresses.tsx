@@ -2,7 +2,7 @@ import { Button, Tooltip } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { useContext } from "react";
 import { Card } from "../../components/Card";
-import { EditIcon, TrashIcon } from "../../components/Icons";
+import { TrashIcon } from "../../components/Icons";
 import { Layout } from "../../components/layouts/Layout";
 import {
   Content,
@@ -18,13 +18,18 @@ import { UserContext } from "../../UserProvider/provider";
 import { useGetMe } from "../../hooks/useGetMe";
 import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 import { styled } from "../../stitches.config";
+import { EditAddressDialog } from "../../components/Dialogs/EditAddressDialog";
+import { NewAddressDialog } from "../../components/Dialogs/NewAddressDialog";
+import { request } from "../../utils/requests";
+import { apiRoutes } from "../../utils/routes";
+import { toast } from "react-hot-toast";
+import { toastOptions } from "../../utils/consts";
 
 const AddressCard = styled(Card, {
   display: "flex",
   justifyContent: "space-between",
   boxShadow: "rgba(99, 99, 99, 0.1) 0px 2px 8px 0px",
   padding: "1rem",
-  maxWidth: "300px",
 });
 
 const AddressCardButtons = styled("div", {
@@ -39,6 +44,15 @@ export const Addresses: NextPage = () => {
 
   const { state } = useContext(UserContext);
 
+  const removeAddress = async (id: string) => {
+    const res = await request({
+      method: "DELETE",
+      path: apiRoutes.user.addresses.address("me", id),
+    });
+
+    if (res) toast.success("Address removed", toastOptions);
+  };
+
   return (
     <Layout>
       {isLoggedIn ? (
@@ -49,8 +63,12 @@ export const Addresses: NextPage = () => {
               <PageSelectorButtons activePage="addresses" />
               <Content>
                 <TitleContainer>
-                  <Heading>Addresses</Heading>
-                  <Paragraph light>Make changes to your addresses</Paragraph>
+                  <div>
+                    <Heading>Addresses</Heading>
+                    <Paragraph light>Add or edit your addresses</Paragraph>
+                  </div>
+
+                  <NewAddressDialog />
                 </TitleContainer>
 
                 <Grid>
@@ -73,14 +91,14 @@ export const Addresses: NextPage = () => {
                         </div>
                       </div>
                       <AddressCardButtons>
-                        <Tooltip label="Edit address">
-                          <Button colorScheme="blue" size="sm">
-                            <EditIcon />
-                          </Button>
-                        </Tooltip>
+                        <EditAddressDialog />
 
                         <Tooltip label="Delete address">
-                          <Button colorScheme="red" size="sm">
+                          <Button
+                            colorScheme="red"
+                            size="sm"
+                            onClick={() => removeAddress(address.id)}
+                          >
                             <TrashIcon />
                           </Button>
                         </Tooltip>

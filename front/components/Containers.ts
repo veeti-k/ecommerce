@@ -28,6 +28,11 @@ export const FlexDiv = styled("div", {
   gap: "1rem",
 
   variants: {
+    column: {
+      true: {
+        flexDirection: "column",
+      },
+    },
     align: {
       true: {
         alignItems: "center",

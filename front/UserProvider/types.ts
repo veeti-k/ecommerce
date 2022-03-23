@@ -21,8 +21,7 @@ interface Session {
 
 export interface IUserState {
   id: string;
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   phoneNumber: string | null;
   flags: string;

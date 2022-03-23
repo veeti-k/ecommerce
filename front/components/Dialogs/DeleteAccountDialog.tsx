@@ -1,4 +1,5 @@
 import { Text, Button } from "@chakra-ui/react";
+import { FlexDiv } from "../Containers";
 
 import {
   AlertDialog,
@@ -7,7 +8,6 @@ import {
   AlertDialogContent,
   AlertDialogTrigger,
 } from "./AlertDialog";
-import { FlexDiv } from "./Containers";
 
 export const DeleteAccountDialog = () => {
   return (

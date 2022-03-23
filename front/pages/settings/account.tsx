@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { Button, Input } from "@chakra-ui/react";
-import { FlexDiv, InputLabelContainer } from "../../components/Containers";
+import { FlexDiv, FormWrapper, InputLabelContainer } from "../../components/Containers";
 import {
   TempCard,
   PageSelectorButtons,
@@ -16,7 +16,6 @@ import { Separator } from "../../components/Separator";
 import { Layout } from "../../components/layouts/Layout";
 import { Heading, Label, Paragraph } from "../../components/Text";
 import { FormEvent, useContext, useEffect, useState } from "react";
-import { DeleteAccountDialog } from "../../components/DeleteAccountDialog";
 import { UserContext } from "../../UserProvider/provider";
 import { request } from "../../utils/requests";
 import { apiRoutes } from "../../utils/routes";
@@ -24,6 +23,7 @@ import { apiRoutes } from "../../utils/routes";
 import { toast } from "react-hot-toast";
 import { Actions } from "../../UserProvider/types";
 import { toastOptions } from "../../utils/consts";
+import { DeleteAccountDialog } from "../../components/Dialogs/DeleteAccountDialog";
 
 const Account: NextPage = () => {
   const isLoggedIn = useIsLoggedIn();
@@ -31,11 +31,8 @@ const Account: NextPage = () => {
 
   const { state, dispatch } = useContext(UserContext);
 
-  const [firstName, setFirstName] = useState<string>(state.firstName);
-  const [ogFirstName, setOgFirstName] = useState<string>(state.firstName);
-
-  const [lastName, setLastName] = useState<string>(state.lastName);
-  const [ogLastName, setOgLastName] = useState<string>(state.lastName);
+  const [name, setName] = useState<string>(state.name);
+  const [ogName, setOgName] = useState<string>(state.name);
 
   const [email, setEmail] = useState<string>(state.email);
   const [ogEmail, setOgEmail] = useState<string>(state.email);
@@ -46,12 +43,10 @@ const Account: NextPage = () => {
   useEffect(() => {
     // state is not populated at first render
     // so changes to the state needs to be listened for :/
-    setFirstName(state.firstName);
-    setLastName(state.lastName);
+    setName(state.name);
     setEmail(state.email);
     setPhoneNumber(state.phoneNumber);
-    setOgLastName(state.lastName);
-    setOgFirstName(state.firstName);
+    setOgName(state.name);
     setOgEmail(state.email);
     setOgPhoneNumber(state.phoneNumber);
   }, [state]);
@@ -59,8 +54,7 @@ const Account: NextPage = () => {
   // disable save button if nothing has changed or
   // some of the fields are empty
   const saveDisabled =
-    (!firstName || firstName.trim() === ogFirstName) &&
-    (!lastName || lastName.trim() === ogLastName) &&
+    (!name || name.trim() === ogName) &&
     (!email || email.trim() === ogEmail) &&
     (!phoneNumber || phoneNumber.trim() === ogPhoneNumber);
 
@@ -69,10 +63,9 @@ const Account: NextPage = () => {
 
     const res = await request({
       method: "PATCH",
-      path: apiRoutes.userRoute("me"),
+      path: apiRoutes.userRoot("me"),
       body: {
-        firstName,
-        lastName,
+        name,
         email,
         phoneNumber,
       },
@@ -81,7 +74,7 @@ const Account: NextPage = () => {
     if (res) {
       dispatch({ type: Actions.SetUser, payload: res.data });
 
-      toast.error("Account settings updated successfully!", toastOptions);
+      toast.success("Account settings updated successfully!", toastOptions);
     }
   };
 
@@ -101,27 +94,17 @@ const Account: NextPage = () => {
                 </TitleContainer>
 
                 <form onSubmit={onFormSubmit}>
-                  <Grid>
-                    <InputLabelContainer>
-                      <Label htmlFor="first-name">First Name</Label>
-                      <Input
-                        id="first-name"
-                        autoComplete="given-name"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                      />
-                    </InputLabelContainer>
+                  <InputLabelContainer>
+                    <Label htmlFor="name">Name</Label>
+                    <Input
+                      id="name"
+                      autoComplete="name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </InputLabelContainer>
 
-                    <InputLabelContainer>
-                      <Label htmlFor="last-name">Last Name</Label>
-                      <Input
-                        id="last-name"
-                        autoComplete="family-name"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                      />
-                    </InputLabelContainer>
-
+                  <Grid col2 style={{ paddingTop: "1rem" }}>
                     <InputLabelContainer>
                       <Label htmlFor="email">Email</Label>
                       <Input
