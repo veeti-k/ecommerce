@@ -84,9 +84,8 @@ const Atag = styled("a", {
 
 export const ProfileDropdown = () => {
   const router = useRouter();
-  const isLoggedIn = useIsLoggedIn(false);
 
-  const { dispatch } = useContext(UserContext);
+  const { state, dispatch } = useContext(UserContext);
 
   return (
     <DropdownMenu>
@@ -96,7 +95,7 @@ export const ProfileDropdown = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent sideOffset={10}>
-        {isLoggedIn ? (
+        {state.id ? (
           <>
             <Link href={routes.settingsAccount} passHref>
               <Atag
