@@ -77,7 +77,7 @@ export const Addresses: NextPage = () => {
                   <NewAddressDialog />
                 </TitleContainer>
 
-                <Grid>
+                <Grid col2>
                   {state.addresses.map((address) => (
                     <AddressCard key={address.id}>
                       <div>
