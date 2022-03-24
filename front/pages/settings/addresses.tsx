@@ -23,7 +23,6 @@ import { NewAddressDialog } from "../../components/Dialogs/NewAddressDialog";
 import { request } from "../../utils/requests";
 import { apiRoutes } from "../../utils/routes";
 import { toast } from "react-hot-toast";
-import { toastOptions } from "../../utils/consts";
 import { getMe } from "../../utils/logout";
 
 const AddressCard = styled(Card, {
@@ -55,7 +54,7 @@ export const Addresses: NextPage = () => {
     toast.dismiss(notifId);
 
     if (res) {
-      toast.success("Address removed", toastOptions);
+      toast.success("Address removed");
       getMe(dispatch);
     }
   };

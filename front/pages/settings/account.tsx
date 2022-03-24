@@ -22,7 +22,6 @@ import { apiRoutes } from "../../utils/routes";
 
 import { toast } from "react-hot-toast";
 import { Actions } from "../../UserProvider/types";
-import { toastOptions } from "../../utils/consts";
 import { DeleteAccountDialog } from "../../components/Dialogs/DeleteAccountDialog";
 
 const Account: NextPage = () => {
@@ -74,7 +73,7 @@ const Account: NextPage = () => {
     if (res) {
       dispatch({ type: Actions.SetUser, payload: res.data });
 
-      toast.success("Account settings updated successfully!", toastOptions);
+      toast.success("Account settings updated successfully!");
     }
   };
 

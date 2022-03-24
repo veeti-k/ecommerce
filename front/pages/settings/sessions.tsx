@@ -22,7 +22,6 @@ import { styled } from "../../stitches.config";
 import { request } from "../../utils/requests";
 import { apiRoutes } from "../../utils/routes";
 import toast from "react-hot-toast";
-import { toastOptions } from "../../utils/consts";
 import { getMe } from "../../utils/logout";
 
 const SessionCard = styled(Card, {
@@ -60,7 +59,7 @@ const Sessions: NextPage = () => {
     toast.dismiss(notifId);
 
     if (res) {
-      toast.success("Session revoked", toastOptions);
+      toast.success("Session revoked");
       getMe(dispatch);
     }
   };

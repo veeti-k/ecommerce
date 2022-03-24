@@ -15,7 +15,6 @@ import { FlexDiv } from "../Containers";
 import { request } from "../../utils/requests";
 import { apiRoutes } from "../../utils/routes";
 import { toast } from "react-hot-toast";
-import { toastOptions } from "../../utils/consts";
 import { getMe } from "../../utils/logout";
 import { UserContext } from "../../UserProvider/provider";
 
@@ -52,7 +51,7 @@ export const NewAddressDialog = () => {
     toast.dismiss(notifId);
 
     if (res) {
-      toast.success("Address added successfully", toastOptions);
+      toast.success("Address added successfully");
       getMe(dispatch);
 
       setName("");
