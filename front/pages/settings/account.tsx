@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { Button, Input } from "@chakra-ui/react";
-import { FlexDiv, FormWrapper, InputLabelContainer } from "../../components/Containers";
+import { FlexDiv, InputLabelContainer } from "../../components/Containers";
 import {
   TempCard,
   PageSelectorButtons,
