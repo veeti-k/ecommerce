@@ -20,9 +20,14 @@ export const apiRoutes = {
 
   user: {
     addressesRoot: (user: string) => `/users/${user}/addresses`,
+    sessionsRoot: (user: string) => `/users/${user}/sessions`,
 
     addresses: {
-      address: (user: string, address: string) => `/users/${user}/addresses/${address}`,
+      address: (user: string, addressId: string) => `/users/${user}/addresses/${addressId}`,
+    },
+
+    sessions: {
+      session: (user: string, sessionId: string) => `/users/${user}/sessions/${sessionId}`,
     },
   },
 };

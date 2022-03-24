@@ -19,6 +19,11 @@ import { UserContext } from "../../UserProvider/provider";
 import { useGetMe } from "../../hooks/useGetMe";
 import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 import { styled } from "../../stitches.config";
+import { request } from "../../utils/requests";
+import { apiRoutes } from "../../utils/routes";
+import toast from "react-hot-toast";
+import { toastOptions } from "../../utils/consts";
+import { getMe } from "../../utils/logout";
 
 const SessionCard = styled(Card, {
   display: "flex",
@@ -43,7 +48,22 @@ const Sessions: NextPage = () => {
   const isLoggedIn = useIsLoggedIn();
   useGetMe();
 
-  const { state } = useContext(UserContext);
+  const { state, dispatch } = useContext(UserContext);
+
+  const revokeSession = async (sessionId: string) => {
+    const notifId = toast.loading("Revoking the session");
+    const res = await request({
+      method: "DELETE",
+      path: apiRoutes.user.sessions.session("me", sessionId),
+    });
+
+    toast.dismiss(notifId);
+
+    if (res) {
+      toast.success("Session revoked", toastOptions);
+      getMe(dispatch);
+    }
+  };
 
   return (
     <Layout>
@@ -84,7 +104,11 @@ const Sessions: NextPage = () => {
 
                         <SessionCardButtons>
                           <Tooltip label="Revoke session">
-                            <Button size="sm" colorScheme="red">
+                            <Button
+                              size="sm"
+                              colorScheme="red"
+                              onClick={() => revokeSession(session.id)}
+                            >
                               <TrashIcon />
                             </Button>
                           </Tooltip>
