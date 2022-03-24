@@ -24,6 +24,7 @@ import { request } from "../../utils/requests";
 import { apiRoutes } from "../../utils/routes";
 import { toast } from "react-hot-toast";
 import { toastOptions } from "../../utils/consts";
+import { getMe } from "../../utils/logout";
 
 const AddressCard = styled(Card, {
   display: "flex",
@@ -42,7 +43,7 @@ export const Addresses: NextPage = () => {
   const isLoggedIn = useIsLoggedIn();
   useGetMe();
 
-  const { state } = useContext(UserContext);
+  const { state, dispatch } = useContext(UserContext);
 
   const removeAddress = async (id: string) => {
     const res = await request({
@@ -50,7 +51,10 @@ export const Addresses: NextPage = () => {
       path: apiRoutes.user.addresses.address("me", id),
     });
 
-    if (res) toast.success("Address removed", toastOptions);
+    if (res) {
+      toast.success("Address removed", toastOptions);
+      getMe(dispatch);
+    }
   };
 
   return (
