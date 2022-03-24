@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { AuthPageLayout } from "../../components/layouts/AuthPageLayout";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useContext, useRef, useState } from "react";
 import { tokenRequest } from "../../utils/requests";
 import { FormWrapper, InputLabelContainer } from "../../components/Containers";
 import { BigHeading, Label, Paragraph } from "../../components/Text";
@@ -11,6 +11,8 @@ import { useRouter } from "next/router";
 import { useAuthPageRedirector } from "../../hooks/useAuthPageRedirector";
 import { pushUser } from "../../utils/router";
 import { apiRoutes, routes } from "../../utils/routes";
+import { getMe } from "../../utils/logout";
+import { UserContext } from "../../UserProvider/provider";
 
 const Login: NextPage = () => {
   useAuthPageRedirector();
@@ -21,6 +23,7 @@ const Login: NextPage = () => {
   const emailInputRef = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
+  const { dispatch } = useContext(UserContext);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,6 +33,7 @@ const Login: NextPage = () => {
       body: { email, password },
     });
     if (res) {
+      getMe(dispatch);
       pushUser(router, routes.home, "login success");
     } else {
       emailInputRef?.current && emailInputRef.current.focus();
