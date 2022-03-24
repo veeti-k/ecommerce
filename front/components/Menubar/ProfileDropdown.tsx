@@ -13,7 +13,6 @@ import { routes } from "../../utils/routes";
 import { useContext } from "react";
 import { UserContext } from "../../UserProvider/provider";
 import { logout } from "../../utils/logout";
-import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 
 const slideUpAndFade = keyframes({
   "0%": { opacity: 0, transform: "translateY(3px)" },
@@ -66,7 +65,7 @@ const DropdownMenuItem = styled(DropdownMenuPrimitive.Item, {
   padding: "0.5rem",
   gap: "0.8rem",
 
-  "&:focus": {
+  "&:hover": {
     backgroundColor: "#ededed",
     border: "none",
     cursor: "pointer",
