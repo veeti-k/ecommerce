@@ -57,7 +57,7 @@ public class AuthService : IAuthService
     if (userId != null)
     {
       var sessionId = _contextService.GetCurrentSessionId();
-      await _sessionService.Remove(sessionId);
+      await _sessionService.Remove(userId, sessionId);
 
       var user = await _userRepo.GetById(userId);
       if (user != null && Flags.HasFlag(user.Flags, Flags.TEST_ACCOUNT))

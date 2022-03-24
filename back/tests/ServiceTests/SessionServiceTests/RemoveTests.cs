@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using api.Exceptions;
 using api.Models.User;
 using api.Repositories.Interfaces;
 using api.Services;
 using api.Services.Interfaces;
+using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Moq;
 using tests.ControllerTests.Utils;
 using Xunit;
@@ -25,26 +28,36 @@ public class RemoveTests
   [Fact]
   public async Task Remove_WithExistingSession_RemovesSession()
   {
+    var userId = randomNumber;
     var existingSession = Sessions.CreateFakeSession(randomNumber);
 
     _mockSessionRepo.Setup(mock => mock
         .GetOneByFilter(It.IsAny<Expression<Func<Session, bool>>>()))
       .ReturnsAsync(existingSession);
 
-    await _sessionService.Remove(existingSession.Id);
+    await _sessionService.Remove(userId, existingSession.Id);
 
     _mockSessionRepo.Verify(mock => mock
       .Remove(It.IsAny<Session>()), Times.Once);
   }
 
   [Fact]
-  public async Task Remove_WithNoExistingSession_DoesNotTryToRemoveSession()
+  public async Task Remove_WithNoExistingSession_ThrowsNotFoundException()
   {
+    var userId = randomNumber;
+
     _mockSessionRepo.Setup(mock => mock
         .GetOneByFilter(It.IsAny<Expression<Func<Session, bool>>>()))
       .ReturnsAsync((Session) null);
 
-    await _sessionService.Remove(Guid.NewGuid());
+    Func<Task> test = async () => await _sessionService.Remove(userId, Guid.NewGuid());
+
+    (await test.Should().ThrowAsync<NotFoundException>())
+      .And.Should().BeEquivalentTo(new
+      {
+        StatusCode = StatusCodes.Status404NotFound,
+        Message = "Session not found"
+      });
 
     _mockSessionRepo.Verify(mock => mock
       .Remove(It.IsAny<Session>()), Times.Never);

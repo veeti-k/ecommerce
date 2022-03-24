@@ -1,4 +1,5 @@
-﻿using api.Models.User;
+﻿using api.Exceptions;
+using api.Models.User;
 using api.Repositories.Interfaces;
 using api.Services.Interfaces;
 
@@ -37,10 +38,13 @@ public class SessionService : ISessionService
     return newSession;
   }
 
-  public async Task Remove(Guid sessionId)
+  public async Task Remove(int userId, Guid sessionId)
   {
-    var session = await _sessionRepo.GetOneByFilter(session => session.Id == sessionId);
-    if (session is null) return;
+    var session = await _sessionRepo
+      .GetOneByFilter(session => session.Id == sessionId
+      && session.UserId == userId);
+
+    if (session is null) throw new NotFoundException("Session not found");
 
     await _sessionRepo.Remove(session);
   }

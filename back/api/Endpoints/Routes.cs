@@ -19,13 +19,19 @@ public static class Routes
     private const string UsersPrefix = $"{GlobalPrefix}/users";
     private const string UserId = "{userId:int}";
     private const string AddressId = "{addressId:Guid}";
+    private const string SessionId = "{sessionId:Guid}";
 
     public const string MeRoot = $"{UsersPrefix}/me";
 
     public static class Me
     {
       public const string Flags = $"{MeRoot}/flags";
-      public const string Sessions = $"{MeRoot}/sessions";
+      public const string SessionsRoot = $"{MeRoot}/sessions";
+
+      public static class Sessions
+      {
+        public const string Session = $"{SessionsRoot}/{SessionId}";
+      }
 
       public const string AddressesRoot = $"{MeRoot}/addresses";
 

@@ -14,7 +14,7 @@ public class DeleteSessions : EndpointBaseAsync
   private readonly IContextService _contextService;
 
   [Authorize]
-  [HttpDelete(Routes.Users.Me.Sessions)]
+  [HttpDelete(Routes.Users.Me.SessionsRoot)]
   public override async Task<ActionResult> HandleAsync(InvalidateSessionDTO request,
     CancellationToken cancellationToken = new CancellationToken())
   {
