@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, Method } from "axios";
-import { apiBase, toastOptions } from "./consts";
+import { apiBase } from "./consts";
 import { logger } from "./logger";
 import { getToken, saveToken } from "./token";
 import { toast } from "react-hot-toast";
@@ -17,12 +17,17 @@ const errorHandler = (options: ErrorHandlerOptions) => {
 
   const status = error?.response?.status;
 
-  if ((status === 401 || status === 403) && shouldRedirect401) {
-    logger.log("Redirecting to /login...");
-    window.location.href = "/login";
+  if (status === 401 || status === 403) {
+    if (error?.response?.data?.message) {
+      toast.error(error.response.data.message);
+    }
+
+    if (shouldRedirect401) {
+      logger.log("Redirecting to /login...");
+      window.location.href = "/login";
+    }
   }
-  if (error.response?.status === 500)
-    toast.error("Server error, please try again later", toastOptions);
+  if (error.response?.status === 500) toast.error("Server error, please try again later");
 };
 
 type TokenRequestOptions = {
