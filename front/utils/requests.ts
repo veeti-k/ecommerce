@@ -44,8 +44,10 @@ export const tokenRequest = async (options: TokenRequestOptions) => {
       method: options.method,
       url: `${apiBase}${options.path}`,
       data: options.body,
+
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
       },
     });
 
