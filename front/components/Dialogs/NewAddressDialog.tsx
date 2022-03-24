@@ -28,10 +28,13 @@ export const NewAddressDialog = () => {
   const [zip, setZip] = useState<string>("");
   const [state, setState] = useState<string>("");
 
+  const [open, setOpen] = useState<boolean>(false);
+
   const { dispatch } = useContext(UserContext);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const notifId = toast.loading("Adding the address");
     const res = await request({
       method: "POST",
       path: apiRoutes.user.addressesRoot("me"),
@@ -46,14 +49,31 @@ export const NewAddressDialog = () => {
       },
     });
 
+    toast.dismiss(notifId);
+
     if (res) {
       toast.success("Address added successfully", toastOptions);
       getMe(dispatch);
+
+      setName("");
+      setPhoneNumber("");
+      setEmail("");
+      setStreetAddress("");
+      setCity("");
+      setZip("");
+      setState("");
+
+      setOpen(false);
     }
   };
 
   return (
-    <Dialog>
+    <Dialog
+      open={open}
+      onOpenChange={() => {
+        setOpen(!open);
+      }}
+    >
       <Tooltip label="Add an address">
         <DialogTrigger asChild>
           <Button colorScheme="blue" size="sm">
