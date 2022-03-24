@@ -60,6 +60,8 @@ const Account: NextPage = () => {
   const onFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const notifId = toast.loading("Saving your edits");
+
     const res = await request({
       method: "PATCH",
       path: apiRoutes.userRoot("me"),
@@ -70,10 +72,11 @@ const Account: NextPage = () => {
       },
     });
 
-    if (res) {
-      dispatch({ type: Actions.SetUser, payload: res.data });
+    toast.dismiss(notifId);
 
+    if (res) {
       toast.success("Account settings updated successfully!");
+      dispatch({ type: Actions.SetUser, payload: res.data });
     }
   };
 
