@@ -1,4 +1,5 @@
 import { NextRouter } from "next/router";
+import toast from "react-hot-toast";
 import { Actions, MyDispatch } from "../UserProvider/types";
 import { request, tokenRequest } from "./requests";
 import { pushUser } from "./router";
@@ -12,6 +13,8 @@ export const logout = (router: NextRouter, dispatch: MyDispatch, redirectTo?: st
 
   dispatch({ type: Actions.ClearUser });
   localStorage.clear();
+
+  toast.success("Logged out!");
 
   redirectTo && pushUser(router, redirectTo, "logout func");
 };
