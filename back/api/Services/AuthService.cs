@@ -72,7 +72,8 @@ public class AuthService : IAuthService
     if (await _userRepo.GetByEmail(dto.Email) != null)
       throw new BadRequestException("Email in use");
 
-    if (await _userRepo.GetByPhoneNumber(dto.PhoneNumber) != null)
+    if (dto.PhoneNumber is not null
+        && await _userRepo.GetByPhoneNumber(dto.PhoneNumber) != null)
       throw new BadRequestException("Phone number in use");
 
     User newUser = new()
