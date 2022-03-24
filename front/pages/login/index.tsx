@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { AuthPageLayout } from "../../components/layouts/AuthPageLayout";
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { tokenRequest } from "../../utils/requests";
 import { FormWrapper, InputLabelContainer } from "../../components/Containers";
 import { BigHeading, Label, Paragraph } from "../../components/Text";
@@ -18,6 +18,7 @@ const Login: NextPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPw, setShowPw] = useState<boolean>(false);
+  const emailInputRef = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
 
@@ -28,7 +29,11 @@ const Login: NextPage = () => {
       path: apiRoutes.login,
       body: { email, password },
     });
-    if (res) pushUser(router, routes.home, "login success");
+    if (res) {
+      pushUser(router, routes.home, "login success");
+    } else {
+      emailInputRef?.current && emailInputRef.current.focus();
+    }
   };
 
   const submitDisabled = !email || !password;
@@ -50,6 +55,7 @@ const Login: NextPage = () => {
               <InputLabelContainer>
                 <Label htmlFor="email">Email</Label>
                 <Input
+                  ref={emailInputRef}
                   type="email"
                   id="email"
                   onChange={(e) => setEmail(e.target.value)}
