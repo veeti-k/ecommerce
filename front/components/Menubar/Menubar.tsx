@@ -3,7 +3,8 @@ import { styled } from "../../stitches.config";
 import { Button } from "@chakra-ui/react";
 import { ProfileDropdown } from "./ProfileDropdown";
 import { Search } from "./Search";
-import { HamburgerIcon, ShoppingCartIcon } from "../Icons";
+import { ShoppingCartIcon } from "../Icons";
+import { CategoryMenu } from "./CategoryMenu";
 
 const Outer = styled("div", {
   position: "fixed",
@@ -40,9 +41,7 @@ export const Menubar: FC = () => {
       <Header className="width-before-scroll-bar">
         <Inner>
           <HeaderContent>
-            <Button>
-              <HamburgerIcon />
-            </Button>
+            <CategoryMenu />
             <Search />
             <Button>
               <ShoppingCartIcon />
