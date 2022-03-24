@@ -46,10 +46,13 @@ export const Addresses: NextPage = () => {
   const { state, dispatch } = useContext(UserContext);
 
   const removeAddress = async (id: string) => {
+    const notifId = toast.loading("Removing the address");
     const res = await request({
       method: "DELETE",
       path: apiRoutes.user.addresses.address("me", id),
     });
+
+    toast.dismiss(notifId);
 
     if (res) {
       toast.success("Address removed", toastOptions);
