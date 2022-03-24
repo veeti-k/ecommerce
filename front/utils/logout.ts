@@ -11,6 +11,7 @@ export const logout = (router: NextRouter, dispatch: MyDispatch, redirectTo?: st
   });
 
   dispatch({ type: Actions.ClearUser });
+  localStorage.clear();
 
   redirectTo && pushUser(router, redirectTo, "logout func");
 };
