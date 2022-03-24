@@ -74,8 +74,10 @@ const Sessions: NextPage = () => {
               <PageSelectorButtons activePage="sessions" />
               <Content>
                 <TitleContainer>
-                  <Heading>Sessions</Heading>
-                  <Paragraph light>Manage your sessions</Paragraph>
+                  <div>
+                    <Heading>Sessions</Heading>
+                    <Paragraph light>Manage your sessions</Paragraph>
+                  </div>
                 </TitleContainer>
 
                 <TestDiv>

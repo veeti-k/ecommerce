@@ -46,8 +46,10 @@ const Password: NextPage = () => {
               <PageSelectorButtons activePage="password" />
               <Content>
                 <TitleContainer>
-                  <Heading>Password</Heading>
-                  <Paragraph light>Change or reset your password</Paragraph>
+                  <div>
+                    <Heading>Password</Heading>
+                    <Paragraph light>Change or reset your password</Paragraph>
+                  </div>
                 </TitleContainer>
 
                 <form onSubmit={onFormSubmit}>

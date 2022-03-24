@@ -88,8 +88,10 @@ const Account: NextPage = () => {
               <PageSelectorButtons activePage="account" />
               <Content>
                 <TitleContainer>
-                  <Heading>General Info</Heading>
-                  <Paragraph light>Save your changes after editing</Paragraph>
+                  <div>
+                    <Heading>General Info</Heading>
+                    <Paragraph light>Save your changes after editing</Paragraph>
+                  </div>
                 </TitleContainer>
 
                 <form onSubmit={onFormSubmit}>
