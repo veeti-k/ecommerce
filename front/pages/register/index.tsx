@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { AuthPageLayout } from "../../components/layouts/AuthPageLayout";
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { tokenRequest } from "../../utils/requests";
 import { FormWrapper, InputLabelContainer } from "../../components/Containers";
 import { BigHeading, Label, Paragraph } from "../../components/Text";
@@ -14,6 +14,8 @@ import { useAuthPageRedirector } from "../../hooks/useAuthPageRedirector";
 
 const Register: NextPage = () => {
   useAuthPageRedirector();
+
+  const nameInputRef = useRef<HTMLInputElement>(null);
 
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -32,7 +34,13 @@ const Register: NextPage = () => {
       path: apiRoutes.register,
       body: { name, email, password: pw },
     });
-    if (res) pushUser(router, routes.home, "register success");
+    if (res) {
+      pushUser(router, routes.home, "register success");
+    } else {
+      setTimeout(() => {
+        nameInputRef?.current && nameInputRef.current.focus();
+      }, 1500);
+    }
   };
 
   const submitDisabled = !email || !pw || !pwAgain || pw !== pwAgain;
@@ -52,6 +60,7 @@ const Register: NextPage = () => {
               <InputLabelContainer>
                 <Label htmlFor="name">Name</Label>
                 <Input
+                  ref={nameInputRef}
                   type="name"
                   id="name"
                   value={name}

@@ -36,7 +36,9 @@ const Login: NextPage = () => {
       getMe(dispatch);
       pushUser(router, routes.home, "login success");
     } else {
-      emailInputRef?.current && emailInputRef.current.focus();
+      setTimeout(() => {
+        emailInputRef?.current && emailInputRef.current.focus();
+      }, 1500);
     }
   };
 
