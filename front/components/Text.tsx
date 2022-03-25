@@ -32,3 +32,7 @@ export const Heading = styled("h1", {
 export const BigHeading = styled(Heading, {
   fontSize: "1.6rem",
 });
+
+export const BigBigHeading = styled("h1", {
+  fontSize: "2.4rem",
+});
