@@ -8,6 +8,8 @@ export const routes = {
   settingsPassword: "/settings/password",
   settingsAddresses: "/settings/addresses",
   settingsSessions: "/settings/sessions",
+
+  category: (categoryId: number) => `/category/${categoryId}`,
 };
 
 export const apiRoutes = {
