@@ -63,6 +63,11 @@ export const FlexDiv = styled("div", {
         gap: 0,
       },
     },
+    fullWidth: {
+      true: {
+        width: "100%",
+      },
+    },
   },
 });
 
