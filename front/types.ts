@@ -1,14 +1,21 @@
+export type Category = {
+  id: number;
+  name: string;
+  parentId: number | null;
+  children: Category[];
+};
+
 export type BulletPoint = {
-  id: string;
+  id: number;
   text: string;
 };
 
 export type ShowCaseProduct = {
-  id: string;
+  id: number;
   name: string;
   description: string;
   price: number;
-  discountedPrice: string;
+  discountedPrice: number;
   discountPercent: number;
   discountAmount: number;
   isDiscounted: boolean;
@@ -17,4 +24,22 @@ export type ShowCaseProduct = {
   reviewCount: number;
   questionCount: number;
   importantBulletpoints: BulletPoint[];
+};
+
+export type ProductPageProduct = {
+  path: Category[];
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  discountedPrice: number;
+  discountPercent: number;
+  discountAmount: number;
+  isDiscounted: boolean;
+  isDeleted: boolean;
+  averageStars: number;
+  reviewCount: number;
+  questionCount: number;
+  importantBulletpoints: BulletPoint[];
+  bulletPoints: BulletPoint[];
 };
