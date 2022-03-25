@@ -8,7 +8,7 @@ const Main = styled("main", {
   margin: "0 auto",
   padding: "0 25px",
   position: "relative",
-  paddingTop: "5rem",
+  paddingTop: "6rem",
   zIndex: 1,
 });
 
