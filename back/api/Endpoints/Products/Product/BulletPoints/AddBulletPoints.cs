@@ -1,28 +1,28 @@
-﻿using api.DTOs.Product;
-using api.Mapping.MappedTypes.Product;
+﻿using api.Exceptions;
+using api.Models.Product;
+using api.Repositories.Interfaces;
+using api.RequestsAndResponses.ProductBulletPoints;
+using api.RequestsAndResponses.ProductBulletPoints.Add;
 using api.Security.Policies;
-using api.Services.Interfaces.ProductServices;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Endpoints.Products.Product.BulletPoints;
 
-public class AddBulletPointsRequest
-{
-  [FromRoute(Name = "productId")] public int ProductId { get; set; }
-  [FromBody] public CreateProductBulletPointDTO Dto { get; set; }
-}
-
 public class AddBulletPoints : EndpointBaseAsync
   .WithRequest<AddBulletPointsRequest>
   .WithActionResult<IEnumerable<ProductBulletPointResponse>>
 {
-  private readonly IProductBulletPointService _productBulletPointService;
+  private readonly IGenericRepo<Models.Product.Product> _productRepo;
+  private readonly IGenericRepo<ProductBulletPoint> _productBulletPointRepo;
 
-  public AddBulletPoints(IProductBulletPointService aProductBulletPointService)
+  public AddBulletPoints(
+    IGenericRepo<Models.Product.Product> productRepo,
+    IGenericRepo<ProductBulletPoint> productBulletPointRepo)
   {
-    _productBulletPointService = aProductBulletPointService;
+    _productRepo = productRepo;
+    _productBulletPointRepo = productBulletPointRepo;
   }
 
   [Authorize(Policy = Policies.ManageProducts)]
@@ -31,8 +31,20 @@ public class AddBulletPoints : EndpointBaseAsync
     [FromRoute] AddBulletPointsRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    await _productBulletPointService
-      .CreateMany(request.Dto, request.ProductId);
+    var product = await _productRepo.GetById(request.ProductId);
+    if (product is null) throw new NotFoundException($"Product with id {request.ProductId} was not found");
+
+    foreach (var bulletPoint in request.Dto.BulletPoints)
+    {
+      var newBulletPoint = new ProductBulletPoint()
+      {
+        Text = bulletPoint.Text,
+        IsImportant = bulletPoint.IsImportant,
+        ProductId = product.Id
+      };
+
+      await _productBulletPointRepo.Add(newBulletPoint);
+    }
 
     return NoContent();
   }

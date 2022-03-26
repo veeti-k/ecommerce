@@ -1,27 +1,32 @@
-﻿using api.Mapping.MappedTypes.Product;
+﻿using api.Exceptions;
+using api.Models.Product.Question;
+using api.Repositories.Interfaces;
+using api.RequestsAndResponses.ProductQuestion;
+using api.RequestsAndResponses.ProductQuestion.Approve;
 using api.Security.Policies;
-using api.Services.Interfaces.ProductServices;
 using Ardalis.ApiEndpoints;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Endpoints.Products.Product.Questions;
 
-public class ApproveProductQuestionRequest
-{
-  [FromRoute(Name = "productId")] public int ProductId { get; set; }
-  [FromRoute(Name = "questionId")] public Guid QuestionId { get; set; }
-}
-
 public class ApproveProductQuestion : EndpointBaseAsync
   .WithRequest<ApproveProductQuestionRequest>
   .WithActionResult<ProductQuestionResponse>
 {
-  private readonly IProductQuestionService _productQuestionService;
+  private readonly IMapper _mapper;
+  private readonly IGenericRepo<Models.Product.Product> _productRepo;
+  private readonly IGenericRepo<ProductQuestion> _productQuestionRepo;
 
-  public ApproveProductQuestion(IProductQuestionService aProductQuestionService)
+  public ApproveProductQuestion(
+    IMapper mapper,
+    IGenericRepo<Models.Product.Product> productRepo,
+    IGenericRepo<ProductQuestion> productQuestionRepo)
   {
-    _productQuestionService = aProductQuestionService;
+    _mapper = mapper;
+    _productRepo = productRepo;
+    _productQuestionRepo = productQuestionRepo;
   }
 
   [Authorize(Policy = Policies.ManageQuestions)]
@@ -30,8 +35,18 @@ public class ApproveProductQuestion : EndpointBaseAsync
     [FromRoute] ApproveProductQuestionRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var updated = await _productQuestionService.ApproveProductQuestion(request.ProductId, request.QuestionId);
+    var product = await _productRepo.GetById(request.ProductId);
+    if (product is null) throw new NotFoundException($"Product with id {request.ProductId} was not found");
 
-    return Ok(updated);
+    var question = await _productQuestionRepo.GetById(request.QuestionId);
+    if (question is null) throw new NotFoundException($"Question with id {request.QuestionId} was not found");
+
+    question.IsApproved = true;
+    product.QuestionCount += 1;
+
+    var updated = await _productQuestionRepo.Update(question);
+    await _productRepo.Update(product);
+
+    return _mapper.Map<ProductQuestionResponse>(updated);
   }
 }

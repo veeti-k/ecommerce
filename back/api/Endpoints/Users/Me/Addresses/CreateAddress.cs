@@ -1,35 +1,52 @@
-﻿using api.DTOs;
-using api.Mapping.MappedTypes;
+﻿using api.Models.User;
+using api.Repositories.Interfaces;
+using api.RequestsAndResponses.Addresses;
+using api.RequestsAndResponses.Addresses.Add;
 using api.Services.Interfaces;
 using Ardalis.ApiEndpoints;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Endpoints.Users.Me.Addresses;
 
 public class CreateAddress : EndpointBaseAsync
-  .WithRequest<CreateAddressDTO>
+  .WithRequest<AddAddressRequest>
   .WithActionResult<AddressResponse>
 {
+  private readonly IMapper _mapper;
+  private readonly IGenericRepo<Address> _addressRepo;
   private readonly IContextService _contextService;
-  private readonly IAddressService _addressService;
 
-  public CreateAddress(IContextService aContextService, IAddressService aAddressService)
+  public CreateAddress(IMapper mapper, IGenericRepo<Address> addressRepo, IContextService aContextService)
   {
+    _mapper = mapper;
+    _addressRepo = addressRepo;
     _contextService = aContextService;
-    _addressService = aAddressService;
   }
 
   [Authorize]
   [HttpPost(Routes.Users.Me.AddressesRoot)]
   public override async Task<ActionResult<AddressResponse>> HandleAsync(
-    CreateAddressDTO request,
+    [FromRoute] AddAddressRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
     var userId = _contextService.GetCurrentUserId();
-
-    var createdAddress = await _addressService.Create(request, userId);
-
-    return Created("", createdAddress);
+    
+    Address newAddress = new()
+    {
+      Id = Guid.NewGuid(),
+      UserId = userId,
+      Name = request.Dto.Name,
+      PhoneNumber = request.Dto.PhoneNumber,
+      Email = request.Dto.Email,
+      StreetAddress = request.Dto.StreetAddress,
+      City = request.Dto.City,
+      State = request.Dto.State,
+      Zip = request.Dto.Zip
+    };
+    
+    var created = await _addressRepo.Add(newAddress);
+    return Created("", _mapper.Map<AddressResponse>(created));
   }
 }

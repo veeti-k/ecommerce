@@ -1,5 +1,7 @@
-﻿using api.Security.Policies;
-using api.Services.Interfaces.ProductServices;
+﻿using api.Exceptions;
+using api.Repositories.Interfaces;
+using api.RequestsAndResponses.Product.Delete;
+using api.Security.Policies;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,24 +9,27 @@ using Microsoft.AspNetCore.Mvc;
 namespace api.Endpoints.Products.Product;
 
 public class DeleteProduct : EndpointBaseAsync
-  .WithRequest<int>
+  .WithRequest<DeleteProductRequest>
   .WithActionResult
 {
-  private readonly IProductService _productService;
+  private readonly IGenericRepo<Models.Product.Product> _repo;
 
-  public DeleteProduct(IProductService aProductService)
+  public DeleteProduct(IGenericRepo<Models.Product.Product> repo)
   {
-    _productService = aProductService;
+    _repo = repo;
   }
 
   [Authorize(Policy = Policies.ManageProducts)]
   [HttpDelete(Routes.Products.ProductRoot)]
   public override async Task<ActionResult> HandleAsync(
-    int productId,
+    [FromRoute] DeleteProductRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    await _productService.Remove(productId);
+    var product = await _repo.GetById(request.ProductId);
+    if (product is null) 
+      throw new NotFoundException($"Product with id {request.ProductId} not found");
 
+    await _repo.Delete(product);
     return NoContent();
   }
 }

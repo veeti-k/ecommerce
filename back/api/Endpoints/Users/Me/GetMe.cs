@@ -1,8 +1,12 @@
-﻿using api.Mapping.MappedTypes;
+﻿using api.Repositories.Interfaces;
+using api.RequestsAndResponses.User;
 using api.Services.Interfaces;
+using api.Specifications.User;
 using Ardalis.ApiEndpoints;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Users.Me;
 
@@ -10,13 +14,15 @@ public class GetMe : EndpointBaseAsync
   .WithoutRequest
   .WithActionResult<UserResponse>
 {
-  private readonly IUserService _userService;
+  private readonly IMapper _mapper;
   private readonly IContextService _contextService;
+  private readonly IGenericRepo<Models.User.User> _userRepo;
 
-  public GetMe(IUserService aUserService, IContextService aContextService)
+  public GetMe(IMapper mapper, IContextService contextService, IGenericRepo<Models.User.User> userRepo)
   {
-    _userService = aUserService;
-    _contextService = aContextService;
+    _mapper = mapper;
+    _contextService = contextService;
+    _userRepo = userRepo;
   }
 
   [Authorize]
@@ -27,12 +33,11 @@ public class GetMe : EndpointBaseAsync
     var userId = _contextService.GetCurrentUserId();
     var sessionId = _contextService.GetCurrentSessionId();
 
-    var user = await _userService.GetById(userId);
+    var user = await _userRepo
+      .Specify(new UserGetWithSessionsSpec(userId))
+      .FirstOrDefaultAsync(cancellationToken);
 
-    // mark current session
-    foreach (var session in user.Sessions)
-      if (session.Id == sessionId)
-        session.isCurrentSession = true;
+    // TODO: mark current session
 
     return Ok(user);
   }

@@ -1,28 +1,39 @@
-﻿using api.Mapping.MappedTypes.Product;
-using api.Services.Interfaces.ProductServices;
+﻿using api.Exceptions;
+using api.Repositories.Interfaces;
+using api.RequestsAndResponses.Product;
+using api.RequestsAndResponses.Product.GetOne;
+using api.Specifications.Product;
 using Ardalis.ApiEndpoints;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Products.Product;
 
 public class GetProduct : EndpointBaseAsync
-  .WithRequest<int>
-  .WithActionResult<ProductResponse>
+  .WithRequest<GetOneRequest>
+  .WithActionResult<ProductPageProductResponse>
 {
-  private readonly IProductService _productService;
+  private readonly IMapper _mapper;
+  private readonly IGenericRepo<Models.Product.Product> _repo;
 
-  public GetProduct(IProductService aProductService)
+  public GetProduct(IMapper mapper, IGenericRepo<Models.Product.Product> repo)
   {
-    _productService = aProductService;
+    _mapper = mapper;
+    _repo = repo;
   }
 
   [HttpGet(Routes.Products.ProductRoot)]
-  public override async Task<ActionResult<ProductResponse>> HandleAsync(
-    int productId,
+  public override async Task<ActionResult<ProductPageProductResponse>> HandleAsync(
+    [FromRoute] GetOneRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var products = await _productService.GetById(productId);
+    var product = await _repo
+      .Specify(new ProductGetProductPageProductSpec(request.ProductId))
+      .FirstOrDefaultAsync(cancellationToken);
 
-    return Ok(products);
+    if (product is null) throw new NotFoundException($"Product with id {request.ProductId} not found");
+    
+    return Ok(_mapper.Map<ProductPageProductResponse>(product));
   }
 }

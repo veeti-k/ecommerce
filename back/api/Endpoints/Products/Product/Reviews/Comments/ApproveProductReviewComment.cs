@@ -1,28 +1,35 @@
-﻿using api.Mapping.MappedTypes.Product;
+﻿using api.Exceptions;
+using api.Models.Product.Review;
+using api.Repositories.Interfaces;
+using api.RequestsAndResponses.ProductReviewComment;
+using api.RequestsAndResponses.ProductReviewComment.Approve;
 using api.Security.Policies;
-using api.Services.Interfaces.ProductServices;
 using Ardalis.ApiEndpoints;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Endpoints.Products.Product.Reviews.Comments;
 
-public class ApproveProductReviewCommentRequest
-{
-  [FromRoute(Name = "productId")] public int ProductId { get; set; }
-  [FromRoute(Name = "reviewId")] public Guid ReviewId { get; set; }
-  [FromRoute(Name = "commentId")] public Guid CommentId { get; set; }
-}
-
 public class ApproveProductReviewComment : EndpointBaseAsync
   .WithRequest<ApproveProductReviewCommentRequest>
   .WithActionResult<ProductReviewCommentResponse>
 {
-  private readonly IProductReviewCommentService _productReviewCommentService;
+  private readonly IMapper _mapper;
+  private readonly IGenericRepo<Models.Product.Product> _productRepo;
+  private readonly IGenericRepo<ProductReview> _productReviewRepo;
+  private readonly IGenericRepo<ProductReviewComment> _productReviewCommentRepo;
 
-  public ApproveProductReviewComment(IProductReviewCommentService aProductReviewCommentService)
+  public ApproveProductReviewComment(
+    IMapper mapper,
+    IGenericRepo<Models.Product.Product> productRepo,
+    IGenericRepo<ProductReview> productReviewRepo,
+    IGenericRepo<ProductReviewComment> productReviewCommentRepo)
   {
-    _productReviewCommentService = aProductReviewCommentService;
+    _mapper = mapper;
+    _productRepo = productRepo;
+    _productReviewRepo = productReviewRepo;
+    _productReviewCommentRepo = productReviewCommentRepo;
   }
 
   [Authorize(Policy = Policies.ManageReviews)]
@@ -31,9 +38,18 @@ public class ApproveProductReviewComment : EndpointBaseAsync
     [FromRoute] ApproveProductReviewCommentRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var updated =
-      await _productReviewCommentService.ApproveComment(request.ProductId, request.ReviewId, request.CommentId);
+    var product = await _productRepo.GetById(request.ProductId);
+    if (product is null) throw new NotFoundException($"Product with id {request.ProductId} was not found");
 
-    return Ok(updated);
+    var review = await _productReviewRepo.GetById(request.ReviewId);
+    if (review is null) throw new NotFoundException($"Review with id {request.ReviewId} was not found");
+
+    var comment = await _productReviewCommentRepo.GetById(request.CommentId);
+    if (comment is null) throw new NotFoundException($"Comment with id {request.CommentId} was not found");
+
+    comment.IsApproved = true;
+
+    var updated = await _productReviewCommentRepo.Update(comment);
+    return Ok(_mapper.Map<ProductReviewCommentResponse>(updated));
   }
 }

@@ -1,8 +1,13 @@
-﻿using api.Mapping.MappedTypes;
+﻿using api.Models.User;
+using api.Repositories.Interfaces;
+using api.RequestsAndResponses.Addresses;
 using api.Services.Interfaces;
+using api.Specifications.Address;
 using Ardalis.ApiEndpoints;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Users.Me.Addresses;
 
@@ -10,13 +15,15 @@ public class GetAddresses : EndpointBaseAsync
   .WithoutRequest
   .WithActionResult<IEnumerable<AddressResponse>>
 {
+  private readonly IMapper _mapper;
   private readonly IContextService _contextService;
-  private readonly IAddressService _addressService;
+  private readonly IGenericRepo<Address> _addressRepo;
 
-  public GetAddresses(IContextService aContextService, IAddressService aAddressService)
+  public GetAddresses(IMapper mapper, IContextService aContextService, IGenericRepo<Address> addressRepo )
   {
+    _mapper = mapper;
     _contextService = aContextService;
-    _addressService = aAddressService;
+    _addressRepo = addressRepo;
   }
 
   [Authorize]
@@ -26,8 +33,10 @@ public class GetAddresses : EndpointBaseAsync
   {
     var userId = _contextService.GetCurrentUserId();
 
-    var addresses = await _addressService.GetUserAddresses(userId);
+    var addresses = await _addressRepo
+      .Specify(new AddressGetUserAddressesSpec(userId))
+      .ToListAsync(cancellationToken);
 
-    return Ok(addresses);
+    return Ok(_mapper.Map<IEnumerable<AddressResponse>>(addresses));
   }
 }

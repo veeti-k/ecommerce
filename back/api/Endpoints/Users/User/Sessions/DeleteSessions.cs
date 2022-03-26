@@ -1,36 +1,40 @@
-﻿using api.DTOs;
-using api.Services.Interfaces;
+﻿using api.Exceptions;
+using api.Models.User;
+using api.Repositories.Interfaces;
+using api.RequestsAndResponses.Sessions.UserDelete;
+using api.Specifications.Session;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Users.User.Sessions;
 
-public class UserIdDeleteSessionsRequest
-{
-  [FromRoute(Name = "userId")] public int UserId { get; set; }
-  [FromBody] public InvalidateSessionDTO Dto { get; set; }
-}
-
 public class DeleteSessions : EndpointBaseAsync
-  .WithRequest<UserIdDeleteSessionsRequest>
+  .WithRequest<UserDeleteSessionsRequest>
   .WithActionResult
 {
-  private readonly ISessionService _sessionService;
+  private readonly IGenericRepo<Session> _sessionRepo;
 
-  public DeleteSessions(ISessionService aSessionService)
+  public DeleteSessions(IGenericRepo<Session> sessionRepo)
   {
-    _sessionService = aSessionService;
+    _sessionRepo = sessionRepo;
   }
 
   [Authorize]
   [HttpDelete(Routes.Users.User.Sessions)]
   public override async Task<ActionResult> HandleAsync(
-    [FromRoute] UserIdDeleteSessionsRequest request,
+    [FromRoute] UserDeleteSessionsRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    await _sessionService.RemoveMany(request.Dto.SessionIds, request.UserId);
+    var sessions = await _sessionRepo
+      .Specify(new SessionGetManySpec(request.UserId, request.Dto.SessionIds))
+      .ToListAsync(cancellationToken);
 
+    if (!sessions.Any()) throw new NotFoundException("Didn't found any sessions");
+
+    await _sessionRepo.DeleteMany(sessions);
+    
     return NoContent();
   }
 }

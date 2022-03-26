@@ -1,33 +1,45 @@
-﻿using api.DTOs;
-using api.Mapping.MappedTypes;
+﻿using api.Exceptions;
+using api.Repositories.Interfaces;
+using api.RequestsAndResponses.User;
+using api.RequestsAndResponses.User.UpdateMe;
 using api.Services.Interfaces;
 using Ardalis.ApiEndpoints;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Endpoints.Users.Me;
 
 public class UpdateMe : EndpointBaseAsync
-  .WithRequest<UpdateUserDTO>
+  .WithRequest<UpdateMeRequest>
   .WithActionResult<UserResponse>
 {
-  private readonly IUserService _userService;
+  private readonly IMapper _mapper;
+  private readonly IGenericRepo<Models.User.User> _userRepo;
   private readonly IContextService _contextService;
 
-  public UpdateMe(IUserService aUserService, IContextService aContextService)
+  public UpdateMe(IMapper mapper, IGenericRepo<Models.User.User> userRepo, IContextService contextService)
   {
-    _userService = aUserService;
-    _contextService = aContextService;
+    _mapper = mapper;
+    _userRepo = userRepo;
+    _contextService = contextService;
   }
 
   [Authorize]
   [HttpPatch(Routes.Users.MeRoot)]
-  public override async Task<ActionResult<UserResponse>> HandleAsync(UpdateUserDTO dto, CancellationToken cancellationToken = new CancellationToken())
+  public override async Task<ActionResult<UserResponse>> HandleAsync(
+    [FromRoute] UpdateMeRequest request,
+    CancellationToken cancellationToken = new CancellationToken())
   {
     var userId = _contextService.GetCurrentUserId();
+    var user = await _userRepo.GetById(userId);
+    if (user is null) throw new NotFoundException($"User with id {userId} was not found");
 
-    var updated = await _userService.Update(dto, userId);
+    user.Name = request.Dto.Name ?? user.Name;
+    user.PhoneNumber = request.Dto.PhoneNumber ?? user.PhoneNumber;
+    user.Email = request.Dto.Email ?? user.Email;
 
-    return Ok(updated);
+    var updated = await _userRepo.Update(user);
+    return Ok(_mapper.Map<UserResponse>(updated));
   }
 }

@@ -1,28 +1,30 @@
-﻿using api.DTOs;
-using api.Mapping.MappedTypes;
+﻿using api.Exceptions;
+using api.Repositories.Interfaces;
+using api.RequestsAndResponses.User;
+using api.RequestsAndResponses.User.UpdateUserFlags;
+using api.Security;
 using api.Security.Policies;
 using api.Services.Interfaces;
 using Ardalis.ApiEndpoints;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Endpoints.Users.User;
 
-public class UpdateUserFlagsRequest
-{
-  [FromRoute(Name = "userId")] public int userId { get; set; }
-  [FromBody] public UpdateUserFlagsDTO Dto { get; set; }
-}
-
 public class UpdateUserFlags : EndpointBaseAsync
   .WithRequest<UpdateUserFlagsRequest>
   .WithActionResult<UserResponse>
 {
-  private readonly IUserService _userService;
+  private readonly IMapper _mapper;
+  private readonly IGenericRepo<Models.User.User> _userRepo;
+  private readonly IContextService _contextService;
 
-  public UpdateUserFlags(IUserService aUserService)
+  public UpdateUserFlags(IMapper mapper, IGenericRepo<Models.User.User> userRepo, IContextService contextService)
   {
-    _userService = aUserService;
+    _mapper = mapper;
+    _userRepo = userRepo;
+    _contextService = contextService;
   }
 
   [Authorize(Policy = Policies.Administrator)]
@@ -31,8 +33,18 @@ public class UpdateUserFlags : EndpointBaseAsync
     [FromRoute] UpdateUserFlagsRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var updated = await _userService.UpdateFlags(request.Dto, request.userId);
+    var user = await _userRepo.GetById(request.UserId);
+    if (user is null) throw new NotFoundException($"User with id {request.UserId} was not found");
 
-    return updated;
+    var currentUserId = _contextService.GetCurrentUserId();
+
+    if (currentUserId == request.UserId && !Flags.HasFlag(request.Dto.flags, Flags.ADMINISTRATOR))
+      throw new BadRequestException("You can not remove the flag ADMINISTRATOR from yourself");
+
+    user.Flags = request.Dto.flags;
+
+    var updated = await _userRepo.Update(user);
+
+    return _mapper.Map<UserResponse>(updated);
   }
 }

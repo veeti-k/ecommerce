@@ -1,27 +1,30 @@
-﻿using api.Security.Policies;
-using api.Services.Interfaces.ProductServices;
+﻿using api.Exceptions;
+using api.Models.Product.Question;
+using api.Repositories.Interfaces;
+using api.RequestsAndResponses.ProductQuestionAnswer.Delete;
+using api.Security.Policies;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Endpoints.Products.Product.Questions;
 
-public class RemoveProductQuestionAnswerRequest
-{
-  [FromRoute(Name = "productId")] public int ProductId { get; set; }
-  [FromRoute(Name = "questionId")] public Guid QuestionId { get; set; }
-  [FromRoute(Name = "answerId")] public Guid AnswerId { get; set; }
-}
-
 public class RemoveProductQuestionAnswer : EndpointBaseAsync
   .WithRequest<RemoveProductQuestionAnswerRequest>
   .WithActionResult
 {
-  private readonly IProductQuestionAnswerService _productQuestionAnswerService;
+  private readonly IGenericRepo<Models.Product.Product> _productRepo;
+  private readonly IGenericRepo<ProductQuestion> _productQuestionRepo;
+  private readonly IGenericRepo<ProductQuestionAnswer> _productQuestionAnswerRepo;
 
-  public RemoveProductQuestionAnswer(IProductQuestionAnswerService aProductQuestionAnswerService)
+  public RemoveProductQuestionAnswer(
+    IGenericRepo<Models.Product.Product> productRepo,
+    IGenericRepo<ProductQuestion> productQuestionRepo,
+    IGenericRepo<ProductQuestionAnswer> productQuestionAnswerRepo)
   {
-    _productQuestionAnswerService = aProductQuestionAnswerService;
+    _productRepo = productRepo;
+    _productQuestionRepo = productQuestionRepo;
+    _productQuestionAnswerRepo = productQuestionAnswerRepo;
   }
 
   [Authorize(Policy = Policies.ManageQuestions)]
@@ -30,8 +33,16 @@ public class RemoveProductQuestionAnswer : EndpointBaseAsync
     [FromRoute] RemoveProductQuestionAnswerRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    await _productQuestionAnswerService.RemoveAnswer(request.ProductId, request.QuestionId, request.AnswerId);
+    var product = await _productRepo.GetById(request.ProductId);
+    if (product is null) throw new NotFoundException($"Product with id {request.ProductId} was not found");
 
+    var question = await _productQuestionRepo.GetById(request.QuestionId);
+    if (question is null) throw new NotFoundException($"Question with id {request.QuestionId} was not found");
+
+    var answer = await _productQuestionAnswerRepo.GetById(request.AnswerId);
+    if (answer is null) throw new NotFoundException($"Answer with id {request.AnswerId} was not found");
+
+    await _productQuestionAnswerRepo.Delete(answer);
     return NoContent();
   }
 }

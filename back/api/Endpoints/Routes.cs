@@ -117,4 +117,13 @@ public static class Routes
       }
     }
   }
+
+  public const string CategoriesRoot = $"{GlobalPrefix}/categories";
+  
+  public static class Categories
+  {
+    private const string CategoryId = "{categoryId:int}";
+
+    public const string Category = $"{CategoriesRoot}/{CategoryId}";
+  }
 }

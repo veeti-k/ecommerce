@@ -46,42 +46,18 @@ const ProductPage: NextPage = () => {
     id: 1,
     name: "Test category 1, root",
     parentId: null,
-    children: [
-      {
-        id: 2,
-        name: "Test category 2, child of category 1",
-        parentId: 1,
-        children: [
-          {
-            id: 3,
-            name: "Test category 3, child of category 2",
-            parentId: 2,
-            children: [],
-          },
-        ],
-      },
-    ],
   };
 
   const category2 = {
     id: 2,
     name: "Test category 2, child of category 1",
     parentId: 1,
-    children: [
-      {
-        id: 3,
-        name: "Test category 3, child of category 2",
-        parentId: 2,
-        children: [],
-      },
-    ],
   };
 
   const category3 = {
     id: 3,
     name: "Test category 3, child of category 2",
     parentId: 2,
-    children: [],
   };
 
   const product: ProductPageProduct = {

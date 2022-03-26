@@ -1,37 +1,55 @@
-﻿using api.Mapping.MappedTypes.Product;
-using api.Security.Policies;
-using api.Services.Interfaces.ProductServices;
+﻿using api.Exceptions;
+using api.Models.Product.Review;
+using api.Repositories.Interfaces;
+using api.RequestsAndResponses.ProductReview;
+using api.RequestsAndResponses.ProductReview.Approve;
+using api.Specifications.ProductReview;
 using Ardalis.ApiEndpoints;
-using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Products.Product.Reviews;
-
-public class ApproveProductReviewRequest
-{
-  [FromRoute(Name = "productId")] public int ProductId { get; set; }
-  [FromRoute(Name = "reviewId")] public Guid ReviewId { get; set; }
-}
 
 public class ApproveProductReview : EndpointBaseAsync
   .WithRequest<ApproveProductReviewRequest>
   .WithActionResult<ProductReviewResponse>
 {
-  private readonly IProductReviewService _productReviewService;
+  private readonly IMapper _mapper;
+  private readonly IGenericRepo<Models.Product.Product> _productRepo;
+  private readonly IGenericRepo<ProductReview> _productReviewRepo;
 
-  public ApproveProductReview(IProductReviewService aProductReviewService)
+  public ApproveProductReview(IMapper mapper, IGenericRepo<Models.Product.Product> productRepo, IGenericRepo<ProductReview> productReviewRepo)
   {
-    _productReviewService = aProductReviewService;
+    _mapper = mapper;
+    _productRepo = productRepo;
+    _productReviewRepo = productReviewRepo;
   }
 
-  [Authorize(Policy = Policies.ManageReviews)]
-  [HttpPatch(Routes.Products.Product.Reviews.ReviewRoot)]
   public override async Task<ActionResult<ProductReviewResponse>> HandleAsync(
-    [FromRoute] ApproveProductReviewRequest request,
+    [FromRoute]ApproveProductReviewRequest request, 
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var updated = await _productReviewService.ApproveProductReview(request.ProductId, request.ReviewId);
+    var product = await _productRepo.GetById(request.ProductId);
+    if (product is null) throw new NotFoundException($"Product with id {request.ProductId} was not found");
 
-    return Ok(updated);
+    var review = await _productReviewRepo.GetById(request.ReviewId);
+    if (review is null) throw new NotFoundException($"Review with id {request.ReviewId} was not found");
+
+    var reviews = await _productReviewRepo
+      .Specify(new ProductReviewGetApprovedByProductIdSpec(request.ProductId))
+      .ToListAsync(cancellationToken);
+
+    review.IsApproved = true;
+
+    product.ReviewCount += 1;
+    var totalStars = review.Stars + reviews.Aggregate(0, (acc, review) => acc + review.Stars);
+    var newAverageStars = (float)totalStars / product.ReviewCount;
+    product.AverageStars = newAverageStars;
+    
+    var updated = await _productReviewRepo.Update(review);
+    
+    await _productRepo.Update(product);
+    return _mapper.Map<ProductReviewResponse>(updated);
   }
 }

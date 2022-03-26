@@ -1,29 +1,31 @@
-﻿using api.DTOs;
-using api.Mapping.MappedTypes;
+﻿using api.Exceptions;
+using api.Models.User;
+using api.Repositories.Interfaces;
+using api.RequestsAndResponses.Addresses;
+using api.RequestsAndResponses.Addresses.MeUpdate;
 using api.Services.Interfaces;
+using api.Specifications.Address;
 using Ardalis.ApiEndpoints;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Users.Me.Addresses;
-
-public class MeUpdateAddressRequest
-{
-  [FromRoute(Name = "addressId")] public Guid AddressId { get; set; }
-  [FromBody] public UpdateAddressDTO Dto { get; set; }
-}
 
 public class UpdateAddress : EndpointBaseAsync
   .WithRequest<MeUpdateAddressRequest>
   .WithActionResult<AddressResponse>
 {
+  private readonly IMapper _mapper;
   private readonly IContextService _contextService;
-  private readonly IAddressService _addressService;
+  private readonly IGenericRepo<Address> _addressRepo;
 
-  public UpdateAddress(IContextService aContextService, IAddressService aAddressService)
+  public UpdateAddress(IMapper mapper, IContextService aContextService, IGenericRepo<Address> addressRepo)
   {
+    _mapper = mapper;
     _contextService = aContextService;
-    _addressService = aAddressService;
+    _addressRepo = addressRepo;
   }
 
   [Authorize]
@@ -34,8 +36,21 @@ public class UpdateAddress : EndpointBaseAsync
   {
     var userId = _contextService.GetCurrentUserId();
 
-    var updatedAddress = await _addressService.Update(request.Dto, userId, request.AddressId);
+    var existingAddress = await _addressRepo
+      .Specify(new AddressGetUserAddressSpec(userId, request.AddressId))
+      .FirstOrDefaultAsync(cancellationToken);
 
-    return Ok(updatedAddress);
+    if (existingAddress is null) throw new NotFoundException($"Address with id {request.AddressId} was not found");
+
+    existingAddress.Name = request.Dto.Name ?? existingAddress.Name;
+    existingAddress.City = request.Dto.City ?? existingAddress.City;
+    existingAddress.Email = request.Dto.Email ?? existingAddress.Email;
+    existingAddress.StreetAddress = request.Dto.StreetAddress ?? existingAddress.StreetAddress;
+    existingAddress.State = request.Dto.State ?? existingAddress.State;
+    existingAddress.PhoneNumber = request.Dto.PhoneNumber ?? existingAddress.PhoneNumber;
+    existingAddress.Zip = request.Dto.Zip ?? existingAddress.Zip;
+
+    var updated = await _addressRepo.Update(existingAddress);
+    return Ok(_mapper.Map<AddressResponse>(updated));
   }
 }

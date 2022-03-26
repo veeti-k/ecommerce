@@ -11,7 +11,3 @@ public record CreateProductBulletPointDTO
   public IEnumerable<OneProductBulletPointDTOBulletPoint> BulletPoints { get; init; }
 }
 
-public record UpdateProductBulletPointDTO : OneProductBulletPointDTOBulletPoint
-{
-  public bool? IsImportant { get; init; }
-}

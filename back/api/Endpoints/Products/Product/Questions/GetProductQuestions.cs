@@ -1,29 +1,46 @@
-﻿using api.Mapping.MappedTypes.Product;
-using api.Services.Interfaces.ProductServices;
+﻿using api.Exceptions;
+using api.Models.Product.Question;
+using api.Repositories.Interfaces;
+using api.RequestsAndResponses.ProductQuestion;
+using api.RequestsAndResponses.ProductQuestion.Get;
+using api.Specifications.ProductQuestion;
 using Ardalis.ApiEndpoints;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Products.Product.Questions;
 
 public class GetProductQuestions : EndpointBaseAsync
-  .WithRequest<int>
+  .WithRequest<GetProductQuestionsRequest>
   .WithActionResult<IEnumerable<ProductQuestionResponse>>
-
 {
-  private readonly IProductQuestionService _productQuestionService;
+  private readonly IMapper _mapper;
+  private readonly IGenericRepo<Models.Product.Product> _productRepo;
+  private readonly IGenericRepo<ProductQuestion> _productQuestionRepo;
 
-  public GetProductQuestions(IProductQuestionService aProductQuestionService)
+  public GetProductQuestions(
+    IMapper mapper,
+    IGenericRepo<Models.Product.Product> productRepo,
+    IGenericRepo<ProductQuestion> productQuestionRepo)
   {
-    _productQuestionService = aProductQuestionService;
+    _mapper = mapper;
+    _productRepo = productRepo;
+    _productQuestionRepo = productQuestionRepo;
   }
 
   [HttpGet(Routes.Products.Product.QuestionsRoot)]
   public override async Task<ActionResult<IEnumerable<ProductQuestionResponse>>> HandleAsync(
-    int productId,
+    GetProductQuestionsRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var questions = await _productQuestionService.GetProductQuestions(productId);
+    var product = await _productRepo.GetById(request.ProductId);
+    if (product is null) throw new NotFoundException($"Product with id {request.ProductId} was not found");
 
-    return Ok(questions);
+    var questions = await _productQuestionRepo
+      .Specify(new ProductQuestionGetApprovedByProductIdSpec(request.ProductId))
+      .ToListAsync(cancellationToken);
+
+    return Ok(_mapper.Map<IEnumerable<ProductQuestionResponse>>(questions));
   }
 }

@@ -1,24 +1,25 @@
-﻿using api.Services.Interfaces.ProductServices;
+﻿using api.Exceptions;
+using api.Models.Product;
+using api.Repositories.Interfaces;
+using api.RequestsAndResponses.ProductBulletPoints.Delete;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Endpoints.Products.Product.BulletPoints;
 
-public class RemoveBulletPointRequest
-{
-  [FromRoute(Name = "productId")] public int ProductId { get; set; }
-  [FromRoute(Name = "bulletPointId")] public Guid BulletPointId { get; set; }
-}
-
 public class RemoveBulletPoint : EndpointBaseAsync
   .WithRequest<RemoveBulletPointRequest>
   .WithActionResult
 {
-  private readonly IProductBulletPointService _productBulletPointService;
+  private readonly IGenericRepo<Models.Product.Product> _productRepo;
+  private readonly IGenericRepo<ProductBulletPoint> _productBulletPointRepo;
 
-  public RemoveBulletPoint(IProductBulletPointService aProductBulletPointService)
+  public RemoveBulletPoint(
+    IGenericRepo<Models.Product.Product> productRepo,
+    IGenericRepo<ProductBulletPoint> productBulletPointRepo)
   {
-    _productBulletPointService = aProductBulletPointService;
+    _productRepo = productRepo;
+    _productBulletPointRepo = productBulletPointRepo;
   }
 
   [HttpDelete(Routes.Products.Product.BulletPoints.BulletPoint)]
@@ -26,8 +27,13 @@ public class RemoveBulletPoint : EndpointBaseAsync
     [FromRoute] RemoveBulletPointRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    await _productBulletPointService.Remove(request.BulletPointId, request.ProductId);
+    var product = await _productRepo.GetById(request.ProductId);
+    if (product is null) throw new NotFoundException($"Product with id {request.ProductId} was not found");
 
+    var bulletPoint = await _productBulletPointRepo.GetById(request.BulletPointId);
+    if (bulletPoint is null) throw new NotFoundException($"Bullet point with id {request.BulletPointId} was not found");
+
+    await _productBulletPointRepo.Delete(bulletPoint);
     return NoContent();
   }
 }

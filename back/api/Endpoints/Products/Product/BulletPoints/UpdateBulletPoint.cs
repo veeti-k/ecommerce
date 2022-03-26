@@ -1,29 +1,32 @@
-﻿using api.DTOs.Product;
-using api.Mapping.MappedTypes.Product;
+﻿using api.Exceptions;
+using api.Models.Product;
+using api.Repositories.Interfaces;
+using api.RequestsAndResponses.ProductBulletPoints;
+using api.RequestsAndResponses.ProductBulletPoints.Update;
 using api.Security.Policies;
-using api.Services.Interfaces.ProductServices;
 using Ardalis.ApiEndpoints;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Endpoints.Products.Product.BulletPoints;
 
-public class UpdateBulletPointRequest
-{
-  [FromRoute(Name = "productId")] public int ProductId { get; set; }
-  [FromRoute(Name = "bulletPointId")] public Guid BulletPointId { get; set; }
-  [FromBody] public UpdateProductBulletPointDTO Dto { get; set; }
-}
-
 public class UpdateBulletPoint : EndpointBaseAsync
   .WithRequest<UpdateBulletPointRequest>
   .WithActionResult<ProductBulletPointResponse>
 {
-  private readonly IProductBulletPointService _productBulletPointService;
+  private readonly IMapper _mapper;
+  private readonly IGenericRepo<Models.Product.Product> _productRepo;
+  private readonly IGenericRepo<ProductBulletPoint> _productBulletPointRepo;
 
-  public UpdateBulletPoint(IProductBulletPointService aProductBulletPointService)
+  public UpdateBulletPoint(
+    IMapper mapper,
+    IGenericRepo<Models.Product.Product> productRepo,
+    IGenericRepo<ProductBulletPoint> productBulletPointRepo)
   {
-    _productBulletPointService = aProductBulletPointService;
+    _mapper = mapper;
+    _productRepo = productRepo;
+    _productBulletPointRepo = productBulletPointRepo;
   }
 
   [Authorize(Policy = Policies.ManageProducts)]
@@ -32,9 +35,16 @@ public class UpdateBulletPoint : EndpointBaseAsync
     [FromRoute] UpdateBulletPointRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var updated = await _productBulletPointService
-      .Update(request.Dto, request.BulletPointId, request.ProductId);
+    var product = await _productRepo.GetById(request.ProductId);
+    if (product is null) throw new NotFoundException($"Product with id {request.ProductId} was not found");
 
-    return Ok(updated);
+    var bulletPoint = await _productBulletPointRepo.GetById(request.BulletPointId);
+    if (bulletPoint is null) throw new NotFoundException($"Bullet point with id {request.BulletPointId} was not found");
+    
+    bulletPoint.Text = request.Dto.Text ?? bulletPoint.Text;
+    bulletPoint.IsImportant = request.Dto.IsImportant ?? bulletPoint.IsImportant;
+
+    var updated = await _productBulletPointRepo.Update(bulletPoint);
+    return _mapper.Map<ProductBulletPointResponse>(updated);
   }
 }

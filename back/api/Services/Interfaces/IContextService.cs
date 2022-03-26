@@ -1,4 +1,4 @@
-﻿namespace api.Services.Interfaces;
+namespace api.Services.Interfaces;
 
 public interface IContextService
 {

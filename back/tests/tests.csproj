@@ -22,6 +22,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
+        <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="6.13.15" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,9 +1,17 @@
-﻿using api.Mapping.MappedTypes;
-using api.Mapping.MappedTypes.Product;
-using api.Models.Product;
+﻿using api.Models.Product;
 using api.Models.Product.Question;
 using api.Models.Product.Review;
 using api.Models.User;
+using api.RequestsAndResponses.Addresses;
+using api.RequestsAndResponses.Category;
+using api.RequestsAndResponses.Product;
+using api.RequestsAndResponses.ProductBulletPoints;
+using api.RequestsAndResponses.ProductQuestion;
+using api.RequestsAndResponses.ProductQuestionAnswer;
+using api.RequestsAndResponses.ProductReview;
+using api.RequestsAndResponses.ProductReviewComment;
+using api.RequestsAndResponses.Sessions;
+using api.RequestsAndResponses.User;
 using AutoMapper;
 
 namespace api.Mapping;
@@ -16,7 +24,7 @@ public class DomainToResponseMappingProfile : Profile
     CreateMap<Session, SessionResponse>();
     CreateMap<Address, AddressResponse>();
 
-    CreateMap<Product, ProductResponse>();
+    CreateMap<Product, BaseProductResponse>();
     CreateMap<Product, ShowCaseProductResponse>()
       .ForMember(dest => dest.ImportantBulletpoints,
         options => options
@@ -25,13 +33,10 @@ public class DomainToResponseMappingProfile : Profile
 
     CreateMap<ProductReview, ProductReviewResponse>();
     CreateMap<ProductReviewComment, ProductReviewCommentResponse>();
-    CreateMap<ProductQuestion, ProductQuestionResponse>()
-      // alternative method of getting only the approved answers, 
-      // but this way the database wouldn't do the filtering, the server would
-      /*.ForMember(dest => dest.Answers,
-        options => options
-          .MapFrom(src => src.Answers.Where(answer => answer.IsApproved)))*/;
+    CreateMap<ProductQuestion, ProductQuestionResponse>();
     CreateMap<ProductQuestionAnswer, ProductQuestionAnswerResponse>();
     CreateMap<ProductBulletPoint, ProductBulletPointResponse>();
+
+    CreateMap<ProductCategory, ProductCategoryResponse>();
   }
 }

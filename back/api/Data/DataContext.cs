@@ -66,6 +66,20 @@ public class DataContext : DbContext, IDataContext
       .WithOne()
       .HasForeignKey(comment => comment.ReviewId)
       .OnDelete(DeleteBehavior.Cascade);
+
+    // many-to-many product - categories
+    aBuilder.Entity<ProductsCategories>()
+      .HasKey(linked => new {linked.CategoryId, linked.ProductId});
+    
+    aBuilder.Entity<ProductsCategories>()
+      .HasOne<Product>()
+      .WithMany(product => product.ProductsCategories)
+      .OnDelete(DeleteBehavior.Cascade);
+    
+    aBuilder.Entity<ProductsCategories>()
+      .HasOne(linked => linked.Category)
+      .WithMany()
+      .OnDelete(DeleteBehavior.Cascade);
   }
 
   public DbSet<User> Users { get; set; }

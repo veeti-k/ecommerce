@@ -1,15 +1,12 @@
 using api.Configs;
 using api.Data;
 using api.Exceptions;
+using api.Models.Product;
 using api.Repositories;
 using api.Repositories.Interfaces;
-using api.Repositories.Interfaces.ProductRepos;
-using api.Repositories.ProductRepos;
 using api.Security.Policies.Handlers;
 using api.Services;
 using api.Services.Interfaces;
-using api.Services.Interfaces.ProductServices;
-using api.Services.ProductServices;
 using api.Startup;
 using api.Utils;
 using api.Utils.Interfaces;
@@ -25,27 +22,11 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IDataContext, DataContext>();
-builder.Services.AddScoped<IUserRepo, UserRepo>();
-builder.Services.AddScoped<ISessionRepo, SessionRepo>();
-builder.Services.AddScoped<IAddressRepo, AddressRepo>();
-builder.Services.AddScoped<IProductRepo, ProductRepo>();
-builder.Services.AddScoped<IProductReviewRepo, ProductProductReviewRepo>();
-builder.Services.AddScoped<IProductReviewCommentRepo, ProductReviewCommentRepo>();
-builder.Services.AddScoped<IProductQuestionRepo, ProductQuestionRepo>();
-builder.Services.AddScoped<IProductQuestionAnswerRepo, ProductQuestionAnswerRepo>();
-builder.Services.AddScoped<IProductBulletPointRepo, ProductBulletPointRepo>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ISessionService, SessionService>();
-builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IContextService, ContextService>();
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IProductReviewService, ProductReviewService>();
-builder.Services.AddScoped<IProductReviewCommentService, ProductReviewCommentService>();
-builder.Services.AddScoped<IProductQuestionService, ProductQuestionService>();
-builder.Services.AddScoped<IProductQuestionAnswerService, ProductQuestionAnswerService>();
-builder.Services.AddScoped<IProductBulletPointService, ProductBulletPointService>();
+
+builder.Services.AddScoped<IGenericRepo<ProductCategory>, GenericRepo<ProductCategory>>();
 
 builder.Services.AddSingleton<ICookieUtils, CookieUtils>();
 builder.Services.AddSingleton<ITokenUtils, TokenUtils>();

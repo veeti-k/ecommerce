@@ -26,4 +26,5 @@ public class Product
   public virtual IEnumerable<ProductBulletPoint> BulletPoints { get; init; }
   public virtual IEnumerable<ProductReview> Reviews { get; init; }
   public virtual IEnumerable<ProductQuestion> Questions { get; init; }
+  public virtual IEnumerable<ProductsCategories> ProductsCategories { get; init; }
 }

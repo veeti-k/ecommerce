@@ -1,28 +1,37 @@
-﻿using api.Mapping.MappedTypes.Product;
-using api.Services.Interfaces.ProductServices;
+﻿using api.Models.Product.Review;
+using api.Repositories.Interfaces;
+using api.RequestsAndResponses.ProductReview;
+using api.RequestsAndResponses.ProductReview.Get;
+using api.Specifications.ProductReview;
 using Ardalis.ApiEndpoints;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Products.Product.Reviews;
 
 public class GetProductReviews : EndpointBaseAsync
-  .WithRequest<int>
+  .WithRequest<GetProductReviewsForProductRequest>
   .WithActionResult<IEnumerable<ProductReviewResponse>>
 {
-  private readonly IProductReviewService _productReviewService;
+  private readonly IMapper _mapper;
+  private readonly IGenericRepo<ProductReview> _repo;
 
-  public GetProductReviews(IProductReviewService aProductProductReviewService)
+  public GetProductReviews(IGenericRepo<ProductReview> repo, IMapper mapper)
   {
-    _productReviewService = aProductProductReviewService;
+    _repo = repo;
+    _mapper = mapper;
   }
 
   [HttpGet(Routes.Products.Product.ReviewsRoot)]
   public override async Task<ActionResult<IEnumerable<ProductReviewResponse>>> HandleAsync(
-    int productId,
+    [FromRoute] GetProductReviewsForProductRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var reviews = await _productReviewService.GetProductReviews(productId);
-
-    return Ok(reviews);
+    var reviews = await _repo
+      .Specify(new ProductReviewGetWithProductIdSpec(request.ProductId))
+      .FirstOrDefaultAsync(cancellationToken);
+    
+    return Ok(_mapper.Map<IEnumerable<ProductReviewResponse>>(reviews));
   }
 }

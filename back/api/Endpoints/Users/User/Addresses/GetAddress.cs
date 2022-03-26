@@ -1,37 +1,43 @@
-﻿using api.Mapping.MappedTypes;
+﻿using api.Exceptions;
+using api.Models.User;
+using api.Repositories.Interfaces;
+using api.RequestsAndResponses.Addresses;
+using api.RequestsAndResponses.Addresses.UserGetOne;
 using api.Security.Policies;
-using api.Services.Interfaces;
+using api.Specifications.Address;
 using Ardalis.ApiEndpoints;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Users.User.Addresses;
 
-public class UserIdGetAddressRequest
-{
-  [FromRoute(Name = "userId")] public int UserId { get; set; }
-  [FromRoute(Name = "addressId")] public Guid AddressId { get; set; }
-}
-
 public class GetAddress : EndpointBaseAsync
-  .WithRequest<UserIdGetAddressRequest>
+  .WithRequest<UserGetOneAddress>
   .WithActionResult<AddressResponse>
 {
-  private readonly IAddressService _addressService;
+  private readonly IMapper _mapper;
+  private readonly IGenericRepo<Address> _addressRepo;
 
-  public GetAddress(IAddressService addressService)
+  public GetAddress(IMapper mapper, IGenericRepo<Address> addressRepo)
   {
-    _addressService = addressService;
+    _mapper = mapper;
+    _addressRepo = addressRepo;
   }
 
   [Authorize(Policy = Policies.ViewUsers)]
   [HttpGet(Routes.Users.User.Addresses.Address)]
   public override async Task<ActionResult<AddressResponse>> HandleAsync(
-    [FromRoute] UserIdGetAddressRequest request,
+    [FromRoute] UserGetOneAddress request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var address = await _addressService.GetUserAddress(request.AddressId, request.UserId);
+    var address = await _addressRepo
+      .Specify(new AddressGetUserAddressSpec(request.UserId, request.AddressId))
+      .FirstOrDefaultAsync(cancellationToken);
 
-    return Ok(address);
+    if (address is null) throw new NotFoundException($"Address with {request.AddressId} was not found");
+
+    return Ok(_mapper.Map<AddressResponse>(address));
   }
 }

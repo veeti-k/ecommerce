@@ -1,28 +1,26 @@
-﻿using api.DTOs;
-using api.Mapping.MappedTypes;
+﻿using api.Exceptions;
+using api.Repositories.Interfaces;
+using api.RequestsAndResponses.User;
+using api.RequestsAndResponses.User.UpdateUser;
 using api.Security.Policies;
-using api.Services.Interfaces;
 using Ardalis.ApiEndpoints;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Endpoints.Users.User;
 
-public class UpdateUserRequest
-{
-  [FromRoute(Name = "userId")] public int userId { get; set; }
-  [FromBody] public UpdateUserDTO Dto { get; set; }
-}
-
 public class UpdateUser : EndpointBaseAsync
   .WithRequest<UpdateUserRequest>
   .WithActionResult<UserResponse>
 {
-  private readonly IUserService _userService;
+  private readonly IMapper _mapper;
+  private readonly IGenericRepo<Models.User.User> _userRepo;
 
-  public UpdateUser(IUserService aUserService)
+  public UpdateUser(IMapper mapper, IGenericRepo<Models.User.User> userRepo)
   {
-    _userService = aUserService;
+    _mapper = mapper;
+    _userRepo = userRepo;
   }
 
   [Authorize(Policy = Policies.Administrator)]
@@ -31,8 +29,14 @@ public class UpdateUser : EndpointBaseAsync
     [FromRoute] UpdateUserRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var updated = await _userService.Update(request.Dto, request.userId);
+    var user = await _userRepo.GetById(request.UserId);
+    if (user is null) throw new NotFoundException($"User with id {request.UserId} was not found");
 
-    return updated;
+    user.Name = request.Dto.Name ?? user.Name;
+    user.PhoneNumber = request.Dto.PhoneNumber ?? user.PhoneNumber;
+    user.Email = request.Dto.Email ?? user.Email;
+
+    var updated = await _userRepo.Update(user);
+    return Ok(_mapper.Map<UserResponse>(updated));
   }
 }

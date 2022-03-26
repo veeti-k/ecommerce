@@ -1,38 +1,49 @@
-﻿using api.DTOs.Product;
-using api.Mapping.MappedTypes.Product;
+﻿using api.Exceptions;
+using api.Repositories.Interfaces;
+using api.RequestsAndResponses.Product;
+using api.RequestsAndResponses.Product.Update;
 using api.Security.Policies;
-using api.Services.Interfaces.ProductServices;
 using Ardalis.ApiEndpoints;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Endpoints.Products.Product;
 
-public class UpdateProductRequest
-{
-  [FromRoute(Name = "productId")] public int ProductId { get; set; }
-  [FromBody] public UpdateProductDTO Dto { get; set; }
-}
 
 public class UpdateProduct : EndpointBaseAsync
   .WithRequest<UpdateProductRequest>
-  .WithActionResult<ProductResponse>
+  .WithActionResult<BaseProductResponse>
 {
-  private readonly IProductService _productService;
+  private readonly IMapper _mapper;
+  private readonly IGenericRepo<Models.Product.Product> _repo;
 
-  public UpdateProduct(IProductService aProductService)
+  public UpdateProduct(IMapper mapper, IGenericRepo<Models.Product.Product> repo)
   {
-    _productService = aProductService;
+    _mapper = mapper;
+    _repo = repo;
   }
 
   [Authorize(Policy = Policies.ManageProducts)]
   [HttpPatch(Routes.Products.ProductRoot)]
-  public override async Task<ActionResult<ProductResponse>> HandleAsync(
+  public override async Task<ActionResult<BaseProductResponse>> HandleAsync(
     [FromRoute] UpdateProductRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var createdProduct = await _productService.Update(request.Dto, request.ProductId);
+    var existingProduct = await _repo.GetById(request.ProductId);
+    if (existingProduct is null) 
+      throw new NotFoundException($"Product with id {request.ProductId} not found");
+    
+    existingProduct.Name = request.Dto.Name ?? existingProduct.Name;
+    existingProduct.Description = request.Dto.Description ?? existingProduct.Description;
+    existingProduct.Price = request.Dto.Price ?? existingProduct.Price;
+    existingProduct.DiscountedPrice = request.Dto.DiscountedPrice ?? existingProduct.DiscountedPrice;
+    existingProduct.DiscountPercent = request.Dto.DiscountPercent ?? existingProduct.DiscountPercent;
+    existingProduct.DiscountAmount = request.Dto.DiscountAmount ?? existingProduct.DiscountAmount;
+    existingProduct.IsDiscounted = request.Dto.IsDiscounted ?? existingProduct.IsDiscounted;
 
-    return Ok(createdProduct);
+    var updated = await _repo.Update(existingProduct);
+
+    return Ok(_mapper.Map<BaseProductResponse>(updated));
   }
 }
