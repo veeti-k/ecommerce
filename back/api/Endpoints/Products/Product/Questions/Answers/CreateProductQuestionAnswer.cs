@@ -6,9 +6,11 @@ using api.RequestsAndResponses.ProductQuestionAnswer;
 using api.RequestsAndResponses.ProductQuestionAnswer.Add;
 using api.Security;
 using api.Services.Interfaces;
+using api.Specifications.ProductQuestion;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Products.Product.Questions;
 
@@ -48,10 +50,12 @@ public class CreateProductQuestionAnswer : EndpointBaseAsync
     var user = await _userRepo.GetById(userId);
 
     var product = await _productRepo.GetById(request.ProductId);
-    if (product is null) throw new NotFoundException($"Product with id {request.ProductId} was not found");
+    if (product is null) throw new NotFoundException($"Product was not found");
 
-    var question = await _productQuestionRepo.GetById(request.QuestionId);
-    if (question is null) throw new NotFoundException($"Question with id {request.QuestionId} was not found");
+    var question = await _productQuestionRepo
+      .Specify(new ProductQuestion_GetOneApproved_ByQuestionId_Spec(request.QuestionId))
+      .FirstOrDefaultAsync(cancellationToken);
+    if (question is null) throw new NotFoundException($"Question was not found");
     
     var isEmployee = user is not null && Flags.HasFlag(user.Flags, Flags.EMPLOYEE);
 

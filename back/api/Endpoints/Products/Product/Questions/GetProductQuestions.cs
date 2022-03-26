@@ -38,7 +38,7 @@ public class GetProductQuestions : EndpointBaseAsync
     if (product is null) throw new NotFoundException($"Product with id {request.ProductId} was not found");
 
     var questions = await _productQuestionRepo
-      .Specify(new ProductQuestionGetApprovedByProductIdSpec(request.ProductId))
+      .Specify(new ProductQuestion_GetManyApproved_WithApprovedAnswers_ByProductId_Spec(request.ProductId))
       .ToListAsync(cancellationToken);
 
     return Ok(_mapper.Map<IEnumerable<ProductQuestionResponse>>(questions));

@@ -47,6 +47,9 @@ public class ApproveProductReviewComment : EndpointBaseAsync
     var comment = await _productReviewCommentRepo.GetById(request.CommentId);
     if (comment is null) throw new NotFoundException($"Comment with id {request.CommentId} was not found");
 
+    if (comment.IsApproved)
+      throw new BadRequestException("Comment is already approved");
+
     comment.IsApproved = true;
 
     var updated = await _productReviewCommentRepo.Update(comment);

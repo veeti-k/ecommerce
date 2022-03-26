@@ -47,6 +47,9 @@ public class ApproveProductQuestionAnswer : EndpointBaseAsync
     var answer = await _productQuestionAnswerRepo.GetById(request.AnswerId);
     if (answer is null) throw new NotFoundException($"Answer with id {request.AnswerId} was not found");
 
+    if (answer.IsApproved)
+      throw new BadRequestException("Answer is already approved");
+
     answer.IsApproved = true;
 
     var updated = await _productQuestionAnswerRepo.Update(answer);

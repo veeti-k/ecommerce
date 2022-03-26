@@ -1,7 +1,9 @@
 ﻿using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Product;
+using api.Security.Policies;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Endpoints.Products;
@@ -19,8 +21,10 @@ public class AddProduct : EndpointBaseAsync
     _repo = repo;
   }
 
+  [Authorize(Policy = Policies.ManageProducts)]
+  [HttpPost(Routes.ProductsRoot)]
   public override async Task<ActionResult<BaseProductResponse>> HandleAsync(
-    AddProductRequest request, 
+    [FromRoute] AddProductRequest request, 
     CancellationToken cancellationToken = new CancellationToken())
   {
     var newProduct = new Models.Product.Product()

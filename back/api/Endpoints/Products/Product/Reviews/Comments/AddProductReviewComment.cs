@@ -39,6 +39,7 @@ public class AddProductReviewComment : EndpointBaseAsync
     _productReviewCommentRepo = productReviewCommentRepo;
   }
 
+  [HttpPost(Routes.Products.Product.Reviews.Review.CommentsRoot)]
   public override async Task<ActionResult<ProductReviewCommentResponse>> HandleAsync(
     [FromRoute] CreateProductReviewCommentRequest request,
     CancellationToken cancellationToken = new CancellationToken())

@@ -29,8 +29,8 @@ public class GetProductReviews : EndpointBaseAsync
     CancellationToken cancellationToken = new CancellationToken())
   {
     var reviews = await _repo
-      .Specify(new ProductReviewGetWithProductIdSpec(request.ProductId))
-      .FirstOrDefaultAsync(cancellationToken);
+      .Specify(new ProductReview_GetMany_WithApprovedComments_ByProductId_Spec(request.ProductId))
+      .ToListAsync(cancellationToken);
     
     return Ok(_mapper.Map<IEnumerable<ProductReviewResponse>>(reviews));
   }
