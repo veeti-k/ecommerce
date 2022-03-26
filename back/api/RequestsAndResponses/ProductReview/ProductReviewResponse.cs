@@ -12,6 +12,5 @@ public record ProductReviewResponse
   public string Content { get; init; }
   public int Stars { get; init; }
   public DateTimeOffset CreatedAt { get; init; }
-  public bool IsApproved { get; init; }
   public IEnumerable<ProductReviewCommentResponse> Comments { get; init; }
 }
