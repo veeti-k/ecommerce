@@ -1,6 +1,7 @@
 ﻿using System;
-using api.DTOs;
 using api.Models.User;
+using api.RequestsAndResponses.Addresses.Add;
+using api.RequestsAndResponses.Addresses.MeUpdate;
 
 namespace tests.ControllerTests.Utils;
 
@@ -22,7 +23,7 @@ public static class Addresses
     };
   }
   
-  public static Address CreateFakeAddressFromDto(CreateAddressDTO dto, int userId) =>
+  public static Address CreateFakeAddressFromDto(AddAddressDto dto, int userId) =>
     new Address()
     {
       Id = Guid.NewGuid(),
@@ -36,7 +37,7 @@ public static class Addresses
       Zip = dto.Zip,
     };
   
-  public static Address CreateFakeAddressFromDto(UpdateAddressDTO dto, int userId) =>
+  public static Address CreateFakeAddressFromDto(UpdateAddressDto dto, int userId) =>
     new Address()
     {
       Id = Guid.NewGuid(),
@@ -50,7 +51,7 @@ public static class Addresses
       Zip = dto.Zip,
     };
   
-  public static CreateAddressDTO CreateFakeCreateAddressDTO()
+  public static AddAddressDto CreateFakeAddAddressDTO()
   {
     return new()
     {
@@ -64,7 +65,7 @@ public static class Addresses
     };
   }
   
-  public static UpdateAddressDTO CreateFakeUpdateAddressDTO()
+  public static UpdateAddressDto CreateFakeUpdateAddressDTO()
   {
     return new()
     {

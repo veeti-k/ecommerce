@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using api.DTOs.Auth;
-using api.Endpoints.Auth;
 using api.Models.User;
+using api.RequestsAndResponses.Auth.Login;
+using api.RequestsAndResponses.Auth.Register;
 using api.Utils;
 
 namespace tests.ControllerTests.Utils;
@@ -31,7 +30,7 @@ public static class Users
     };
   }
 
-  public static User CreateFakeUserFromDto(RegisterDTO dto) =>
+  public static User CreateFakeUserFromDto(RegisterDto dto) =>
     new User()
     {
       Id = new Random().Next(1, Int32.MaxValue),
@@ -45,7 +44,7 @@ public static class Users
       Sessions = new Session[] { },
     };
 
-  public static User CreateFakeUserFromDto(LoginDTO dto) =>
+  public static User CreateFakeUserFromDto(LoginDto dto) =>
     new User()
     {
       Id = new Random().Next(1, Int32.MaxValue),

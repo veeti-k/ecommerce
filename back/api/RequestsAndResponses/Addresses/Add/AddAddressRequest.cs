@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.RequestsAndResponses.Addresses.Add;
 
-public record CreateAddressDto
+public record AddAddressDto
 {
   public string Name { get; init; }
   public string PhoneNumber { get; init; }
@@ -15,5 +15,5 @@ public record CreateAddressDto
 
 public class AddAddressRequest
 {
-  [FromBody] public CreateAddressDto Dto { get; set; } 
+  [FromBody] public AddAddressDto Dto { get; set; } 
 }

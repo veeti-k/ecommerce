@@ -1,6 +1,6 @@
 ﻿using System;
-using api.DTOs.Product;
 using api.Models.Product;
+using api.RequestsAndResponses.Product;
 
 namespace tests.UtilsForTesting.ProductThings;
 
@@ -20,7 +20,7 @@ public static class Products
       IsDiscounted = false
     };
 
-  public static Product CreateFakeProductFromDto(CreateProductDTO dto) =>
+  public static Product CreateFakeProductFromDto(AddProductDto dto) =>
     new Product()
     {
       Id = new Random().Next(),
@@ -34,8 +34,8 @@ public static class Products
       IsDiscounted = dto.IsDiscounted
     };
 
-  public static CreateProductDTO CreateFakeCreateProductDto() =>
-    new CreateProductDTO()
+  public static AddProductDto CreateFakeCreateProductDto() =>
+    new AddProductDto()
     {
       Name = Guid.NewGuid().ToString(),
       Description = Guid.NewGuid().ToString(),
