@@ -79,14 +79,14 @@ public static class Security
       options.DefaultPolicy = new AuthorizationPolicyBuilder()
         .RequireAuthenticatedUser()
         .AddAuthenticationSchemes(AuthenticationSchemes.AccessToken)
-        .AddRequirements(new ValidSessionRequirement())
+        .AddRequirements(new ValidSessionAndUserRequirement())
         .Build();
 
       options.AddPolicy(Policies.ValidRefreshToken, policy =>
       {
         policy.RequireAuthenticatedUser();
         policy.AddAuthenticationSchemes(AuthenticationSchemes.RefreshToken);
-        policy.AddRequirements(new ValidSessionRequirement());
+        policy.AddRequirements(new ValidSessionAndUserRequirement());
       });
 
       options.AddPolicy(Policies.ManageProducts, policy =>

@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using api.Models.User;
 using api.Repositories.Interfaces;
 using api.Security.Policies.Requirements;
 using api.Services.Interfaces;
@@ -9,11 +10,11 @@ namespace api.Security.Policies.Handlers;
 
 public class FlagHandler : AuthorizationHandler<FlagRequirement>
 {
-  private readonly IUserRepo _userRepo;
+  private readonly IGenericRepo<User> _userRepo;
 
-  public FlagHandler(IUserRepo aUserRepo)
+  public FlagHandler(IGenericRepo<User> userRepo)
   {
-    _userRepo = aUserRepo;
+    _userRepo = userRepo;
   }
 
   protected override async Task HandleRequirementAsync(

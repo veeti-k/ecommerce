@@ -23,7 +23,6 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IDataContext, DataContext>();
 
-builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IContextService, ContextService>();
 
 builder.Services.AddScoped<IGenericRepo<ProductCategory>, GenericRepo<ProductCategory>>();
@@ -32,7 +31,7 @@ builder.Services.AddSingleton<ICookieUtils, CookieUtils>();
 builder.Services.AddSingleton<ITokenUtils, TokenUtils>();
 builder.Services.AddScoped<IAuthUtils, AuthUtils>();
 
-builder.Services.AddScoped<IAuthorizationHandler, ValidSessionHandler>();
+builder.Services.AddScoped<IAuthorizationHandler, ValidSessionAndUserHandler>();
 builder.Services.AddScoped<IAuthorizationHandler, FlagHandler>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

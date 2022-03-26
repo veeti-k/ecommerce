@@ -1,7 +1,12 @@
-using api.DTOs.Product;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.RequestsAndResponses.ProductBulletPoints.Update;
+
+public record OneProductBulletPointDTOBulletPoint
+{
+  public string Text { get; init; }
+  public bool IsImportant { get; init; }
+}
 
 public record UpdateProductBulletPointDto : OneProductBulletPointDTOBulletPoint
 {

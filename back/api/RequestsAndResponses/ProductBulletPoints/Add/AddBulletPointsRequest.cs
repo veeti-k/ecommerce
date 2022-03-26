@@ -1,4 +1,3 @@
-using api.DTOs.Product;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.RequestsAndResponses.ProductBulletPoints.Add;
