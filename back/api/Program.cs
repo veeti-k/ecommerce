@@ -2,6 +2,9 @@ using api.Configs;
 using api.Data;
 using api.Exceptions;
 using api.Models.Product;
+using api.Models.Product.Question;
+using api.Models.Product.Review;
+using api.Models.User;
 using api.Repositories;
 using api.Repositories.Interfaces;
 using api.Security.Policies.Handlers;
@@ -25,7 +28,15 @@ builder.Services.AddScoped<IDataContext, DataContext>();
 
 builder.Services.AddScoped<IContextService, ContextService>();
 
+builder.Services.AddScoped<IGenericRepo<User>, GenericRepo<User>>();
+builder.Services.AddScoped<IGenericRepo<Session>, GenericRepo<Session>>();
+builder.Services.AddScoped<IGenericRepo<Product>, GenericRepo<Product>>();
 builder.Services.AddScoped<IGenericRepo<ProductCategory>, GenericRepo<ProductCategory>>();
+builder.Services.AddScoped<IGenericRepo<ProductBulletPoint>, GenericRepo<ProductBulletPoint>>();
+builder.Services.AddScoped<IGenericRepo<ProductReview>, GenericRepo<ProductReview>>();
+builder.Services.AddScoped<IGenericRepo<ProductReviewComment>, GenericRepo<ProductReviewComment>>();
+builder.Services.AddScoped<IGenericRepo<ProductQuestion>, GenericRepo<ProductQuestion>>();
+builder.Services.AddScoped<IGenericRepo<ProductQuestionAnswer>, GenericRepo<ProductQuestionAnswer>>();
 
 builder.Services.AddSingleton<ICookieUtils, CookieUtils>();
 builder.Services.AddSingleton<ITokenUtils, TokenUtils>();
