@@ -4,6 +4,7 @@ using api.Models.User;
 using api.Repositories.Interfaces;
 using api.Security.Policies.Requirements;
 using api.Specifications.Session;
+using api.Specifications.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
@@ -52,19 +53,20 @@ public class ValidSessionAndUserHandler : AuthorizationHandler<ValidSessionAndUs
     if (!goodFlags)
       throw new ForbiddenException("Provided token contained invalid flags");
 
-    var session = await _sessionRepo
-      .Specify(new SessionGetOneSpec(userId, tokenVersion))
+    var user = await _userRepo
+      .Specify(new UserGetWithSessionsSpec(userId))
       .FirstOrDefaultAsync();
-    if (session is null) return;
-
-    var user = await _userRepo.GetById(userId);
     if (user is null) return;
 
     if (user.Flags != flags)
       throw new ForbiddenException("Provided token's data did not match with database");
 
-    session.LastUsedAt = DateTimeOffset.UtcNow;
-    await _sessionRepo.Update(session);
+    var currentSession = user.Sessions.FirstOrDefault(session => session.Id == tokenVersion);
+    if (currentSession is null)
+      throw new UnauthorizedException("Session does not exist");
+    
+    currentSession.LastUsedAt = DateTimeOffset.UtcNow;
+    await _sessionRepo.Update(currentSession);
     
     context.Succeed(andUserRequirement);
   }
