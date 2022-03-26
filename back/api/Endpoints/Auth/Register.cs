@@ -13,7 +13,7 @@ namespace api.Endpoints.Auth;
 
 public class Register : EndpointBaseAsync
   .WithRequest<RegisterRequest>
-  .WithActionResult<object>
+  .WithActionResult<RegisterResponse>
 {
   private readonly IAuthUtils _authUtils;
   private readonly ITokenUtils _tokenUtils;
@@ -33,14 +33,14 @@ public class Register : EndpointBaseAsync
   }
 
   [HttpPost(Routes.Auth.Register)]
-  public override async Task<ActionResult<object>> HandleAsync(
+  public override async Task<ActionResult<RegisterResponse>> HandleAsync(
     [FromRoute] RegisterRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
     var userWithSameEmail = await _userRepo
       .Specify(new UserGetByEmailSpec(request.Dto.Email))
       .FirstOrDefaultAsync(cancellationToken);
-    
+
     if (userWithSameEmail is not null)
       throw new BadRequestException("Email already in use");
 
@@ -50,7 +50,7 @@ public class Register : EndpointBaseAsync
 
     if (userWithSamePhoneNumber is not null)
       throw new BadRequestException("Phone number already in use");
-    
+
     User newUser = new()
     {
       Email = request.Dto.Email,
@@ -61,7 +61,7 @@ public class Register : EndpointBaseAsync
       CreatedAt = DateTimeOffset.UtcNow,
     };
     var addedUser = await _userRepo.Add(newUser);
-    
+
     Session newSession = new()
     {
       Id = Guid.NewGuid(),
@@ -75,9 +75,9 @@ public class Register : EndpointBaseAsync
       .CreateAccessToken(addedUser.Id, addedSession.Id, addedUser.Flags);
     var refreshToken = _tokenUtils
       .CreateRefreshToken(addedUser.Id, addedSession.Id, addedUser.Flags);
-    
+
     _authUtils.SendTokens(accessToken, refreshToken);
 
-    return Ok(new {accessToken});
+    return Ok(new RegisterResponse() {AccessToken = accessToken});
   }
 }

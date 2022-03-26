@@ -13,7 +13,7 @@ namespace api.Endpoints.Auth;
 
 public class Login : EndpointBaseAsync
   .WithRequest<LoginRequest>
-  .WithActionResult<object>
+  .WithActionResult<LoginResponse>
 {
   private readonly IAuthUtils _authUtils;
   private readonly ITokenUtils _tokenUtils;
@@ -33,7 +33,7 @@ public class Login : EndpointBaseAsync
   }
 
   [HttpPost(Routes.Auth.Login)]
-  public override async Task<ActionResult<object>> HandleAsync(
+  public override async Task<ActionResult<LoginResponse>> HandleAsync(
     [FromRoute] LoginRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
@@ -63,6 +63,6 @@ public class Login : EndpointBaseAsync
 
     _authUtils.SendTokens(accessToken, refreshToken);
 
-    return Ok(new {accessToken});
+    return Ok(new LoginResponse() {AccessToken = accessToken});
   }
 }
