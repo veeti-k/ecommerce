@@ -25,6 +25,11 @@ public class DomainToResponseMappingProfile : Profile
     CreateMap<Address, AddressResponse>();
 
     CreateMap<Product, BaseProductResponse>();
+    CreateMap<Product, ProductPageProductResponse>()
+      .ForMember(dest => dest.ImportantBulletpoints,
+        options => options
+          .MapFrom(src => src
+            .BulletPoints.Where(point => point.IsImportant)));
     CreateMap<Product, ShowCaseProductResponse>()
       .ForMember(dest => dest.ImportantBulletpoints,
         options => options
