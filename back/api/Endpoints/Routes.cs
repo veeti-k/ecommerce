@@ -2,11 +2,11 @@
 
 public static class Routes
 {
-  private const string GlobalPrefix = "/api";
+  public const string GlobalPrefix = "/api";
 
   public static class Auth
   {
-    private const string Prefix = $"{GlobalPrefix}/auth";
+    public const string Prefix = $"{GlobalPrefix}/auth";
 
     public const string Tokens = $"{Prefix}/tokens";
     public const string Login = $"{Prefix}/login";
@@ -16,10 +16,10 @@ public static class Routes
 
   public static class Users
   {
-    private const string UsersPrefix = $"{GlobalPrefix}/users";
-    private const string UserId = "{userId:int}";
-    private const string AddressId = "{addressId:Guid}";
-    private const string SessionId = "{sessionId:Guid}";
+    public const string UsersPrefix = $"{GlobalPrefix}/users";
+    public const string UserId = "{userId:int}";
+    public const string AddressId = "{addressId:Guid}";
+    public const string SessionId = "{sessionId:Guid}";
 
     public const string MeRoot = $"{UsersPrefix}/me";
 
@@ -61,15 +61,15 @@ public static class Routes
 
   public static class Products
   {
-    private const string ProductId = "{productId:int}";
+    public const string ProductId = "{productId:int}";
 
-    private const string ReviewId = "{reviewId:Guid}";
-    private const string CommentId = "{commentId:Guid}";
+    public const string ReviewId = "{reviewId:Guid}";
+    public const string CommentId = "{commentId:Guid}";
 
-    private const string QuestionId = "{questionId:Guid}";
-    private const string AnswerId = "{answerId:Guid}";
+    public const string QuestionId = "{questionId:Guid}";
+    public const string AnswerId = "{answerId:Guid}";
 
-    private const string BulletPointId = "{bulletPointId:Guid}";
+    public const string BulletPointId = "{bulletPointId:Guid}";
 
     public const string ProductRoot = $"{ProductsRoot}/{ProductId}";
 
@@ -122,7 +122,7 @@ public static class Routes
   
   public static class Categories
   {
-    private const string CategoryId = "{categoryId:int}";
+    public const string CategoryId = "{categoryId:int}";
 
     public const string Category = $"{CategoriesRoot}/{CategoryId}";
   }
