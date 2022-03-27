@@ -9,7 +9,7 @@ namespace tests.ServiceTests.UtilTests;
 [Collection("TokenThings")]
 public class CookieUtilsTests
 {
-  private CookieUtils _cookieUtils;
+  private readonly CookieUtils _cookieUtils;
   private readonly TokenOptions _tokenOptions;
 
   public CookieUtilsTests(TokenThingsFixture tokenThings)

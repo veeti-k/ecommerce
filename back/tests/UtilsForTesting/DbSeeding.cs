@@ -18,7 +18,7 @@ public static class DbSeeding
 
   public static void CreateAdminUser(DataContext db)
   {
-    db.Users.Add(new User()
+    db.Users.Add(new User
     {
       Name = AdminUser.Name,
       Email = AdminUser.Email,
@@ -40,7 +40,7 @@ public static class DbSeeding
 
   public static void CreateNonAdminUser(DataContext db)
   {
-    db.Users.Add(new User()
+    db.Users.Add(new User
     {
       Name = NonAdminUser.Name,
       Email = NonAdminUser.Email,

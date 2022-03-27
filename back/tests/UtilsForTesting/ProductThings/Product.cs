@@ -1,13 +1,13 @@
 ﻿using System;
 using api.Models.Product;
-using api.RequestsAndResponses.Product;
+using api.RequestsAndResponses.Product.Add;
 
 namespace tests.UtilsForTesting.ProductThings;
 
 public static class Products
 {
   public static Product CreateFakeProduct() =>
-    new Product()
+    new Product
     {
       Id = new Random().Next(),
       Name = Guid.NewGuid().ToString(),
@@ -21,7 +21,7 @@ public static class Products
     };
 
   public static Product CreateFakeProductFromDto(AddProductDto dto) =>
-    new Product()
+    new Product
     {
       Id = new Random().Next(),
       Name = dto.Name,
@@ -35,7 +35,7 @@ public static class Products
     };
 
   public static AddProductDto CreateFakeCreateProductDto() =>
-    new AddProductDto()
+    new AddProductDto
     {
       Name = Guid.NewGuid().ToString(),
       Description = Guid.NewGuid().ToString(),

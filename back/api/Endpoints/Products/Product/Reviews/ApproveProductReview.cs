@@ -41,7 +41,7 @@ public class ApproveProductReview : EndpointBaseAsync
     if (review is null) throw new NotFoundException($"Review with id {request.ReviewId} was not found");
 
     if (review.IsApproved)
-      throw new BadRequestException($"Review is already approved");
+      throw new BadRequestException("Review is already approved");
     
     var reviews = await _productReviewRepo
       .Specify(new ProductReview_GetManyApproved_WithApprovedComments_ByProductId_Spec(request.ProductId))

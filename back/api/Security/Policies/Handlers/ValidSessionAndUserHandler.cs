@@ -3,7 +3,6 @@ using api.Exceptions;
 using api.Models.User;
 using api.Repositories.Interfaces;
 using api.Security.Policies.Requirements;
-using api.Specifications.Session;
 using api.Specifications.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;

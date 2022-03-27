@@ -36,7 +36,7 @@ public class AddBulletPoints : EndpointBaseAsync
 
     foreach (var bulletPoint in request.Dto.BulletPoints)
     {
-      var newBulletPoint = new ProductBulletPoint()
+      var newBulletPoint = new ProductBulletPoint
       {
         Text = bulletPoint.Text,
         IsImportant = bulletPoint.IsImportant,

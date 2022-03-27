@@ -24,7 +24,7 @@ public static class Addresses
   }
   
   public static Address CreateFakeAddressFromDto(AddAddressDto dto, int userId) =>
-    new Address()
+    new Address
     {
       Id = Guid.NewGuid(),
       City = dto.City,
@@ -38,7 +38,7 @@ public static class Addresses
     };
   
   public static Address CreateFakeAddressFromDto(UpdateAddressDto dto, int userId) =>
-    new Address()
+    new Address
     {
       Id = Guid.NewGuid(),
       City = dto.City,

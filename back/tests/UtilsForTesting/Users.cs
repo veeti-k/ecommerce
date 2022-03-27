@@ -16,7 +16,7 @@ public static class Users
     IEnumerable<Address>? addresses = null,
     IEnumerable<Session>? sessions = null)
   {
-    return new User()
+    return new User
     {
       Id = userId ?? new Random().Next(1, Int32.MaxValue),
       Name = Guid.NewGuid().ToString(),
@@ -31,7 +31,7 @@ public static class Users
   }
 
   public static User CreateFakeUserFromDto(RegisterDto dto) =>
-    new User()
+    new User
     {
       Id = new Random().Next(1, Int32.MaxValue),
       Name = dto.Name,
@@ -45,7 +45,7 @@ public static class Users
     };
 
   public static User CreateFakeUserFromDto(LoginDto dto) =>
-    new User()
+    new User
     {
       Id = new Random().Next(1, Int32.MaxValue),
       Name = Guid.NewGuid().ToString(),

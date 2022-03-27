@@ -15,7 +15,7 @@ public class TokenThingsFixture
 
   public TokenThingsFixture()
   {
-    TokenOptions = Options.Create(new TokenOptions()
+    TokenOptions = Options.Create(new TokenOptions
     {
       AccessAud = "access-test-aud",
       AccessIss = "access-test-iss",
@@ -30,7 +30,7 @@ public class TokenThingsFixture
 
     var tokenOptions = TokenOptions.Value;
     
-    AccessTokenValidationParameters = new TokenValidationParameters()
+    AccessTokenValidationParameters = new TokenValidationParameters
     {
       ValidateIssuer = true,
       ValidateAudience = true,
@@ -47,7 +47,7 @@ public class TokenThingsFixture
       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOptions.AccessSecret)),
     };
     
-    RefreshTokenValidationParameters = new TokenValidationParameters()
+    RefreshTokenValidationParameters = new TokenValidationParameters
     {
       ValidateIssuer = true,
       ValidateAudience = true,

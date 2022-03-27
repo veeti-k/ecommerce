@@ -12,7 +12,7 @@ public class NeedsAuthIntegrationTest : BaseIntegrationTest
 {
   protected async Task<string> Login(string email, string password)
   {
-    var response = await TestClient.PostAsJsonAsync(Routes.Auth.Login, new LoginDto()
+    var response = await TestClient.PostAsJsonAsync(Routes.Auth.Login, new LoginDto
     {
       Email = email,
       Password = password

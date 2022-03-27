@@ -1,5 +1,6 @@
 ﻿using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Product;
+using api.RequestsAndResponses.Product.Add;
 using api.Security.Policies;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
@@ -27,7 +28,7 @@ public class AddProduct : EndpointBaseAsync
     [FromRoute] AddProductRequest request, 
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var newProduct = new Models.Product.Product()
+    var newProduct = new Models.Product.Product
     {
       Name = request.Dto.Name,
       Description = request.Dto.Description,

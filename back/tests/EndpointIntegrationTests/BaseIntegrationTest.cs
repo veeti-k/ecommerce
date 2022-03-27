@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Net.Http;
+using api;
 using api.Data;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;

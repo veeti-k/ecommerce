@@ -63,6 +63,6 @@ public class Login : EndpointBaseAsync
 
     _authUtils.SendTokens(accessToken, refreshToken);
 
-    return Ok(new LoginResponse() {AccessToken = accessToken});
+    return Ok(new LoginResponse {AccessToken = accessToken});
   }
 }

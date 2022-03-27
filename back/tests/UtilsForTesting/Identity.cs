@@ -7,7 +7,7 @@ public static class Identity
 {
   public static ClaimsPrincipal CreateFakeClaimsPrincipal(object aNameIdentifier, object aVersion, object aFlags)
   {
-    var claims = new List<Claim>()
+    var claims = new List<Claim>
     {
       new(ClaimTypes.NameIdentifier, aNameIdentifier.ToString()),
       new(ClaimTypes.Version, aVersion.ToString()),

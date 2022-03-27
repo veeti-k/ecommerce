@@ -9,7 +9,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace api.Endpoints.Products.Product.Questions;
+namespace api.Endpoints.Products.Product.Questions.Answers;
 
 public class ApproveProductQuestionAnswer : EndpointBaseAsync
   .WithRequest<ApproveProductQuestionAnswerRequest>

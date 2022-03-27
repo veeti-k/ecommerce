@@ -2,9 +2,7 @@
 using api.Models.User;
 using api.Repositories.Interfaces;
 using api.Security.Policies.Requirements;
-using api.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 namespace api.Security.Policies.Handlers;
 

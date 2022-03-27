@@ -13,7 +13,7 @@ namespace tests.ServiceTests.UtilTests;
 [Collection("TokenThings")]
 public class AuthUtilsTests
 {
-  private ICookieUtils _cookieUtils;
+  private readonly ICookieUtils _cookieUtils;
   private readonly IOptions<TokenOptions> _tokenOptions;
 
   public AuthUtilsTests(TokenThingsFixture tokenThings)

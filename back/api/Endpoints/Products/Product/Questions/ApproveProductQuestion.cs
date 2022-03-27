@@ -36,10 +36,10 @@ public class ApproveProductQuestion : EndpointBaseAsync
     CancellationToken cancellationToken = new CancellationToken())
   {
     var product = await _productRepo.GetById(request.ProductId);
-    if (product is null) throw new NotFoundException($"Product was not found");
+    if (product is null) throw new NotFoundException("Product was not found");
 
     var question = await _productQuestionRepo.GetById(request.QuestionId);
-    if (question is null) throw new NotFoundException($"Question was not found");
+    if (question is null) throw new NotFoundException("Question was not found");
 
     if (question.IsApproved)
       throw new BadRequestException("Question is already approved");

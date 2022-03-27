@@ -19,7 +19,7 @@ public class GetCurrentUserIdTests
     var userId = randomInt;
 
     var accessor = new Mock<IHttpContextAccessor>();
-    var fakeContext = new DefaultHttpContext()
+    var fakeContext = new DefaultHttpContext
     {
       User = Identity.CreateFakeClaimsPrincipal(userId, Guid.NewGuid(), randomLong)
     };
@@ -37,7 +37,7 @@ public class GetCurrentUserIdTests
   public void GetCurrentUserId_WithBadUserId_ReturnsDefault()
   {
     var accessor = new Mock<IHttpContextAccessor>();
-    var fakeContext = new DefaultHttpContext()
+    var fakeContext = new DefaultHttpContext
     {
       User = Identity.CreateFakeClaimsPrincipal("not a valid userId", Guid.NewGuid(), randomLong)
     };

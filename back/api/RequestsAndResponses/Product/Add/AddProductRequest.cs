@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace api.RequestsAndResponses.Product;
+namespace api.RequestsAndResponses.Product.Add;
 
 public record AddProductDto
 {

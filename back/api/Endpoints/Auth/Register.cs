@@ -78,6 +78,6 @@ public class Register : EndpointBaseAsync
 
     _authUtils.SendTokens(accessToken, refreshToken);
 
-    return Ok(new RegisterResponse() {AccessToken = accessToken});
+    return Ok(new RegisterResponse {AccessToken = accessToken});
   }
 }

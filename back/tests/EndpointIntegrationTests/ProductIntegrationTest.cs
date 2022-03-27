@@ -5,6 +5,7 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using api.Endpoints;
 using api.RequestsAndResponses.Product;
+using api.RequestsAndResponses.Product.Add;
 using FluentAssertions;
 
 namespace tests.EndpointIntegrationTests;

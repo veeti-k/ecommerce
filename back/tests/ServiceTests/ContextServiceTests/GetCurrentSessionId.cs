@@ -19,7 +19,7 @@ public class GetCurrentSessionId
     var sessionId = Guid.NewGuid();
 
     var accessor = new Mock<IHttpContextAccessor>();
-    var fakeContext = new DefaultHttpContext()
+    var fakeContext = new DefaultHttpContext
     {
       User = Identity.CreateFakeClaimsPrincipal(randomInt, sessionId, randomLong)
     };
@@ -37,7 +37,7 @@ public class GetCurrentSessionId
   public void GetCurrentSessionId_WithBadSessionId_ReturnsDefault()
   {
     var accessor = new Mock<IHttpContextAccessor>();
-    var fakeContext = new DefaultHttpContext()
+    var fakeContext = new DefaultHttpContext
     {
       User = Identity.CreateFakeClaimsPrincipal(randomInt, "not a valid sessionId", randomLong)
     };
