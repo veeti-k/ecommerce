@@ -26,7 +26,7 @@ public class GetProducts : EndpointBaseAsync
     CancellationToken cancellationToken = new CancellationToken())
   {
     var products = await _repo
-      .Specify(new ProductGetAllSpec())
+      .Specify(new Product_GetAllApproved_WithBulletpoints_Spec())
       .ToListAsync(cancellationToken);
       
     return Ok(_mapper.Map<IEnumerable<ShowCaseProductResponse>>(products));
