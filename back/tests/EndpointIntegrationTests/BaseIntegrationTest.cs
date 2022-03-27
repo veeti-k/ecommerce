@@ -1,22 +1,18 @@
 using System;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
 using api.Data;
-using api.Endpoints;
-using api.RequestsAndResponses.Auth.Login;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using tests.ControllerTests.Utils;
+using tests.UtilsForTesting;
 
 namespace tests.EndpointIntegrationTests;
 
 public class BaseIntegrationTest
 {
   protected readonly HttpClient TestClient;
+  protected readonly int NonExistentId = Int32.MaxValue;
 
   protected BaseIntegrationTest()
   {
@@ -32,7 +28,7 @@ public class BaseIntegrationTest
           services.Remove(descriptor);
 
           services.AddDbContext<DataContext>(options => options
-            .UseInMemoryDatabase("InMemoryDbForTesting"));
+            .UseInMemoryDatabase("test-db"));
 
           var sp = services.BuildServiceProvider();
 
@@ -43,28 +39,10 @@ public class BaseIntegrationTest
           db.Database.EnsureCreated();
 
           DbSeeding.CreateAdminUser(db);
+          DbSeeding.CreateNonAdminUser(db);
         });
       });
-    
+
     TestClient = appFactory.CreateClient();
-  }
-
-  protected async Task LoginToAdmin()
-  {
-    TestClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetJwtAsync());
-  }
-
-  private async Task<string> GetJwtAsync()
-  {
-    var response = await TestClient.PostAsJsonAsync(Routes.Auth.Login, new LoginDto()
-    {
-      Email = DbSeeding.AdminEmail,
-      Password = DbSeeding.AdminPassword
-    });
-
-    var json = await response.Content.ReadFromJsonAsync<LoginResponse>();
-    if (json is null) throw new Exception("Authentication failed, access token was not returned from login");
-    
-    return json.AccessToken;
   }
 }
