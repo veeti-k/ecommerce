@@ -69,7 +69,31 @@ public class ProductQuestionIntegrationTest : ProductIntegrationTest
 
     return json;
   }
+  
+  // delete question
+  public async Task<HttpResponseMessage?> DeleteProductQuestion_TEST_REQUEST(int productId, Guid questionId)
+  {
+    var path = Routes.Products.Product.Questions.QuestionRoot
+      .Replace(Routes.Products.ProductId, productId.ToString())
+      .Replace(Routes.Products.QuestionId, questionId.ToString());
 
+    var response = await TestClient.DeleteAsync(path);
+
+    return response;
+  }
+
+  public async Task DeleteProductQuestion(int productId, Guid questionId)
+  {
+    await LoginAs(Flags.ADMINISTRATOR);
+    
+    var response = await DeleteProductQuestion_TEST_REQUEST(productId, questionId);
+    
+    await Logout();
+
+    response.IsSuccessStatusCode.Should().BeTrue();
+  }
+
+  // get approved questions
   public async Task<HttpResponseMessage?> GetApprovedProductQuestions_TEST_REQUEST(int productId)
   {
     var path = Routes.Products.Product.QuestionsRoot

@@ -13,10 +13,11 @@ namespace tests.EndpointIntegrationTests.ProductReview;
 public class DeleteReviewTests : ProductReviewIntegrationTest
 {
   [Fact]
-  public async Task DeleteReview_WithExistingProduct_DeletesReview_ReturnsNoContent()
+  public async Task DeleteReview_WithExistingProduct_WithApprovedExistingReview_DeletesReview_ReturnsNoContent()
   {
     var product = await AddProduct();
     var review = await AddReview(product.Id);
+    await ApproveReview(product.Id, review.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
 
@@ -62,6 +63,24 @@ public class DeleteReviewTests : ProductReviewIntegrationTest
     var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
 
     json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductReviewNotFoundException(NonExistentGuidId));
+  }
+  
+  [Fact]
+  public async Task DeleteReview_WithExistingProduct_WithNotApprovedExistingReview_DeletesReview_ReturnsNoContent()
+  {
+    var product = await AddProduct();
+    var review = await AddReview(product.Id);
+
+    await LoginAs(Flags.ADMINISTRATOR);
+
+    var response = await DeleteReview_TEST_REQUEST(product.Id, review.Id);
+
+    await Logout();
+
+    response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+    var reviews = await GetApprovedProductReviews(product.Id);
+    reviews.Any(foundReview => foundReview.Id == review.Id).Should().BeFalse();
   }
 
   [Fact]

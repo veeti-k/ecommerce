@@ -11,10 +11,10 @@ using Xunit;
 
 namespace tests.EndpointIntegrationTests.ProductQuestion;
 
-public class AddQuestionTests : ProductQuestionIntegrationTest
+public class AddProductQuestionTests : ProductQuestionIntegrationTest
 {
   [Fact]
-  public async Task AddQuestion_WithExistingProduct_AddsQuestion_ReturnsAddedQuestion()
+  public async Task AddProductQuestion_WithExistingProduct_AddsQuestion_ReturnsAddedQuestion()
   {
     var product = await AddProduct();
 
@@ -28,7 +28,7 @@ public class AddQuestionTests : ProductQuestionIntegrationTest
   }
 
   [Fact]
-  public async Task AddQuestion_WithNonExistentProduct_ReturnsProductNotFound()
+  public async Task AddProductQuestion_WithNonExistentProduct_ReturnsProductNotFound()
   {
     var response = await AddProductQuestion_TEST_REQUEST(NonExistentIntId);
 
@@ -40,7 +40,7 @@ public class AddQuestionTests : ProductQuestionIntegrationTest
   }
 
   [Fact]
-  public async Task AddQuestion_AfterAdding_DoesNotExposeQuestion_UntilApproved()
+  public async Task AddProductQuestion_AfterAdding_DoesNotExposeQuestion_UntilApproved()
   {
     var product = await AddProduct();
     var question = await AddProductQuestion(product.Id);
@@ -55,7 +55,7 @@ public class AddQuestionTests : ProductQuestionIntegrationTest
   }
 
   [Fact]
-  public async Task AddQuestion_TestPerms()
+  public async Task AddProductQuestion_TestPerms()
   {
     await TestPermissions(() => AddProductQuestion_TEST_REQUEST(NonExistentIntId),
       new List<Flags>() {Flags.NO_FLAGS});
