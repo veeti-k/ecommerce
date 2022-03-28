@@ -37,12 +37,12 @@ public class ApproveReviewTests : ProductReviewIntegrationTest
   {
     await LoginToAdmin();
 
-    var response = await ApproveReview_TEST_REQUEST(NonExistentId, Guid.NewGuid());
+    var response = await ApproveReview_TEST_REQUEST(NonExistentIntId, Guid.NewGuid());
     var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
 
     await Logout();
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-    json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductNotFoundException(NonExistentId));
+    json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductNotFoundException(NonExistentIntId));
   }
 }

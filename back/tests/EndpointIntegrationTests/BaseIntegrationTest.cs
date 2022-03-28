@@ -13,7 +13,8 @@ namespace tests.EndpointIntegrationTests;
 public class BaseIntegrationTest
 {
   protected readonly HttpClient TestClient;
-  protected readonly int NonExistentId = Int32.MaxValue;
+  protected readonly int NonExistentIntId = Int32.MaxValue;
+  protected readonly Guid NonExistentGuidId = Guid.NewGuid();
 
   protected BaseIntegrationTest()
   {

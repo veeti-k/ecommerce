@@ -30,11 +30,11 @@ public class GetReviewsTests : ProductReviewIntegrationTest
   [Fact]
   public async Task GetReviews_WithNonExistentProductId_ReturnsProductNotFound()
   {
-    var response = await GetApprovedProductReviews_TEST_REQUEST(NonExistentId);
+    var response = await GetApprovedProductReviews_TEST_REQUEST(NonExistentIntId);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
-    json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductNotFoundException(NonExistentId));
+    json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductNotFoundException(NonExistentIntId));
   }
 
   [Fact]
