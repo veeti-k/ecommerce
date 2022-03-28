@@ -1,10 +1,11 @@
+using api.Security;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.RequestsAndResponses.User.UpdateUserFlags;
 
 public record UpdateUserFlagsDto
 {
-  public long flags { get; init; }
+  public Flags flags { get; init; }
 }
 
 public class UpdateUserFlagsRequest

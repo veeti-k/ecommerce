@@ -37,7 +37,7 @@ public class NeedsAuthIntegrationTest : BaseIntegrationTest
     TestClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "");
   }
 
-  protected async Task LoginAs(Flags1 flags)
+  protected async Task LoginAs(Flags flags)
   {
     var user = DbSeeding.GetUser(flags);
     if (user is null) throw new Exception("User can't be null");
@@ -57,12 +57,12 @@ public class NeedsAuthIntegrationTest : BaseIntegrationTest
     TestClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
   }
 
-  public async Task TestPermissions(Func<Task<HttpResponseMessage?>> function, List<Flags1> shouldPass)
+  public async Task TestPermissions(Func<Task<HttpResponseMessage?>> function, List<Flags> shouldPass)
   {
-    List<Flags1> passingPerms = new List<Flags1>();
+    List<Flags> passingPerms = new List<Flags>();
     int runs = 0;
 
-    foreach (Flags1 flag in Enum.GetValues(typeof(Flags1)))
+    foreach (Flags flag in Enum.GetValues(typeof(Flags)))
     {
       await LoginAs(flag);
 
@@ -78,13 +78,13 @@ public class NeedsAuthIntegrationTest : BaseIntegrationTest
     }
 
     // administrator should be allowed to do everything
-    if (!shouldPass.Contains(Flags1.ADMINISTRATOR))
-      shouldPass.Add(Flags1.ADMINISTRATOR);
+    if (!shouldPass.Contains(Flags.ADMINISTRATOR))
+      shouldPass.Add(Flags.ADMINISTRATOR);
 
     // if even the user with no flags should be allowed
     // then the passingPerms list's length should be 
     // the amount of flags 
-    if (shouldPass.Contains(Flags1.NO_FLAGS))
+    if (shouldPass.Contains(Flags.NO_FLAGS))
     {
       passingPerms.Count.Should().Be(runs);
       return;

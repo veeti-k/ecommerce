@@ -34,7 +34,7 @@ public class ProductIntegrationTest : NeedsAuthIntegrationTest
 
   public async Task<BaseProductResponse> AddProduct()
   {
-    await LoginAs(Flags1.ADMINISTRATOR);
+    await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await AddProduct_TEST_REQUEST();
 
@@ -93,7 +93,7 @@ public class ProductIntegrationTest : NeedsAuthIntegrationTest
 
   public async Task<BaseProductResponse> UpdateProduct(int productId)
   {
-    await LoginAs(Flags1.ADMINISTRATOR);
+    await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await UpdateProduct_TEST_REQUEST(productId);
 
@@ -117,7 +117,7 @@ public class ProductIntegrationTest : NeedsAuthIntegrationTest
 
   public async Task DeleteProduct(int productId)
   {
-    await LoginAs(Flags1.ADMINISTRATOR);
+    await LoginAs(Flags.ADMINISTRATOR);
 
     await DeleteProduct_TEST_REQUEST(productId);
 

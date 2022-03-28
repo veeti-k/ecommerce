@@ -56,7 +56,7 @@ public class ProductReviewIntegrationTest : ProductIntegrationTest
 
   public async Task<ProductReviewResponse> ApproveReview(int productId, Guid reviewId)
   {
-    await LoginAs(Flags1.ADMINISTRATOR);
+    await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await ApproveReview_TEST_REQUEST(productId, reviewId);
 
@@ -102,7 +102,7 @@ public class ProductReviewIntegrationTest : ProductIntegrationTest
 
   public async Task DeleteReview(int productId, Guid reviewId)
   {
-    await LoginAs(Flags1.ADMINISTRATOR);
+    await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await DeleteReview_TEST_REQUEST(productId, reviewId);
 

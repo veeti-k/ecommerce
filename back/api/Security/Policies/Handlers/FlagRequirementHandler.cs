@@ -30,13 +30,13 @@ public class FlagHandler : AuthorizationHandler<FlagRequirement>
     var user = await _userRepo.GetById(userId);
     if (user is null) return;
 
-    if (Flags.HasFlag(user.Flags, Flags.ADMINISTRATOR))
+    if (user.Flags.HasFlag(Flags.ADMINISTRATOR))
     {
       context.Succeed(requirement);
       return;
     }
 
-    if (Flags.HasFlag(user.Flags, requirement.RequiredFlag))
+    if (user.Flags.HasFlag(requirement.RequiredFlag))
       context.Succeed(requirement);
   }
 }

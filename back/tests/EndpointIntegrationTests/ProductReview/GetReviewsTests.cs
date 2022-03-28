@@ -57,6 +57,6 @@ public class GetReviewsTests : ProductReviewIntegrationTest
   public async Task GetReviews_TestPerms()
   {
     await TestPermissions(() => GetApprovedProductReviews_TEST_REQUEST(NonExistentIntId),
-      new List<Flags1>() {Flags1.NO_FLAGS});
+      new List<Flags>() {Flags.NO_FLAGS});
   }
 }

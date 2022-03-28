@@ -17,7 +17,7 @@ public class DeleteReviewTests : ProductReviewIntegrationTest
     var product = await AddProduct();
     var review = await AddReview(product.Id);
 
-    await LoginAs(Flags1.ADMINISTRATOR);
+    await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await DeleteReview_TEST_REQUEST(product.Id, review.Id);
 
@@ -29,7 +29,7 @@ public class DeleteReviewTests : ProductReviewIntegrationTest
   [Fact]
   public async Task RemoveReview_WithNonExistentProduct_ReturnsProductNotFound()
   {
-    await LoginAs(Flags1.ADMINISTRATOR);
+    await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await DeleteReview_TEST_REQUEST(NonExistentIntId, NonExistentGuidId);
 
@@ -47,7 +47,7 @@ public class DeleteReviewTests : ProductReviewIntegrationTest
   {
     var product = await AddProduct();
 
-    await LoginAs(Flags1.ADMINISTRATOR);
+    await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await DeleteReview_TEST_REQUEST(product.Id, NonExistentGuidId);
 
@@ -64,6 +64,6 @@ public class DeleteReviewTests : ProductReviewIntegrationTest
   public async Task RemoveReview_TestPerms()
   {
     await TestPermissions(() => DeleteReview_TEST_REQUEST(NonExistentIntId, NonExistentGuidId),
-      new List<Flags1>() {Flags1.MANAGE_REVIEWS});
+      new List<Flags>() {Flags.MANAGE_REVIEWS});
   }
 }

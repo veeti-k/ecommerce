@@ -54,7 +54,7 @@ public class ProductReviewCommentIntegrationTest : ProductReviewIntegrationTest
 
   public async Task<ProductReviewCommentResponse> ApproveReviewComment(int productId, Guid reviewId, Guid commentId)
   {
-    await LoginAs(Flags1.ADMINISTRATOR);
+    await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await ApproveReviewComment_TEST_REQUEST(productId, reviewId, commentId);
 

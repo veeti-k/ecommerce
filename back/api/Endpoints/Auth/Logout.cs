@@ -46,7 +46,7 @@ public class Logout : EndpointBaseAsync
       if (session is not null) await _sessionRepo.Delete(session);
 
       var user = await _userRepo.GetById(userId);
-      if (user != null && Flags.HasFlag(user.Flags, Flags.TEST_ACCOUNT))
+      if (user != null && user.Flags.HasFlag(Flags.TEST_ACCOUNT))
         await _userRepo.Delete(user); // delete test accounts on logout
     }
     

@@ -38,7 +38,7 @@ public class UpdateUserFlags : EndpointBaseAsync
 
     var currentUserId = _contextService.GetCurrentUserId();
 
-    if (currentUserId == request.UserId && !Flags.HasFlag(request.Dto.flags, Flags.ADMINISTRATOR))
+    if (currentUserId == request.UserId && !request.Dto.flags.HasFlag(Flags.ADMINISTRATOR))
       throw new BadRequestException("You can not remove the flag ADMINISTRATOR from yourself");
 
     user.Flags = request.Dto.flags;

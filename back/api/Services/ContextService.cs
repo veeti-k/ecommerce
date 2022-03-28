@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using api.Security;
 using api.Services.Interfaces;
 
 namespace api.Services;
@@ -36,14 +37,14 @@ public class ContextService : IContextService
     return !goodSessionId ? default : userId;
   }
   
-  public long GetCurrentUserFlags()
+  public Flags GetCurrentUserFlags()
   {
     var context = _accessor.HttpContext;
     if (context is null) return default;
 
     var goodFlags =
-      long.TryParse(context.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid)?.Value,
-        out var flags);
+      Flags.TryParse(context.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid)?.Value,
+        out Flags flags);
 
     return !goodFlags ? default : flags;
   }

@@ -4,8 +4,8 @@ namespace api.Security.Policies.Requirements;
 
 public class FlagRequirement : IAuthorizationRequirement
 {
-  public long RequiredFlag;
+  public Flags RequiredFlag;
 
-  public FlagRequirement(long requiredFlag) =>
+  public FlagRequirement(Flags requiredFlag) =>
     RequiredFlag = requiredFlag;
 }

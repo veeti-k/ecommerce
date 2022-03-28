@@ -14,7 +14,7 @@ public class AddProductTest : ProductIntegrationTest
   [Fact]
   public async Task AddProduct_OnNonAdminUser_ReturnsUnauthorized()
   {
-    await LoginAs(Flags1.NO_FLAGS);
+    await LoginAs(Flags.NO_FLAGS);
 
     var response = await AddProduct_TEST_REQUEST();
 
@@ -26,7 +26,7 @@ public class AddProductTest : ProductIntegrationTest
   [Fact]
   public async Task AddProduct_OnAdminUser_ReturnsAddedProduct()
   {
-    await LoginAs(Flags1.ADMINISTRATOR);
+    await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await AddProduct_TEST_REQUEST();
 
@@ -42,6 +42,6 @@ public class AddProductTest : ProductIntegrationTest
   [Fact]
   public async Task AddProduct_TestPerms()
   {
-    await TestPermissions(AddProduct_TEST_REQUEST, new List<Flags1>() {Flags1.ADMINISTRATOR, Flags1.MANAGE_PRODUCTS});
+    await TestPermissions(AddProduct_TEST_REQUEST, new List<Flags>() {Flags.ADMINISTRATOR, Flags.MANAGE_PRODUCTS});
   }
 }

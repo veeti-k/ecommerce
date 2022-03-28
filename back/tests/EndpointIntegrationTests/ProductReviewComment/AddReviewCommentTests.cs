@@ -79,6 +79,6 @@ public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
   public async Task AddReviewComment_TestPerms()
   {
     await TestPermissions(() => AddReviewComment_TEST_REQUEST(NonExistentIntId, NonExistentGuidId),
-      new List<Flags1>() {Flags1.NO_FLAGS});
+      new List<Flags>() {Flags.NO_FLAGS});
   }
 }

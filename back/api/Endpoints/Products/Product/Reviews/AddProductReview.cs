@@ -49,7 +49,7 @@ public class AddProductReview : EndpointBaseAsync
     var userId = _contextService.GetCurrentUserId();
     var user = await _userRepo.GetById(userId);
 
-    var isEmployee = user is not null && Flags.HasFlag(user.Flags, Flags.EMPLOYEE);
+    var isEmployee = user is not null && user.Flags.HasFlag(Flags.EMPLOYEE);
 
     ProductReview newReview = new()
     {

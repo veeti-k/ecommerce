@@ -48,7 +48,7 @@ public class ValidSessionAndUserHandler : AuthorizationHandler<ValidSessionAndUs
     if (!goodSessionId)
       throw new ForbiddenException("Provided token contained invalid sessionId");
 
-    var goodFlags = long.TryParse(flagsClaim.Value, out var flags);
+    var goodFlags = Flags.TryParse(flagsClaim.Value, out Flags flags);
     if (!goodFlags)
       throw new ForbiddenException("Provided token contained invalid flags");
 
@@ -57,7 +57,7 @@ public class ValidSessionAndUserHandler : AuthorizationHandler<ValidSessionAndUs
       .FirstOrDefaultAsync();
     if (user is null) return;
 
-    if (user.Flags != flags)
+    if (user.Flags.HasFlag(flags))
       throw new ForbiddenException("Provided token's data did not match with database");
 
     var currentSession = user.Sessions.FirstOrDefault(session => session.Id == tokenVersion);

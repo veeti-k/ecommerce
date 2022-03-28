@@ -39,7 +39,7 @@ public static class DbSeeding
       PhoneNumber = "manage-products-123",
       Password = "manage-products-pass",
       CreatedAt = DateTimeOffset.UtcNow,
-      Flags = (long) Flags1.MANAGE_PRODUCTS,
+      Flags = Flags.MANAGE_PRODUCTS,
     },
 
     new User
@@ -49,7 +49,7 @@ public static class DbSeeding
       PhoneNumber = "manage-reviews-123",
       Password = "manage-reviews-pass",
       CreatedAt = DateTimeOffset.UtcNow,
-      Flags = (long) Flags1.MANAGE_REVIEWS,
+      Flags = Flags.MANAGE_REVIEWS,
     },
 
     new User
@@ -59,7 +59,7 @@ public static class DbSeeding
       PhoneNumber = "manage-questions-123",
       Password = "manage-questions-pass",
       CreatedAt = DateTimeOffset.UtcNow,
-      Flags = (long) Flags1.MANAGE_QUESTIONS,
+      Flags = Flags.MANAGE_QUESTIONS,
     },
 
     new User
@@ -69,7 +69,7 @@ public static class DbSeeding
       PhoneNumber = "view-users-123",
       Password = "view-users-pass",
       CreatedAt = DateTimeOffset.UtcNow,
-      Flags = (long) Flags1.VIEW_USERS,
+      Flags = Flags.VIEW_USERS,
     },
 
     new User
@@ -79,7 +79,7 @@ public static class DbSeeding
       PhoneNumber = "test-account-123",
       Password = "test-account-pass",
       CreatedAt = DateTimeOffset.UtcNow,
-      Flags = (long) Flags1.TEST_ACCOUNT,
+      Flags = Flags.TEST_ACCOUNT,
     },
 
     new User
@@ -89,13 +89,13 @@ public static class DbSeeding
       PhoneNumber = "employee-123",
       Password = "employee-pass",
       CreatedAt = DateTimeOffset.UtcNow,
-      Flags = (long) Flags1.EMPLOYEE,
+      Flags = Flags.EMPLOYEE,
     },
   };
 
-  public static User? GetUser(Flags1 flags)
+  public static User? GetUser(Flags flags)
   {
-    return Users.FirstOrDefault(user => user.Flags == (long)flags);
+    return Users.FirstOrDefault(user => user.Flags == flags);
   }
 
   public static void SeedUsers(DataContext db)

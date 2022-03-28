@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using api.Configs;
+using api.Security;
 using api.Utils.Interfaces;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -19,7 +20,7 @@ public class TokenUtils : ITokenUtils
     _tokenOptions = aTokenOptions.Value;
   }
 
-  public string CreateAccessToken(int userId, Guid sessionId, long userFlags)
+  public string CreateAccessToken(int userId, Guid sessionId, Flags userFlags)
   {
     var claims = new[]
     {
@@ -40,7 +41,7 @@ public class TokenUtils : ITokenUtils
     return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
   }
 
-  public string CreateRefreshToken(int userId, Guid sessionId, long userFlags)
+  public string CreateRefreshToken(int userId, Guid sessionId, Flags userFlags)
   {
     var claims = new[]
     {

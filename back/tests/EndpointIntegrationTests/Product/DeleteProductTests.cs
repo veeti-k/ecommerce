@@ -16,7 +16,7 @@ public class DeleteProductTests : ProductIntegrationTest
   {
     var product = await AddProduct();
 
-    await LoginAs(Flags1.ADMINISTRATOR);
+    await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await DeleteProduct_TEST_REQUEST(product.Id);
 
@@ -35,7 +35,7 @@ public class DeleteProductTests : ProductIntegrationTest
   [Fact]
   public async Task DeleteProduct_WithNonExistentProduct_ReturnsProductNotFound()
   {
-    await LoginAs(Flags1.ADMINISTRATOR);
+    await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await DeleteProduct_TEST_REQUEST(NonExistentIntId);
 
@@ -52,6 +52,6 @@ public class DeleteProductTests : ProductIntegrationTest
   public async Task DeleteProduct_TestPerms()
   {
     await TestPermissions(() => DeleteProduct_TEST_REQUEST(NonExistentIntId),
-      new List<Flags1> {Flags1.MANAGE_PRODUCTS});
+      new List<Flags> {Flags.MANAGE_PRODUCTS});
   }
 }

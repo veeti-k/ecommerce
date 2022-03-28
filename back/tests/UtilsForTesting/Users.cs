@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using api.Models.User;
 using api.RequestsAndResponses.Auth.Login;
 using api.RequestsAndResponses.Auth.Register;
+using api.Security;
 using api.Utils;
 
 namespace tests.UtilsForTesting;
@@ -12,7 +13,7 @@ public static class Users
   public static User CreateFakeUser(
     int? userId = null,
     string? password = null,
-    long flags = 0,
+    Flags flags = 0,
     IEnumerable<Address>? addresses = null,
     IEnumerable<Session>? sessions = null)
   {

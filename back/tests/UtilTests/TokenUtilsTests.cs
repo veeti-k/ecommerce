@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using api.Security;
 using api.Utils;
 using FluentAssertions;
 using Microsoft.IdentityModel.Tokens;
@@ -19,7 +20,6 @@ public class TokenUtilsTests
   private readonly TokenValidationParameters _refreshTokenValidationParameters;
 
   private readonly int randomNumber = new Random().Next(1, Int32.MaxValue);
-  private readonly long randomLong = new Random().Next(1, 10);
 
   public TokenUtilsTests(TokenThingsFixture tokenThings)
   {
@@ -34,7 +34,7 @@ public class TokenUtilsTests
   {
     var userId = randomNumber;
     var sessionId = Guid.NewGuid();
-    var flags = randomLong;
+    var flags = Flags.NO_FLAGS;
 
     var resultToken = _tokenUtils.CreateAccessToken(userId, sessionId, flags);
 
@@ -63,7 +63,7 @@ public class TokenUtilsTests
   {
     var userId = randomNumber;
     var sessionId = Guid.NewGuid();
-    var flags = randomLong;
+    var flags = Flags.NO_FLAGS;
 
     var resultToken = _tokenUtils.CreateRefreshToken(userId, sessionId, flags);
 

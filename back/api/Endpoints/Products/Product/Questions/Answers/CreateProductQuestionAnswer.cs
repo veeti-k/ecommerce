@@ -57,7 +57,7 @@ public class CreateProductQuestionAnswer : EndpointBaseAsync
       .FirstOrDefaultAsync(cancellationToken);
     if (question is null) throw new ProductQuestionNotFoundException(request.QuestionId);
     
-    var isEmployee = user is not null && Flags.HasFlag(user.Flags, Flags.EMPLOYEE);
+    var isEmployee = user is not null && user.Flags.HasFlag(Flags.EMPLOYEE);
 
     ProductQuestionAnswer newAnswer = new()
     {

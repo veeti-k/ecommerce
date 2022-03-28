@@ -20,7 +20,7 @@ public class ApproveReviewTests : ProductReviewIntegrationTest
     var product = await AddProduct();
     var review = await AddReview(product.Id);
 
-    await LoginAs(Flags1.ADMINISTRATOR);
+    await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await ApproveReview_TEST_REQUEST(product.Id, review.Id);
     
@@ -39,7 +39,7 @@ public class ApproveReviewTests : ProductReviewIntegrationTest
   [Fact]
   public async Task ApproveReview_WithNonExistentProductId_ReturnsProductNotFound()
   {
-    await LoginAs(Flags1.ADMINISTRATOR);
+    await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await ApproveReview_TEST_REQUEST(NonExistentIntId, Guid.NewGuid());
     
@@ -57,7 +57,7 @@ public class ApproveReviewTests : ProductReviewIntegrationTest
   {
     var product = await AddProduct();
 
-    await LoginAs(Flags1.ADMINISTRATOR);
+    await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await ApproveReview_TEST_REQUEST(product.Id, NonExistentGuidId);
     
@@ -74,6 +74,6 @@ public class ApproveReviewTests : ProductReviewIntegrationTest
   public async Task ApproveReview_TestPerms()
   {
     await TestPermissions(() => ApproveReview_TEST_REQUEST(NonExistentIntId, NonExistentGuidId),
-      new List<Flags1>() {Flags1.MANAGE_REVIEWS});
+      new List<Flags>() {Flags.MANAGE_REVIEWS});
   }
 }

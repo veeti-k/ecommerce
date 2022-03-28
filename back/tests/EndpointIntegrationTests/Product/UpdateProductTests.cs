@@ -17,7 +17,7 @@ public class UpdateProductTests : ProductIntegrationTest
   {
     var product = await AddProduct();
 
-    await LoginAs(Flags1.ADMINISTRATOR);
+    await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await UpdateProduct_TEST_REQUEST(product.Id);
 
@@ -33,7 +33,7 @@ public class UpdateProductTests : ProductIntegrationTest
   [Fact]
   public async Task UpdateProduct_WithNonExistentProduct_ReturnsProductNotFound()
   {
-    await LoginAs(Flags1.ADMINISTRATOR);
+    await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await UpdateProduct_TEST_REQUEST(NonExistentIntId);
 
@@ -50,6 +50,6 @@ public class UpdateProductTests : ProductIntegrationTest
   public async Task UpdateProduct_TestPerms()
   {
     await TestPermissions(() => UpdateProduct_TEST_REQUEST(NonExistentIntId),
-      new List<Flags1>() {Flags1.MANAGE_PRODUCTS});
+      new List<Flags>() {Flags.MANAGE_PRODUCTS});
   }
 }
