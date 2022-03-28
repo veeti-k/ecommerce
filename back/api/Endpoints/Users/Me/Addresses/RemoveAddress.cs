@@ -34,7 +34,7 @@ public class RemoveAddress : EndpointBaseAsync
       .Specify(new AddressGetUserAddressSpec(userId, request.AddressId))
       .FirstOrDefaultAsync(cancellationToken);
 
-    if (addressToRemove is null) throw new NotFoundException($"Address with id {request.AddressId} was not found");
+    if (addressToRemove is null) throw new AddressNotFoundException(request.AddressId);
 
     await _addressRepo.Delete(addressToRemove);
     return NoContent();

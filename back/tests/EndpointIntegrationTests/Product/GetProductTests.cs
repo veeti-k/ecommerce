@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using api.Exceptions;
 using api.RequestsAndResponses.Product;
 using FluentAssertions;
 using Xunit;
@@ -22,12 +23,14 @@ public class GetProductTests : ProductIntegrationTest
     json.Should().BeEquivalentTo(product, options => options
       .ExcludingMissingMembers());
   }
-  
+
   [Fact]
-  public async Task GetProduct_WithNonExistentProductId_ReturnsNotFound()
+  public async Task GetProduct_WithNonExistentProductId_ReturnsProductNotFound()
   {
     var response = await GetProduct_TEST_REQUEST(NonExistentId);
+    var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-  } 
+    json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductNotFoundException(NonExistentId));
+  }
 }

@@ -40,7 +40,7 @@ public class UpdateAddress : EndpointBaseAsync
       .Specify(new AddressGetUserAddressSpec(userId, request.AddressId))
       .FirstOrDefaultAsync(cancellationToken);
 
-    if (existingAddress is null) throw new NotFoundException($"Address with id {request.AddressId} was not found");
+    if (existingAddress is null) throw new AddressNotFoundException(request.AddressId);
 
     existingAddress.Name = request.Dto.Name ?? existingAddress.Name;
     existingAddress.City = request.Dto.City ?? existingAddress.City;

@@ -33,7 +33,7 @@ public class UpdateMe : EndpointBaseAsync
   {
     var userId = _contextService.GetCurrentUserId();
     var user = await _userRepo.GetById(userId);
-    if (user is null) throw new NotFoundException($"User with id {userId} was not found");
+    if (user is null) throw new UserNotFoundException(userId);
 
     user.Name = request.Dto.Name ?? user.Name;
     user.PhoneNumber = request.Dto.PhoneNumber ?? user.PhoneNumber;

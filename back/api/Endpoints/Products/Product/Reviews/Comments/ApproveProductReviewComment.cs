@@ -39,13 +39,13 @@ public class ApproveProductReviewComment : EndpointBaseAsync
     CancellationToken cancellationToken = new CancellationToken())
   {
     var product = await _productRepo.GetById(request.ProductId);
-    if (product is null) throw new NotFoundException($"Product with id {request.ProductId} was not found");
+    if (product is null) throw new ProductNotFoundException(request.ProductId);
 
     var review = await _productReviewRepo.GetById(request.ReviewId);
-    if (review is null) throw new NotFoundException($"Review with id {request.ReviewId} was not found");
+    if (review is null) throw new ProductReviewNotFoundException(request.ReviewId);
 
     var comment = await _productReviewCommentRepo.GetById(request.CommentId);
-    if (comment is null) throw new NotFoundException($"Comment with id {request.CommentId} was not found");
+    if (comment is null) throw new ProductReviewCommentNotFoundException(request.CommentId);
 
     if (comment.IsApproved)
       throw new BadRequestException("Comment is already approved");

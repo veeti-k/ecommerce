@@ -1,4 +1,5 @@
-﻿using api.Models.Product.Review;
+﻿using api.Exceptions;
+using api.Models.Product.Review;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.ProductReview;
 using api.RequestsAndResponses.ProductReview.Get;
@@ -15,12 +16,18 @@ public class GetProductReviews : EndpointBaseAsync
   .WithActionResult<IEnumerable<ProductReviewResponse>>
 {
   private readonly IMapper _mapper;
-  private readonly IGenericRepo<ProductReview> _repo;
+  private readonly IGenericRepo<ProductReview> _productReviewRepo;
+  private readonly IGenericRepo<Models.Product.Product> _productRepo;
 
-  public GetProductReviews(IGenericRepo<ProductReview> repo, IMapper mapper)
+
+  public GetProductReviews(
+    IMapper mapper, 
+    IGenericRepo<ProductReview> productReviewRepo, 
+    IGenericRepo<Models.Product.Product> productRepo)
   {
-    _repo = repo;
     _mapper = mapper;
+    _productReviewRepo = productReviewRepo;
+    _productRepo = productRepo;
   }
 
   [HttpGet(Routes.Products.Product.ReviewsRoot)]
@@ -28,7 +35,10 @@ public class GetProductReviews : EndpointBaseAsync
     [FromRoute] GetProductReviewsForProductRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var reviews = await _repo
+    var product = await _productRepo.GetById(request.ProductId);
+    if (product is null) throw new ProductNotFoundException(request.ProductId);
+    
+    var reviews = await _productReviewRepo
       .Specify(new ProductReview_GetMany_WithApprovedComments_ByProductId_Spec(request.ProductId))
       .ToListAsync(cancellationToken);
     

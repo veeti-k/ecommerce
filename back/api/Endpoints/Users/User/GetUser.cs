@@ -30,7 +30,7 @@ public class GetUser : EndpointBaseAsync
     CancellationToken cancellationToken = new CancellationToken())
   {
     var user = await _userRepo.GetById(request.UserId);
-    if (user is null) throw new NotFoundException($"User with id {request.UserId} was not found");
+    if (user is null) throw new UserNotFoundException(request.UserId);
 
     return Ok(_mapper.Map<UserResponse>(user));
   }

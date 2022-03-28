@@ -32,8 +32,8 @@ public class RemoveCategory : EndpointBaseAsync
     var categoryToDelete = await _repo
       .Specify(new CategoryGetWithIdSpec(request.CategoryId))
       .FirstOrDefaultAsync(cancellationToken);
-    
-    if (categoryToDelete is null) throw new NotFoundException($"Category with id {request.CategoryId} not found");
+
+    if (categoryToDelete is null) throw new ProductCategoryNotFoundException(request.CategoryId);
 
     await _repo.Delete(categoryToDelete);
 

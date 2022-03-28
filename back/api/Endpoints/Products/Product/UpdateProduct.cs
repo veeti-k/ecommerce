@@ -31,8 +31,8 @@ public class UpdateProduct : EndpointBaseAsync
     CancellationToken cancellationToken = new CancellationToken())
   {
     var existingProduct = await _repo.GetById(request.ProductId);
-    if (existingProduct is null) 
-      throw new NotFoundException($"Product with id {request.ProductId} not found");
+    if (existingProduct is null)
+      throw new ProductNotFoundException(request.ProductId);
     
     existingProduct.Name = request.Dto.Name ?? existingProduct.Name;
     existingProduct.Description = request.Dto.Description ?? existingProduct.Description;

@@ -30,10 +30,10 @@ public class DeleteProductQuestion : EndpointBaseAsync
     CancellationToken cancellationToken = new CancellationToken())
   {
     var product = await _productRepo.GetById(request.ProductId);
-    if (product is null) throw new NotFoundException("Product not found");
+    if (product is null) throw new ProductNotFoundException(request.ProductId);
 
     var question = await _productQuestionRepo.GetById(request.QuestionId);
-    if (question is null) throw new NotFoundException("Question not found");
+    if (question is null) throw new ProductQuestionNotFoundException(request.QuestionId);
 
     await _productQuestionRepo.Delete(question);
 

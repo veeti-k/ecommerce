@@ -9,3 +9,8 @@ public class MyException : Exception
     StatusCode = aStatusCode;
   }
 }
+
+public class MyExceptionResponse
+{
+  public string Message { get; init; }
+}

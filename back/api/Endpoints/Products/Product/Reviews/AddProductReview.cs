@@ -44,7 +44,7 @@ public class AddProductReview : EndpointBaseAsync
   {
     var product = await _productRepo.GetById(request.ProductId);
     if (product is null)
-      throw new NotFoundException($"Product with id {request.ProductId} was not found");
+      throw new ProductNotFoundException(request.ProductId);
 
     var userId = _contextService.GetCurrentUserId();
     var user = await _userRepo.GetById(userId);

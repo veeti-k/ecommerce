@@ -28,10 +28,10 @@ public class RemoveBulletPoint : EndpointBaseAsync
     CancellationToken cancellationToken = new CancellationToken())
   {
     var product = await _productRepo.GetById(request.ProductId);
-    if (product is null) throw new NotFoundException($"Product with id {request.ProductId} was not found");
+    if (product is null) throw new ProductNotFoundException(request.ProductId);
 
     var bulletPoint = await _productBulletPointRepo.GetById(request.BulletPointId);
-    if (bulletPoint is null) throw new NotFoundException($"Bullet point with id {request.BulletPointId} was not found");
+    if (bulletPoint is null) throw new ProductBulletPointNotFoundException(request.BulletPointId);
 
     await _productBulletPointRepo.Delete(bulletPoint);
     return NoContent();

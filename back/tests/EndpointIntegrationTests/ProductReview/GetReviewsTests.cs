@@ -1,5 +1,10 @@
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
+using api.Exceptions;
+using api.RequestsAndResponses.ProductReview;
 using FluentAssertions;
 using Xunit;
 
@@ -21,6 +26,27 @@ public class GetReviewsTests : ProductReviewIntegrationTest
     reviews.Any(rev => rev.Id == review2.Id).Should().BeFalse();
     reviews.Any(rev => rev.Id == review1.Id).Should().BeTrue();
   }
-  
- 
+
+  [Fact]
+  public async Task GetReviews_WithNonExistentProductId_ReturnsProductNotFound()
+  {
+    var response = await GetApprovedProductReviews_TEST_REQUEST(NonExistentId);
+
+    response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
+    json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductNotFoundException(NonExistentId));
+  }
+
+  [Fact]
+  public async Task GetReviews_WithExistingProductId_NoReviews_ReturnsEmptyList()
+  {
+    var product = await AddProduct();
+
+    var response = await GetApprovedProductReviews_TEST_REQUEST(product.Id);
+
+    response.StatusCode.Should().Be(HttpStatusCode.OK);
+    var json = await response.Content.ReadFromJsonAsync<IEnumerable<MyExceptionResponse>>();
+
+    json.Should().BeEmpty();
+  }
 }

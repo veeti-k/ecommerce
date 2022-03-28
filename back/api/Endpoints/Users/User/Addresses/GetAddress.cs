@@ -36,7 +36,7 @@ public class GetAddress : EndpointBaseAsync
       .Specify(new AddressGetUserAddressSpec(request.UserId, request.AddressId))
       .FirstOrDefaultAsync(cancellationToken);
 
-    if (address is null) throw new NotFoundException($"Address with {request.AddressId} was not found");
+    if (address is null) throw new AddressNotFoundException(request.AddressId);
 
     return Ok(_mapper.Map<AddressResponse>(address));
   }

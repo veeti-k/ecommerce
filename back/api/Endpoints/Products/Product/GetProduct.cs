@@ -32,7 +32,7 @@ public class GetProduct : EndpointBaseAsync
       .Specify(new ProductGetProductPageProductSpec(request.ProductId))
       .FirstOrDefaultAsync(cancellationToken);
 
-    if (product is null) throw new NotFoundException($"Product with id {request.ProductId} not found");
+    if (product is null) throw new ProductNotFoundException(request.ProductId);
     
     return Ok(_mapper.Map<ProductPageProductResponse>(product));
   }

@@ -50,12 +50,12 @@ public class CreateProductQuestionAnswer : EndpointBaseAsync
     var user = await _userRepo.GetById(userId);
 
     var product = await _productRepo.GetById(request.ProductId);
-    if (product is null) throw new NotFoundException("Product was not found");
+    if (product is null) throw new ProductNotFoundException(request.ProductId);
 
     var question = await _productQuestionRepo
       .Specify(new ProductQuestion_GetOneApproved_ByQuestionId_Spec(request.QuestionId))
       .FirstOrDefaultAsync(cancellationToken);
-    if (question is null) throw new NotFoundException("Question was not found");
+    if (question is null) throw new ProductQuestionNotFoundException(request.QuestionId);
     
     var isEmployee = user is not null && Flags.HasFlag(user.Flags, Flags.EMPLOYEE);
 

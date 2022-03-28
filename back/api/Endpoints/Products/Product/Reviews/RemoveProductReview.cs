@@ -27,8 +27,8 @@ public class RemoveProductReview : EndpointBaseAsync
     CancellationToken cancellationToken = new CancellationToken())
   {
     var review = await _repo.GetById(request.ReviewId);
-    if (review is null) 
-      throw new NotFoundException($"Review with id {request.ReviewId} was not found");
+    if (review is null)
+      throw new ProductReviewNotFoundException(request.ReviewId);
 
     await _repo.Delete(review);
     return NoContent();

@@ -35,7 +35,7 @@ public class GetProductQuestions : EndpointBaseAsync
     CancellationToken cancellationToken = new CancellationToken())
   {
     var product = await _productRepo.GetById(request.ProductId);
-    if (product is null) throw new NotFoundException($"Product with id {request.ProductId} was not found");
+    if (product is null) throw new ProductNotFoundException(request.ProductId);
 
     var questions = await _productQuestionRepo
       .Specify(new ProductQuestion_GetManyApproved_WithApprovedAnswers_ByProductId_Spec(request.ProductId))

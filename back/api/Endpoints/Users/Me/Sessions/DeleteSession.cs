@@ -35,8 +35,8 @@ public class DeleteSession : EndpointBaseAsync
       .Specify(new SessionGetOneSpec(userId, request.SessionId))
       .FirstOrDefaultAsync(cancellationToken);
 
-    if (session is null) 
-      throw new NotFoundException($"Session with id {request.SessionId} was not found");
+    if (session is null)
+      throw new SessionNotFoundException(request.SessionId);
 
     await _sessionRepo.Delete(session);
     

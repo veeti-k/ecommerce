@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using api.Exceptions;
 using api.RequestsAndResponses.ProductReview;
 using FluentAssertions;
 using Xunit;
@@ -22,10 +23,12 @@ public class AddReviewTests : ProductReviewIntegrationTest
   }
 
   [Fact]
-  public async Task AddReview_WithNonExistentProduct_ReturnsNotFound()
+  public async Task AddReview_WithNonExistentProductId_ReturnsProductNotFound()
   {
     var response = await AddReview_TEST_REQUEST(NonExistentId);
+    var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductNotFoundException(NonExistentId));
   }
 }
