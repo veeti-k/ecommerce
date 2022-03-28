@@ -21,11 +21,13 @@ public class ApproveReviewTests : ProductReviewIntegrationTest
     await LoginToAdmin();
 
     var response = await ApproveReview_TEST_REQUEST(product.Id, review.Id);
+    
+    await Logout();
+    
+    response.StatusCode.Should().Be(HttpStatusCode.OK);
+
     var json = await response.Content.ReadFromJsonAsync<ProductReviewResponse>();
 
-    await Logout();
-
-    response.StatusCode.Should().Be(HttpStatusCode.OK);
     json.Should().BeEquivalentTo(review, options => options.ExcludingMissingMembers());
 
     var reviews = await GetApprovedProductReviews(product.Id);
@@ -38,11 +40,31 @@ public class ApproveReviewTests : ProductReviewIntegrationTest
     await LoginToAdmin();
 
     var response = await ApproveReview_TEST_REQUEST(NonExistentIntId, Guid.NewGuid());
+    
+    await Logout();
+    
+    response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
     var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
 
-    await Logout();
-
-    response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductNotFoundException(NonExistentIntId));
+  }
+
+  [Fact]
+  public async Task ApproveReview_WithExistingProduct_WithNonExistentReviewId_ReturnsReviewNotFound()
+  {
+    var product = await AddProduct();
+
+    await LoginToAdmin();
+
+    var response = await ApproveReview_TEST_REQUEST(product.Id, NonExistentGuidId);
+    
+    await Logout();
+    
+    response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+    var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
+
+    json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductReviewNotFoundException(NonExistentGuidId));
   }
 }

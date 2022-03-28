@@ -33,6 +33,7 @@ public class AddProductTest : ProductIntegrationTest
     response.StatusCode.Should().Be(HttpStatusCode.Created);
     
     var jsonResponse = await response.Content.ReadFromJsonAsync<BaseProductResponse>();
+    
     jsonResponse.Should().BeEquivalentTo(TestProductDto);
   }
 }

@@ -13,6 +13,7 @@ namespace tests.EndpointIntegrationTests;
 
 public class ProductReviewIntegrationTest : ProductIntegrationTest
 {
+  // add review
   public static readonly AddProductReviewDto TestProductReviewDto = new()
   {
     Content = Guid.NewGuid().ToString(),
@@ -40,6 +41,7 @@ public class ProductReviewIntegrationTest : ProductIntegrationTest
     return json;
   }
 
+  // approve review
   public async Task<HttpResponseMessage?> ApproveReview_TEST_REQUEST(int productId, Guid reviewId)
   {
     var path = Routes.Products.Product.Reviews.ReviewRoot
@@ -57,15 +59,16 @@ public class ProductReviewIntegrationTest : ProductIntegrationTest
     
     var response = await ApproveReview_TEST_REQUEST(productId, reviewId);
 
-    var json = await response.Content.ReadFromJsonAsync<ProductReviewResponse>();
-
     await Logout();
+
+    var json = await response.Content.ReadFromJsonAsync<ProductReviewResponse>();
 
     response.StatusCode.Should().Be(HttpStatusCode.OK);
 
     return json;
   }
 
+  // get approved reviews
   public async Task<HttpResponseMessage?> GetApprovedProductReviews_TEST_REQUEST(int productId)
   {
     var path = Routes.Products.Product.ReviewsRoot
@@ -82,5 +85,26 @@ public class ProductReviewIntegrationTest : ProductIntegrationTest
     var json = await response.Content.ReadFromJsonAsync<IEnumerable<ProductReviewResponse>>();
 
     return json;
+  }
+  
+  // delete review
+  public async Task<HttpResponseMessage?> DeleteReview_TEST_REQUEST(int productId, Guid reviewId)
+  {
+    var path = Routes.Products.Product.Reviews.ReviewRoot
+      .Replace(Routes.Products.ProductId, productId.ToString())
+      .Replace(Routes.Products.ReviewId, reviewId.ToString());
+
+    var response = await TestClient.DeleteAsync(path);
+
+    return response;
+  }
+
+  public async Task DeleteReview(int productId, Guid reviewId)
+  {
+    await LoginToAdmin();
+
+    var response = await DeleteReview_TEST_REQUEST(productId, reviewId);
+
+    await Logout();
   }
 }

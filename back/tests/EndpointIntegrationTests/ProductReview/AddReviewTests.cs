@@ -16,9 +16,11 @@ public class AddReviewTests : ProductReviewIntegrationTest
     var product = await AddProduct();
 
     var response = await AddReview_TEST_REQUEST(product.Id);
+    
+    response.StatusCode.Should().Be(HttpStatusCode.Created);
+
     var json = await response.Content.ReadFromJsonAsync<ProductReviewResponse>();
 
-    response.StatusCode.Should().Be(HttpStatusCode.Created);
     json.Should().BeEquivalentTo(TestProductReviewDto, options => options.ExcludingMissingMembers());
   }
 
@@ -26,9 +28,11 @@ public class AddReviewTests : ProductReviewIntegrationTest
   public async Task AddReview_WithNonExistentProductId_ReturnsProductNotFound()
   {
     var response = await AddReview_TEST_REQUEST(NonExistentIntId);
+    
+    response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
     var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
 
-    response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductNotFoundException(NonExistentIntId));
   }
 }

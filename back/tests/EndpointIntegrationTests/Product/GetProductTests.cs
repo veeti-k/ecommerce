@@ -16,10 +16,11 @@ public class GetProductTests : ProductIntegrationTest
     var product = await AddProduct();
 
     var response = await GetProduct_TEST_REQUEST(product.Id);
+    
+    response.StatusCode.Should().Be(HttpStatusCode.OK);
 
     var json = await response.Content.ReadFromJsonAsync<ProductPageProductResponse>();
 
-    response.StatusCode.Should().Be(HttpStatusCode.OK);
     json.Should().BeEquivalentTo(product, options => options
       .ExcludingMissingMembers());
   }
@@ -28,9 +29,11 @@ public class GetProductTests : ProductIntegrationTest
   public async Task GetProduct_WithNonExistentProductId_ReturnsProductNotFound()
   {
     var response = await GetProduct_TEST_REQUEST(NonExistentIntId);
+    
+    response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
     var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
 
-    response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductNotFoundException(NonExistentIntId));
   }
 }
