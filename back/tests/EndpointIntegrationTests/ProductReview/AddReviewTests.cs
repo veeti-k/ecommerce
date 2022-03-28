@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -22,6 +23,23 @@ public class AddReviewTests : ProductReviewIntegrationTest
     var json = await response.Content.ReadFromJsonAsync<ProductReviewResponse>();
 
     json.Should().BeEquivalentTo(TestProductReviewDto, options => options.ExcludingMissingMembers());
+  }
+  
+  [Fact]
+  public async Task AddReview_AfterAdding_DoesNotExposeReview_UntilItsApproved()
+  {
+    var product = await AddProduct();
+    var review = await AddReview(product.Id);
+
+    var reviews1 = await GetApprovedProductReviews(product.Id);
+    
+    reviews1.Any(foundReview => foundReview.Id == review.Id).Should().BeFalse();
+
+    await ApproveReview(product.Id, review.Id);
+    
+    var reviews2 = await GetApprovedProductReviews(product.Id);
+
+    reviews2.Any(foundReview => foundReview.Id == review.Id).Should().BeTrue();
   }
 
   [Fact]
