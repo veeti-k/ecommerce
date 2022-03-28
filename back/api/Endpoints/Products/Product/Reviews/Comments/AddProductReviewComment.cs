@@ -66,6 +66,6 @@ public class AddProductReviewComment : EndpointBaseAsync
     };
 
     var added = await _productReviewCommentRepo.Add(newComment);
-    return _mapper.Map<ProductReviewCommentResponse>(added);
+    return Created("", _mapper.Map<ProductReviewCommentResponse>(added));
   }
 }
