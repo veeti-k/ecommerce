@@ -28,6 +28,9 @@ public class UpdateProductTests : ProductIntegrationTest
     var json = await response.Content.ReadFromJsonAsync<BaseProductResponse>();
 
     json.Should().BeEquivalentTo(TestUpdateProductDto, options => options.ExcludingMissingMembers());
+
+    var updated = await GetProduct(product.Id);
+    updated.Should().BeEquivalentTo(TestUpdateProductDto);
   }
 
   [Fact]

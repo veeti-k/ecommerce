@@ -37,6 +37,8 @@ public class ProductReviewIntegrationTest : ProductIntegrationTest
   {
     var response = await AddReview_TEST_REQUEST(productId);
 
+    response.IsSuccessStatusCode.Should().BeTrue();
+
     var json = await response.Content.ReadFromJsonAsync<ProductReviewResponse>();
 
     return json;
@@ -62,9 +64,9 @@ public class ProductReviewIntegrationTest : ProductIntegrationTest
 
     await Logout();
 
-    var json = await response.Content.ReadFromJsonAsync<ProductReviewResponse>();
+    response.IsSuccessStatusCode.Should().BeTrue();
 
-    response.StatusCode.Should().Be(HttpStatusCode.OK);
+    var json = await response.Content.ReadFromJsonAsync<ProductReviewResponse>();
 
     return json;
   }
@@ -83,11 +85,14 @@ public class ProductReviewIntegrationTest : ProductIntegrationTest
   public async Task<IEnumerable<ProductReviewResponse>> GetApprovedProductReviews(int productId)
   {
     var response = await GetApprovedProductReviews_TEST_REQUEST(productId);
+
+    response.IsSuccessStatusCode.Should().BeTrue();
+
     var json = await response.Content.ReadFromJsonAsync<IEnumerable<ProductReviewResponse>>();
 
     return json;
   }
-  
+
   // delete review
   public async Task<HttpResponseMessage?> DeleteReview_TEST_REQUEST(int productId, Guid reviewId)
   {
@@ -107,5 +112,7 @@ public class ProductReviewIntegrationTest : ProductIntegrationTest
     var response = await DeleteReview_TEST_REQUEST(productId, reviewId);
 
     await Logout();
+
+    response.IsSuccessStatusCode.Should().BeTrue();
   }
 }

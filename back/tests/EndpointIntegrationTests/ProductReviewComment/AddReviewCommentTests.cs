@@ -18,6 +18,7 @@ public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
   {
     var product = await AddProduct();
     var review = await AddReview(product.Id);
+    await ApproveReview(product.Id, review.Id);
 
     var response = await AddReviewComment_TEST_REQUEST(product.Id, review.Id);
 
@@ -26,6 +27,21 @@ public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
     var json = await response.Content.ReadFromJsonAsync<ProductReviewCommentResponse>();
 
     json.Should().BeEquivalentTo(TestProductReviewCommentDto);
+  }
+  
+  [Fact]
+  public async Task AddReviewComment_WithExistingProduct_WithExistingReviewButNotApproved_ReturnsReviewNotFound()
+  {
+    var product = await AddProduct();
+    var review = await AddReview(product.Id);
+
+    var response = await AddReviewComment_TEST_REQUEST(product.Id, review.Id);
+
+    response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+    var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
+
+    json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductReviewNotFoundException(review.Id));
   }
 
   [Fact]

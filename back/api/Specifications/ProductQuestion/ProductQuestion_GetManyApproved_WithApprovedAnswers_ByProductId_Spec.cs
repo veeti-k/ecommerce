@@ -9,6 +9,7 @@ public class ProductQuestion_GetManyApproved_WithApprovedAnswers_ByProductId_Spe
   {
     Criteria = question => question.ProductId == productId
                            && question.IsApproved;
+    
     Include(questions => questions
       .Include(question => question.Answers.Where(answer => answer.IsApproved)));
   }

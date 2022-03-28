@@ -14,7 +14,7 @@ namespace tests.EndpointIntegrationTests.ProductReview;
 public class AddReviewTests : ProductReviewIntegrationTest
 {
   [Fact]
-  public async Task AddReview_WithExistingProduct_ReturnsAddedReview()
+  public async Task AddReview_WithExistingProduct_AddsReview_ReturnsAddedReview()
   {
     var product = await AddProduct();
 
@@ -28,24 +28,22 @@ public class AddReviewTests : ProductReviewIntegrationTest
   }
 
   [Fact]
-  public async Task AddReview_AfterAdding_DoesNotExposeReview_UntilItsApproved()
+  public async Task AddReview_AfterAdding_DoesNotExposeReview_UntilApproved()
   {
     var product = await AddProduct();
     var review = await AddReview(product.Id);
 
     var reviews1 = await GetApprovedProductReviews(product.Id);
-
     reviews1.Any(foundReview => foundReview.Id == review.Id).Should().BeFalse();
 
     await ApproveReview(product.Id, review.Id);
 
     var reviews2 = await GetApprovedProductReviews(product.Id);
-
     reviews2.Any(foundReview => foundReview.Id == review.Id).Should().BeTrue();
   }
 
   [Fact]
-  public async Task AddReview_WithNonExistentProductId_ReturnsProductNotFound()
+  public async Task AddReview_WithNonExistentProduct_ReturnsProductNotFound()
   {
     var response = await AddReview_TEST_REQUEST(NonExistentIntId);
 

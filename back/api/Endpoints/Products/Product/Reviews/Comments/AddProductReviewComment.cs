@@ -6,9 +6,11 @@ using api.RequestsAndResponses.ProductReviewComment;
 using api.RequestsAndResponses.ProductReviewComment.Add;
 using api.Security;
 using api.Services.Interfaces;
+using api.Specifications.ProductReview;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Products.Product.Reviews.Comments;
 
@@ -47,7 +49,9 @@ public class AddProductReviewComment : EndpointBaseAsync
     var product = await _productRepo.GetById(request.ProductId);
     if (product is null) throw new ProductNotFoundException(request.ProductId);
 
-    var review = await _productReviewRepo.GetById(request.ReviewId);
+    var review = await _productReviewRepo
+      .Specify(new ProductReview_GetOneApproved_ByProductId_Spec(request.ProductId, request.ReviewId))
+      .FirstOrDefaultAsync();
     if (review is null) throw new ProductReviewNotFoundException(request.ReviewId);
 
     var userId = _contextService.GetCurrentUserId();

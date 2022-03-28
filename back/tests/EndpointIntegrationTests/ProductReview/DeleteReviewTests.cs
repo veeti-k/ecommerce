@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace tests.EndpointIntegrationTests.ProductReview;
 public class DeleteReviewTests : ProductReviewIntegrationTest
 {
   [Fact]
-  public async Task RemoveReview_WithExistingProduct_RemovesProduct_ReturnsNoContent()
+  public async Task DeleteReview_WithExistingProduct_DeletesReview_ReturnsNoContent()
   {
     var product = await AddProduct();
     var review = await AddReview(product.Id);
@@ -24,10 +25,13 @@ public class DeleteReviewTests : ProductReviewIntegrationTest
     await Logout();
 
     response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+    var reviews = await GetApprovedProductReviews(product.Id);
+    reviews.Any(foundReview => foundReview.Id == review.Id).Should().BeFalse();
   }
 
   [Fact]
-  public async Task RemoveReview_WithNonExistentProduct_ReturnsProductNotFound()
+  public async Task DeleteReview_WithNonExistentProduct_ReturnsProductNotFound()
   {
     await LoginAs(Flags.ADMINISTRATOR);
 
@@ -43,7 +47,7 @@ public class DeleteReviewTests : ProductReviewIntegrationTest
   }
 
   [Fact]
-  public async Task RemoveReview_WithExistingProduct_WithNonExistentReview_ReturnsReviewNotFound()
+  public async Task DeleteReview_WithExistingProduct_WithNonExistentReview_ReturnsReviewNotFound()
   {
     var product = await AddProduct();
 
@@ -61,7 +65,7 @@ public class DeleteReviewTests : ProductReviewIntegrationTest
   }
 
   [Fact]
-  public async Task RemoveReview_TestPerms()
+  public async Task DeleteReview_TestPerms()
   {
     await TestPermissions(() => DeleteReview_TEST_REQUEST(NonExistentIntId, NonExistentGuidId),
       new List<Flags>() {Flags.MANAGE_REVIEWS});

@@ -13,7 +13,7 @@ namespace tests.EndpointIntegrationTests.Product;
 public class GetProductTests : ProductIntegrationTest
 {
   [Fact]
-  public async Task GetProduct_WithExistingProductId_ReturnsProduct()
+  public async Task GetProduct_WithExistingProduct_ReturnsProduct()
   {
     var product = await AddProduct();
 
@@ -28,7 +28,7 @@ public class GetProductTests : ProductIntegrationTest
   }
 
   [Fact]
-  public async Task GetProduct_WithNonExistentProductId_ReturnsProductNotFound()
+  public async Task GetProduct_WithNonExistentProduct_ReturnsProductNotFound()
   {
     var response = await GetProduct_TEST_REQUEST(NonExistentIntId);
 

@@ -39,7 +39,7 @@ public class GetProductReviews : EndpointBaseAsync
     if (product is null) throw new ProductNotFoundException(request.ProductId);
     
     var reviews = await _productReviewRepo
-      .Specify(new ProductReview_GetMany_WithApprovedComments_ByProductId_Spec(request.ProductId))
+      .Specify(new ProductReview_GetManyApproved_WithApprovedComments_ByProductId_Spec(request.ProductId))
       .ToListAsync(cancellationToken);
     
     return Ok(_mapper.Map<IEnumerable<ProductReviewResponse>>(reviews));

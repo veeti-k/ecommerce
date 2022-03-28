@@ -15,7 +15,7 @@ namespace tests.EndpointIntegrationTests.ProductReview;
 public class ApproveReviewTests : ProductReviewIntegrationTest
 {
   [Fact]
-  public async Task ApproveReview_WithExistingReview_ApprovesReview_ReturnsApprovedReview()
+  public async Task ApproveReview_WithExistingProduct_WithExistingReview_ApprovesReview_ReturnsApprovedReview()
   {
     var product = await AddProduct();
     var review = await AddReview(product.Id);
@@ -37,7 +37,7 @@ public class ApproveReviewTests : ProductReviewIntegrationTest
   }
 
   [Fact]
-  public async Task ApproveReview_WithNonExistentProductId_ReturnsProductNotFound()
+  public async Task ApproveReview_WithNonExistentProduct_ReturnsProductNotFound()
   {
     await LoginAs(Flags.ADMINISTRATOR);
 
@@ -53,7 +53,7 @@ public class ApproveReviewTests : ProductReviewIntegrationTest
   }
 
   [Fact]
-  public async Task ApproveReview_WithExistingProduct_WithNonExistentReviewId_ReturnsReviewNotFound()
+  public async Task ApproveReview_WithExistingProduct_WithNonExistentReview_ReturnsReviewNotFound()
   {
     var product = await AddProduct();
 

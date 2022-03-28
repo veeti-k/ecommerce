@@ -12,19 +12,7 @@ namespace tests.EndpointIntegrationTests.Product;
 public class AddProductTest : ProductIntegrationTest
 {
   [Fact]
-  public async Task AddProduct_OnNonAdminUser_ReturnsUnauthorized()
-  {
-    await LoginAs(Flags.NO_FLAGS);
-
-    var response = await AddProduct_TEST_REQUEST();
-
-    await Logout();
-
-    response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
-  }
-  
-  [Fact]
-  public async Task AddProduct_OnAdminUser_ReturnsAddedProduct()
+  public async Task AddProduct_ReturnsAddedProduct()
   {
     await LoginAs(Flags.ADMINISTRATOR);
 
@@ -33,15 +21,16 @@ public class AddProductTest : ProductIntegrationTest
     await Logout();
 
     response.StatusCode.Should().Be(HttpStatusCode.Created);
-    
+
     var jsonResponse = await response.Content.ReadFromJsonAsync<BaseProductResponse>();
-    
+
     jsonResponse.Should().BeEquivalentTo(TestProductDto);
   }
 
   [Fact]
   public async Task AddProduct_TestPerms()
   {
-    await TestPermissions(AddProduct_TEST_REQUEST, new List<Flags>() {Flags.ADMINISTRATOR, Flags.MANAGE_PRODUCTS});
+    await TestPermissions(AddProduct_TEST_REQUEST,
+      new List<Flags>() {Flags.MANAGE_PRODUCTS});
   }
 }

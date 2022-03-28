@@ -40,6 +40,8 @@ public class ProductIntegrationTest : NeedsAuthIntegrationTest
 
     await Logout();
 
+    response.IsSuccessStatusCode.Should().BeTrue();
+
     var json = await response.Content.ReadFromJsonAsync<BaseProductResponse>();
 
     response.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -69,7 +71,7 @@ public class ProductIntegrationTest : NeedsAuthIntegrationTest
   }
 
   // update product
-  public static readonly UpdateProductDto TestUpdateProductDto = new UpdateProductDto
+  public static readonly UpdateProductDto TestUpdateProductDto = new()
   {
     Name = Guid.NewGuid().ToString(),
     Description = Guid.NewGuid().ToString(),
@@ -96,6 +98,8 @@ public class ProductIntegrationTest : NeedsAuthIntegrationTest
     await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await UpdateProduct_TEST_REQUEST(productId);
+    
+    response.IsSuccessStatusCode.Should().BeTrue();
 
     await Logout();
 
@@ -119,7 +123,9 @@ public class ProductIntegrationTest : NeedsAuthIntegrationTest
   {
     await LoginAs(Flags.ADMINISTRATOR);
 
-    await DeleteProduct_TEST_REQUEST(productId);
+    var response = await DeleteProduct_TEST_REQUEST(productId);
+    
+    response.IsSuccessStatusCode.Should().BeTrue();
 
     await Logout();
   }

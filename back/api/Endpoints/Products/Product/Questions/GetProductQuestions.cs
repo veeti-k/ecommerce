@@ -31,7 +31,7 @@ public class GetProductQuestions : EndpointBaseAsync
 
   [HttpGet(Routes.Products.Product.QuestionsRoot)]
   public override async Task<ActionResult<IEnumerable<ProductQuestionResponse>>> HandleAsync(
-    GetProductQuestionsRequest request,
+    [FromRoute] GetProductQuestionsRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
     var product = await _productRepo.GetById(request.ProductId);

@@ -16,21 +16,6 @@ namespace tests.EndpointIntegrationTests;
 
 public class NeedsAuthIntegrationTest : BaseIntegrationTest
 {
-  protected async Task<string> Login(string email, string password)
-  {
-    var response = await TestClient.PostAsJsonAsync(Routes.Auth.Login, new LoginDto
-    {
-      Email = email,
-      Password = password
-    });
-
-    var json = await response.Content.ReadFromJsonAsync<LoginResponse>();
-    if (json.AccessToken is null)
-      throw new Exception("Authentication failed, access token was not returned from login");
-
-    return json.AccessToken;
-  }
-
   protected async Task Logout()
   {
     await TestClient.PostAsync(Routes.Auth.Logout, null);
@@ -40,7 +25,8 @@ public class NeedsAuthIntegrationTest : BaseIntegrationTest
   protected async Task LoginAs(Flags flags)
   {
     var user = DbSeeding.GetUser(flags);
-    if (user is null) throw new Exception("User can't be null");
+
+    user.Should().NotBeNull();
 
     var loginDto = new LoginDto
     {
@@ -49,6 +35,9 @@ public class NeedsAuthIntegrationTest : BaseIntegrationTest
     };
 
     var response = await TestClient.PostAsync(Routes.Auth.Login, JsonContent.Create(loginDto));
+
+    response.IsSuccessStatusCode.Should().BeTrue();
+
     var json = await response.Content.ReadFromJsonAsync<LoginResponse>();
 
     var accessToken = json.AccessToken;

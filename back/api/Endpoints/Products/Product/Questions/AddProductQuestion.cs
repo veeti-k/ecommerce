@@ -47,6 +47,6 @@ public class AddProductQuestion : EndpointBaseAsync
     };
 
     var added = await _productQuestionRepo.Add(newQuestion);
-    return _mapper.Map<ProductQuestionResponse>(added);
+    return Created("", _mapper.Map<ProductQuestionResponse>(added));
   }
 }

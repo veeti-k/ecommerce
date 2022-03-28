@@ -12,7 +12,7 @@ namespace tests.EndpointIntegrationTests.Product;
 public class DeleteProductTests : ProductIntegrationTest
 {
   [Fact]
-  public async Task DeleteProduct_WithExistingProduct_DeletesProduct_ReturnsNoContent()
+  public async Task DeleteProduct_WithExistingProduct_DeletesProduct_Returns204()
   {
     var product = await AddProduct();
 
