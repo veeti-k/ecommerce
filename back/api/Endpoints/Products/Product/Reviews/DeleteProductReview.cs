@@ -3,9 +3,11 @@ using api.Models.Product.Review;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.ProductReview.Delete;
 using api.Security.Policies;
+using api.Specifications.Product;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Products.Product.Reviews;
 
@@ -13,11 +15,15 @@ public class DeleteProductReview : EndpointBaseAsync
   .WithRequest<DeleteProductReviewRequest>
   .WithActionResult
 {
-  private readonly IGenericRepo<ProductReview> _repo;
+  private readonly IGenericRepo<ProductReview> _productReviewRepo;
+  private readonly IGenericRepo<Models.Product.Product> _productRepo;
 
-  public DeleteProductReview(IGenericRepo<ProductReview> repo)
+  public DeleteProductReview(
+    IGenericRepo<ProductReview> productReviewRepo,
+    IGenericRepo<Models.Product.Product> productRepo)
   {
-    _repo = repo;
+    _productReviewRepo = productReviewRepo;
+    _productRepo = productRepo;
   }
 
   [Authorize(Policy = Policies.ManageReviews)]
@@ -26,11 +32,15 @@ public class DeleteProductReview : EndpointBaseAsync
     [FromRoute] DeleteProductReviewRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var review = await _repo.GetById(request.ReviewId);
+    var product = await _productRepo.GetById(request.ProductId);
+    if (product is null) 
+      throw new ProductNotFoundException(request.ProductId);
+    
+    var review = await _productReviewRepo.GetById(request.ReviewId);
     if (review is null)
       throw new ProductReviewNotFoundException(request.ReviewId);
 
-    await _repo.Delete(review);
+    await _productReviewRepo.Delete(review);
     return NoContent();
   }
 }
