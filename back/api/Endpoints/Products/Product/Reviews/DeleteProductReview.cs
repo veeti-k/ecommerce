@@ -9,19 +9,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Endpoints.Products.Product.Reviews;
 
-public class RemoveProductReview : EndpointBaseAsync
+public class DeleteProductReview : EndpointBaseAsync
   .WithRequest<DeleteProductReviewRequest>
   .WithActionResult
 {
   private readonly IGenericRepo<ProductReview> _repo;
 
-  public RemoveProductReview(IGenericRepo<ProductReview> repo)
+  public DeleteProductReview(IGenericRepo<ProductReview> repo)
   {
     _repo = repo;
   }
 
   [Authorize(Policy = Policies.ManageReviews)]
-  [HttpDelete(Routes.Products.Product.ReviewsRoot)]
+  [HttpDelete(Routes.Products.Product.Reviews.ReviewRoot)]
   public override async Task<ActionResult> HandleAsync(
     [FromRoute] DeleteProductReviewRequest request,
     CancellationToken cancellationToken = new CancellationToken())
