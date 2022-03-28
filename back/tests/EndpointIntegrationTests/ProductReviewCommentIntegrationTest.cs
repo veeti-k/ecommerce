@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using api.Endpoints;
 using api.RequestsAndResponses.ProductReviewComment;
 using api.RequestsAndResponses.ProductReviewComment.Add;
+using api.Security;
 
 namespace tests.EndpointIntegrationTests;
 
@@ -53,8 +54,8 @@ public class ProductReviewCommentIntegrationTest : ProductReviewIntegrationTest
 
   public async Task<ProductReviewCommentResponse> ApproveReviewComment(int productId, Guid reviewId, Guid commentId)
   {
-    await LoginToAdmin();
-    
+    await LoginAs(Flags1.ADMINISTRATOR);
+
     var response = await ApproveReviewComment_TEST_REQUEST(productId, reviewId, commentId);
 
     await Logout();

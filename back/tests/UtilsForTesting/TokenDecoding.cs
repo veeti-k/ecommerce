@@ -2,7 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using Xunit;
 
-namespace tests.ControllerTests.Utils;
+namespace tests.UtilsForTesting;
 
 [Collection("TokenThings")]
 public class TokenDecodingFixture

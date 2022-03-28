@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
 
-namespace tests.ControllerTests.Utils;
+namespace tests.UtilsForTesting;
 
 public static class Identity
 {

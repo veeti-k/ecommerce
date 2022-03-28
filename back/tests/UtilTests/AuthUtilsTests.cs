@@ -6,9 +6,10 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Moq;
+using tests.ServiceTests;
 using Xunit;
 
-namespace tests.ServiceTests.UtilTests;
+namespace tests.UtilTests;
 
 [Collection("TokenThings")]
 public class AuthUtilsTests

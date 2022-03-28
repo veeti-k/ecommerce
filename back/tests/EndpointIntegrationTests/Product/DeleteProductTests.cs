@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using api.Exceptions;
+using api.Security;
 using FluentAssertions;
 using Xunit;
 
@@ -14,7 +16,7 @@ public class DeleteProductTests : ProductIntegrationTest
   {
     var product = await AddProduct();
 
-    await LoginToAdmin();
+    await LoginAs(Flags1.ADMINISTRATOR);
 
     var response = await DeleteProduct_TEST_REQUEST(product.Id);
 
@@ -33,7 +35,7 @@ public class DeleteProductTests : ProductIntegrationTest
   [Fact]
   public async Task DeleteProduct_WithNonExistentProduct_ReturnsProductNotFound()
   {
-    await LoginToAdmin();
+    await LoginAs(Flags1.ADMINISTRATOR);
 
     var response = await DeleteProduct_TEST_REQUEST(NonExistentIntId);
 
@@ -44,5 +46,12 @@ public class DeleteProductTests : ProductIntegrationTest
     var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
 
     json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductNotFoundException(NonExistentIntId));
+  }
+
+  [Fact]
+  public async Task DeleteProduct_TestPerms()
+  {
+    await TestPermissions(() => DeleteProduct_TEST_REQUEST(NonExistentIntId),
+      new List<Flags1> {Flags1.MANAGE_PRODUCTS});
   }
 }

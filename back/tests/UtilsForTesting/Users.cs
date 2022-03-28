@@ -5,7 +5,7 @@ using api.RequestsAndResponses.Auth.Login;
 using api.RequestsAndResponses.Auth.Register;
 using api.Utils;
 
-namespace tests.ControllerTests.Utils;
+namespace tests.UtilsForTesting;
 
 public static class Users
 {

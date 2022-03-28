@@ -7,6 +7,7 @@ using api.Endpoints;
 using api.RequestsAndResponses.Product;
 using api.RequestsAndResponses.Product.Add;
 using api.RequestsAndResponses.Product.Update;
+using api.Security;
 using FluentAssertions;
 
 namespace tests.EndpointIntegrationTests;
@@ -33,7 +34,7 @@ public class ProductIntegrationTest : NeedsAuthIntegrationTest
 
   public async Task<BaseProductResponse> AddProduct()
   {
-    await LoginToAdmin();
+    await LoginAs(Flags1.ADMINISTRATOR);
 
     var response = await AddProduct_TEST_REQUEST();
 
@@ -68,7 +69,7 @@ public class ProductIntegrationTest : NeedsAuthIntegrationTest
   }
 
   // update product
-  public static readonly UpdateProductDto TestUpdateProductDto = new UpdateProductDto()
+  public static readonly UpdateProductDto TestUpdateProductDto = new UpdateProductDto
   {
     Name = Guid.NewGuid().ToString(),
     Description = Guid.NewGuid().ToString(),
@@ -92,7 +93,7 @@ public class ProductIntegrationTest : NeedsAuthIntegrationTest
 
   public async Task<BaseProductResponse> UpdateProduct(int productId)
   {
-    await LoginToAdmin();
+    await LoginAs(Flags1.ADMINISTRATOR);
 
     var response = await UpdateProduct_TEST_REQUEST(productId);
 
@@ -116,8 +117,8 @@ public class ProductIntegrationTest : NeedsAuthIntegrationTest
 
   public async Task DeleteProduct(int productId)
   {
-    await LoginToAdmin();
-    
+    await LoginAs(Flags1.ADMINISTRATOR);
+
     await DeleteProduct_TEST_REQUEST(productId);
 
     await Logout();

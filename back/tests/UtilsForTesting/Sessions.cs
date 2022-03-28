@@ -1,7 +1,7 @@
 ﻿using System;
 using api.Models.User;
 
-namespace tests.ControllerTests.Utils;
+namespace tests.UtilsForTesting;
 
 public static class Sessions
 {

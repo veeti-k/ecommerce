@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using api.Exceptions;
+using api.Security;
 using FluentAssertions;
 using Xunit;
 
@@ -15,19 +17,19 @@ public class DeleteReviewTests : ProductReviewIntegrationTest
     var product = await AddProduct();
     var review = await AddReview(product.Id);
 
-    await LoginToAdmin();
-    
+    await LoginAs(Flags1.ADMINISTRATOR);
+
     var response = await DeleteReview_TEST_REQUEST(product.Id, review.Id);
 
     await Logout();
-    
+
     response.StatusCode.Should().Be(HttpStatusCode.NoContent);
   }
 
   [Fact]
   public async Task RemoveReview_WithNonExistentProduct_ReturnsProductNotFound()
   {
-    await LoginToAdmin();
+    await LoginAs(Flags1.ADMINISTRATOR);
 
     var response = await DeleteReview_TEST_REQUEST(NonExistentIntId, NonExistentGuidId);
 
@@ -39,13 +41,13 @@ public class DeleteReviewTests : ProductReviewIntegrationTest
 
     json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductNotFoundException(NonExistentIntId));
   }
-  
+
   [Fact]
   public async Task RemoveReview_WithExistingProduct_WithNonExistentReview_ReturnsReviewNotFound()
   {
     var product = await AddProduct();
-    
-    await LoginToAdmin();
+
+    await LoginAs(Flags1.ADMINISTRATOR);
 
     var response = await DeleteReview_TEST_REQUEST(product.Id, NonExistentGuidId);
 
@@ -56,5 +58,12 @@ public class DeleteReviewTests : ProductReviewIntegrationTest
     var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
 
     json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductReviewNotFoundException(NonExistentGuidId));
+  }
+
+  [Fact]
+  public async Task RemoveReview_TestPerms()
+  {
+    await TestPermissions(() => DeleteReview_TEST_REQUEST(NonExistentIntId, NonExistentGuidId),
+      new List<Flags1>() {Flags1.MANAGE_REVIEWS});
   }
 }

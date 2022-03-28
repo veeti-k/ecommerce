@@ -40,11 +40,12 @@ public class BaseIntegrationTest
 
           db.Database.EnsureCreated();
 
-          DbSeeding.CreateAdminUser(db);
-          DbSeeding.CreateNonAdminUser(db);
+          DbSeeding.SeedUsers(db);
         });
       });
 
     TestClient = appFactory.CreateClient();
   }
+  
+
 }

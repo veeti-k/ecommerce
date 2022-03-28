@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using api.Exceptions;
 using api.RequestsAndResponses.Product;
+using api.Security;
 using FluentAssertions;
 using Xunit;
 
@@ -15,12 +17,12 @@ public class UpdateProductTests : ProductIntegrationTest
   {
     var product = await AddProduct();
 
-    await LoginToAdmin();
+    await LoginAs(Flags1.ADMINISTRATOR);
 
     var response = await UpdateProduct_TEST_REQUEST(product.Id);
 
     await Logout();
-    
+
     response.StatusCode.Should().Be(HttpStatusCode.OK);
 
     var json = await response.Content.ReadFromJsonAsync<BaseProductResponse>();
@@ -31,16 +33,23 @@ public class UpdateProductTests : ProductIntegrationTest
   [Fact]
   public async Task UpdateProduct_WithNonExistentProduct_ReturnsProductNotFound()
   {
-    await LoginToAdmin();
+    await LoginAs(Flags1.ADMINISTRATOR);
 
     var response = await UpdateProduct_TEST_REQUEST(NonExistentIntId);
 
     await Logout();
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-    
+
     var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
 
     json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductNotFoundException(NonExistentIntId));
+  }
+
+  [Fact]
+  public async Task UpdateProduct_TestPerms()
+  {
+    await TestPermissions(() => UpdateProduct_TEST_REQUEST(NonExistentIntId),
+      new List<Flags1>() {Flags1.MANAGE_PRODUCTS});
   }
 }

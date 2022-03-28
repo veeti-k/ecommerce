@@ -2,9 +2,10 @@
 using api.Configs;
 using api.Utils;
 using FluentAssertions;
+using tests.ServiceTests;
 using Xunit;
 
-namespace tests.ServiceTests.UtilTests;
+namespace tests.UtilTests;
 
 [Collection("TokenThings")]
 public class CookieUtilsTests

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using api.Endpoints;
 using api.RequestsAndResponses.ProductReview;
 using api.RequestsAndResponses.ProductReview.Add;
+using api.Security;
 using FluentAssertions;
 
 namespace tests.EndpointIntegrationTests;
@@ -55,8 +56,8 @@ public class ProductReviewIntegrationTest : ProductIntegrationTest
 
   public async Task<ProductReviewResponse> ApproveReview(int productId, Guid reviewId)
   {
-    await LoginToAdmin();
-    
+    await LoginAs(Flags1.ADMINISTRATOR);
+
     var response = await ApproveReview_TEST_REQUEST(productId, reviewId);
 
     await Logout();
@@ -101,7 +102,7 @@ public class ProductReviewIntegrationTest : ProductIntegrationTest
 
   public async Task DeleteReview(int productId, Guid reviewId)
   {
-    await LoginToAdmin();
+    await LoginAs(Flags1.ADMINISTRATOR);
 
     var response = await DeleteReview_TEST_REQUEST(productId, reviewId);
 

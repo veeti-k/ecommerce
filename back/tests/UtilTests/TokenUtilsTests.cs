@@ -5,9 +5,10 @@ using System.Security.Claims;
 using api.Utils;
 using FluentAssertions;
 using Microsoft.IdentityModel.Tokens;
+using tests.ServiceTests;
 using Xunit;
 
-namespace tests.ServiceTests.UtilTests;
+namespace tests.UtilTests;
 
 [Collection("TokenThings")]
 public class TokenUtilsTests

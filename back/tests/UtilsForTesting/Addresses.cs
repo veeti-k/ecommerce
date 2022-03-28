@@ -3,7 +3,7 @@ using api.Models.User;
 using api.RequestsAndResponses.Addresses.Add;
 using api.RequestsAndResponses.Addresses.MeUpdate;
 
-namespace tests.ControllerTests.Utils;
+namespace tests.UtilsForTesting;
 
 public static class Addresses
 {

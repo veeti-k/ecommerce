@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using api.Exceptions;
 using api.RequestsAndResponses.ProductReviewComment;
+using api.Security;
 using FluentAssertions;
 using Xunit;
 
@@ -40,7 +42,7 @@ public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
     reviewTheCommentWasAddedOn1.Comments.Any(foundComment => foundComment.Id == comment.Id).Should().BeFalse();
 
     await ApproveReviewComment(product.Id, review.Id, comment.Id);
-    
+
     var reviews2 = await GetApprovedProductReviews(product.Id);
     var reviewTheCommentWasAddedOn2 = reviews2.FirstOrDefault(foundReview => foundReview.Id == review.Id);
 
@@ -71,5 +73,12 @@ public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
     var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
 
     json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductReviewNotFoundException(NonExistentGuidId));
+  }
+
+  [Fact]
+  public async Task AddReviewComment_TestPerms()
+  {
+    await TestPermissions(() => AddReviewComment_TEST_REQUEST(NonExistentIntId, NonExistentGuidId),
+      new List<Flags1>() {Flags1.NO_FLAGS});
   }
 }

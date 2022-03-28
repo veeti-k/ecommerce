@@ -3,7 +3,7 @@ using api.Services;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Moq;
-using tests.ControllerTests.Utils;
+using tests.UtilsForTesting;
 using Xunit;
 
 namespace tests.ServiceTests.ContextServiceTests;
