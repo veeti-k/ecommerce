@@ -14,7 +14,7 @@ namespace tests.EndpointIntegrationTests.ProductReviewComment;
 public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
 {
   [Fact]
-  public async Task AddReviewComment_WithExistingProduct_WithExistingReview_ReturnsOk_ReturnsAddedComment()
+  public async Task AddReviewComment_WithExistingProduct_WithExistingReview_ReturnsAddedComment()
   {
     var product = await AddProduct();
     var review = await AddReview(product.Id);
@@ -95,6 +95,6 @@ public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
   public async Task AddReviewComment_TestPerms()
   {
     await TestPermissions(() => AddReviewComment_TEST_REQUEST(NonExistentIntId, NonExistentGuidId),
-      new List<Flags>() {Flags.NO_FLAGS});
+      new List<Flags> {Flags.NO_FLAGS});
   }
 }

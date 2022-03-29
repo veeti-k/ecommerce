@@ -73,6 +73,6 @@ public class ApproveProductQuestionTests : ProductQuestionIntegrationTest
   public async Task ApproveProductQuestion_TestPerms()
   {
     await TestPermissions(() => ApproveProductQuestion_TEST_REQUEST(NonExistentIntId, NonExistentGuidId),
-      new List<Flags>() {Flags.MANAGE_QUESTIONS});
+      new List<Flags> {Flags.MANAGE_QUESTIONS});
   }
 }

@@ -31,6 +31,6 @@ public class AddProductTest : ProductIntegrationTest
   public async Task AddProduct_TestPerms()
   {
     await TestPermissions(AddProduct_TEST_REQUEST,
-      new List<Flags>() {Flags.MANAGE_PRODUCTS});
+      new List<Flags> {Flags.MANAGE_PRODUCTS});
   }
 }

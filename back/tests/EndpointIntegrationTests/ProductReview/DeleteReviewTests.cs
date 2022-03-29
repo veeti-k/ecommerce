@@ -87,6 +87,6 @@ public class DeleteReviewTests : ProductReviewIntegrationTest
   public async Task DeleteReview_TestPerms()
   {
     await TestPermissions(() => DeleteReview_TEST_REQUEST(NonExistentIntId, NonExistentGuidId),
-      new List<Flags>() {Flags.MANAGE_REVIEWS});
+      new List<Flags> {Flags.MANAGE_REVIEWS});
   }
 }

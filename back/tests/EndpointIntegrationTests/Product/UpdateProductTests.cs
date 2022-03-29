@@ -53,6 +53,6 @@ public class UpdateProductTests : ProductIntegrationTest
   public async Task UpdateProduct_TestPerms()
   {
     await TestPermissions(() => UpdateProduct_TEST_REQUEST(NonExistentIntId),
-      new List<Flags>() {Flags.MANAGE_PRODUCTS});
+      new List<Flags> {Flags.MANAGE_PRODUCTS});
   }
 }

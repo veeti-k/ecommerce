@@ -43,6 +43,6 @@ public class GetProductTests : ProductIntegrationTest
   public async Task GetProduct_TestPerms()
   {
     await TestPermissions(() => GetProduct_TEST_REQUEST(NonExistentIntId),
-      new EditableList<Flags>() {Flags.NO_FLAGS});
+      new EditableList<Flags> {Flags.NO_FLAGS});
   }
 }

@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using api.Exceptions;
+using api.RequestsAndResponses.ProductReview;
 using api.Security;
 using FluentAssertions;
 using Xunit;
@@ -13,7 +14,7 @@ namespace tests.EndpointIntegrationTests.ProductReview;
 public class GetReviewsTests : ProductReviewIntegrationTest
 {
   [Fact]
-  public async Task GetReviews_WithExistingProductId_WithExistingReviews_ReturnsOnlyApprovedReviews()
+  public async Task GetReviews_WithExistingProduct_WithExistingReviews_ReturnsOnlyApprovedReviews()
   {
     var product = await AddProduct();
     var review1 = await AddReview(product.Id);
@@ -48,7 +49,7 @@ public class GetReviewsTests : ProductReviewIntegrationTest
 
     response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-    var json = await response.Content.ReadFromJsonAsync<IEnumerable<MyExceptionResponse>>();
+    var json = await response.Content.ReadFromJsonAsync<IEnumerable<ProductReviewResponse>>();
 
     json.Should().BeEmpty();
   }
@@ -57,6 +58,6 @@ public class GetReviewsTests : ProductReviewIntegrationTest
   public async Task GetReviews_TestPerms()
   {
     await TestPermissions(() => GetApprovedProductReviews_TEST_REQUEST(NonExistentIntId),
-      new List<Flags>() {Flags.NO_FLAGS});
+      new List<Flags> {Flags.NO_FLAGS});
   }
 }

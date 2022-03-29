@@ -124,6 +124,6 @@ public class ApproveReviewCommentTests : ProductReviewCommentIntegrationTest
   {
     await TestPermissions(() =>
         ApproveReviewComment_TEST_REQUEST(NonExistentIntId, NonExistentGuidId, NonExistentGuidId),
-      new List<Flags>() {Flags.MANAGE_REVIEWS});
+      new List<Flags> {Flags.MANAGE_REVIEWS});
   }
 }

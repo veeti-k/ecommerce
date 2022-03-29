@@ -139,7 +139,7 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
   {
     await TestPermissions(
       () => DeleteReviewComment_TEST_REQUEST(NonExistentIntId, NonExistentGuidId, NonExistentGuidId),
-      new List<Flags>() {Flags.MANAGE_REVIEWS}
+      new List<Flags> {Flags.MANAGE_REVIEWS}
     );
   }
 }

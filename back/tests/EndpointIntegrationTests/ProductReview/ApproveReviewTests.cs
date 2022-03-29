@@ -74,6 +74,6 @@ public class ApproveReviewTests : ProductReviewIntegrationTest
   public async Task ApproveReview_TestPerms()
   {
     await TestPermissions(() => ApproveReview_TEST_REQUEST(NonExistentIntId, NonExistentGuidId),
-      new List<Flags>() {Flags.MANAGE_REVIEWS});
+      new List<Flags> {Flags.MANAGE_REVIEWS});
   }
 }

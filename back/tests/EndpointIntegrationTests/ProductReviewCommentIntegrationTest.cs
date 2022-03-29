@@ -1,10 +1,8 @@
 using System;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using api.Endpoints;
-using api.Exceptions;
 using api.RequestsAndResponses.ProductReviewComment;
 using api.RequestsAndResponses.ProductReviewComment.Add;
 using api.Security;

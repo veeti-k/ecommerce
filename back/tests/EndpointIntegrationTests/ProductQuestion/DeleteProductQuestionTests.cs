@@ -88,6 +88,6 @@ public class DeleteProductQuestionTests : ProductQuestionIntegrationTest
   public async Task DeleteProductQuestion_TestPerms()
   {
     await TestPermissions(() => DeleteProductQuestion_TEST_REQUEST(NonExistentIntId, NonExistentGuidId),
-      new List<Flags>() {Flags.MANAGE_QUESTIONS});
+      new List<Flags> {Flags.MANAGE_QUESTIONS});
   }
 }
