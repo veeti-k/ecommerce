@@ -14,6 +14,9 @@ namespace tests.EndpointIntegrationTests;
 
 public class ProductIntegrationTest : NeedsAuthIntegrationTest
 {
+  protected readonly int NonExistentIntId = Int32.MaxValue;
+  protected readonly Guid NonExistentGuidId = Guid.NewGuid();
+  
   // add product
   public static readonly AddProductDto TestProductDto = new()
   {

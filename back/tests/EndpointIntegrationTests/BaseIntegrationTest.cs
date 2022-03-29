@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Net.Http;
 using api;
@@ -13,8 +12,6 @@ namespace tests.EndpointIntegrationTests;
 public class BaseIntegrationTest
 {
   protected readonly HttpClient TestClient;
-  protected readonly int NonExistentIntId = Int32.MaxValue;
-  protected readonly Guid NonExistentGuidId = Guid.NewGuid();
 
   protected BaseIntegrationTest()
   {
@@ -46,6 +43,4 @@ public class BaseIntegrationTest
 
     TestClient = appFactory.CreateClient();
   }
-  
-
 }
