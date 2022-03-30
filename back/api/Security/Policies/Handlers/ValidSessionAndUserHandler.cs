@@ -54,7 +54,7 @@ public class ValidSessionAndUserHandler : AuthorizationHandler<ValidSessionAndUs
     var user = await _userRepo.GetOneWithSessions(userId);
     if (user is null) return;
 
-    if (user.Flags.HasFlag(flags))
+    if (user.Flags != flags)
       throw new ForbiddenException("Provided token's data did not match with database");
 
     var currentSession = user.Sessions.FirstOrDefault(session => session.Id == tokenVersion);
