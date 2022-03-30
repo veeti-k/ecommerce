@@ -3,7 +3,7 @@ import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { Button } from "@chakra-ui/react";
 import { styled } from "../../stitches.config";
 
-import { MdOutlineLogout } from "react-icons/md";
+import { MdOutlineLogout, MdOutlineSpaceDashboard } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { pushUser } from "../../utils/router";
 import { useRouter } from "next/router";
@@ -13,6 +13,7 @@ import { routes } from "../../utils/routes";
 import { useContext } from "react";
 import { UserContext } from "../../UserProvider/provider";
 import { logout } from "../../utils/logout";
+import { isAdmin } from "../../utils/flagResolve";
 
 const slideUpAndFade = keyframes({
   "0%": { opacity: 0, transform: "translateY(3px)" },
@@ -108,6 +109,21 @@ export const ProfileDropdown = () => {
                 </DropdownMenuItem>
               </Atag>
             </Link>
+
+            {isAdmin(state.flags) ? (
+              <Link href={routes.dashboard} passHref>
+                <Atag
+                  onClick={(e) => {
+                    e.preventDefault();
+                    pushUser(router, routes.dashboard, "dropDownMenu::onClick");
+                  }}
+                >
+                  <DropdownMenuItem>
+                    <MdOutlineSpaceDashboard style={{ transform: "scale(1.4)" }} /> Dashboard
+                  </DropdownMenuItem>
+                </Atag>
+              </Link>
+            ) : null}
 
             <DropdownMenuItem onClick={() => logout(router, dispatch, routes.home)}>
               <MdOutlineLogout style={{ transform: "scale(1.4)" }} /> Logout

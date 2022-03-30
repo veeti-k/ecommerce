@@ -3,6 +3,8 @@ export const routes = {
   login: "/login",
   register: "/register",
 
+  dashboard: "/dashboard",
+
   settings: "/settings",
   settingsAccount: "/settings/account",
   settingsPassword: "/settings/password",
