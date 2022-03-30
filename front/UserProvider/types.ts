@@ -24,7 +24,7 @@ export interface IUserState {
   name: string;
   email: string;
   phoneNumber: string | null;
-  flags: string;
+  flags: number;
   createdAt: string;
   addresses: Address[];
   sessions: Session[];
