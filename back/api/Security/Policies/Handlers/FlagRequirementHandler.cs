@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using api.Models.User;
 using api.Repositories.Interfaces;
 using api.Security.Policies.Requirements;
 using Microsoft.AspNetCore.Authorization;
@@ -8,9 +7,9 @@ namespace api.Security.Policies.Handlers;
 
 public class FlagHandler : AuthorizationHandler<FlagRequirement>
 {
-  private readonly IGenericRepo<User> _userRepo;
+  private readonly IUserRepo _userRepo;
 
-  public FlagHandler(IGenericRepo<User> userRepo)
+  public FlagHandler(IUserRepo userRepo)
   {
     _userRepo = userRepo;
   }

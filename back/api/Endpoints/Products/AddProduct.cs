@@ -14,9 +14,9 @@ public class AddProduct : EndpointBaseAsync
   .WithActionResult<BaseProductResponse>
 {
   private readonly IMapper _mapper;
-  private readonly IGenericRepo<Models.Product.Product> _repo;
+  private readonly IProductRepo _repo;
 
-  public AddProduct(IMapper mapper, IGenericRepo<Models.Product.Product> repo)
+  public AddProduct(IMapper mapper, IProductRepo repo)
   {
     _mapper = mapper;
     _repo = repo;

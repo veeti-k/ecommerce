@@ -1,16 +1,13 @@
 ﻿using api.Exceptions;
 using api.Models.Product.Question;
-using api.Models.User;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.ProductQuestionAnswer;
 using api.RequestsAndResponses.ProductQuestionAnswer.Add;
 using api.Security;
 using api.Services.Interfaces;
-using api.Specifications.ProductQuestion;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Products.Product.Questions.Answers;
 
@@ -19,19 +16,19 @@ public class CreateProductQuestionAnswer : EndpointBaseAsync
   .WithActionResult<ProductQuestionAnswerResponse>
 {
   private readonly IMapper _mapper;
-  private readonly IGenericRepo<User> _userRepo;
-  private readonly IGenericRepo<Models.Product.Product> _productRepo;
+  private readonly IUserRepo _userRepo;
+  private readonly IProductRepo _productRepo;
   private readonly IContextService _contextService;
-  private readonly IGenericRepo<ProductQuestion> _productQuestionRepo;
-  private readonly IGenericRepo<ProductQuestionAnswer> _productQuestionAnswerRepo;
+  private readonly IProductQuestionRepo _productQuestionRepo;
+  private readonly IProductQuestionAnswerRepo _productQuestionAnswerRepo;
 
   public CreateProductQuestionAnswer(
     IMapper mapper,
-    IGenericRepo<User> userRepo,
-    IGenericRepo<Models.Product.Product> productRepo,
+    IUserRepo userRepo,
+    IProductRepo productRepo,
     IContextService contextService,
-    IGenericRepo<ProductQuestion> productQuestionRepo,
-    IGenericRepo<ProductQuestionAnswer> productQuestionAnswerRepo)
+    IProductQuestionRepo productQuestionRepo,
+    IProductQuestionAnswerRepo productQuestionAnswerRepo)
   {
     _mapper = mapper;
     _userRepo = userRepo;
@@ -49,12 +46,10 @@ public class CreateProductQuestionAnswer : EndpointBaseAsync
     var userId = _contextService.GetCurrentUserId();
     var user = await _userRepo.GetById(userId);
 
-    var product = await _productRepo.GetById(request.ProductId);
+    var product = await _productRepo.GetOneNotDeleted(request.ProductId);
     if (product is null) throw new ProductNotFoundException(request.ProductId);
 
-    var question = await _productQuestionRepo
-      .Specify(new ProductQuestion_GetOneApproved_ByQuestionId_Spec(request.QuestionId))
-      .FirstOrDefaultAsync(cancellationToken);
+    var question = await _productQuestionRepo.GetOneApproved(request.ProductId, request.QuestionId);
     if (question is null) throw new ProductQuestionNotFoundException(request.QuestionId);
     
     var isEmployee = user is not null && user.Flags.HasFlag(Flags.EMPLOYEE);

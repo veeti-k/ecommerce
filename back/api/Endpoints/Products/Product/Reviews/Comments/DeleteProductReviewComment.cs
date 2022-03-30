@@ -1,5 +1,4 @@
 ﻿using api.Exceptions;
-using api.Models.Product.Review;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.ProductReviewComment.Delete;
 using api.Security.Policies;
@@ -13,14 +12,14 @@ public class DeleteProductReviewComment : EndpointBaseAsync
   .WithRequest<RemoveProductReviewCommentRequest>
   .WithActionResult
 {
-  private readonly IGenericRepo<Models.Product.Product> _productRepo;
-  private readonly IGenericRepo<ProductReview> _productReviewRepo;
-  private readonly IGenericRepo<ProductReviewComment> _productReviewCommentRepo;
+  private readonly IProductRepo _productRepo;
+  private readonly IProductReviewRepo _productReviewRepo;
+  private readonly IProductReviewCommentRepo _productReviewCommentRepo;
 
   public DeleteProductReviewComment(
-    IGenericRepo<Models.Product.Product> productRepo,
-    IGenericRepo<ProductReview> productReviewRepo,
-    IGenericRepo<ProductReviewComment> productReviewCommentRepo)
+    IProductRepo productRepo,
+    IProductReviewRepo productReviewRepo,
+    IProductReviewCommentRepo productReviewCommentRepo)
   {
     _productRepo = productRepo;
     _productReviewRepo = productReviewRepo;
@@ -33,17 +32,17 @@ public class DeleteProductReviewComment : EndpointBaseAsync
     [FromRoute] RemoveProductReviewCommentRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var product = await _productRepo.GetById(request.ProductId);
+    var product = await _productRepo.GetOneNotDeleted(request.ProductId);
     if (product is null) throw new ProductNotFoundException(request.ProductId);
 
-    var review = await _productReviewRepo.GetById(request.ReviewId);
+    var review = await _productReviewRepo.GetOneApproved(request.ProductId, request.ReviewId);
     if (review is null) throw new ProductReviewNotFoundException(request.ReviewId);
 
-    var comment = await _productReviewCommentRepo.GetById(request.CommentId);
+    var comment = await _productReviewCommentRepo.GetOne(request.ReviewId, request.CommentId);
     if (comment is null) throw new ProductReviewCommentNotFoundException(request.CommentId);
 
     await _productReviewCommentRepo.Delete(comment);
-    
+
     return NoContent();
   }
 }

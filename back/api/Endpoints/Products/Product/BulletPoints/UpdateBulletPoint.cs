@@ -16,12 +16,12 @@ public class UpdateBulletPoint : EndpointBaseAsync
   .WithActionResult<ProductBulletPointResponse>
 {
   private readonly IMapper _mapper;
-  private readonly IGenericRepo<Models.Product.Product> _productRepo;
+  private readonly IProductRepo _productRepo;
   private readonly IGenericRepo<ProductBulletPoint> _productBulletPointRepo;
 
   public UpdateBulletPoint(
     IMapper mapper,
-    IGenericRepo<Models.Product.Product> productRepo,
+    IProductRepo productRepo,
     IGenericRepo<ProductBulletPoint> productBulletPointRepo)
   {
     _mapper = mapper;

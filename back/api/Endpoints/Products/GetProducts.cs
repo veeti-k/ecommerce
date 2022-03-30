@@ -1,10 +1,8 @@
 ﻿using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Product;
-using api.Specifications.Product;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Products;
 
@@ -13,9 +11,9 @@ public class GetProducts : EndpointBaseAsync
   .WithActionResult<IEnumerable<ShowCaseProductResponse>>
 {
   private readonly IMapper _mapper;
-  private readonly IGenericRepo<Models.Product.Product> _repo;
+  private readonly IProductRepo _repo;
 
-  public GetProducts(IMapper mapper, IGenericRepo<Models.Product.Product> repo)
+  public GetProducts(IMapper mapper, IProductRepo repo)
   {
     _mapper = mapper;
     _repo = repo;
@@ -25,10 +23,7 @@ public class GetProducts : EndpointBaseAsync
   public override async Task<ActionResult<IEnumerable<ShowCaseProductResponse>>> HandleAsync(
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var products = await _repo
-      .Specify(new Product_GetAllApproved_WithBulletpoints_Spec())
-      .ToListAsync(cancellationToken);
-      
+    var products = await _repo.GetManyNotDeletedWithBulletPoints();
     return Ok(_mapper.Map<IEnumerable<ShowCaseProductResponse>>(products));
   }
 }

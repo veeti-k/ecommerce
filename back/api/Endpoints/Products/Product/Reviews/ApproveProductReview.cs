@@ -1,15 +1,12 @@
 ﻿using api.Exceptions;
-using api.Models.Product.Review;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.ProductReview;
 using api.RequestsAndResponses.ProductReview.Approve;
 using api.Security.Policies;
-using api.Specifications.ProductReview;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Products.Product.Reviews;
 
@@ -18,10 +15,10 @@ public class ApproveProductReview : EndpointBaseAsync
   .WithActionResult<ProductReviewResponse>
 {
   private readonly IMapper _mapper;
-  private readonly IGenericRepo<Models.Product.Product> _productRepo;
-  private readonly IGenericRepo<ProductReview> _productReviewRepo;
+  private readonly IProductRepo _productRepo;
+  private readonly IProductReviewRepo _productReviewRepo;
 
-  public ApproveProductReview(IMapper mapper, IGenericRepo<Models.Product.Product> productRepo, IGenericRepo<ProductReview> productReviewRepo)
+  public ApproveProductReview(IMapper mapper, IProductRepo productRepo, IProductReviewRepo productReviewRepo)
   {
     _mapper = mapper;
     _productRepo = productRepo;
@@ -34,23 +31,21 @@ public class ApproveProductReview : EndpointBaseAsync
     [FromRoute]ApproveProductReviewRequest request, 
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var product = await _productRepo.GetById(request.ProductId);
+    var product = await _productRepo.GetOneNotDeleted(request.ProductId);
     if (product is null) throw new ProductNotFoundException(request.ProductId);
 
-    var review = await _productReviewRepo.GetById(request.ReviewId);
+    var review = await _productReviewRepo.GetOne(request.ProductId, request.ReviewId);
     if (review is null) throw new ProductReviewNotFoundException(request.ReviewId);
 
     if (review.IsApproved)
       throw new BadRequestException("Review is already approved");
-    
-    var reviews = await _productReviewRepo
-      .Specify(new ProductReview_GetManyApproved_WithApprovedComments_ByProductId_Spec(request.ProductId))
-      .ToListAsync(cancellationToken);
+
+    var existingReviews = await _productReviewRepo.GetManyApprovedWithApprovedComments(request.ProductId);
 
     review.IsApproved = true;
 
     product.ReviewCount += 1;
-    var totalStars = review.Stars + reviews.Aggregate(0, (acc, review) => acc + review.Stars);
+    var totalStars = review.Stars + existingReviews.Aggregate(0, (acc, review) => acc + review.Stars);
     var newAverageStars = (float)totalStars / product.ReviewCount;
     product.AverageStars = newAverageStars;
     

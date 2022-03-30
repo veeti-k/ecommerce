@@ -1,12 +1,9 @@
 using api.Exceptions;
-using api.Models.User;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Sessions.MeDelete;
 using api.Services.Interfaces;
-using api.Specifications.Session;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Users.Me.Sessions;
 
@@ -16,9 +13,9 @@ public class DeleteSession : EndpointBaseAsync
 
 {
   private readonly IContextService _contextService;
-  private readonly IGenericRepo<Session> _sessionRepo;
+  private readonly ISessionRepo _sessionRepo;
 
-  public DeleteSession(IContextService contextService, IGenericRepo<Session> sessionRepo)
+  public DeleteSession(IContextService contextService, ISessionRepo sessionRepo)
   {
     _contextService = contextService;
     _sessionRepo = sessionRepo;
@@ -31,15 +28,11 @@ public class DeleteSession : EndpointBaseAsync
   {
     var userId = _contextService.GetCurrentUserId();
 
-    var session = await _sessionRepo
-      .Specify(new SessionGetOneSpec(userId, request.SessionId))
-      .FirstOrDefaultAsync(cancellationToken);
-
-    if (session is null)
-      throw new SessionNotFoundException(request.SessionId);
+    var session = await _sessionRepo.GetOne(userId, request.SessionId);
+    if (session is null) throw new SessionNotFoundException(request.SessionId);
 
     await _sessionRepo.Delete(session);
-    
+
     return NoContent();
   }
 }

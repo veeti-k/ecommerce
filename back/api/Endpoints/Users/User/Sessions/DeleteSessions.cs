@@ -1,12 +1,9 @@
 ﻿using api.Exceptions;
-using api.Models.User;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Sessions.UserDelete;
-using api.Specifications.Session;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Users.User.Sessions;
 
@@ -14,9 +11,9 @@ public class DeleteSessions : EndpointBaseAsync
   .WithRequest<UserDeleteSessionsRequest>
   .WithActionResult
 {
-  private readonly IGenericRepo<Session> _sessionRepo;
+  private readonly ISessionRepo _sessionRepo;
 
-  public DeleteSessions(IGenericRepo<Session> sessionRepo)
+  public DeleteSessions(ISessionRepo sessionRepo)
   {
     _sessionRepo = sessionRepo;
   }
@@ -27,11 +24,8 @@ public class DeleteSessions : EndpointBaseAsync
     [FromRoute] UserDeleteSessionsRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var sessions = await _sessionRepo
-      .Specify(new SessionGetManySpec(request.UserId, request.Dto.SessionIds))
-      .ToListAsync(cancellationToken);
-
-    if (!sessions.Any()) throw new NotFoundException("Didn't found any sessions");
+    var sessions = await _sessionRepo.GetMany(request.UserId);
+    if (!sessions.Any()) throw new NotFoundException("Didn't find any sessions");
 
     await _sessionRepo.DeleteMany(sessions);
     

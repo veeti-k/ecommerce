@@ -2,11 +2,9 @@
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Product;
 using api.RequestsAndResponses.Product.GetOne;
-using api.Specifications.Product;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Products.Product;
 
@@ -15,12 +13,12 @@ public class GetProduct : EndpointBaseAsync
   .WithActionResult<ProductPageProductResponse>
 {
   private readonly IMapper _mapper;
-  private readonly IGenericRepo<Models.Product.Product> _repo;
+  private readonly IProductRepo _productRepo;
 
-  public GetProduct(IMapper mapper, IGenericRepo<Models.Product.Product> repo)
+  public GetProduct(IMapper mapper, IProductRepo productRepo)
   {
     _mapper = mapper;
-    _repo = repo;
+    _productRepo = productRepo;
   }
 
   [HttpGet(Routes.Products.ProductRoot)]
@@ -28,12 +26,9 @@ public class GetProduct : EndpointBaseAsync
     [FromRoute] GetOneRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var product = await _repo
-      .Specify(new ProductGetProductPageProductSpec(request.ProductId))
-      .FirstOrDefaultAsync(cancellationToken);
-
+    var product = await _productRepo.GetOneNotDeletedWithBulletPointsAndCategories(request.ProductId);
     if (product is null) throw new ProductNotFoundException(request.ProductId);
-    
+
     return Ok(_mapper.Map<ProductPageProductResponse>(product));
   }
 }

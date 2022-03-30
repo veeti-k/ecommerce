@@ -1,13 +1,10 @@
 ﻿using api.Exceptions;
-using api.Models.Product.Question;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.ProductQuestion;
 using api.RequestsAndResponses.ProductQuestion.Get;
-using api.Specifications.ProductQuestion;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Products.Product.Questions;
 
@@ -16,13 +13,13 @@ public class GetProductQuestions : EndpointBaseAsync
   .WithActionResult<IEnumerable<ProductQuestionResponse>>
 {
   private readonly IMapper _mapper;
-  private readonly IGenericRepo<Models.Product.Product> _productRepo;
-  private readonly IGenericRepo<ProductQuestion> _productQuestionRepo;
+  private readonly IProductRepo _productRepo;
+  private readonly IProductQuestionRepo _productQuestionRepo;
 
   public GetProductQuestions(
     IMapper mapper,
-    IGenericRepo<Models.Product.Product> productRepo,
-    IGenericRepo<ProductQuestion> productQuestionRepo)
+    IProductRepo productRepo,
+    IProductQuestionRepo productQuestionRepo)
   {
     _mapper = mapper;
     _productRepo = productRepo;
@@ -34,12 +31,11 @@ public class GetProductQuestions : EndpointBaseAsync
     [FromRoute] GetProductQuestionsRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var product = await _productRepo.GetById(request.ProductId);
+    var product = await _productRepo.GetOneNotDeleted(request.ProductId);
     if (product is null) throw new ProductNotFoundException(request.ProductId);
 
     var questions = await _productQuestionRepo
-      .Specify(new ProductQuestion_GetManyApproved_WithApprovedAnswers_ByProductId_Spec(request.ProductId))
-      .ToListAsync(cancellationToken);
+      .GetManyApprovedWithApprovedAnswers(request.ProductId);
 
     return Ok(_mapper.Map<IEnumerable<ProductQuestionResponse>>(questions));
   }

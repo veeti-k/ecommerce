@@ -1,5 +1,4 @@
 ﻿using api.Exceptions;
-using api.Models.Product.Question;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.ProductQuestionAnswer;
 using api.RequestsAndResponses.ProductQuestionAnswer.Approve;
@@ -16,15 +15,15 @@ public class ApproveProductQuestionAnswer : EndpointBaseAsync
   .WithActionResult<ProductQuestionAnswerResponse>
 {
   private readonly IMapper _mapper;
-  private readonly IGenericRepo<Models.Product.Product> _productRepo;
-  private readonly IGenericRepo<ProductQuestion> _productQuestionRepo;
-  private readonly IGenericRepo<ProductQuestionAnswer> _productQuestionAnswerRepo;
+  private readonly IProductRepo _productRepo;
+  private readonly IProductQuestionRepo _productQuestionRepo;
+  private readonly IProductQuestionAnswerRepo _productQuestionAnswerRepo;
 
   public ApproveProductQuestionAnswer(
     IMapper mapper,
-    IGenericRepo<Models.Product.Product> productRepo,
-    IGenericRepo<ProductQuestion> productQuestionRepo,
-    IGenericRepo<ProductQuestionAnswer> productQuestionAnswerRepo)
+    IProductRepo productRepo,
+    IProductQuestionRepo productQuestionRepo,
+    IProductQuestionAnswerRepo productQuestionAnswerRepo)
   {
     _mapper = mapper;
     _productRepo = productRepo;
@@ -38,13 +37,13 @@ public class ApproveProductQuestionAnswer : EndpointBaseAsync
     [FromRoute] ApproveProductQuestionAnswerRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var product = await _productRepo.GetById(request.ProductId);
+    var product = await _productRepo.GetOneNotDeleted(request.ProductId);
     if (product is null) throw new ProductNotFoundException(request.ProductId);
 
-    var question = await _productQuestionRepo.GetById(request.QuestionId);
+    var question = await _productQuestionRepo.GetOneApproved(request.ProductId, request.QuestionId);
     if (question is null) throw new ProductQuestionNotFoundException(request.QuestionId);
 
-    var answer = await _productQuestionAnswerRepo.GetById(request.AnswerId);
+    var answer = await _productQuestionAnswerRepo.GetOne(request.QuestionId, request.AnswerId);
     if (answer is null) throw new ProductQuestionAnswerNotFoundException(request.AnswerId);
 
     if (answer.IsApproved)

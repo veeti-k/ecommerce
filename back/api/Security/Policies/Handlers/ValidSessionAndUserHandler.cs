@@ -1,21 +1,20 @@
 ﻿using System.Security.Claims;
 using api.Exceptions;
-using api.Models.User;
 using api.Repositories.Interfaces;
 using api.Security.Policies.Requirements;
-using api.Specifications.User;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Security.Policies.Handlers;
 
 public class ValidSessionAndUserHandler : AuthorizationHandler<ValidSessionAndUserRequirement>
 {
-  private readonly IGenericRepo<Session> _sessionRepo;
-  private readonly IGenericRepo<User> _userRepo;
+  private readonly ISessionRepo _sessionRepo;
+  private readonly IUserRepo _userRepo;
 
 
-  public ValidSessionAndUserHandler(IGenericRepo<Session> sessionRepo, IGenericRepo<User> userRepo)
+  public ValidSessionAndUserHandler(
+    ISessionRepo sessionRepo,
+    IUserRepo userRepo)
   {
     _sessionRepo = sessionRepo;
     _userRepo = userRepo;
@@ -27,7 +26,7 @@ public class ValidSessionAndUserHandler : AuthorizationHandler<ValidSessionAndUs
   {
     var claims = context.User.Claims;
     if (!claims.Any()) return;
-    
+
     var sessionIdClaim = claims.FirstOrDefault(c => c.Type == ClaimTypes.Version);
     if (sessionIdClaim is null)
       throw new UnauthorizedException("Provided token did not contain sessionId");
@@ -39,7 +38,7 @@ public class ValidSessionAndUserHandler : AuthorizationHandler<ValidSessionAndUs
     var flagsClaim = claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid);
     if (flagsClaim is null)
       throw new UnauthorizedException("Provided token did not contain flags");
-    
+
     var goodUserId = int.TryParse(userIdClaim.Value, out var userId);
     if (!goodUserId)
       throw new ForbiddenException("Provided token contained invalid userId");
@@ -52,9 +51,7 @@ public class ValidSessionAndUserHandler : AuthorizationHandler<ValidSessionAndUs
     if (!goodFlags)
       throw new ForbiddenException("Provided token contained invalid flags");
 
-    var user = await _userRepo
-      .Specify(new UserGetWithSessionsSpec(userId))
-      .FirstOrDefaultAsync();
+    var user = await _userRepo.GetOneWithSessions(userId);
     if (user is null) return;
 
     if (user.Flags.HasFlag(flags))
@@ -63,10 +60,10 @@ public class ValidSessionAndUserHandler : AuthorizationHandler<ValidSessionAndUs
     var currentSession = user.Sessions.FirstOrDefault(session => session.Id == tokenVersion);
     if (currentSession is null)
       throw new UnauthorizedException("Session does not exist");
-    
+
     currentSession.LastUsedAt = DateTimeOffset.UtcNow;
     await _sessionRepo.Update(currentSession);
-    
+
     context.Succeed(andUserRequirement);
   }
 }

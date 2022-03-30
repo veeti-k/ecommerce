@@ -14,11 +14,11 @@ public class AddBulletPoints : EndpointBaseAsync
   .WithRequest<AddBulletPointsRequest>
   .WithActionResult<IEnumerable<ProductBulletPointResponse>>
 {
-  private readonly IGenericRepo<Models.Product.Product> _productRepo;
+  private readonly IProductRepo _productRepo;
   private readonly IGenericRepo<ProductBulletPoint> _productBulletPointRepo;
 
   public AddBulletPoints(
-    IGenericRepo<Models.Product.Product> productRepo,
+    IProductRepo productRepo,
     IGenericRepo<ProductBulletPoint> productBulletPointRepo)
   {
     _productRepo = productRepo;
@@ -31,7 +31,7 @@ public class AddBulletPoints : EndpointBaseAsync
     [FromRoute] AddBulletPointsRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var product = await _productRepo.GetById(request.ProductId);
+    var product = await _productRepo.GetOne(request.ProductId);
     if (product is null) throw new ProductNotFoundException(request.ProductId);
 
     foreach (var bulletPoint in request.Dto.BulletPoints)

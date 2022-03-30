@@ -11,11 +11,11 @@ public class RemoveBulletPoint : EndpointBaseAsync
   .WithRequest<RemoveBulletPointRequest>
   .WithActionResult
 {
-  private readonly IGenericRepo<Models.Product.Product> _productRepo;
+  private readonly IProductRepo _productRepo;
   private readonly IGenericRepo<ProductBulletPoint> _productBulletPointRepo;
 
   public RemoveBulletPoint(
-    IGenericRepo<Models.Product.Product> productRepo,
+    IProductRepo productRepo,
     IGenericRepo<ProductBulletPoint> productBulletPointRepo)
   {
     _productRepo = productRepo;

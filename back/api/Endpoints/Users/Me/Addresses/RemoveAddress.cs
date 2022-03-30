@@ -1,12 +1,9 @@
 ﻿using api.Exceptions;
-using api.Models.User;
-using api.Repositories.Interfaces;
+using api.Repositories;
 using api.RequestsAndResponses.Addresses.MeDelete;
 using api.Services.Interfaces;
-using api.Specifications.Address;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Users.Me.Addresses;
 
@@ -15,9 +12,9 @@ public class RemoveAddress : EndpointBaseAsync
   .WithActionResult
 {
   private readonly IContextService _contextService;
-  private readonly IGenericRepo<Address> _addressRepo;
+  private readonly IAddressRepo _addressRepo;
 
-  public RemoveAddress(IContextService contextService, IGenericRepo<Address> addressRepo)
+  public RemoveAddress(IContextService contextService, IAddressRepo addressRepo)
   {
     _contextService = contextService;
     _addressRepo = addressRepo;
@@ -30,10 +27,7 @@ public class RemoveAddress : EndpointBaseAsync
   {
     var userId = _contextService.GetCurrentUserId();
 
-    var addressToRemove = await _addressRepo
-      .Specify(new AddressGetUserAddressSpec(userId, request.AddressId))
-      .FirstOrDefaultAsync(cancellationToken);
-
+    var addressToRemove = await _addressRepo.GetOne(userId, request.AddressId);
     if (addressToRemove is null) throw new AddressNotFoundException(request.AddressId);
 
     await _addressRepo.Delete(addressToRemove);

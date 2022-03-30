@@ -1,5 +1,4 @@
 ﻿using api.Exceptions;
-using api.Models.Product.Question;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.ProductQuestion.Delete;
 using api.Security.Policies;
@@ -13,12 +12,12 @@ public class DeleteProductQuestion : EndpointBaseAsync
   .WithRequest<RemoveProductQuestionRequest>
   .WithActionResult
 {
-  private readonly IGenericRepo<Models.Product.Product> _productRepo;
-  private readonly IGenericRepo<ProductQuestion> _productQuestionRepo;
+  private readonly IProductRepo _productRepo;
+  private readonly IProductQuestionRepo _productQuestionRepo;
 
   public DeleteProductQuestion(
-    IGenericRepo<Models.Product.Product> productRepo,
-    IGenericRepo<ProductQuestion> productQuestionRepo)
+    IProductRepo productRepo,
+    IProductQuestionRepo productQuestionRepo)
   {
     _productRepo = productRepo;
     _productQuestionRepo = productQuestionRepo;
@@ -30,10 +29,10 @@ public class DeleteProductQuestion : EndpointBaseAsync
     [FromRoute] RemoveProductQuestionRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var product = await _productRepo.GetById(request.ProductId);
+    var product = await _productRepo.GetOneNotDeleted(request.ProductId);
     if (product is null) throw new ProductNotFoundException(request.ProductId);
 
-    var question = await _productQuestionRepo.GetById(request.QuestionId);
+    var question = await _productQuestionRepo.GetOne(request.ProductId, request.QuestionId);
     if (question is null) throw new ProductQuestionNotFoundException(request.QuestionId);
 
     await _productQuestionRepo.Delete(question);

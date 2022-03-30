@@ -1,6 +1,5 @@
 ﻿using api.Exceptions;
 using api.Models.Product.Review;
-using api.Models.User;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.ProductReview;
 using api.RequestsAndResponses.ProductReview.Add;
@@ -17,18 +16,18 @@ public class AddProductReview : EndpointBaseAsync
   .WithActionResult<ProductReviewResponse>
 {
   private readonly IMapper _mapper;
-  private readonly IGenericRepo<User> _userRepo;
+  private readonly IUserRepo _userRepo;
   private readonly IContextService _contextService;
-  private readonly IGenericRepo<Models.Product.Product> _productRepo;
-  private readonly IGenericRepo<ProductReview> _reviewRepo;
+  private readonly IProductRepo _productRepo;
+  private readonly IProductReviewRepo _reviewRepo;
 
 
   public AddProductReview(
     IMapper mapper,
-    IGenericRepo<User> userRepo,
+    IUserRepo userRepo,
     IContextService contextService,
-    IGenericRepo<Models.Product.Product> productRepo,
-    IGenericRepo<ProductReview> reviewRepo)
+    IProductRepo productRepo,
+    IProductReviewRepo reviewRepo)
   {
     _mapper = mapper;
     _userRepo = userRepo;

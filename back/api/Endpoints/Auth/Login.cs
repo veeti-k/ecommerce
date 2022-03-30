@@ -2,12 +2,10 @@
 using api.Models.User;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Auth.Login;
-using api.Specifications.User;
 using api.Utils;
 using api.Utils.Interfaces;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Auth;
 
@@ -17,14 +15,14 @@ public class Login : EndpointBaseAsync
 {
   private readonly IAuthUtils _authUtils;
   private readonly ITokenUtils _tokenUtils;
-  private readonly IGenericRepo<User> _userRepo;
-  private readonly IGenericRepo<Session> _sessionRepo;
+  private readonly IUserRepo _userRepo;
+  private readonly ISessionRepo _sessionRepo;
 
   public Login(
     IAuthUtils authUtils,
     ITokenUtils tokenUtils,
-    IGenericRepo<User> userRepo,
-    IGenericRepo<Session> sessionRepo)
+    IUserRepo userRepo,
+    ISessionRepo sessionRepo)
   {
     _authUtils = authUtils;
     _tokenUtils = tokenUtils;
@@ -37,11 +35,8 @@ public class Login : EndpointBaseAsync
     [FromRoute] LoginRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var existingUser = await _userRepo
-      .Specify(new UserGetByEmailSpec(request.Dto.Email))
-      .FirstOrDefaultAsync(cancellationToken);
-    if (existingUser is null)
-      throw new UnauthorizedException("Invalid email");
+    var existingUser = await _userRepo.GetByEmail(request.Dto.Email);
+    if (existingUser is null) throw new UnauthorizedException("Invalid email");
 
     var passwordMatch = Hashing.Verify(request.Dto.Password, existingUser.Password);
     if (!passwordMatch) throw new UnauthorizedException("Invalid password");

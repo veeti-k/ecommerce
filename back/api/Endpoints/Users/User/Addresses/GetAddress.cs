@@ -1,15 +1,12 @@
 ﻿using api.Exceptions;
-using api.Models.User;
-using api.Repositories.Interfaces;
+using api.Repositories;
 using api.RequestsAndResponses.Addresses;
 using api.RequestsAndResponses.Addresses.UserGetOne;
 using api.Security.Policies;
-using api.Specifications.Address;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Users.User.Addresses;
 
@@ -18,9 +15,9 @@ public class GetAddress : EndpointBaseAsync
   .WithActionResult<AddressResponse>
 {
   private readonly IMapper _mapper;
-  private readonly IGenericRepo<Address> _addressRepo;
+  private readonly IAddressRepo _addressRepo;
 
-  public GetAddress(IMapper mapper, IGenericRepo<Address> addressRepo)
+  public GetAddress(IMapper mapper, IAddressRepo addressRepo)
   {
     _mapper = mapper;
     _addressRepo = addressRepo;
@@ -32,10 +29,7 @@ public class GetAddress : EndpointBaseAsync
     [FromRoute] UserGetOneAddress request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var address = await _addressRepo
-      .Specify(new AddressGetUserAddressSpec(request.UserId, request.AddressId))
-      .FirstOrDefaultAsync(cancellationToken);
-
+    var address = await _addressRepo.GetOne(request.UserId, request.AddressId);
     if (address is null) throw new AddressNotFoundException(request.AddressId);
 
     return Ok(_mapper.Map<AddressResponse>(address));

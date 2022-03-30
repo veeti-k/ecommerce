@@ -12,11 +12,11 @@ public class DeleteProduct : EndpointBaseAsync
   .WithRequest<DeleteProductRequest>
   .WithActionResult
 {
-  private readonly IGenericRepo<Models.Product.Product> _repo;
+  private readonly IProductRepo _productRepo;
 
-  public DeleteProduct(IGenericRepo<Models.Product.Product> repo)
+  public DeleteProduct(IProductRepo productRepo)
   {
-    _repo = repo;
+    _productRepo = productRepo;
   }
 
   [Authorize(Policy = Policies.ManageProducts)]
@@ -25,11 +25,10 @@ public class DeleteProduct : EndpointBaseAsync
     [FromRoute] DeleteProductRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var product = await _repo.GetById(request.ProductId);
-    if (product is null)
-      throw new ProductNotFoundException(request.ProductId);
+    var product = await _productRepo.GetOne(request.ProductId);
+    if (product is null) throw new ProductNotFoundException(request.ProductId);
 
-    await _repo.Delete(product);
+    await _productRepo.Delete(product);
     return NoContent();
   }
 }

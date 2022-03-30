@@ -3,11 +3,9 @@ using api.Models.Product;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Category;
 using api.Security.Policies;
-using api.Specifications.Category;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Categories;
 
@@ -16,11 +14,11 @@ public class RemoveCategory : EndpointBaseAsync
   .WithActionResult
 
 {
-  private readonly IGenericRepo<ProductCategory> _repo;
+  private readonly IGenericRepo<ProductCategory> _categoryRepo;
 
-  public RemoveCategory(IGenericRepo<ProductCategory> repo)
+  public RemoveCategory(IGenericRepo<ProductCategory> categoryRepo)
   {
-    _repo = repo;
+    _categoryRepo = categoryRepo;
   }
   
   [Authorize(Policy = Policies.Administrator)]
@@ -29,13 +27,10 @@ public class RemoveCategory : EndpointBaseAsync
     [FromRoute] RemoveCategoryRequest request, 
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var categoryToDelete = await _repo
-      .Specify(new CategoryGetWithIdSpec(request.CategoryId))
-      .FirstOrDefaultAsync(cancellationToken);
-
+    var categoryToDelete = await _categoryRepo.GetById(request.CategoryId);
     if (categoryToDelete is null) throw new ProductCategoryNotFoundException(request.CategoryId);
 
-    await _repo.Delete(categoryToDelete);
+    await _categoryRepo.Delete(categoryToDelete);
 
     return NoContent();
   }

@@ -1,16 +1,13 @@
 ﻿using api.Exceptions;
 using api.Models.Product.Review;
-using api.Models.User;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.ProductReviewComment;
 using api.RequestsAndResponses.ProductReviewComment.Add;
 using api.Security;
 using api.Services.Interfaces;
-using api.Specifications.ProductReview;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Products.Product.Reviews.Comments;
 
@@ -19,19 +16,19 @@ public class AddProductReviewComment : EndpointBaseAsync
   .WithActionResult<ProductReviewCommentResponse>
 {
   private readonly IMapper _mapper;
-  private readonly IGenericRepo<User> _userRepo;
+  private readonly IUserRepo _userRepo;
   private readonly IContextService _contextService;
-  private readonly IGenericRepo<Models.Product.Product> _productRepo;
-  private readonly IGenericRepo<ProductReview> _productReviewRepo;
-  private readonly IGenericRepo<ProductReviewComment> _productReviewCommentRepo;
+  private readonly IProductRepo _productRepo;
+  private readonly IProductReviewRepo _productReviewRepo;
+  private readonly IProductReviewCommentRepo _productReviewCommentRepo;
 
   public AddProductReviewComment(
     IMapper mapper,
-    IGenericRepo<User> userRepo,
+    IUserRepo userRepo,
     IContextService contextService,
-    IGenericRepo<Models.Product.Product> productRepo,
-    IGenericRepo<ProductReview> productReviewRepo,
-    IGenericRepo<ProductReviewComment> productReviewCommentRepo)
+    IProductRepo productRepo,
+    IProductReviewRepo productReviewRepo,
+    IProductReviewCommentRepo productReviewCommentRepo)
   {
     _mapper = mapper;
     _userRepo = userRepo;
@@ -46,12 +43,10 @@ public class AddProductReviewComment : EndpointBaseAsync
     [FromRoute] CreateProductReviewCommentRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var product = await _productRepo.GetById(request.ProductId);
+    var product = await _productRepo.GetOneNotDeleted(request.ProductId);
     if (product is null) throw new ProductNotFoundException(request.ProductId);
 
-    var review = await _productReviewRepo
-      .Specify(new ProductReview_GetOneApproved_ByProductId_Spec(request.ProductId, request.ReviewId))
-      .FirstOrDefaultAsync();
+    var review = await _productReviewRepo.GetOneApproved(request.ProductId, request.ReviewId);
     if (review is null) throw new ProductReviewNotFoundException(request.ReviewId);
 
     var userId = _contextService.GetCurrentUserId();

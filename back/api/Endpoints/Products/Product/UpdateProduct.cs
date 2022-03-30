@@ -16,12 +16,12 @@ public class UpdateProduct : EndpointBaseAsync
   .WithActionResult<BaseProductResponse>
 {
   private readonly IMapper _mapper;
-  private readonly IGenericRepo<Models.Product.Product> _repo;
+  private readonly IProductRepo _productRepo;
 
-  public UpdateProduct(IMapper mapper, IGenericRepo<Models.Product.Product> repo)
+  public UpdateProduct(IMapper mapper, IProductRepo productRepo)
   {
     _mapper = mapper;
-    _repo = repo;
+    _productRepo = productRepo;
   }
 
   [Authorize(Policy = Policies.ManageProducts)]
@@ -30,9 +30,8 @@ public class UpdateProduct : EndpointBaseAsync
     [FromRoute] UpdateProductRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var existingProduct = await _repo.GetById(request.ProductId);
-    if (existingProduct is null)
-      throw new ProductNotFoundException(request.ProductId);
+    var existingProduct = await _productRepo.GetOne(request.ProductId);
+    if (existingProduct is null) throw new ProductNotFoundException(request.ProductId);
     
     existingProduct.Name = request.Dto.Name ?? existingProduct.Name;
     existingProduct.Description = request.Dto.Description ?? existingProduct.Description;
@@ -42,7 +41,7 @@ public class UpdateProduct : EndpointBaseAsync
     existingProduct.DiscountAmount = request.Dto.DiscountAmount ?? existingProduct.DiscountAmount;
     existingProduct.IsDiscounted = request.Dto.IsDiscounted ?? existingProduct.IsDiscounted;
 
-    var updated = await _repo.Update(existingProduct);
+    var updated = await _productRepo.Update(existingProduct);
 
     return Ok(_mapper.Map<BaseProductResponse>(updated));
   }

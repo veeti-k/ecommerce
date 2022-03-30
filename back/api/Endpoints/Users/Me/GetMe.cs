@@ -1,12 +1,10 @@
 ﻿using api.Repositories.Interfaces;
 using api.RequestsAndResponses.User;
 using api.Services.Interfaces;
-using api.Specifications.User;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Users.Me;
 
@@ -16,9 +14,9 @@ public class GetMe : EndpointBaseAsync
 {
   private readonly IMapper _mapper;
   private readonly IContextService _contextService;
-  private readonly IGenericRepo<Models.User.User> _userRepo;
+  private readonly IUserRepo _userRepo;
 
-  public GetMe(IMapper mapper, IContextService contextService, IGenericRepo<Models.User.User> userRepo)
+  public GetMe(IMapper mapper, IContextService contextService, IUserRepo userRepo)
   {
     _mapper = mapper;
     _contextService = contextService;
@@ -33,9 +31,7 @@ public class GetMe : EndpointBaseAsync
     var userId = _contextService.GetCurrentUserId();
     var sessionId = _contextService.GetCurrentSessionId();
 
-    var user = await _userRepo
-      .Specify(new UserGetWithSessionsSpec(userId))
-      .FirstOrDefaultAsync(cancellationToken);
+    var user = await _userRepo.GetOneWithSessions(userId);
 
     // TODO: mark current session
 

@@ -1,14 +1,11 @@
-using api.Exceptions;
 using api.Models.Product;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Category;
 using api.Security.Policies;
-using api.Specifications.Category;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Categories;
 
@@ -34,13 +31,6 @@ public class AddCategory : EndpointBaseAsync
     [FromRoute] AddCategoryRequest request, 
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var existing = await _repo
-      .Specify(new CategoryGetWithNameSpec(request.Dto.Name))
-      .FirstOrDefaultAsync(cancellationToken);
-    
-    if (existing is not null)
-      throw new BadRequestException($"Category with name {request.Dto.Name} already exists");
-
     ProductCategory newCategory = new()
     {
       Name = request.Dto.Name,

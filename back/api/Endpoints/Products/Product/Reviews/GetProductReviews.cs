@@ -1,13 +1,10 @@
 ﻿using api.Exceptions;
-using api.Models.Product.Review;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.ProductReview;
 using api.RequestsAndResponses.ProductReview.Get;
-using api.Specifications.ProductReview;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Products.Product.Reviews;
 
@@ -16,14 +13,14 @@ public class GetProductReviews : EndpointBaseAsync
   .WithActionResult<IEnumerable<ProductReviewResponse>>
 {
   private readonly IMapper _mapper;
-  private readonly IGenericRepo<ProductReview> _productReviewRepo;
-  private readonly IGenericRepo<Models.Product.Product> _productRepo;
+  private readonly IProductReviewRepo _productReviewRepo;
+  private readonly IProductRepo _productRepo;
 
 
   public GetProductReviews(
-    IMapper mapper, 
-    IGenericRepo<ProductReview> productReviewRepo, 
-    IGenericRepo<Models.Product.Product> productRepo)
+    IMapper mapper,
+    IProductReviewRepo productReviewRepo,
+    IProductRepo productRepo)
   {
     _mapper = mapper;
     _productReviewRepo = productReviewRepo;
@@ -35,13 +32,11 @@ public class GetProductReviews : EndpointBaseAsync
     [FromRoute] GetProductReviewsForProductRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var product = await _productRepo.GetById(request.ProductId);
+    var product = await _productRepo.GetOneNotDeleted(request.ProductId);
     if (product is null) throw new ProductNotFoundException(request.ProductId);
-    
-    var reviews = await _productReviewRepo
-      .Specify(new ProductReview_GetManyApproved_WithApprovedComments_ByProductId_Spec(request.ProductId))
-      .ToListAsync(cancellationToken);
-    
+
+    var reviews = await _productReviewRepo.GetManyApprovedWithApprovedComments(request.ProductId);
+
     return Ok(_mapper.Map<IEnumerable<ProductReviewResponse>>(reviews));
   }
 }

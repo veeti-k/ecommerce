@@ -1,13 +1,10 @@
 ﻿using api.Exceptions;
-using api.Models.Product.Review;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.ProductReview.Delete;
 using api.Security.Policies;
-using api.Specifications.Product;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Products.Product.Reviews;
 
@@ -15,12 +12,12 @@ public class DeleteProductReview : EndpointBaseAsync
   .WithRequest<DeleteProductReviewRequest>
   .WithActionResult
 {
-  private readonly IGenericRepo<ProductReview> _productReviewRepo;
-  private readonly IGenericRepo<Models.Product.Product> _productRepo;
+  private readonly IProductReviewRepo _productReviewRepo;
+  private readonly IProductRepo _productRepo;
 
   public DeleteProductReview(
-    IGenericRepo<ProductReview> productReviewRepo,
-    IGenericRepo<Models.Product.Product> productRepo)
+    IProductReviewRepo productReviewRepo,
+    IProductRepo productRepo)
   {
     _productReviewRepo = productReviewRepo;
     _productRepo = productRepo;
@@ -32,11 +29,11 @@ public class DeleteProductReview : EndpointBaseAsync
     [FromRoute] DeleteProductReviewRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var product = await _productRepo.GetById(request.ProductId);
-    if (product is null) 
+    var product = await _productRepo.GetOneNotDeleted(request.ProductId);
+    if (product is null)
       throw new ProductNotFoundException(request.ProductId);
-    
-    var review = await _productReviewRepo.GetById(request.ReviewId);
+
+    var review = await _productReviewRepo.GetOne(request.ProductId, request.ReviewId);
     if (review is null)
       throw new ProductReviewNotFoundException(request.ReviewId);
 

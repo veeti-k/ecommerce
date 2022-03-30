@@ -2,12 +2,10 @@
 using api.Models.User;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Auth.Register;
-using api.Specifications.User;
 using api.Utils;
 using api.Utils.Interfaces;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace api.Endpoints.Auth;
 
@@ -17,14 +15,14 @@ public class Register : EndpointBaseAsync
 {
   private readonly IAuthUtils _authUtils;
   private readonly ITokenUtils _tokenUtils;
-  private readonly IGenericRepo<User> _userRepo;
-  private readonly IGenericRepo<Session> _sessionRepo;
+  private readonly IUserRepo _userRepo;
+  private readonly ISessionRepo _sessionRepo;
 
   public Register(
     IAuthUtils authUtils,
     ITokenUtils tokenUtils,
-    IGenericRepo<User> userRepo,
-    IGenericRepo<Session> sessionRepo)
+    IUserRepo userRepo,
+    ISessionRepo sessionRepo)
   {
     _authUtils = authUtils;
     _tokenUtils = tokenUtils;
@@ -37,19 +35,14 @@ public class Register : EndpointBaseAsync
     [FromRoute] RegisterRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var userWithSameEmail = await _userRepo
-      .Specify(new UserGetByEmailSpec(request.Dto.Email))
-      .FirstOrDefaultAsync(cancellationToken);
+    var userWithSameEmail = await _userRepo.GetByEmail(request.Dto.Email);
+    if (userWithSameEmail is not null) throw new BadRequestException("Email already in use");
 
-    if (userWithSameEmail is not null)
-      throw new BadRequestException("Email already in use");
-
-    var userWithSamePhoneNumber = await _userRepo
-      .Specify(new UserGetByPhoneNumberSpec(request.Dto.PhoneNumber))
-      .FirstOrDefaultAsync(cancellationToken);
-
-    if (userWithSamePhoneNumber is not null)
-      throw new BadRequestException("Phone number already in use");
+    if (request.Dto.PhoneNumber is not null)
+    {
+      var userWithSamePhoneNumber = await _userRepo.GetByPhoneNumber(request.Dto.PhoneNumber);
+      if (userWithSamePhoneNumber is not null) throw new BadRequestException("Phone number already in use");
+    }
 
     User newUser = new()
     {

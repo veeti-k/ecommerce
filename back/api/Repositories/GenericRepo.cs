@@ -19,20 +19,6 @@ public class GenericRepo<T> : IGenericRepo<T> where T : class
 
   public async Task<T?> GetById(Guid id) => await _dbSet.FindAsync(id);
 
-  public IQueryable<T> Specify(ISpecification<T> spec)
-  {
-    IQueryable<T> query = _dbSet;
-
-    if (spec.Criteria is not null)
-    {
-      query = _dbSet.Where(spec.Criteria);
-    }
-
-    query = spec.Includes.Aggregate(query, (current, include) => include(current));
-
-    return query;
-  }
-
   public async Task<T> Add(T entity)
   {
     var added = _dbSet.Add(entity);
