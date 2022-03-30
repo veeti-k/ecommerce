@@ -32,9 +32,11 @@ public class GetMe : EndpointBaseAsync
     var sessionId = _contextService.GetCurrentSessionId();
 
     var user = await _userRepo.GetOneWithSessions(userId);
+    var userReponse = _mapper.Map<UserResponse>(user);
 
-    // TODO: mark current session
+    foreach (var session in userReponse.Sessions)
+      session.isCurrentSession = session.Id == sessionId;
 
-    return Ok(user);
+    return Ok(userReponse);
   }
 }
