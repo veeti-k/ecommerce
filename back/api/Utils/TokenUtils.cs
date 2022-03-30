@@ -26,7 +26,7 @@ public class TokenUtils : ITokenUtils
     {
       new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
       new Claim(ClaimTypes.Version, sessionId.ToString()),
-      new Claim(ClaimTypes.Sid, userFlags.ToString())
+      new Claim(ClaimTypes.Sid, ((long)userFlags).ToString())
     };
 
     var securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(_tokenOptions.AccessSecret));
@@ -47,7 +47,7 @@ public class TokenUtils : ITokenUtils
     {
       new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
       new Claim(ClaimTypes.Version, sessionId.ToString()),
-      new Claim(ClaimTypes.Sid, userFlags.ToString())
+      new Claim(ClaimTypes.Sid, ((long)userFlags).ToString())
     };
 
     var securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(_tokenOptions.RefreshSecret));
