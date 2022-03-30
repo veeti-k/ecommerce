@@ -14,25 +14,53 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
 {
   [Fact]
   public async Task
-    DeleteReviewComment_WithExistingProduct_WithApprovedExistingReview_WithExistingComment_DeletesComment_Returns204()
+    DeleteReviewComment_WithExistingProduct_WithApprovedExistingReview_WithApprovedExistingComment_DeletesComment_Returns204()
   {
-    var existingProduct = await AddProduct();
-    var existingReview = await AddReview(existingProduct.Id);
-    await ApproveReview(existingProduct.Id, existingReview.Id);
-    var existingComment = await AddReviewComment(existingProduct.Id, existingReview.Id);
+    var product = await AddProduct();
+
+    var review = await AddReview(product.Id);
+    await ApproveReview(product.Id, review.Id);
+
+    var comment = await AddReviewComment(product.Id, review.Id);
+    await ApproveReviewComment(product.Id, review.Id, comment.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
 
-    var response = await DeleteReviewComment_TEST_REQUEST(existingProduct.Id, existingReview.Id, existingComment.Id);
+    var response = await DeleteReviewComment_TEST_REQUEST(product.Id, review.Id, comment.Id);
 
     await Logout();
 
     response.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-    var reviews = await GetApprovedProductReviews(existingProduct.Id);
-    var theReview = reviews.FirstOrDefault(foundReview => foundReview.Id == existingReview.Id);
+    var reviews = await GetApprovedProductReviews(product.Id);
+    var theReview = reviews.FirstOrDefault(foundReview => foundReview.Id == review.Id);
 
-    theReview.Comments.Any(comment => comment.Id == existingComment.Id).Should().BeFalse();
+    theReview.Comments.Any(comment => comment.Id == comment.Id).Should().BeFalse();
+  }
+
+  [Fact]
+  public async Task
+    DeleteReviewComment_WithExistingProduct_WithApprovedExistingReview_WithNotApprovedExistingComment_DeletesComment_Returns204()
+  {
+    var product = await AddProduct();
+    
+    var review = await AddReview(product.Id);
+    await ApproveReview(product.Id, review.Id);
+    
+    var comment = await AddReviewComment(product.Id, review.Id);
+
+    await LoginAs(Flags.ADMINISTRATOR);
+
+    var response = await DeleteReviewComment_TEST_REQUEST(product.Id, review.Id, comment.Id);
+
+    await Logout();
+
+    response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+    var reviews = await GetApprovedProductReviews(product.Id);
+    var theReview = reviews.FirstOrDefault(foundReview => foundReview.Id == review.Id);
+
+    theReview.Comments.Any(comment => comment.Id == comment.Id).Should().BeFalse();
   }
 
   [Fact]
@@ -52,7 +80,7 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
   }
 
   [Fact]
-  public async Task DeleteReviewComment_WithExistingProduct_WithNonExistingReview_ReturnsReviewNotFound()
+  public async Task DeleteReviewComment_WithExistingProduct_WithoutExistingReview_ReturnsReviewNotFound()
   {
     var product = await AddProduct();
 
@@ -77,7 +105,7 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
 
     await LoginAs(Flags.ADMINISTRATOR);
 
-    var response = await DeleteReviewComment_TEST_REQUEST(product.Id, NonExistentGuidId, NonExistentGuidId);
+    var response = await DeleteReviewComment_TEST_REQUEST(product.Id, review.Id, NonExistentGuidId);
 
     await Logout();
 
@@ -85,14 +113,15 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
 
     var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
 
-    json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductReviewNotFoundException(NonExistentGuidId));
+    json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductReviewNotFoundException(review.Id));
   }
 
   [Fact]
   public async Task
-    DeleteReviewComment_WithExistingProduct_WithApprovedExistingReview_WithNonExistentComment_ReturnsCommentNotFound()
+    DeleteReviewComment_WithExistingProduct_WithApprovedExistingReview_WithoutExistingComment_ReturnsCommentNotFound()
   {
     var product = await AddProduct();
+    
     var review = await AddReview(product.Id);
     await ApproveReview(product.Id, review.Id);
 
@@ -109,30 +138,6 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
     json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductReviewCommentNotFoundException(NonExistentGuidId));
   }
 
-  [Fact]
-  public async Task
-    DeleteReviewComment_WithExistingProduct_WithApprovedExistingReview_WithNotApprovedExistingComment_DeletesComment_Returns204()
-  {
-    var existingProduct = await AddProduct();
-    var existingReview = await AddReview(existingProduct.Id);
-    await ApproveReview(existingProduct.Id, existingReview.Id);
-    var existingComment = await AddReviewComment(existingProduct.Id, existingReview.Id);
-
-    await LoginAs(Flags.ADMINISTRATOR);
-
-    var response = await DeleteReviewComment_TEST_REQUEST(existingProduct.Id, existingReview.Id, existingComment.Id);
-
-    await Logout();
-
-    response.StatusCode.Should().Be(HttpStatusCode.NoContent);
-
-    // TODO: when there's an endpoint which returns all the comments
-    // check through that if the comment was actually deleted
-    var reviews = await GetApprovedProductReviews(existingProduct.Id);
-    var theReview = reviews.FirstOrDefault(foundReview => foundReview.Id == existingReview.Id);
-
-    theReview.Comments.Any(comment => comment.Id == existingComment.Id).Should().BeFalse();
-  }
 
   [Fact]
   public async Task DeleteReviewComment_TestPerms()
