@@ -55,7 +55,7 @@ public class TokenUtilsTests
       .Value.Should().Be(sessionId.ToString());
 
     claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid)
-      .Value.Should().Be(flags.ToString());
+      .Value.Should().Be(((long) flags).ToString());
   }
 
   [Fact]
@@ -84,6 +84,6 @@ public class TokenUtilsTests
       .Value.Should().Be(sessionId.ToString());
 
     claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Sid)
-      .Value.Should().Be(flags.ToString());
+      .Value.Should().Be(((long) flags).ToString());
   }
 }
