@@ -22,38 +22,32 @@ export const EditAddressDialog = () => (
         Make changes to the address here. Click save when you&#39;re done.
       </DialogDescription>
 
-      <InputLabelContainer>
-        <Label htmlFor="name">Name</Label>
+      <InputLabelContainer id="name" label="Name">
         <Input id="name" type="name" autoComplete="name" />
       </InputLabelContainer>
 
-      <InputLabelContainer>
-        <Label htmlFor="phone-number">Phone number</Label>
+      <InputLabelContainer id="phone-number" label="Phone number">
         <Input id="phone-number" type="tel" autoComplete="tel" />
       </InputLabelContainer>
 
-      <InputLabelContainer>
+      <InputLabelContainer id="email" label="Email">
         <Label htmlFor="email">Email</Label>
         <Input id="email" type="email" autoComplete="email" />
       </InputLabelContainer>
 
-      <InputLabelContainer>
-        <Label htmlFor="street-address">Street address</Label>
+      <InputLabelContainer id="street-address" label="Street address">
         <Input id="street-address" type="text" autoComplete="street-address" />
       </InputLabelContainer>
 
-      <InputLabelContainer>
-        <Label htmlFor="city">City</Label>
+      <InputLabelContainer id="city" label="City">
         <Input id="city" type="text" autoComplete="address-level2" />
       </InputLabelContainer>
 
-      <InputLabelContainer>
-        <Label htmlFor="zip">Zip code</Label>
+      <InputLabelContainer id="zip" label="Zip code">
         <Input id="zip" type="text" autoComplete="postal-code" />
       </InputLabelContainer>
 
-      <InputLabelContainer>
-        <Label htmlFor="state">State</Label>
+      <InputLabelContainer id="state" label="State">
         <Input id="state" type="text" autoComplete="address-level1" />
       </InputLabelContainer>
     </DialogContent>

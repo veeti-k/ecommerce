@@ -9,15 +9,11 @@ import { UserContext } from "../../UserProvider/provider";
 import { isAdmin } from "../../utils/flagResolve";
 import { pushUser } from "../../utils/router";
 import { routes } from "../../utils/routes";
-import {
-  FlexDiv,
-  PageSelectorButton,
-  PageSelectorButtons,
-  PageTitleContainer,
-} from "../Containers";
+import { FlexDiv } from "../Containers";
 import { ProductsIcon, OrdersIcon, UserIcon } from "../Icons";
 import { BigHeading, Paragraph } from "../Text";
 import { Layout } from "./Layout";
+import { PageTitleContainer, PageSelectorButtons, PageSelectorButton } from "./Styles";
 
 const ManagementPageCard = styled("div", {
   display: "flex",
@@ -40,13 +36,14 @@ const MainContent = styled("div", {
 });
 
 export const ManagementPageLayout: FC = ({ children }) => {
-  if (typeof window == "undefined") return null;
   const router = useRouter();
 
   const isLoggedIn = useIsLoggedIn();
   useGetMe();
 
   const { state } = useContext(UserContext);
+
+  if (typeof window == "undefined") return null;
 
   return (
     <Layout>

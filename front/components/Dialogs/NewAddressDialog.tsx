@@ -2,7 +2,6 @@ import { Button, Input, Tooltip } from "@chakra-ui/react";
 import { FormEvent, useContext, useState } from "react";
 import { InputLabelContainer } from "../Containers";
 import { PlusIcon } from "../Icons";
-import { Label } from "../Text";
 import {
   Dialog,
   DialogClose,
@@ -91,8 +90,7 @@ export const NewAddressDialog = () => {
               </DialogDescription>
             </div>
 
-            <InputLabelContainer>
-              <Label htmlFor="name">Name</Label>
+            <InputLabelContainer id="name" label="Name">
               <Input
                 id="name"
                 type="name"
@@ -103,8 +101,7 @@ export const NewAddressDialog = () => {
               />
             </InputLabelContainer>
 
-            <InputLabelContainer>
-              <Label htmlFor="phone-number">Phone number</Label>
+            <InputLabelContainer id="phone-number" label="Phone number">
               <Input
                 id="phone-number"
                 type="tel"
@@ -115,8 +112,7 @@ export const NewAddressDialog = () => {
               />
             </InputLabelContainer>
 
-            <InputLabelContainer>
-              <Label htmlFor="email">Email</Label>
+            <InputLabelContainer id="email" label="Email">
               <Input
                 id="email"
                 type="email"
@@ -127,8 +123,7 @@ export const NewAddressDialog = () => {
               />
             </InputLabelContainer>
 
-            <InputLabelContainer>
-              <Label htmlFor="street-address">Street address</Label>
+            <InputLabelContainer id="street-address" label="Street address">
               <Input
                 id="street-address"
                 type="text"
@@ -139,8 +134,7 @@ export const NewAddressDialog = () => {
               />
             </InputLabelContainer>
 
-            <InputLabelContainer>
-              <Label htmlFor="city">City</Label>
+            <InputLabelContainer id="city" label="City">
               <Input
                 id="city"
                 type="text"
@@ -151,8 +145,7 @@ export const NewAddressDialog = () => {
               />
             </InputLabelContainer>
 
-            <InputLabelContainer>
-              <Label htmlFor="zip">Zip code</Label>
+            <InputLabelContainer id="zip" label="Zip code">
               <Input
                 id="zip"
                 type="text"
@@ -163,8 +156,7 @@ export const NewAddressDialog = () => {
               />
             </InputLabelContainer>
 
-            <InputLabelContainer>
-              <Label htmlFor="state">State</Label>
+            <InputLabelContainer id="state" label="State">
               <Input
                 id="state"
                 type="text"
@@ -175,7 +167,7 @@ export const NewAddressDialog = () => {
               />
             </InputLabelContainer>
 
-            <FlexDiv flexEnd>
+            <FlexDiv flexEnd gap05>
               <DialogClose asChild>
                 <Button>Cancel</Button>
               </DialogClose>

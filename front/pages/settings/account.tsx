@@ -5,7 +5,7 @@ import { FlexDiv, InputLabelContainer } from "../../components/Containers";
 import { TitleContainer, Grid } from "../../components/pages/Settings";
 import { useGetMe } from "../../hooks/useGetMe";
 import { Separator } from "../../components/Separator";
-import { Heading, Label, Paragraph } from "../../components/Text";
+import { Heading, Paragraph } from "../../components/Text";
 import { UserContext } from "../../UserProvider/provider";
 import { request } from "../../utils/requests";
 import { apiRoutes } from "../../utils/routes";

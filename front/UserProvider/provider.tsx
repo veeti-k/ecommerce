@@ -7,7 +7,7 @@ export const initState: IUserState = {
   name: "",
   email: "",
   phoneNumber: "",
-  flags: "",
+  flags: 0,
   createdAt: "",
   addresses: [],
   sessions: [],

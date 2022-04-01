@@ -1,9 +1,5 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { ComponentPropsWithoutRef, FC, MouseEvent } from "react";
+import { ComponentPropsWithoutRef, FC } from "react";
 import { styled } from "../stitches.config";
-import { pushUser } from "../utils/router";
-import { routes } from "../utils/routes";
 import { Label } from "./Text";
 
 export const FormWrapper = styled("div", {

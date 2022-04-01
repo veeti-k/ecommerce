@@ -6,7 +6,7 @@ import { pushUser } from "../../utils/router";
 import { FlexDiv } from "../Containers";
 
 export const PageTitleContainer: FC = ({ children }) => (
-  <FlexDiv spaceBetween align style={{ paddingTop: "0.5rem", paddingBottom: "1rem" }}>
+  <FlexDiv spaceBetween align style={{ paddingTop: "0.5rem", paddingBottom: "1.5rem" }}>
     {children}
   </FlexDiv>
 );

@@ -15,13 +15,14 @@ import { Layout } from "./Layout";
 import { PageTitleContainer, PageSelectorButtons, PageSelectorButton, MainContent } from "./Styles";
 
 export const SettingsPageLayout: FC = ({ children }) => {
-  if (typeof window == "undefined") return null;
   const router = useRouter();
 
   const isLoggedIn = useIsLoggedIn();
   useGetMe();
 
   const { dispatch } = useContext(UserContext);
+
+  if (typeof window == "undefined") return null;
 
   return (
     <Layout>
