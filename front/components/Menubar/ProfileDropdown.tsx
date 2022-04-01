@@ -111,15 +111,15 @@ export const ProfileDropdown = () => {
             </Link>
 
             {isAdmin(state.flags) ? (
-              <Link href={routes.dashboard} passHref>
+              <Link href={routes.management} passHref>
                 <Atag
                   onClick={(e) => {
                     e.preventDefault();
-                    pushUser(router, routes.dashboard, "dropDownMenu::onClick");
+                    pushUser(router, routes.management, "dropDownMenu::onClick");
                   }}
                 >
                   <DropdownMenuItem>
-                    <MdOutlineSpaceDashboard style={{ transform: "scale(1.4)" }} /> Dashboard
+                    <MdOutlineSpaceDashboard style={{ transform: "scale(1.4)" }} /> Management
                   </DropdownMenuItem>
                 </Atag>
               </Link>

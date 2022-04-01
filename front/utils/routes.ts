@@ -3,7 +3,11 @@ export const routes = {
   login: "/login",
   register: "/register",
 
-  dashboard: "/dashboard",
+  management: "/management",
+  managementAddProduct: "/management/add/product",
+  managementCategories: "/management/categories",
+  managementOrders: "/management/orders",
+  managementUsers: "/management/users",
 
   settings: "/settings",
   settingsAccount: "/settings/account",
@@ -33,5 +37,11 @@ export const apiRoutes = {
     sessions: {
       session: (user: string, sessionId: string) => `/users/${user}/sessions/${sessionId}`,
     },
+  },
+
+  productsRoot: "/products",
+
+  products: {
+    product: (productId: string) => `/products/${productId}`,
   },
 };

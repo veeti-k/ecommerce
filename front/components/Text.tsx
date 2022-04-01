@@ -9,6 +9,7 @@ export const Label = styled(RadixLabel.Root, {
 
 export const Paragraph = styled("p", {
   fontSize: "0.875rem",
+  color: "Black",
 
   variants: {
     light: {
