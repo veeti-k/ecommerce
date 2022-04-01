@@ -26,6 +26,25 @@ export const Paragraph = styled("p", {
   },
 });
 
+export const BiggerParagraph = styled("p", {
+  fontSize: "1rem",
+  color: "Black",
+
+  variants: {
+    light: {
+      true: {
+        fontWeight: 300,
+      },
+    },
+
+    bold: {
+      true: {
+        fontWeight: 700,
+      },
+    },
+  },
+});
+
 export const Heading = styled("h1", {
   fontWeight: 700,
 });

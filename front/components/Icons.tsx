@@ -1,5 +1,5 @@
 import { ChevronDownIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { Edit, LogIn, Plus, Trash2, User } from "react-feather";
+import { Edit, Lock, LogIn, Plus, Shield, Trash2, Truck, User } from "react-feather";
 import { GiShoppingCart } from "react-icons/gi";
 import { motion } from "framer-motion";
 import { BsBagCheck, BsGrid, BsPlusSquare } from "react-icons/bs";
@@ -14,6 +14,10 @@ export const PlusIcon = Plus;
 export const PlusSquareIcon = () => <BsPlusSquare size={20} />;
 export const ProductsIcon = () => <BsGrid size={20} />;
 export const OrdersIcon = () => <BsBagCheck size={20} />;
+
+export const AddressesIcon = () => <Truck size={20} />;
+export const SessionsIcon = () => <Shield size={20} />;
+export const PasswordIcon = () => <Lock size={20} />;
 
 export const Chevron = ({ open }: { open: boolean }) => {
   return open ? (

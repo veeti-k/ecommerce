@@ -1,14 +1,22 @@
 import { Button, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
-import { ChangeEventHandler, useState } from "react";
+import { ChangeEventHandler, FC, useState } from "react";
 import { InputLabelContainer } from "./Containers";
 
 interface PasswordInputProps {
   label: string;
   id: string;
   onChange: ChangeEventHandler<HTMLInputElement> | undefined;
+  value: string;
+  autoComplete: string | undefined;
 }
 
-export const PasswordInputWithLabel = ({ onChange, id, label }: PasswordInputProps) => {
+export const PasswordInputWithLabel: FC<PasswordInputProps> = ({
+  id,
+  label,
+  onChange,
+  value,
+  autoComplete,
+}) => {
   const [showPw, setShowPw] = useState<boolean>(false);
 
   return (
@@ -16,9 +24,10 @@ export const PasswordInputWithLabel = ({ onChange, id, label }: PasswordInputPro
       <InputGroup>
         <Input
           type={showPw ? "text" : "password"}
-          id="password"
+          id={id}
           onChange={onChange}
-          autoComplete="current-password"
+          value={value}
+          autoComplete={autoComplete}
           required
         />
         <InputRightElement width="4.5rem">

@@ -33,3 +33,9 @@ export const ProductCard = styled(Card, {
     boxShadow: "2px 4px 16px rgb(0 0 0 / 16%)",
   },
 });
+
+export const PageCard = styled("div", {
+  borderRadius: "8px",
+
+  boxShadow: "$shadowFar",
+});

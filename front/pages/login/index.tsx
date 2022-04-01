@@ -72,6 +72,8 @@ const Login: NextPage = () => {
                 id="password"
                 label="Password"
                 onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                autoComplete="current-password"
               />
               <Button type="submit" disabled={submitDisabled} colorScheme="blue">
                 Login

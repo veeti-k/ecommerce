@@ -3,20 +3,10 @@ import { NextPage } from "next";
 import { useContext } from "react";
 import { Card } from "../../components/Card";
 import { TrashIcon } from "../../components/Icons";
-import { Layout } from "../../components/layouts/Layout";
-import {
-  Content,
-  Grid,
-  MainGrid,
-  PageSelectorButtons,
-  TempCard,
-  TitleAndLogout,
-  TitleContainer,
-} from "../../components/pages/Settings";
+import { Grid, TitleContainer } from "../../components/pages/Settings";
 import { Heading, Paragraph } from "../../components/Text";
 import { UserContext } from "../../UserProvider/provider";
 import { useGetMe } from "../../hooks/useGetMe";
-import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 import { styled } from "../../stitches.config";
 import { EditAddressDialog } from "../../components/Dialogs/EditAddressDialog";
 import { NewAddressDialog } from "../../components/Dialogs/NewAddressDialog";
@@ -24,6 +14,7 @@ import { request } from "../../utils/requests";
 import { apiRoutes } from "../../utils/routes";
 import { toast } from "react-hot-toast";
 import { getMe } from "../../utils/logout";
+import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
 
 const AddressCard = styled(Card, {
   display: "flex",
@@ -39,7 +30,6 @@ const AddressCardButtons = styled("div", {
 });
 
 export const Addresses: NextPage = () => {
-  const isLoggedIn = useIsLoggedIn();
   useGetMe();
 
   const { state, dispatch } = useContext(UserContext);
@@ -60,64 +50,48 @@ export const Addresses: NextPage = () => {
   };
 
   return (
-    <Layout>
-      {isLoggedIn ? (
-        <>
-          <TitleAndLogout />
-          <TempCard>
-            <MainGrid>
-              <PageSelectorButtons activePage="addresses" />
-              <Content>
-                <TitleContainer>
-                  <div>
-                    <Heading>Addresses</Heading>
-                    <Paragraph light>Add or edit your addresses</Paragraph>
-                  </div>
+    <SettingsPageLayout>
+      <TitleContainer>
+        <div>
+          <Heading>Addresses</Heading>
+          <Paragraph light>Add or edit your addresses</Paragraph>
+        </div>
 
-                  <NewAddressDialog />
-                </TitleContainer>
+        <NewAddressDialog />
+      </TitleContainer>
 
-                <Grid col2>
-                  {state.addresses.map((address) => (
-                    <AddressCard key={address.id}>
-                      <div>
-                        <div style={{ paddingBottom: "0.3rem" }}>
-                          <Paragraph bold>{address.name}</Paragraph>
-                          <Paragraph>{address.line1}</Paragraph>
-                          {address.line2 ? <Paragraph>{address.line2}</Paragraph> : null}
-                          <Paragraph>
-                            {address.zip} {address.city}
-                          </Paragraph>
-                          <Paragraph>{address.state}</Paragraph>
-                        </div>
+      <Grid col2>
+        {state.addresses.map((address) => (
+          <AddressCard key={address.id}>
+            <div>
+              <div style={{ paddingBottom: "0.3rem" }}>
+                <Paragraph bold>{address.name}</Paragraph>
+                <Paragraph>{address.line1}</Paragraph>
+                {address.line2 ? <Paragraph>{address.line2}</Paragraph> : null}
+                <Paragraph>
+                  {address.zip} {address.city}
+                </Paragraph>
+                <Paragraph>{address.state}</Paragraph>
+              </div>
 
-                        <div>
-                          <Paragraph bold>{address.email}</Paragraph>
-                          <Paragraph bold>{address.phoneNumber}</Paragraph>
-                        </div>
-                      </div>
-                      <AddressCardButtons>
-                        <EditAddressDialog />
+              <div>
+                <Paragraph bold>{address.email}</Paragraph>
+                <Paragraph bold>{address.phoneNumber}</Paragraph>
+              </div>
+            </div>
+            <AddressCardButtons>
+              <EditAddressDialog />
 
-                        <Tooltip label="Delete address">
-                          <Button
-                            colorScheme="red"
-                            size="sm"
-                            onClick={() => removeAddress(address.id)}
-                          >
-                            <TrashIcon />
-                          </Button>
-                        </Tooltip>
-                      </AddressCardButtons>
-                    </AddressCard>
-                  ))}
-                </Grid>
-              </Content>
-            </MainGrid>
-          </TempCard>
-        </>
-      ) : null}
-    </Layout>
+              <Tooltip label="Delete address">
+                <Button colorScheme="red" size="sm" onClick={() => removeAddress(address.id)}>
+                  <TrashIcon />
+                </Button>
+              </Tooltip>
+            </AddressCardButtons>
+          </AddressCard>
+        ))}
+      </Grid>
+    </SettingsPageLayout>
   );
 };
 

@@ -1,33 +1,20 @@
-import { Button, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { FormEvent, useState } from "react";
-import { FlexDiv, InputLabelContainer } from "../../components/Containers";
-import { Layout } from "../../components/layouts/Layout";
-import {
-  Content,
-  Grid,
-  MainGrid,
-  PageSelectorButtons,
-  TempCard,
-  TitleAndLogout,
-  TitleContainer,
-} from "../../components/pages/Settings";
+import { FlexDiv } from "../../components/Containers";
+import { PasswordInputWithLabel } from "../../components/Inputs";
+import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
+import { Grid, TitleContainer } from "../../components/pages/Settings";
 import { Separator } from "../../components/Separator";
-import { Heading, Label, Paragraph } from "../../components/Text";
+import { Heading, Paragraph } from "../../components/Text";
 import { useGetMe } from "../../hooks/useGetMe";
-import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 
 const Password: NextPage = () => {
-  const isLoggedIn = useIsLoggedIn();
   useGetMe();
 
   const [currPw, setCurrPw] = useState<string>("");
   const [newPw, setNewPw] = useState<string>("");
   const [newPw2, setNewPw2] = useState<string>("");
-
-  const [showCurrPw, setShowCurrPw] = useState<boolean>(false);
-  const [showNewPw, setShowNewPw] = useState<boolean>(false);
-  const [showNewPw2, setShowNewPw2] = useState<boolean>(false);
 
   const changeDisabled = !newPw || !newPw2 || newPw !== newPw2;
 
@@ -36,115 +23,56 @@ const Password: NextPage = () => {
   };
 
   return (
-    <Layout>
-      {isLoggedIn ? (
-        <>
-          <TitleAndLogout />
+    <SettingsPageLayout>
+      <TitleContainer>
+        <div>
+          <Heading>Password</Heading>
+          <Paragraph light>Change or reset your password</Paragraph>
+        </div>
+      </TitleContainer>
 
-          <TempCard>
-            <MainGrid>
-              <PageSelectorButtons activePage="password" />
-              <Content>
-                <TitleContainer>
-                  <div>
-                    <Heading>Password</Heading>
-                    <Paragraph light>Change or reset your password</Paragraph>
-                  </div>
-                </TitleContainer>
+      <form onSubmit={onFormSubmit}>
+        <Grid col1>
+          <PasswordInputWithLabel
+            id="current-password"
+            label="Current password"
+            autoComplete="current-password"
+            onChange={(e) => setCurrPw(e.target.value)}
+            value={currPw}
+          />
+          <PasswordInputWithLabel
+            id="new-password"
+            label="New password"
+            autoComplete="new-password"
+            onChange={(e) => setNewPw(e.target.value)}
+            value={newPw}
+          />
+          <PasswordInputWithLabel
+            id="new-password-again"
+            label="New password again"
+            autoComplete="new-password"
+            onChange={(e) => setNewPw2(e.target.value)}
+            value={newPw2}
+          />
+        </Grid>
+      </form>
 
-                <form onSubmit={onFormSubmit}>
-                  <Grid col1>
-                    <InputLabelContainer>
-                      <Label htmlFor="current-password">Current password</Label>
-                      <InputGroup>
-                        <Input
-                          type={showCurrPw ? "text" : "password"}
-                          id="current-password"
-                          value={currPw}
-                          onChange={(e) => setCurrPw(e.target.value)}
-                          autoComplete="current-password"
-                          required
-                        />
-                        <InputRightElement width="4.5rem">
-                          <Button
-                            size="sm"
-                            height="1.75rem"
-                            onClick={() => setShowCurrPw(!showCurrPw)}
-                          >
-                            {showCurrPw ? "Hide" : "Show"}
-                          </Button>
-                        </InputRightElement>
-                      </InputGroup>
-                    </InputLabelContainer>
+      <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: "1rem" }}>
+        <Button type="submit" colorScheme="blue" disabled={changeDisabled}>
+          Change password
+        </Button>
+      </div>
 
-                    <InputLabelContainer>
-                      <Label htmlFor="new-password">New password</Label>
-                      <InputGroup>
-                        <Input
-                          type={showNewPw ? "text" : "password"}
-                          id="new-password"
-                          value={newPw}
-                          onChange={(e) => setNewPw(e.target.value)}
-                          autoComplete="new-password"
-                          required
-                        />
-                        <InputRightElement width="4.5rem">
-                          <Button
-                            size="sm"
-                            height="1.75rem"
-                            onClick={() => setShowNewPw(!showNewPw)}
-                          >
-                            {showNewPw ? "Hide" : "Show"}
-                          </Button>
-                        </InputRightElement>
-                      </InputGroup>
-                    </InputLabelContainer>
-                    <InputLabelContainer>
-                      <Label htmlFor="new-password-again">New password again</Label>
-                      <InputGroup>
-                        <Input
-                          type={showNewPw2 ? "text" : "password"}
-                          id="new-password-again"
-                          value={newPw2}
-                          onChange={(e) => setNewPw2(e.target.value)}
-                          autoComplete="new-password"
-                          required
-                        />
-                        <InputRightElement width="4.5rem">
-                          <Button
-                            size="sm"
-                            height="1.75rem"
-                            onClick={() => setShowNewPw2(!showNewPw2)}
-                          >
-                            {showNewPw2 ? "Hide" : "Show"}
-                          </Button>
-                        </InputRightElement>
-                      </InputGroup>
-                    </InputLabelContainer>
-                  </Grid>
-                </form>
+      <Separator orientation="horizontal" />
+      <FlexDiv spaceBetween align>
+        <div>
+          <Heading>Forgot your password?</Heading>
+          <Paragraph light>Let&#39;s reset it</Paragraph>
+        </div>
 
-                <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: "1rem" }}>
-                  <Button type="submit" colorScheme="blue" disabled={changeDisabled}>
-                    Change password
-                  </Button>
-                </div>
-
-                <Separator orientation="horizontal" />
-                <FlexDiv spaceBetween align>
-                  <div>
-                    <Heading>Forgot your password?</Heading>
-                    <Paragraph light>Let&#39;s reset it</Paragraph>
-                  </div>
-
-                  <Button>Reset password</Button>
-                </FlexDiv>
-              </Content>
-            </MainGrid>
-          </TempCard>
-        </>
-      ) : null}
-    </Layout>
+        <Button>Reset password</Button>
+      </FlexDiv>
+    </SettingsPageLayout>
   );
 };
 

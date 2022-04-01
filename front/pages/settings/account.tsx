@@ -1,21 +1,11 @@
+import { FormEvent, useContext, useEffect, useState } from "react";
 import { NextPage } from "next";
 import { Button, Input } from "@chakra-ui/react";
 import { FlexDiv, InputLabelContainer } from "../../components/Containers";
-import {
-  TempCard,
-  PageSelectorButtons,
-  TitleContainer,
-  Grid,
-  Content,
-  MainGrid,
-  TitleAndLogout,
-} from "../../components/pages/Settings";
+import { TitleContainer, Grid } from "../../components/pages/Settings";
 import { useGetMe } from "../../hooks/useGetMe";
-import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 import { Separator } from "../../components/Separator";
-import { Layout } from "../../components/layouts/Layout";
 import { Heading, Label, Paragraph } from "../../components/Text";
-import { FormEvent, useContext, useEffect, useState } from "react";
 import { UserContext } from "../../UserProvider/provider";
 import { request } from "../../utils/requests";
 import { apiRoutes } from "../../utils/routes";
@@ -23,9 +13,9 @@ import { apiRoutes } from "../../utils/routes";
 import { toast } from "react-hot-toast";
 import { Actions } from "../../UserProvider/types";
 import { DeleteAccountDialog } from "../../components/Dialogs/DeleteAccountDialog";
+import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
 
 const Account: NextPage = () => {
-  const isLoggedIn = useIsLoggedIn();
   useGetMe();
 
   const { state, dispatch } = useContext(UserContext);
@@ -81,79 +71,63 @@ const Account: NextPage = () => {
   };
 
   return (
-    <Layout>
-      {isLoggedIn ? (
-        <>
-          <TitleAndLogout />
+    <SettingsPageLayout>
+      <TitleContainer>
+        <div>
+          <Heading>General Info</Heading>
+          <Paragraph light>Save your changes after editing</Paragraph>
+        </div>
+      </TitleContainer>
 
-          <TempCard>
-            <MainGrid>
-              <PageSelectorButtons activePage="account" />
-              <Content>
-                <TitleContainer>
-                  <div>
-                    <Heading>General Info</Heading>
-                    <Paragraph light>Save your changes after editing</Paragraph>
-                  </div>
-                </TitleContainer>
+      <form onSubmit={onFormSubmit}>
+        <InputLabelContainer id="name" label="Name">
+          <Input
+            id="name"
+            autoComplete="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </InputLabelContainer>
 
-                <form onSubmit={onFormSubmit}>
-                  <InputLabelContainer>
-                    <Label htmlFor="name">Name</Label>
-                    <Input
-                      id="name"
-                      autoComplete="name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </InputLabelContainer>
+        <Grid col2 style={{ paddingTop: "1rem" }}>
+          <InputLabelContainer id="email" label="Email">
+            <Input
+              id="email"
+              type="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </InputLabelContainer>
 
-                  <Grid col2 style={{ paddingTop: "1rem" }}>
-                    <InputLabelContainer>
-                      <Label htmlFor="email">Email</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        autoComplete="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                      />
-                    </InputLabelContainer>
+          <InputLabelContainer id="phone-number" label="Phone number">
+            <Input
+              id="phone-number"
+              type="tel"
+              autoComplete="tel"
+              value={phoneNumber ?? ""}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+          </InputLabelContainer>
+        </Grid>
 
-                    <InputLabelContainer>
-                      <Label htmlFor="phone-number">Phone number</Label>
-                      <Input
-                        id="phone-number"
-                        type="tel"
-                        autoComplete="tel"
-                        value={phoneNumber ?? ""}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                      />
-                    </InputLabelContainer>
-                  </Grid>
+        <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: "1rem" }}>
+          <Button colorScheme="blue" disabled={saveDisabled} type="submit">
+            Save changes
+          </Button>
+        </div>
+      </form>
 
-                  <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: "1rem" }}>
-                    <Button colorScheme="blue" disabled={saveDisabled} type="submit">
-                      Save changes
-                    </Button>
-                  </div>
-                </form>
+      <Separator orientation="horizontal" />
 
-                <Separator orientation="horizontal" />
-
-                <FlexDiv spaceBetween align>
-                  <div>
-                    <Heading>Delete account</Heading>
-                    <Paragraph light>Your account will be permanently deleted</Paragraph>
-                  </div>
-                  <DeleteAccountDialog />
-                </FlexDiv>
-              </Content>
-            </MainGrid>
-          </TempCard>
-        </>
-      ) : null}
-    </Layout>
+      <FlexDiv spaceBetween align>
+        <div>
+          <Heading>Delete account</Heading>
+          <Paragraph light>Your account will be permanently deleted</Paragraph>
+        </div>
+        <DeleteAccountDialog />
+      </FlexDiv>
+    </SettingsPageLayout>
   );
 };
 

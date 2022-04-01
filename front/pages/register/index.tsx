@@ -87,12 +87,16 @@ const Register: NextPage = () => {
                 id="password"
                 label="Password"
                 onChange={(e) => setPw(e.target.value)}
+                value={pw}
+                autoComplete="new-password"
               />
 
               <PasswordInputWithLabel
                 id="password-again"
                 label="Password again"
                 onChange={(e) => setPwAgain(e.target.value)}
+                value={pwAgain}
+                autoComplete="new-password"
               />
 
               <Button type="submit" disabled={submitDisabled} colorScheme="blue">
