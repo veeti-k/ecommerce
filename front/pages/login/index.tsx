@@ -3,8 +3,8 @@ import { AuthPageLayout } from "../../components/layouts/AuthPageLayout";
 import { FormEvent, useContext, useRef, useState } from "react";
 import { tokenRequest } from "../../utils/requests";
 import { FormWrapper, InputLabelContainer } from "../../components/Containers";
-import { BigHeading, Label, Paragraph } from "../../components/Text";
-import { Input, Button, InputGroup, InputRightElement } from "@chakra-ui/react";
+import { BigHeading, Paragraph } from "../../components/Text";
+import { Input, Button } from "@chakra-ui/react";
 import { Tab, TabsContent, TabsList } from "../../components/pages/Auth";
 import { AuthPageCard } from "../../components/Card";
 import { useRouter } from "next/router";
@@ -13,13 +13,13 @@ import { pushUser } from "../../utils/router";
 import { apiRoutes, routes } from "../../utils/routes";
 import { getMe } from "../../utils/logout";
 import { UserContext } from "../../UserProvider/provider";
+import { PasswordInputWithLabel } from "../../components/Inputs";
 
 const Login: NextPage = () => {
   useAuthPageRedirector();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [showPw, setShowPw] = useState<boolean>(false);
   const emailInputRef = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
@@ -58,8 +58,7 @@ const Login: NextPage = () => {
           </Paragraph>
           <form onSubmit={handleSubmit}>
             <FormWrapper>
-              <InputLabelContainer>
-                <Label htmlFor="email">Email</Label>
+              <InputLabelContainer id="email" label="Email">
                 <Input
                   ref={emailInputRef}
                   type="email"
@@ -69,23 +68,11 @@ const Login: NextPage = () => {
                   required
                 />
               </InputLabelContainer>
-              <InputLabelContainer>
-                <Label htmlFor="password">Password</Label>
-                <InputGroup>
-                  <Input
-                    type={showPw ? "text" : "password"}
-                    id="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    autoComplete="current-password"
-                    required
-                  />
-                  <InputRightElement width="4.5rem">
-                    <Button size="sm" height="1.75rem" onClick={() => setShowPw(!showPw)}>
-                      {showPw ? "Hide" : "Show"}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-              </InputLabelContainer>
+              <PasswordInputWithLabel
+                id="password"
+                label="Password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
               <Button type="submit" disabled={submitDisabled} colorScheme="blue">
                 Login
               </Button>

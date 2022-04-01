@@ -13,6 +13,7 @@ import { apiRoutes, routes } from "../../utils/routes";
 import { useAuthPageRedirector } from "../../hooks/useAuthPageRedirector";
 import { getMe } from "../../utils/logout";
 import { UserContext } from "../../UserProvider/provider";
+import { PasswordInputWithLabel } from "../../components/Inputs";
 
 const Register: NextPage = () => {
   useAuthPageRedirector();
@@ -24,8 +25,6 @@ const Register: NextPage = () => {
 
   const [pw, setPw] = useState<string>("");
   const [pwAgain, setPwAgain] = useState<string>("");
-  const [showPw, setShowPw] = useState<boolean>(false);
-  const [showPwAgain, setShowPwAgain] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -62,8 +61,7 @@ const Register: NextPage = () => {
           <Paragraph style={{ paddingTop: "0.5rem" }}>Create an account</Paragraph>
           <form onSubmit={handleSubmit}>
             <FormWrapper>
-              <InputLabelContainer>
-                <Label htmlFor="name">Name</Label>
+              <InputLabelContainer id="name" label="Name">
                 <Input
                   ref={nameInputRef}
                   type="name"
@@ -74,8 +72,7 @@ const Register: NextPage = () => {
                   required
                 />
               </InputLabelContainer>
-              <InputLabelContainer>
-                <Label htmlFor="email">Email</Label>
+              <InputLabelContainer id="email" label="Email">
                 <Input
                   type="email"
                   id="email"
@@ -86,44 +83,17 @@ const Register: NextPage = () => {
                 />
               </InputLabelContainer>
 
-              <InputLabelContainer>
-                <Label htmlFor="password">Password</Label>
-                <InputGroup>
-                  <Input
-                    type={showPw ? "text" : "password"}
-                    id="password"
-                    value={pw}
-                    onChange={(e) => setPw(e.target.value)}
-                    autoComplete="new-password"
-                    required
-                  />
+              <PasswordInputWithLabel
+                id="password"
+                label="Password"
+                onChange={(e) => setPw(e.target.value)}
+              />
 
-                  <InputRightElement width="4.5rem">
-                    <Button size="sm" height="1.75rem" onClick={() => setShowPw(!showPw)}>
-                      {showPw ? "Hide" : "Show"}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-              </InputLabelContainer>
-
-              <InputLabelContainer>
-                <Label htmlFor="password-again">Password again</Label>
-                <InputGroup>
-                  <Input
-                    type={showPwAgain ? "text" : "password"}
-                    value={pwAgain}
-                    id="password-again"
-                    onChange={(e) => setPwAgain(e.target.value)}
-                    autoComplete="new-password"
-                    required
-                  />
-                  <InputRightElement width="4.5rem">
-                    <Button size="sm" height="1.75rem" onClick={() => setShowPwAgain(!showPwAgain)}>
-                      {showPwAgain ? "Hide" : "Show"}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-              </InputLabelContainer>
+              <PasswordInputWithLabel
+                id="password-again"
+                label="Password again"
+                onChange={(e) => setPwAgain(e.target.value)}
+              />
 
               <Button type="submit" disabled={submitDisabled} colorScheme="blue">
                 Sign up
