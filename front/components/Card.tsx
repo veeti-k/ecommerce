@@ -17,17 +17,13 @@ export const AuthPageCard = styled(Card, {
 });
 
 export const ProductCard = styled(Card, {
+  position: "relative",
   boxShadow: "2px 4px 12px rgb(0 0 0 / 8%)",
-
   display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
-  alignItems: "center",
-
   padding: "1rem",
+  flexDirection: "column",
+  alignItems: "center",
   maxWidth: "300px",
-  minHeight: "400px",
-  minWidth: "250px",
 
   "&:hover": {
     boxShadow: "2px 4px 16px rgb(0 0 0 / 16%)",

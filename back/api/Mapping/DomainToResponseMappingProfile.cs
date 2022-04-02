@@ -31,6 +31,14 @@ public class DomainToResponseMappingProfile : Profile
     CreateMap<ProductQuestionAnswer, ProductQuestionAnswerResponse>();
 
     CreateMap<ProductCategory, ProductCategoryResponse>();
-    CreateMap<ProductBulletPoint, ProductBulletPointResponse>();
+    CreateMap<ProductBulletPoint, ProductBulletPointResponse>()
+      .ForMember(dest => dest.Id,
+        options => options
+          .MapFrom(src => src.BulletPointId));
+      
+    CreateMap<ProductImageLink, ProductImageResponse>()
+      .ForMember(dest => dest.Id,
+        options => options
+          .MapFrom(src => src.ProductImageLinkId));
   }
 }

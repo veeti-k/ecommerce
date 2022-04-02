@@ -2,9 +2,9 @@
 
 namespace api.Models.Product;
 
-public class ProductBulletPoint
+public class ProductImageLink
 {
-  [Key] public Guid BulletPointId { get; set; }
+  [Key] public Guid ProductImageLinkId { get; set; }
   [Required] public int ProductId { get; set; }
-  [Required] public string Text { get; set; }
+  [Required] public string Link { get; set; }
 }

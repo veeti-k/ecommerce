@@ -12,6 +12,7 @@ public record AddProductDto
   public double DiscountAmount { get; init; }
   public bool IsDiscounted { get; init; }
   public string[] BulletPoints { get; init; }
+  public string[] ImageLinks { get; init; }
 }
 
 public class AddProductRequest

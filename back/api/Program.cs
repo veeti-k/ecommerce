@@ -42,6 +42,7 @@ builder.Services.AddScoped<IProductRepo, ProductRepo>();
 
 builder.Services.AddScoped<IGenericRepo<ProductCategory>, GenericRepo<ProductCategory>>();
 builder.Services.AddScoped<IGenericRepo<ProductBulletPoint>, GenericRepo<ProductBulletPoint>>();
+builder.Services.AddScoped<IGenericRepo<ProductImageLink>, GenericRepo<ProductImageLink>>();
 
 builder.Services.AddScoped<IGenericRepo<ProductReview>, GenericRepo<ProductReview>>();
 builder.Services.AddScoped<IProductReviewRepo, ProductReviewRepo>();

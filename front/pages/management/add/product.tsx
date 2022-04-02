@@ -22,11 +22,12 @@ const AddProduct: NextPage = () => {
   const [price, setPrice] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
-  const [discountedPrice, setDiscountedPrice] = useState<string>(price);
+  const [discountedPrice, setDiscountedPrice] = useState<string>("0");
   const [discountPercent, setDiscountPercent] = useState<string>("0");
   const [discountAmount, setDiscountAmount] = useState<string>("0");
 
   const [bulletPoints, setBulletPoints] = useState<string[]>([""]);
+  const [imageLinks, setImageLinks] = useState<string[]>([""]);
 
   const [isDiscounted, setIsDiscounted] = useState<boolean>(false);
 
@@ -55,6 +56,7 @@ const AddProduct: NextPage = () => {
         discountAmount,
         isDiscounted,
         bulletPoints,
+        imageLinks,
       },
     });
 
@@ -69,7 +71,7 @@ const AddProduct: NextPage = () => {
 
       <form onSubmit={onSubmit}>
         <FlexDiv column gap0>
-          <FlexDiv>
+          <FlexDiv fullWidth>
             <InputLabelContainer label="Name" id="name">
               <Input
                 id="name"
@@ -108,7 +110,7 @@ const AddProduct: NextPage = () => {
 
           <AnimatePresence>
             {bulletPoints.map((bulletPoint, index) => (
-              <BulletPointListItem key={index}>
+              <AnimatedListItem key={index}>
                 <InputLabelContainer
                   key={index}
                   id={`bulletpoint-${index + 1}`}
@@ -140,17 +142,65 @@ const AddProduct: NextPage = () => {
                     </InputRightElement>
                   </InputGroup>
                 </InputLabelContainer>
-              </BulletPointListItem>
+              </AnimatedListItem>
             ))}
           </AnimatePresence>
 
           <Button
+            style={{ marginBottom: "1rem" }}
             onClick={() => setBulletPoints([...bulletPoints, ""])}
             colorScheme="blue"
             variant="outline"
             size="sm"
           >
             {bulletPoints.length ? "Add another bullet point" : "Add a bullet point"}
+          </Button>
+
+          <AnimatePresence>
+            {imageLinks.map((bulletPoint, index) => (
+              <AnimatedListItem key={index}>
+                <InputLabelContainer
+                  key={index}
+                  id={`image-link-${index + 1}`}
+                  label={`Image link ${index + 1}`}
+                >
+                  <InputGroup>
+                    <Input
+                      id={`image-link-${index + 1}`}
+                      type="text"
+                      onChange={(e) =>
+                        setImageLinks(
+                          imageLinks.map((link, i) => (i === index ? e.target.value : link))
+                        )
+                      }
+                      value={bulletPoint}
+                      autoComplete="off"
+                    />
+                    <InputRightElement width="6rem">
+                      <Button
+                        size="sm"
+                        height="1.75rem"
+                        colorScheme="red"
+                        onClick={() => {
+                          setImageLinks(imageLinks.filter((_, i) => i !== index));
+                        }}
+                      >
+                        Remove
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                </InputLabelContainer>
+              </AnimatedListItem>
+            ))}
+          </AnimatePresence>
+
+          <Button
+            onClick={() => setImageLinks([...imageLinks, ""])}
+            colorScheme="blue"
+            variant="outline"
+            size="sm"
+          >
+            {imageLinks.length ? "Add another image link" : "Add an image link"}
           </Button>
 
           <InputLabelContainer
@@ -189,7 +239,7 @@ const AddProduct: NextPage = () => {
   );
 };
 
-const BulletPointListItem: FC = ({ children }) => {
+const AnimatedListItem: FC = ({ children }) => {
   const [isPresent, safeToRemove] = usePresence();
 
   const props = {
@@ -203,7 +253,7 @@ const BulletPointListItem: FC = ({ children }) => {
   return (
     <motion.div {...props}>
       {children}
-      <div style={{ paddingBottom: "1rem" }}></div>
+      <div style={{ paddingTop: "1rem" }}></div>
     </motion.div>
   );
 };

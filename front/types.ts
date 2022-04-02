@@ -9,6 +9,11 @@ export type BulletPoint = {
   text: string;
 };
 
+export type ImageLink = {
+  id: number;
+  link: string;
+};
+
 export type ShowCaseProduct = {
   id: number;
   name: string;
@@ -22,7 +27,8 @@ export type ShowCaseProduct = {
   averageStars: number;
   reviewCount: number;
   questionCount: number;
-  importantBulletpoints: BulletPoint[];
+  bulletPoints: BulletPoint[];
+  images: ImageLink[];
 };
 
 export type ProductPageProduct = {
@@ -39,6 +45,5 @@ export type ProductPageProduct = {
   averageStars: number;
   reviewCount: number;
   questionCount: number;
-  importantBulletpoints: BulletPoint[];
   bulletPoints: BulletPoint[];
 };

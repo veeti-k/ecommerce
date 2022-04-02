@@ -20,7 +20,6 @@ export const VerticalGrid = styled("div", {
 
 export const MainGrid = styled("div", {
   display: "flex",
-  flexDirection: "column",
   gap: "1rem",
 });
 
@@ -28,7 +27,6 @@ export const FlexDiv = styled("div", {
   display: "flex",
   flexDirection: "row",
   gap: "1rem",
-  width: "100%",
 
   variants: {
     column: {
@@ -71,6 +69,12 @@ export const FlexDiv = styled("div", {
         width: "100%",
       },
     },
+
+    fullHeight: {
+      true: {
+        height: "100%",
+      },
+    },
   },
 });
 
@@ -88,7 +92,7 @@ export const InputLabelContainer: FC<InputLabelContainerProps> = ({
   style,
 }) => {
   return (
-    <FlexDiv gap0 align={row} column={!row} style={style}>
+    <FlexDiv gap0 align={row} column={!row} style={style} fullWidth>
       <Label htmlFor={id} style={{ paddingBottom: "0.2rem" }}>
         {label}
       </Label>

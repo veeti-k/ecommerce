@@ -23,6 +23,7 @@ public class Product
   [Required] public int ReviewCount { get; set; }
   [Required] public int QuestionCount { get; set; }
 
+  public virtual IEnumerable<ProductImageLink> Images { get; init; }
   public virtual IEnumerable<ProductBulletPoint> BulletPoints { get; init; }
   public virtual IEnumerable<ProductReview> Reviews { get; init; }
   public virtual IEnumerable<ProductQuestion> Questions { get; init; }

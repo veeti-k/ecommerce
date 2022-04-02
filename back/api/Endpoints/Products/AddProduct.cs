@@ -17,12 +17,18 @@ public class AddProduct : EndpointBaseAsync
   private readonly IMapper _mapper;
   private readonly IProductRepo _repo;
   private readonly IGenericRepo<ProductBulletPoint> _bulletPointRepo;
+  private readonly IGenericRepo<ProductImageLink> _imageRepo;
 
-  public AddProduct(IMapper mapper, IProductRepo repo, IGenericRepo<ProductBulletPoint> bulletPointRepo)
+  public AddProduct(
+    IMapper mapper, 
+    IProductRepo repo, 
+    IGenericRepo<ProductBulletPoint> bulletPointRepo, 
+    IGenericRepo<ProductImageLink> imageRepo)
   {
     _mapper = mapper;
     _repo = repo;
     _bulletPointRepo = bulletPointRepo;
+    _imageRepo = imageRepo;
   }
 
   [Authorize(Policy = Policies.ManageProducts)]
@@ -51,6 +57,16 @@ public class AddProduct : EndpointBaseAsync
         BulletPointId = Guid.NewGuid(),
         ProductId = added.Id,
         Text = bulletPoint
+      });
+    }
+    
+    foreach (var link in request.Dto.ImageLinks)
+    {
+      await _imageRepo.Add(new ProductImageLink()
+      {
+        ProductImageLinkId = Guid.NewGuid(),
+        ProductId = added.Id,
+        Link = link
       });
     }
     

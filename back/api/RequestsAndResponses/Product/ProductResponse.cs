@@ -4,8 +4,14 @@ namespace api.RequestsAndResponses.Product;
 
 public record ProductBulletPointResponse
 {
-  public Guid BulletPointId { get; set; }
-  public string Text { get; set; }
+  public Guid Id { get; init; }
+  public string Text { get; init; }
+}
+
+public record ProductImageResponse
+{
+  public Guid Id { get; init; }
+  public string Link { get; init; }
 }
 
 public record BaseProductResponse
@@ -23,6 +29,7 @@ public record BaseProductResponse
   public int ReviewCount { get; set; }
   public int QuestionCount { get; set; }
   public IEnumerable<ProductBulletPointResponse> BulletPoints { get; set; }
+  public IEnumerable<ProductImageResponse> Images { get; set; }
 }
 
 public record ProductPageProductResponse : BaseProductResponse
