@@ -2,7 +2,6 @@ import { Button } from "@chakra-ui/react";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/router";
 import { FC, useContext } from "react";
-import { useGetMe } from "../../hooks/useGetMe";
 import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 import { styled } from "../../stitches.config";
 import { UserContext } from "../../UserProvider/provider";
@@ -39,7 +38,6 @@ export const ManagementPageLayout: FC = ({ children }) => {
   const router = useRouter();
 
   const isLoggedIn = useIsLoggedIn();
-  useGetMe();
 
   const { state } = useContext(UserContext);
 

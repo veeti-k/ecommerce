@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { FC } from "react";
+import { useGetMe } from "../../hooks/useGetMe";
 import { styled } from "../../stitches.config";
 import { Menubar } from "../Menubar/Menubar";
 
@@ -17,6 +18,8 @@ type Props = {
 };
 
 export const Layout: FC<Props> = ({ children, title }) => {
+  useGetMe();
+
   return (
     <>
       <Head>

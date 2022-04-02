@@ -2,7 +2,6 @@ import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FC, useContext } from "react";
 import { LogOut } from "react-feather";
-import { useGetMe } from "../../hooks/useGetMe";
 import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 import { UserContext } from "../../UserProvider/provider";
 import { logout } from "../../utils/logout";
@@ -18,7 +17,6 @@ export const SettingsPageLayout: FC = ({ children }) => {
   const router = useRouter();
 
   const isLoggedIn = useIsLoggedIn();
-  useGetMe();
 
   const { dispatch } = useContext(UserContext);
 
