@@ -41,21 +41,21 @@ public class ValidSessionAndUserHandler : AuthorizationHandler<ValidSessionAndUs
 
     var goodUserId = int.TryParse(userIdClaim.Value, out var userId);
     if (!goodUserId)
-      throw new ForbiddenException("Provided token contained invalid userId");
+      throw new UnauthorizedException("Provided token contained invalid userId");
 
     var goodSessionId = Guid.TryParse(sessionIdClaim.Value, out var tokenVersion);
     if (!goodSessionId)
-      throw new ForbiddenException("Provided token contained invalid sessionId");
+      throw new UnauthorizedException("Provided token contained invalid sessionId");
 
     var goodFlags = Flags.TryParse(flagsClaim.Value, out Flags flags);
     if (!goodFlags)
-      throw new ForbiddenException("Provided token contained invalid flags");
+      throw new UnauthorizedException("Provided token contained invalid flags");
 
     var user = await _userRepo.GetOneWithSessions(userId);
     if (user is null) return;
 
     if (user.Flags != flags)
-      throw new ForbiddenException("Provided token's data did not match with database");
+      throw new UnauthorizedException("Provided token's data did not match with database");
 
     var currentSession = user.Sessions.FirstOrDefault(session => session.Id == tokenVersion);
     if (currentSession is null)
