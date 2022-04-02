@@ -31,6 +31,8 @@ const AddProduct: NextPage = () => {
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const notifId = toast.loading("Saving your edits");
+
     const res = await request({
       method: "POST",
       path: apiRoutes.productsRoot,
@@ -44,6 +46,8 @@ const AddProduct: NextPage = () => {
         isDiscounted,
       },
     });
+
+    toast.dismiss(notifId);
 
     if (res) toast.success("Product added");
   };
