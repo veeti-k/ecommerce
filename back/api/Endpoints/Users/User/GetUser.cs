@@ -15,9 +15,9 @@ public class GetUser : EndpointBaseAsync
   .WithActionResult<UserResponse>
 {
   private readonly IMapper _mapper;
-  private readonly IGenericRepo<Models.User.User> _userRepo;
+  private readonly IUserRepo _userRepo;
 
-  public GetUser(IGenericRepo<Models.User.User> userRepo, IMapper mapper)
+  public GetUser(IUserRepo userRepo, IMapper mapper)
   {
     _userRepo = userRepo;
     _mapper = mapper;
@@ -29,7 +29,7 @@ public class GetUser : EndpointBaseAsync
     [FromRoute] GetUserRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var user = await _userRepo.GetById(request.UserId);
+    var user = await _userRepo.GetOneWithSessionsAndAddresses(request.UserId);
     if (user is null) throw new UserNotFoundException(request.UserId);
 
     return Ok(_mapper.Map<UserResponse>(user));

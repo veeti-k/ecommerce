@@ -31,6 +31,9 @@ builder.Services.AddScoped<IContextService, ContextService>();
 builder.Services.AddScoped<IGenericRepo<User>, GenericRepo<User>>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 
+builder.Services.AddScoped<IGenericRepo<Address>, GenericRepo<Address>>();
+builder.Services.AddScoped<IAddressRepo, AddressRepo>();
+
 builder.Services.AddScoped<IGenericRepo<Session>, GenericRepo<Session>>();
 builder.Services.AddScoped<ISessionRepo, SessionRepo>();
 

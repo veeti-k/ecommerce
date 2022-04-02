@@ -22,6 +22,15 @@ public class UserRepo : GenericRepo<User>, IUserRepo
       .FirstOrDefaultAsync();
   }
 
+  public async Task<User?> GetOneWithSessionsAndAddresses(int userId)
+  {
+    return await _context.Users
+      .Include(user => user.Sessions)
+      .Include(user => user.Addresses)
+      .Where(user => user.Id == userId)
+      .FirstOrDefaultAsync();
+  }
+
   public async Task<User?> GetByEmail(string email)
   {
     return await _context.Users

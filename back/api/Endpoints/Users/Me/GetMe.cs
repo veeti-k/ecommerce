@@ -31,7 +31,7 @@ public class GetMe : EndpointBaseAsync
     var userId = _contextService.GetCurrentUserId();
     var sessionId = _contextService.GetCurrentSessionId();
 
-    var user = await _userRepo.GetOneWithSessions(userId);
+    var user = await _userRepo.GetOneWithSessionsAndAddresses(userId);
     var userReponse = _mapper.Map<UserResponse>(user);
 
     foreach (var session in userReponse.Sessions)
