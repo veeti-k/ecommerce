@@ -26,7 +26,8 @@ public class ProductIntegrationTest : NeedsAuthIntegrationTest
     DiscountAmount = 0,
     DiscountedPrice = 123,
     DiscountPercent = 0,
-    IsDiscounted = false
+    IsDiscounted = false,
+    BulletPoints = new []{Guid.NewGuid().ToString(), Guid.NewGuid().ToString()}
   };
   public async Task<HttpResponseMessage?> AddProduct_TEST_REQUEST()
   {

@@ -32,18 +32,18 @@ public class DataContext : DbContext, IDataContext
       .WithOne()
       .OnDelete(DeleteBehavior.Cascade);
 
-    // one-to-many product - specifications
-    aBuilder.Entity<Product>()
-      .HasMany(product => product.BulletPoints)
-      .WithOne()
-      .HasForeignKey(specification => specification.ProductId)
-      .OnDelete(DeleteBehavior.Cascade);
-
     // one-to-many product - questions
     aBuilder.Entity<Product>()
       .HasMany(product => product.Questions)
       .WithOne()
       .HasForeignKey(question => question.ProductId)
+      .OnDelete(DeleteBehavior.Cascade);
+
+    // one-to-many product - bullet points
+    aBuilder.Entity<Product>()
+      .HasMany(product => product.BulletPoints)
+      .WithOne()
+      .HasForeignKey(bulletPoint => bulletPoint.ProductId)
       .OnDelete(DeleteBehavior.Cascade);
 
     // one-to-many question - answers
@@ -70,12 +70,12 @@ public class DataContext : DbContext, IDataContext
     // many-to-many product - categories
     aBuilder.Entity<ProductsCategories>()
       .HasKey(linked => new {linked.CategoryId, linked.ProductId});
-    
+
     aBuilder.Entity<ProductsCategories>()
       .HasOne<Product>()
       .WithMany(product => product.ProductsCategories)
       .OnDelete(DeleteBehavior.Cascade);
-    
+
     aBuilder.Entity<ProductsCategories>()
       .HasOne(linked => linked.Category)
       .WithMany()
@@ -87,7 +87,6 @@ public class DataContext : DbContext, IDataContext
   public DbSet<Session> Sessions { get; set; }
 
   public DbSet<Product> Products { get; set; }
-  public DbSet<ProductBulletPoint> ProductBulletPoints { get; set; }
   public DbSet<ProductQuestion> ProductQuestions { get; set; }
   public DbSet<ProductQuestionAnswer> ProductQuestionAnswers { get; set; }
   public DbSet<ProductReview> ProductReviews { get; set; }

@@ -11,7 +11,7 @@ import { pushUser } from "../../utils/router";
 import { routes } from "../../utils/routes";
 import { FlexDiv } from "../Containers";
 import { ProductsIcon, OrdersIcon, UserIcon } from "../Icons";
-import { BigHeading, Paragraph } from "../Text";
+import { BiggerParagraph, BigHeading } from "../Text";
 import { Layout } from "./Layout";
 import { PageTitleContainer, PageSelectorButtons, PageSelectorButton } from "./Styles";
 
@@ -62,26 +62,30 @@ export const ManagementPageLayout: FC = ({ children }) => {
                   style={{ marginBottom: "0.5rem" }}
                 >
                   <FlexDiv align justify gap05>
-                    <PlusIcon /> <Paragraph style={{ color: "black" }}>Add a product</Paragraph>
+                    <PlusIcon />{" "}
+                    <BiggerParagraph style={{ color: "black" }}>Add a product</BiggerParagraph>
                   </FlexDiv>
                 </Button>
                 <PageSelectorButton
                   route={routes.managementCategories}
                   active={window.location.pathname.includes("categories")}
                 >
-                  <ProductsIcon /> <Paragraph style={{ color: "black" }}>Categories</Paragraph>
+                  <ProductsIcon />{" "}
+                  <BiggerParagraph style={{ color: "black" }}>Categories</BiggerParagraph>
                 </PageSelectorButton>
                 <PageSelectorButton
                   route={routes.managementOrders}
                   active={window.location.pathname.includes("orders")}
                 >
-                  <OrdersIcon /> <Paragraph style={{ color: "black" }}>Orders</Paragraph>
+                  <OrdersIcon />{" "}
+                  <BiggerParagraph style={{ color: "black" }}>Orders</BiggerParagraph>
                 </PageSelectorButton>
                 <PageSelectorButton
                   route={routes.managementUsers}
                   active={window.location.pathname.includes("users")}
                 >
-                  <UserIcon size={20} /> <Paragraph style={{ color: "black" }}>Users</Paragraph>
+                  <UserIcon size={20} />{" "}
+                  <BiggerParagraph style={{ color: "black" }}>Users</BiggerParagraph>
                 </PageSelectorButton>
               </PageSelectorButtons>
 

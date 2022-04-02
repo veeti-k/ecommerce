@@ -22,7 +22,7 @@ const errorHandler = (options: ErrorHandlerOptions) => {
       toast.error(error.response.data.message);
     }
 
-    if (shouldRedirect401) {
+    if (shouldRedirect401 && status === 401) {
       logger.log("Redirecting to /login...");
       window.location.href = "/login";
     }

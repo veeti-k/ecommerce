@@ -27,7 +27,7 @@ export const Paragraph = styled("p", {
 });
 
 export const BiggerParagraph = styled("p", {
-  fontSize: "1rem",
+  fontSize: "0.95rem",
   color: "Black",
 
   variants: {

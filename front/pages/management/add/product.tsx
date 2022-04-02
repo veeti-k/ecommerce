@@ -1,5 +1,13 @@
-import { Button, Input, InputGroup, InputRightAddon, Switch, Textarea } from "@chakra-ui/react";
-import { AnimatePresence, motion } from "framer-motion";
+import {
+  Button,
+  Input,
+  InputGroup,
+  InputRightAddon,
+  InputRightElement,
+  Switch,
+  Textarea,
+} from "@chakra-ui/react";
+import { AnimatePresence, motion, usePresence } from "framer-motion";
 import { NextPage } from "next";
 import { ChangeEvent, FC, FormEvent, useState } from "react";
 import toast from "react-hot-toast";
@@ -18,14 +26,16 @@ const AddProduct: NextPage = () => {
   const [discountPercent, setDiscountPercent] = useState<string>("0");
   const [discountAmount, setDiscountAmount] = useState<string>("0");
 
+  const [bulletPoints, setBulletPoints] = useState<string[]>([""]);
+
   const [isDiscounted, setIsDiscounted] = useState<boolean>(false);
 
   const onPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPrice(e.target.value);
 
-    setDiscountedPrice("");
-    setDiscountPercent("");
-    setDiscountAmount("");
+    setDiscountedPrice("0");
+    setDiscountPercent("0");
+    setDiscountAmount("0");
   };
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -44,6 +54,7 @@ const AddProduct: NextPage = () => {
         discountPercent,
         discountAmount,
         isDiscounted,
+        bulletPoints,
       },
     });
 
@@ -84,7 +95,7 @@ const AddProduct: NextPage = () => {
             </InputLabelContainer>
           </FlexDiv>
 
-          <InputLabelContainer id="description" label="Description" style={{ paddingTop: "1rem" }}>
+          <InputLabelContainer id="description" label="Description" style={{ padding: "1rem 0" }}>
             <Textarea
               rows={10}
               id="description"
@@ -95,14 +106,61 @@ const AddProduct: NextPage = () => {
             />
           </InputLabelContainer>
 
+          <AnimatePresence>
+            {bulletPoints.map((bulletPoint, index) => (
+              <BulletPointListItem key={index}>
+                <InputLabelContainer
+                  key={index}
+                  id={`bulletpoint-${index + 1}`}
+                  label={`Bullet point ${index + 1}`}
+                >
+                  <InputGroup>
+                    <Input
+                      id={`bulletpoint-${index + 1}`}
+                      type="text"
+                      onChange={(e) =>
+                        setBulletPoints(
+                          bulletPoints.map((bp, i) => (i === index ? e.target.value : bp))
+                        )
+                      }
+                      value={bulletPoint}
+                      autoComplete="off"
+                    />
+                    <InputRightElement width="6rem">
+                      <Button
+                        size="sm"
+                        height="1.75rem"
+                        colorScheme="red"
+                        onClick={() => {
+                          setBulletPoints(bulletPoints.filter((_, i) => i !== index));
+                        }}
+                      >
+                        Remove
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                </InputLabelContainer>
+              </BulletPointListItem>
+            ))}
+          </AnimatePresence>
+
+          <Button
+            onClick={() => setBulletPoints([...bulletPoints, ""])}
+            colorScheme="blue"
+            variant="outline"
+            size="sm"
+          >
+            {bulletPoints.length ? "Add another bullet point" : "Add a bullet point"}
+          </Button>
+
           <InputLabelContainer
-            id="on-sale"
+            id="is-on-sale"
             label="Is the product on sale?"
             row
             style={{ paddingTop: "1rem" }}
           >
             <Switch
-              id="on-sale"
+              id="is-on-sale"
               onChange={(e) => setIsDiscounted(!isDiscounted)}
               isChecked={isDiscounted}
             />
@@ -128,6 +186,25 @@ const AddProduct: NextPage = () => {
         </FlexDiv>
       </form>
     </ManagementPageLayout>
+  );
+};
+
+const BulletPointListItem: FC = ({ children }) => {
+  const [isPresent, safeToRemove] = usePresence();
+
+  const props = {
+    layout: true,
+    initial: "initial",
+    animate: isPresent ? "animate" : "initial",
+    variants: variants,
+    onAnimationComplete: () => !isPresent && safeToRemove(),
+  };
+
+  return (
+    <motion.div {...props}>
+      {children}
+      <div style={{ paddingBottom: "1rem" }}></div>
+    </motion.div>
   );
 };
 

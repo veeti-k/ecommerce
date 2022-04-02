@@ -26,7 +26,7 @@ public class GetProduct : EndpointBaseAsync
     [FromRoute] GetOneRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var product = await _productRepo.GetOneNotDeletedWithBulletPointsAndCategories(request.ProductId);
+    var product = await _productRepo.GetOneNotDeletedWithCategories(request.ProductId);
     if (product is null) throw new ProductNotFoundException(request.ProductId);
 
     return Ok(_mapper.Map<ProductPageProductResponse>(product));

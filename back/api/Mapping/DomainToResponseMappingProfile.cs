@@ -5,7 +5,6 @@ using api.Models.User;
 using api.RequestsAndResponses.Addresses;
 using api.RequestsAndResponses.Category;
 using api.RequestsAndResponses.Product;
-using api.RequestsAndResponses.ProductBulletPoints;
 using api.RequestsAndResponses.ProductQuestion;
 using api.RequestsAndResponses.ProductQuestionAnswer;
 using api.RequestsAndResponses.ProductReview;
@@ -25,23 +24,13 @@ public class DomainToResponseMappingProfile : Profile
     CreateMap<Address, AddressResponse>();
 
     CreateMap<Product, BaseProductResponse>();
-    CreateMap<Product, ProductPageProductResponse>()
-      .ForMember(dest => dest.ImportantBulletpoints,
-        options => options
-          .MapFrom(src => src
-            .BulletPoints.Where(point => point.IsImportant)));
-    CreateMap<Product, ShowCaseProductResponse>()
-      .ForMember(dest => dest.ImportantBulletpoints,
-        options => options
-          .MapFrom(src => src
-            .BulletPoints.Where(point => point.IsImportant)));
-
+    CreateMap<Product, ProductPageProductResponse>();
     CreateMap<ProductReview, ProductReviewResponse>();
     CreateMap<ProductReviewComment, ProductReviewCommentResponse>();
     CreateMap<ProductQuestion, ProductQuestionResponse>();
     CreateMap<ProductQuestionAnswer, ProductQuestionAnswerResponse>();
-    CreateMap<ProductBulletPoint, ProductBulletPointResponse>();
 
     CreateMap<ProductCategory, ProductCategoryResponse>();
+    CreateMap<ProductBulletPoint, ProductBulletPointResponse>();
   }
 }

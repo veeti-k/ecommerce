@@ -6,6 +6,6 @@ public interface IProductRepo : IGenericRepo<Product>
 {
   public Task<Product?> GetOne(int productId);
   public Task<Product?> GetOneNotDeleted(int productId);
-  public Task<Product?> GetOneNotDeletedWithBulletPointsAndCategories(int productId);
-  public Task<IEnumerable<Product?>> GetManyNotDeletedWithBulletPoints();
+  public Task<Product?> GetOneNotDeletedWithCategories(int productId);
+  public Task<IEnumerable<Product?>> GetManyNotDeleted();
 }

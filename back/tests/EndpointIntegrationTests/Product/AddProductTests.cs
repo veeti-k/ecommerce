@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -24,7 +25,12 @@ public class AddProductTest : ProductIntegrationTest
 
     var jsonResponse = await response.Content.ReadFromJsonAsync<BaseProductResponse>();
 
-    jsonResponse.Should().BeEquivalentTo(TestProductDto);
+    jsonResponse.Should().BeEquivalentTo(TestProductDto, options => options.Excluding(dto => dto.BulletPoints));
+
+    foreach (var item in jsonResponse.BulletPoints.Select((value, i) => (value, i)))
+    {
+      item.value.Text.Should().Be(TestProductDto.BulletPoints[item.i]);
+    }
   }
 
   [Fact]

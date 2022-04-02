@@ -17,6 +17,7 @@ public class ProductRepo : GenericRepo<Product>, IProductRepo
   public async Task<Product?> GetOne(int productId)
   {
     return await _context.Products
+      .Include(product => product.BulletPoints)
       .Where(p => p.Id == productId)
       .FirstOrDefaultAsync();
   }
@@ -24,12 +25,13 @@ public class ProductRepo : GenericRepo<Product>, IProductRepo
   public async Task<Product?> GetOneNotDeleted(int productId)
   {
     return await _context.Products
+      .Include(product => product.BulletPoints)
       .Where(p => p.Id == productId
                   && !p.IsDeleted)
       .FirstOrDefaultAsync();
   }
 
-  public async Task<Product?> GetOneNotDeletedWithBulletPointsAndCategories(int productId)
+  public async Task<Product?> GetOneNotDeletedWithCategories(int productId)
   {
     return await _context.Products
       .Include(product => product.BulletPoints)
@@ -38,7 +40,7 @@ public class ProductRepo : GenericRepo<Product>, IProductRepo
       .FirstOrDefaultAsync();
   }
 
-  public async Task<IEnumerable<Product?>> GetManyNotDeletedWithBulletPoints()
+  public async Task<IEnumerable<Product?>> GetManyNotDeleted()
   {
     return await _context.Products
       .Include(product => product.BulletPoints)

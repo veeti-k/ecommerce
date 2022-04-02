@@ -11,6 +11,7 @@ public record AddProductDto
   public float DiscountPercent { get; init; }
   public double DiscountAmount { get; init; }
   public bool IsDiscounted { get; init; }
+  public string[] BulletPoints { get; init; }
 }
 
 public class AddProductRequest
