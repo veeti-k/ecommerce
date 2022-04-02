@@ -41,7 +41,7 @@ const AddProduct: NextPage = () => {
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const notifId = toast.loading("Saving your edits");
+    const notifId = toast.loading("Adding the product");
 
     const res = await request({
       method: "POST",
