@@ -109,7 +109,7 @@ const ProductPage: NextPage<Result> = ({ product, categories }) => {
 
         <MainDiv>
           <Image key={Math.random()} src={product.images[0].link} />
-          <DescDiv column fullWidth>
+          <DescDiv>
             <UnorderedList>
               {product.bulletPoints.map((bulletPoint) => (
                 <ListItem key={bulletPoint.id}>
