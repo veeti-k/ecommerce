@@ -15,10 +15,6 @@ export const useIsLoggedIn = (ShouldRedirect401?: boolean) => {
     logger.logHook("useIsLoggedIn");
 
     (async () => {
-      logger.logHook(
-        "useIsLoggedIn",
-        "Didn't get token from localstorage, trying to get tokens from token endpoint"
-      );
       const res = await tokenRequest({
         method: "GET",
         path: apiRoutes.tokens,
