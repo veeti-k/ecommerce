@@ -20,7 +20,7 @@ import {
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
-import { NextPage } from "next";
+import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { FC, FormEvent, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { Card } from "../../components/Card";
@@ -30,7 +30,8 @@ import { ManagementPageLayout } from "../../components/layouts/ManagementPageLay
 import { TitleContainer } from "../../components/pages/Settings";
 import { Heading, Paragraph } from "../../components/Text";
 import { styled } from "../../stitches.config";
-import { Category } from "../../types";
+import { Category, ResolvedCategory } from "../../types";
+import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
 import { request } from "../../utils/requests";
 import { apiRoutes } from "../../utils/routes";
 
@@ -39,7 +40,21 @@ const CategoryCard = styled(Card, {
   boxShadow: "rgba(99, 99, 99, 0.1) 0px 2px 8px 0px",
 });
 
-const Categories: NextPage = () => {
+type Result = {
+  categories: ResolvedCategory[];
+};
+
+export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<Result>> => {
+  const categories = await getCategories_STATIC_PROPS();
+
+  return {
+    props: {
+      categories,
+    },
+  };
+};
+
+const Categories: NextPage<Result> = (props) => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   const getCategories = async () => {
@@ -60,7 +75,7 @@ const Categories: NextPage = () => {
   }, []);
 
   return (
-    <ManagementPageLayout>
+    <ManagementPageLayout categories={props.categories}>
       <TitleContainer>
         <Heading>Categories</Heading>
 
