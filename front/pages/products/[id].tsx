@@ -1,11 +1,10 @@
 import * as AspectRatio from "@radix-ui/react-aspect-ratio";
-import { NextPage } from "next";
+import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { Card } from "../../components/Card";
 import { Layout } from "../../components/layouts/Layout";
 import { BigBigHeading, BigHeading, Paragraph } from "../../components/Text";
 import { styled } from "../../stitches.config";
-import { useState } from "react";
-import { ProductPageProduct } from "../../types";
+import { ProductPageProduct, ResolvedCategory } from "../../types";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -16,6 +15,12 @@ import {
 } from "@chakra-ui/react";
 import { FlexDiv } from "../../components/Containers";
 import { routes } from "../../utils/routes";
+import {
+  getAllProducts_STATIC_PROPS,
+  getCategories_STATIC_PROPS,
+  getProduct_STATIC_PROPS,
+} from "../../utils/getStaticProps";
+import { ShoppingCartIcon } from "../../components/Icons";
 
 const ProductPageCard = styled(Card, {
   display: "flex",
@@ -31,113 +36,137 @@ const PriceCard = styled(Card, {
   flexDirection: "column",
   gap: "1rem",
   boxShadow: "$shadowNearest",
-  padding: "1rem",
+  padding: "0.7rem",
   width: "100%",
+  maxWidth: "300px",
+
+  "@tabletAndUp": {
+    maxWidth: "100%",
+  },
 });
 
-const MainGrid = styled("div", {
+const Image = styled("img", {
+  height: "100%",
+  paddingRight: "1rem",
+
+  "@tabletAndUp": {
+    maxWidth: "700px",
+  },
+});
+
+const MainDiv = styled("div", {
   display: "flex",
+  flexDirection: "column",
   gap: "1rem",
   height: "100%",
+  paddingTop: "1rem",
+  alignItems: "center",
+
+  "@tabletAndUp": {
+    flexDirection: "row",
+  },
 });
 
-const ProductPage: NextPage = () => {
-  const category1 = {
-    id: 1,
-    name: "Test category 1, root",
-    parentId: null,
-  };
+const DescDiv = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  gap: "1rem",
+  paddingTop: "1rem",
+  height: "100%",
+  maxWidth: "400px",
+  width: "100%",
+  alignItems: "center",
 
-  const category2 = {
-    id: 2,
-    name: "Test category 2, child of category 1",
-    parentId: 1,
-  };
+  "@mobileAndUp": {
+    alignItems: "normal",
+    flexDirection: "row",
+    maxWidth: "600px",
+  },
 
-  const category3 = {
-    id: 3,
-    name: "Test category 3, child of category 2",
-    parentId: 2,
-  };
+  "@tabletAndUp": {
+    flexDirection: "column",
+  },
+});
 
-  const product: ProductPageProduct = {
-    path: [category1, category2, category3],
-    bulletPoints: [],
-    importantBulletpoints: [
-      {
-        id: 1,
-        text: "This is a bulletpoint",
-      },
-      {
-        id: 1,
-        text: "This is a bulletpoint",
-      },
-      {
-        id: 1,
-        text: "This is a bulletpoint",
-      },
-    ],
-    id: 1,
-    name: "test-product",
-    description: "very nice test product",
-    price: 109,
-    discountedPrice: 0,
-    discountPercent: 0,
-    discountAmount: 0,
-    isDiscounted: false,
-    isDeleted: false,
-    averageStars: 0,
-    reviewCount: 0,
-    questionCount: 0,
-  };
-
+const ProductPage: NextPage<Result> = ({ product, categories }) => {
   return (
-    <Layout>
+    <Layout categories={categories}>
       <Breadcrumb>
-        {product.path.map((category) => (
-          <BreadcrumbItem>
-            <BreadcrumbLink href={routes.category(category.id)}>{category.name}</BreadcrumbLink>
-          </BreadcrumbItem>
-        ))}
+        {product.path?.length &&
+          product.path.map((category) => (
+            <BreadcrumbItem key={category.id}>
+              <BreadcrumbLink href={routes.category(category.id)}>{category.name}</BreadcrumbLink>
+            </BreadcrumbItem>
+          ))}
       </Breadcrumb>
       <ProductPageCard>
-        <MainGrid>
-          <AspectRatio.Root ratio={16 / 9}>
-            <img
-              style={{ width: "100%", maxWidth: "550px", height: "100%", objectFit: "contain" }}
-              key={Math.random()}
-              src={
-                "https://cdn.verk.net/cdn-cgi/image/w=1632,h=1020,fit=scale-down,q=75,f=auto,sharpen=0.5/images/53/2_741736-2448x3544.jpeg"
-              }
-            />
-          </AspectRatio.Root>
+        <FlexDiv column fullWidth align>
+          <FlexDiv align spaceBetween fullWidth>
+            <BigHeading>{product.name}</BigHeading>
+            <Paragraph>{product.id}</Paragraph>
+          </FlexDiv>
+        </FlexDiv>
 
-          <FlexDiv column fullWidth>
+        <MainDiv>
+          <Image key={Math.random()} src={product.images[0].link} />
+          <DescDiv column fullWidth>
+            <UnorderedList>
+              {product.bulletPoints.map((bulletPoint) => (
+                <ListItem key={bulletPoint.id}>
+                  <Paragraph>{bulletPoint.text}</Paragraph>
+                </ListItem>
+              ))}
+            </UnorderedList>
+
             <PriceCard>
-              <FlexDiv spaceBetween align>
-                <BigHeading>{product.name}</BigHeading>
-                <Paragraph bold>ID: {product.id}</Paragraph>
-              </FlexDiv>
-
-              {product.importantBulletpoints.length ? (
-                <UnorderedList>
-                  {product.importantBulletpoints.map((bulletpoint) => (
-                    <ListItem>{bulletpoint.text}</ListItem>
-                  ))}
-                </UnorderedList>
-              ) : null}
-
               <BigBigHeading>{product.price} €</BigBigHeading>
-
-              <Button colorScheme="blue" size="lg">
-                Add to cart
+              <Button colorScheme={"blue"}>
+                <FlexDiv align gap05>
+                  <ShoppingCartIcon /> Add to bag
+                </FlexDiv>
               </Button>
             </PriceCard>
-          </FlexDiv>
-        </MainGrid>
+          </DescDiv>
+        </MainDiv>
       </ProductPageCard>
     </Layout>
   );
+};
+
+type Result = {
+  product: ProductPageProduct;
+  categories: ResolvedCategory[];
+};
+
+export const getStaticProps: GetStaticProps = async (
+  context
+): Promise<GetStaticPropsResult<Result>> => {
+  const id = context.params!.id! as string;
+
+  const product = await getProduct_STATIC_PROPS(id);
+  const categories = await getCategories_STATIC_PROPS();
+
+  return {
+    props: {
+      product,
+      categories,
+    },
+  };
+};
+
+export const getStaticPaths = async () => {
+  const products = await getAllProducts_STATIC_PROPS();
+
+  return {
+    paths: products.map((product) => {
+      return {
+        params: {
+          id: product.id.toString(),
+        },
+      };
+    }),
+    fallback: false,
+  };
 };
 
 export default ProductPage;
