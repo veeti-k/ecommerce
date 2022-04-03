@@ -14,14 +14,11 @@ public class AddCategory : EndpointBaseAsync
   .WithActionResult<ProductCategoryResponse>
 
 {
-  private readonly IMapper _mapper;
   private readonly IGenericRepo<ProductCategory> _repo;
 
   public AddCategory(
-    IMapper mapper,
     IGenericRepo<ProductCategory> repo)
   {
-    _mapper = mapper;
     _repo = repo;
   }
 
@@ -34,7 +31,7 @@ public class AddCategory : EndpointBaseAsync
     ProductCategory newCategory = new()
     {
       Name = request.Dto.Name,
-      ParentId = request.Dto.ParentId | null
+      ParentId = request.Dto.ParentId
     };
 
     var added = await _repo.Add(newCategory);

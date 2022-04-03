@@ -4,6 +4,13 @@ export type Category = {
   parentId: number | null;
 };
 
+export type ResolvedCategory = {
+  id: number;
+  name: string;
+  parentId: number | null;
+  children: ResolvedCategory[];
+};
+
 export type BulletPoint = {
   id: number;
   text: string;

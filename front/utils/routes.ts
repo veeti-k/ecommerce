@@ -44,4 +44,10 @@ export const apiRoutes = {
   products: {
     product: (productId: string) => `/products/${productId}`,
   },
+
+  categoriesRoot: "/categories",
+
+  categories: {
+    category: (categoryId: string) => `/categories/${categoryId}`,
+  },
 };

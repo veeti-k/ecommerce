@@ -1,8 +1,17 @@
+using api.Models.Product;
+
 namespace api.RequestsAndResponses.Category;
+
+public record ResolvedCategory
+{
+  public int Id { get; set; }
+  public string Name { get; set; }
+  public int? ParentId { get; set; }
+  public ICollection<ResolvedCategory> Children { get; set; }
+}
 
 public record ProductCategoryResponse
 {
-  public int Id { get; init; }
-  public string Name { get; init; }
-  public int ParentId { get; init; }
+  public ICollection<ResolvedCategory> ResolvedCategories { get; set; }
+  public IEnumerable<ProductCategory> AllCategories { get; set; }
 }

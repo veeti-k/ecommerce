@@ -30,7 +30,7 @@ public class DomainToResponseMappingProfile : Profile
     CreateMap<ProductQuestion, ProductQuestionResponse>();
     CreateMap<ProductQuestionAnswer, ProductQuestionAnswerResponse>();
 
-    CreateMap<ProductCategory, ProductCategoryResponse>();
+    CreateMap<ProductCategory, ResolvedCategory>();
     CreateMap<ProductBulletPoint, ProductBulletPointResponse>()
       .ForMember(dest => dest.Id,
         options => options
