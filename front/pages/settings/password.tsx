@@ -1,5 +1,5 @@
 import { Button } from "@chakra-ui/react";
-import { NextPage } from "next";
+import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { FormEvent, useState } from "react";
 import { FlexDiv } from "../../components/Containers";
 import { PasswordInputWithLabel } from "../../components/Inputs";
@@ -8,8 +8,24 @@ import { Grid, TitleContainer } from "../../components/pages/Settings";
 import { Separator } from "../../components/Separator";
 import { Heading, Paragraph } from "../../components/Text";
 import { useGetMe } from "../../hooks/useGetMe";
+import { ResolvedCategory } from "../../types";
+import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
 
-const Password: NextPage = () => {
+type Result = {
+  categories: ResolvedCategory[];
+};
+
+export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<Result>> => {
+  const categories = await getCategories_STATIC_PROPS();
+
+  return {
+    props: {
+      categories,
+    },
+  };
+};
+
+const Password: NextPage<Result> = ({ categories }) => {
   useGetMe();
 
   const [currPw, setCurrPw] = useState<string>("");
@@ -23,7 +39,7 @@ const Password: NextPage = () => {
   };
 
   return (
-    <SettingsPageLayout>
+    <SettingsPageLayout categories={categories}>
       <TitleContainer>
         <div>
           <Heading>Password</Heading>

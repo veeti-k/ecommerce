@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { FC, useContext } from "react";
 import { LogOut } from "react-feather";
 import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
+import { ResolvedCategory } from "../../types";
 import { UserContext } from "../../UserProvider/provider";
 import { logout } from "../../utils/logout";
 import { routes } from "../../utils/routes";
@@ -13,7 +14,11 @@ import { BiggerParagraph, BigHeading, Paragraph } from "../Text";
 import { Layout } from "./Layout";
 import { PageTitleContainer, PageSelectorButtons, PageSelectorButton, MainContent } from "./Styles";
 
-export const SettingsPageLayout: FC = ({ children }) => {
+type SettingsPageLayoutProps = {
+  categories: ResolvedCategory[];
+};
+
+export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({ children, categories }) => {
   const router = useRouter();
 
   const isLoggedIn = useIsLoggedIn();
@@ -23,7 +28,7 @@ export const SettingsPageLayout: FC = ({ children }) => {
   if (typeof window == "undefined") return null;
 
   return (
-    <Layout>
+    <Layout categories={categories}>
       {isLoggedIn ? (
         <>
           <PageTitleContainer>

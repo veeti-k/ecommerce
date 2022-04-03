@@ -8,16 +8,32 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { AnimatePresence, motion, usePresence } from "framer-motion";
-import { NextPage } from "next";
+import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { ChangeEvent, FC, FormEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { FlexDiv, InputLabelContainer } from "../../../components/Containers";
 import { ManagementPageLayout } from "../../../components/layouts/ManagementPageLayout";
 import { Heading } from "../../../components/Text";
+import { ResolvedCategory } from "../../../types";
+import { getCategories_STATIC_PROPS } from "../../../utils/getStaticProps";
 import { request } from "../../../utils/requests";
 import { apiRoutes } from "../../../utils/routes";
 
-const AddProduct: NextPage = () => {
+type Result = {
+  categories: ResolvedCategory[];
+};
+
+export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<Result>> => {
+  const categories = await getCategories_STATIC_PROPS();
+
+  return {
+    props: {
+      categories,
+    },
+  };
+};
+
+const AddProduct: NextPage<Result> = ({ categories }) => {
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -66,7 +82,7 @@ const AddProduct: NextPage = () => {
   };
 
   return (
-    <ManagementPageLayout>
+    <ManagementPageLayout categories={categories}>
       <Heading style={{ paddingBottom: "1rem" }}>Add a product</Heading>
 
       <form onSubmit={onSubmit}>

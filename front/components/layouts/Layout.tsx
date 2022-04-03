@@ -2,6 +2,7 @@ import Head from "next/head";
 import { FC } from "react";
 import { useGetMe } from "../../hooks/useGetMe";
 import { styled } from "../../stitches.config";
+import { ResolvedCategory } from "../../types";
 import { Menubar } from "../Menubar/Menubar";
 
 const Main = styled("main", {
@@ -13,11 +14,12 @@ const Main = styled("main", {
   zIndex: 1,
 });
 
-type Props = {
+type LayoutProps = {
   title?: string;
+  categories: ResolvedCategory[];
 };
 
-export const Layout: FC<Props> = ({ children, title }) => {
+export const Layout: FC<LayoutProps> = ({ children, title, categories }) => {
   useGetMe();
 
   return (
@@ -25,7 +27,7 @@ export const Layout: FC<Props> = ({ children, title }) => {
       <Head>
         <title>{title ?? "DEMO"}</title>
       </Head>
-      <Menubar />
+      <Menubar categories={categories} />
       <Main>{children}</Main>
     </>
   );

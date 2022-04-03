@@ -1,5 +1,5 @@
 import { Button, Tooltip } from "@chakra-ui/react";
-import { NextPage } from "next";
+import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { useContext } from "react";
 import { Card } from "../../components/Card";
 import { FlexDiv } from "../../components/Containers";
@@ -15,6 +15,8 @@ import { apiRoutes } from "../../utils/routes";
 import toast from "react-hot-toast";
 import { getMe } from "../../utils/logout";
 import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
+import { ResolvedCategory } from "../../types";
+import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
 
 const SessionCard = styled(Card, {
   display: "flex",
@@ -29,7 +31,20 @@ const SessionCardButtons = styled("div", {
   gap: "0.5rem",
 });
 
-const Sessions: NextPage = () => {
+type Result = {
+  categories: ResolvedCategory[];
+};
+
+export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<Result>> => {
+  const categories = await getCategories_STATIC_PROPS();
+
+  return {
+    props: {
+      categories,
+    },
+  };
+};
+const Sessions: NextPage<Result> = ({ categories }) => {
   useGetMe();
 
   const { state, dispatch } = useContext(UserContext);
@@ -50,7 +65,7 @@ const Sessions: NextPage = () => {
   };
 
   return (
-    <SettingsPageLayout>
+    <SettingsPageLayout categories={categories}>
       <TitleContainer>
         <div>
           <Heading>Sessions</Heading>

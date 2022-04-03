@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { FC, useContext } from "react";
 import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 import { styled } from "../../stitches.config";
+import { ResolvedCategory } from "../../types";
 import { UserContext } from "../../UserProvider/provider";
 import { isAdmin } from "../../utils/flagResolve";
 import { pushUser } from "../../utils/router";
@@ -34,7 +35,11 @@ const MainContent = styled("div", {
   flexDirection: "column",
 });
 
-export const ManagementPageLayout: FC = ({ children }) => {
+type ManagementPageLayoutProps = {
+  categories: ResolvedCategory[];
+};
+
+export const ManagementPageLayout: FC<ManagementPageLayoutProps> = ({ children, categories }) => {
   const router = useRouter();
 
   const isLoggedIn = useIsLoggedIn();
@@ -44,7 +49,7 @@ export const ManagementPageLayout: FC = ({ children }) => {
   if (typeof window == "undefined") return null;
 
   return (
-    <Layout>
+    <Layout categories={categories}>
       {isLoggedIn && isAdmin(state.flags) ? (
         <>
           <PageTitleContainer>

@@ -12,31 +12,32 @@ namespace api.Endpoints.Categories;
 
 public class UpdateCategory : EndpointBaseAsync
   .WithRequest<UpdateCategoryRequest>
-  .WithActionResult<ProductCategoryResponse>
+  .WithActionResult<ProductCategory>
 {
-  private readonly IMapper _mapper;
   private readonly IGenericRepo<ProductCategory> _categoryRepo;
 
-  public UpdateCategory(IMapper mapper, IGenericRepo<ProductCategory> categoryRepo)
+  public UpdateCategory( IGenericRepo<ProductCategory> categoryRepo)
   {
-    _mapper = mapper;
     _categoryRepo = categoryRepo;
   }
 
   [Authorize(Policy = Policies.Administrator)]
   [HttpPatch(Routes.Categories.Category)]
-  public override async Task<ActionResult<ProductCategoryResponse>> HandleAsync(
+  public override async Task<ActionResult<ProductCategory>> HandleAsync(
     [FromRoute] UpdateCategoryRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
     var existingCategory = await _categoryRepo.GetById(request.CategoryId);
     if (existingCategory is null) throw new ProductCategoryNotFoundException(request.CategoryId);
+    
+    if (existingCategory.Id == request.Dto.ParentId)
+      throw new BadRequestException("Parent category cannot be the same as the category itself");
 
     existingCategory.Name = request.Dto.Name ?? existingCategory.Name;
     existingCategory.ParentId = request.Dto.ParentId ?? existingCategory.ParentId;
 
     var updated = await _categoryRepo.Update(existingCategory);
 
-    return Ok(_mapper.Map<ProductCategoryResponse>(updated));
+    return Ok(updated);
   }
 }

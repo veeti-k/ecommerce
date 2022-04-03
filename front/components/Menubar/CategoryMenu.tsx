@@ -1,7 +1,7 @@
 import { Button, Drawer, DrawerCloseButton, DrawerContent, DrawerOverlay } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { MouseEvent, useState } from "react";
+import { FC, MouseEvent, useEffect, useState } from "react";
 import { Chevron, HamburgerIcon } from "../Icons";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import { FlexDiv } from "../Containers";
@@ -9,18 +9,11 @@ import { styled } from "../../stitches.config";
 import { AnimatePresence, motion } from "framer-motion";
 import { Heading } from "../Text";
 import { pushUser } from "../../utils/router";
-
-interface Category {
-  id: string;
-  name: string;
-  parent: string | null;
-  children: Category[];
-}
-
-interface Props {
-  category: Category;
-  indentation: number;
-}
+import { request } from "../../utils/requests";
+import { apiRoutes } from "../../utils/routes";
+import { ResolvedCategory } from "../../types";
+import { GetStaticProps, GetStaticPropsResult } from "next";
+import { apiBase } from "../../utils/consts";
 
 const CollapsibleTrigger = styled(Collapsible.Trigger, {
   transition: "$buttonHover",
@@ -78,7 +71,46 @@ const itemVariants = {
   animate: { opacity: 1 },
 };
 
-const Category = ({ category, indentation }: Props) => {
+type CategoryMenuProps = {
+  categories: ResolvedCategory[];
+};
+
+export const CategoryMenu: FC<CategoryMenuProps> = ({ categories }) => {
+  const [open, setOpen] = useState<boolean>(false);
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>
+        <HamburgerIcon />
+      </Button>
+      <Drawer isOpen={open} onClose={() => setOpen(false)} placement="left">
+        <DrawerOverlay />
+        <DrawerContent>
+          <FlexDiv gap0 column>
+            <FlexDiv
+              align
+              spaceBetween
+              style={{ padding: "1rem", borderBottom: "1px solid #ededed" }}
+            >
+              <Heading>Categories</Heading>
+              <DrawerCloseButton style={{ position: "relative", top: 0, right: 0 }} />
+            </FlexDiv>
+            {categories.map((category) => (
+              <Category key={Math.random()} category={category} indentation={1} />
+            ))}
+          </FlexDiv>
+        </DrawerContent>
+      </Drawer>
+    </>
+  );
+};
+
+interface CategoryProps {
+  category: ResolvedCategory;
+  indentation: number;
+}
+
+const Category = ({ category, indentation }: CategoryProps) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const router = useRouter();
@@ -90,11 +122,11 @@ const Category = ({ category, indentation }: Props) => {
     pushUser(router, `/category/${category.id}`, "categoryMenu");
   };
 
-  if (category.children.length) {
+  if (category?.children?.length) {
     return (
       <Collapsible.Root>
         <FlexDiv spaceBetween gap0>
-          <Link href={category.id} passHref>
+          <Link href={`/category/${category.id}`} passHref>
             <MenuItem
               style={{ paddingLeft: indentWith }}
               onClick={onCategoryClick}
@@ -134,95 +166,5 @@ const Category = ({ category, indentation }: Props) => {
     <MenuItem style={{ paddingLeft: indentWith }} onClick={onCategoryClick} variants={itemVariants}>
       {category.name}
     </MenuItem>
-  );
-};
-
-export const CategoryMenu = () => {
-  const categories = [
-    {
-      id: "111",
-      name: "test",
-      parent: null,
-      children: [
-        {
-          id: "112",
-          name: "test2",
-          parent: "test",
-          children: [],
-        },
-        {
-          id: "113",
-          name: "test2",
-          parent: "test",
-          children: [],
-        },
-        {
-          id: "114",
-          name: "test2",
-          parent: "test",
-          children: [],
-        },
-      ],
-    },
-    {
-      id: "121",
-      name: "test3",
-      parent: null,
-      children: [
-        {
-          id: "122",
-          name: "test4",
-          parent: "test3",
-          children: [
-            {
-              id: "123",
-              name: "test5",
-              parent: "test4",
-              children: [
-                {
-                  id: "124",
-                  name: "test6",
-                  parent: "test5",
-                  children: [],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: "123",
-          name: "test4",
-          parent: "test3",
-          children: [],
-        },
-      ],
-    },
-  ];
-  const [open, setOpen] = useState<boolean>(false);
-
-  return (
-    <>
-      <Button onClick={() => setOpen(true)}>
-        <HamburgerIcon />
-      </Button>
-      <Drawer isOpen={open} onClose={() => setOpen(false)} placement="left">
-        <DrawerOverlay />
-        <DrawerContent>
-          <FlexDiv gap0 column>
-            <FlexDiv
-              align
-              spaceBetween
-              style={{ padding: "1rem", borderBottom: "1px solid #ededed" }}
-            >
-              <Heading>Categories</Heading>
-              <DrawerCloseButton style={{ position: "relative", top: 0, right: 0 }} />
-            </FlexDiv>
-            {categories.map((category) => (
-              <Category key={Math.random()} category={category} indentation={1} />
-            ))}
-          </FlexDiv>
-        </DrawerContent>
-      </Drawer>
-    </>
   );
 };

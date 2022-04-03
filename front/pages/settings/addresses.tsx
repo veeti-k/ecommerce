@@ -1,5 +1,5 @@
 import { Button, Tooltip } from "@chakra-ui/react";
-import { NextPage } from "next";
+import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { useContext } from "react";
 import { Card } from "../../components/Card";
 import { TrashIcon } from "../../components/Icons";
@@ -15,6 +15,8 @@ import { apiRoutes } from "../../utils/routes";
 import { toast } from "react-hot-toast";
 import { getMe } from "../../utils/logout";
 import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
+import { ResolvedCategory } from "../../types";
+import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
 
 const AddressCard = styled(Card, {
   display: "flex",
@@ -29,7 +31,21 @@ const AddressCardButtons = styled("div", {
   gap: "0.5rem",
 });
 
-export const Addresses: NextPage = () => {
+type Result = {
+  categories: ResolvedCategory[];
+};
+
+export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<Result>> => {
+  const categories = await getCategories_STATIC_PROPS();
+
+  return {
+    props: {
+      categories,
+    },
+  };
+};
+
+export const Addresses: NextPage<Result> = ({ categories }) => {
   useGetMe();
 
   const { state, dispatch } = useContext(UserContext);
@@ -50,7 +66,7 @@ export const Addresses: NextPage = () => {
   };
 
   return (
-    <SettingsPageLayout>
+    <SettingsPageLayout categories={categories}>
       <TitleContainer>
         <div>
           <Heading>Addresses</Heading>

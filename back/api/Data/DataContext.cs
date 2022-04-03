@@ -91,4 +91,7 @@ public class DataContext : DbContext, IDataContext
   public DbSet<ProductQuestionAnswer> ProductQuestionAnswers { get; set; }
   public DbSet<ProductReview> ProductReviews { get; set; }
   public DbSet<ProductReviewComment> ProductReviewComments { get; set; }
+  public DbSet<ProductCategory> ProductCategories { get; set; }
+  public DbSet<ProductBulletPoint> ProductBulletPoints { get; set; }
+  public DbSet<ProductsCategories> ProductsCategories { get; set; }
 }

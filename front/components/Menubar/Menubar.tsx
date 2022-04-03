@@ -5,6 +5,7 @@ import { ProfileDropdown } from "./ProfileDropdown";
 import { Search } from "./Search";
 import { ShoppingCartIcon } from "../Icons";
 import { CategoryMenu } from "./CategoryMenu";
+import { ResolvedCategory } from "../../types";
 
 const Outer = styled("div", {
   position: "fixed",
@@ -35,13 +36,17 @@ const HeaderContent = styled("div", {
   gap: "1rem",
 });
 
-export const Menubar: FC = () => {
+type MenubarProps = {
+  categories: ResolvedCategory[];
+};
+
+export const Menubar: FC<MenubarProps> = ({ categories }) => {
   return (
     <Outer>
       <Header className="width-before-scroll-bar">
         <Inner>
           <HeaderContent>
-            <CategoryMenu />
+            <CategoryMenu categories={categories} />
             <Search />
             <Button>
               <ShoppingCartIcon />

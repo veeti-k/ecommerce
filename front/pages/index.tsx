@@ -1,29 +1,36 @@
 import type { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { MainGrid } from "../components/Containers";
 import { Layout } from "../components/layouts/Layout";
-import { ShowCaseProduct } from "../types";
-import { apiBase } from "../utils/consts";
+import { TallProduct } from "../components/Product/TallProduct";
+import { ResolvedCategory, ShowCaseProduct } from "../types";
+import { getCategories_STATIC_PROPS, getIndexProducts_STATIC_PROPS } from "../utils/getStaticProps";
 
 type Result = {
   products: ShowCaseProduct[];
+  categories: ResolvedCategory[];
 };
 
 // prettier-ignore
 export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<Result>> => {
-  const res = await fetch(`${apiBase}/products`);
-  const products = (await res.json()) as ShowCaseProduct[];
-  
+  const products = await getIndexProducts_STATIC_PROPS();
+  const categories = await getCategories_STATIC_PROPS();
+
   return {
     props: {
       products,
+      categories
     },
   };
 };
 
-const Home: NextPage<Result> = ({ products }) => {
+const Home: NextPage<Result> = ({ products, categories }) => {
   return (
-    <Layout>
-      <MainGrid></MainGrid>
+    <Layout categories={categories}>
+      <MainGrid>
+        {products.map((product) => (
+          <TallProduct product={product} key={product.id} />
+        ))}
+      </MainGrid>
     </Layout>
   );
 };
