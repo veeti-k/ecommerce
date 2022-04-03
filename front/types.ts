@@ -53,4 +53,5 @@ export type ProductPageProduct = {
   reviewCount: number;
   questionCount: number;
   bulletPoints: BulletPoint[];
+  images: ImageLink[];
 };
