@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { BsBagCheck, BsGrid, BsPlusSquare } from "react-icons/bs";
 
 export const TrashIcon = () => <Trash2 width={14} transform="scale(1.3)" />;
-export const EditIcon = () => <Edit width={14} transform="scale(1.3)" />;
+export const EditIcon = () => <Edit width={13} transform="scale(1.3)" />;
 export const HamburgerIcon = () => <HamburgerMenuIcon style={{ transform: "scale(1.3)" }} />;
 export const ShoppingCartIcon = () => <ShoppingBag width={14} transform="scale(1.4)" />;
 export const UserIcon = User;

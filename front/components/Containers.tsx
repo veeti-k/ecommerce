@@ -54,6 +54,11 @@ export const FlexDiv = styled("div", {
         justifyContent: "flex-end",
       },
     },
+    flexStart: {
+      true: {
+        justifyContent: "flex-start",
+      },
+    },
     gap05: {
       true: {
         gap: "0.5rem",
