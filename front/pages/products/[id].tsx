@@ -1,8 +1,7 @@
-import * as AspectRatio from "@radix-ui/react-aspect-ratio";
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { Card } from "../../components/Card";
 import { Layout } from "../../components/layouts/Layout";
-import { BigBigHeading, BigHeading, Paragraph } from "../../components/Text";
+import { BigBigHeading, BigHeading, Heading, Paragraph } from "../../components/Text";
 import { styled } from "../../stitches.config";
 import { ProductPageProduct, ResolvedCategory } from "../../types";
 import {
@@ -10,7 +9,10 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Button,
+  Divider,
+  Link,
   ListItem,
+  Tooltip,
   UnorderedList,
 } from "@chakra-ui/react";
 import { FlexDiv } from "../../components/Containers";
@@ -21,6 +23,9 @@ import {
   getProduct_STATIC_PROPS,
 } from "../../utils/getStaticProps";
 import { ShoppingCartIcon } from "../../components/Icons";
+import Markdown from "react-markdown";
+import NextLink from "next/link";
+import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 
 const ProductPageCard = styled(Card, {
   display: "flex",
@@ -59,7 +64,7 @@ const MainDiv = styled("div", {
   flexDirection: "column",
   gap: "1rem",
   height: "100%",
-  paddingTop: "1rem",
+  paddingTop: "2rem",
   alignItems: "center",
 
   "@tabletAndUp": {
@@ -107,6 +112,12 @@ const ProductPage: NextPage<Result> = ({ product, categories }) => {
           </FlexDiv>
         </FlexDiv>
 
+        <FlexDiv align style={{ height: "calc(1rem + 5px)", marginTop: "0.5rem" }}>
+          <Reviews product={product} />
+          <Divider orientation="vertical" />
+          <Questions product={product} />
+        </FlexDiv>
+
         <MainDiv>
           <Image key={Math.random()} src={product.images[0].link} />
           <DescDiv>
@@ -128,8 +139,83 @@ const ProductPage: NextPage<Result> = ({ product, categories }) => {
             </PriceCard>
           </DescDiv>
         </MainDiv>
+
+        <Divider style={{ margin: "2rem 0" }} />
+
+        <Markdown
+          components={{
+            h2: ({ node, ...props }) => <Heading {...props} />,
+            ul: ({ node, ...props }) => <UnorderedList {...props} />,
+            li: ({ node, ...props }) => <ListItem {...props} />,
+            p: ({ node, ...props }) => <Paragraph {...props} />,
+            b: ({ node, ...props }) => <Paragraph bold {...props} />,
+          }}
+        >
+          {product.description}
+        </Markdown>
       </ProductPageCard>
     </Layout>
+  );
+};
+
+const Reviews = ({ product }: { product: ProductPageProduct }) => {
+  let fullStars = Math.floor(product.averageStars);
+
+  if (product.averageStars - fullStars >= 0.78) fullStars++;
+
+  const halfStars = product.averageStars - fullStars >= 0.28 ? 1 : 0;
+  const emptyStars = 5 - fullStars - halfStars;
+
+  const label = product.reviewCount
+    ? `${product.averageStars}/5 based on ${product.reviewCount} reviews`
+    : "No reviews yet";
+
+  // prettier-ignore
+  return (
+    <FlexDiv align>
+      <Tooltip label={label}>
+        <FlexDiv gap0 style={{ gap: "0.3rem" }}>
+          {[...Array(fullStars)].map((_, i) => (
+            <BsStarFill key={i} />
+          ))}
+          {[...Array(halfStars)].map((_, i) => (
+            <BsStarHalf key={i} />
+          ))}
+          {[...Array(emptyStars)].map((_, i) => (
+            <BsStar key={i} />
+          ))}
+        </FlexDiv>
+      </Tooltip>
+
+      <NextLink href={`/products/${product.id}/reviews${!product.reviewCount ? "/add" : ""}`} passHref>
+        <Link>
+          <Paragraph>
+            {product.reviewCount 
+              ? `Read ${product.reviewCount} reviews` 
+              : "Write a review"}
+          </Paragraph>
+        </Link>
+      </NextLink>
+    </FlexDiv>
+  );
+};
+
+const Questions = ({ product }: { product: ProductPageProduct }) => {
+  return (
+    <Paragraph>
+      <NextLink
+        href={`/products/${product.id}/questions${!product.questionCount ? "/add" : ""}`}
+        passHref
+      >
+        <Link>
+          <Paragraph>
+            {product.questionCount
+              ? `${product.questionCount} questions`
+              : "Ask the first question"}
+          </Paragraph>
+        </Link>
+      </NextLink>
+    </Paragraph>
   );
 };
 
