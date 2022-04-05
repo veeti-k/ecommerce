@@ -1,11 +1,14 @@
 import { FormEvent, useContext, useEffect, useState } from "react";
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { Button, Input } from "@chakra-ui/react";
-import { FlexDiv, InputLabelContainer } from "../../components/Containers";
-import { TitleContainer, Grid } from "../../components/pages/Settings";
+import {
+  FlexDiv,
+  InputLabelContainer,
+  MgmtSettingsPageScrollableContent,
+} from "../../components/Containers";
 import { useGetMe } from "../../hooks/useGetMe";
 import { Separator } from "../../components/Separator";
-import { Heading, Paragraph } from "../../components/Text";
+import { Heading, Text } from "../../components/Text";
 import { UserContext } from "../../UserProvider/provider";
 import { request } from "../../utils/requests";
 import { apiRoutes } from "../../utils/routes";
@@ -16,6 +19,7 @@ import { DeleteAccountDialog } from "../../components/Dialogs/DeleteAccountDialo
 import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
 import { ResolvedCategory } from "../../types";
 import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
+import { TitleContainer } from "../../components/layouts/Styles";
 
 type Result = {
   categories: ResolvedCategory[];
@@ -91,58 +95,60 @@ const Account: NextPage<Result> = ({ categories }) => {
       <TitleContainer>
         <div>
           <Heading>General Info</Heading>
-          <Paragraph light>Save your changes after editing</Paragraph>
+          <Text light>Save your changes after editing</Text>
         </div>
       </TitleContainer>
 
-      <form onSubmit={onFormSubmit}>
-        <InputLabelContainer id="name" label="Name">
-          <Input
-            id="name"
-            autoComplete="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </InputLabelContainer>
-
-        <Grid col2 style={{ paddingTop: "1rem" }}>
-          <InputLabelContainer id="email" label="Email">
+      <MgmtSettingsPageScrollableContent>
+        <form onSubmit={onFormSubmit}>
+          <InputLabelContainer id="name" label="Name">
             <Input
-              id="email"
-              type="email"
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              id="name"
+              autoComplete="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </InputLabelContainer>
 
-          <InputLabelContainer id="phone-number" label="Phone number">
-            <Input
-              id="phone-number"
-              type="tel"
-              autoComplete="tel"
-              value={phoneNumber ?? ""}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-          </InputLabelContainer>
-        </Grid>
+          <FlexDiv style={{ paddingTop: "1rem" }}>
+            <InputLabelContainer id="email" label="Email">
+              <Input
+                id="email"
+                type="email"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </InputLabelContainer>
 
-        <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: "1rem" }}>
-          <Button colorScheme="blue" disabled={saveDisabled} type="submit">
-            Save changes
-          </Button>
-        </div>
-      </form>
+            <InputLabelContainer id="phone-number" label="Phone number">
+              <Input
+                id="phone-number"
+                type="tel"
+                autoComplete="tel"
+                value={phoneNumber ?? ""}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+            </InputLabelContainer>
+          </FlexDiv>
 
-      <Separator orientation="horizontal" />
+          <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: "1rem" }}>
+            <Button colorScheme="blue" disabled={saveDisabled} type="submit">
+              Save
+            </Button>
+          </div>
+        </form>
 
-      <FlexDiv spaceBetween align>
-        <div>
-          <Heading>Delete account</Heading>
-          <Paragraph light>Your account will be permanently deleted</Paragraph>
-        </div>
-        <DeleteAccountDialog />
-      </FlexDiv>
+        <Separator orientation="horizontal" />
+
+        <FlexDiv spaceBetween align>
+          <div>
+            <Heading>Delete account</Heading>
+            <Text light>Your account will be permanently deleted</Text>
+          </div>
+          <DeleteAccountDialog />
+        </FlexDiv>
+      </MgmtSettingsPageScrollableContent>
     </SettingsPageLayout>
   );
 };

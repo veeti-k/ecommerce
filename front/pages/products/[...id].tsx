@@ -7,7 +7,7 @@ import { ProductForm, ProductFormValues } from "../../components/Forms/ProductFo
 import { Layout } from "../../components/layouts/Layout";
 import { TitleContainer } from "../../components/pages/Settings";
 import { Heading } from "../../components/Text";
-import { ProductPageProduct, ResolvedCategory } from "../../types";
+import { Category, ProductPageProduct, ResolvedCategory } from "../../types";
 import { request } from "../../utils/requests";
 import { apiRoutes } from "../../utils/routes";
 
@@ -22,7 +22,8 @@ const ProductEdit: NextPage = () => {
   const productId = router.query.id[0] as string;
 
   const [product, setProduct] = useState<ProductPageProduct | undefined>();
-  const [categories, setCategories] = useState<ResolvedCategory[]>([]);
+  const [resolvedCategories, setResolvedCategories] = useState<ResolvedCategory[]>([]);
+  const [allCategories, setAllCategories] = useState<Category[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -44,7 +45,10 @@ const ProductEdit: NextPage = () => {
         path: apiRoutes.categoriesRoot,
       });
 
-      if (res) setCategories((res.data as any)["resolvedCategories"]);
+      if (res) {
+        setResolvedCategories((res.data as any)["resolvedCategories"]);
+        setAllCategories((res.data as any)["allCategories"]);
+      }
     })();
   }, []);
 
@@ -52,7 +56,7 @@ const ProductEdit: NextPage = () => {
     const notifId = toast.loading("Updating the product");
 
     const res = await request({
-      method: "PUT",
+      method: "PATCH",
       path: apiRoutes.products.product(productId),
       body: {
         name: values.name,
@@ -74,13 +78,18 @@ const ProductEdit: NextPage = () => {
   };
 
   return (
-    <Layout categories={categories}>
+    <Layout categories={resolvedCategories}>
       <Card>
         <TitleContainer>
           <Heading>Edit product</Heading>
         </TitleContainer>
 
-        <ProductForm categories={categories} initialValues={product} onSubmit={onSubmit} />
+        <ProductForm
+          categories={allCategories}
+          initialValues={product}
+          onSubmit={onSubmit}
+          submitButtonText="Update"
+        />
       </Card>
     </Layout>
   );

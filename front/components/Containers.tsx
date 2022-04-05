@@ -105,3 +105,10 @@ export const InputLabelContainer: FC<InputLabelContainerProps> = ({
     </FlexDiv>
   );
 };
+
+export const MgmtSettingsPageScrollableContent = styled("div", {
+  overflowY: "auto",
+  maxHeight: "calc(100vh - 18rem)",
+  padding: "0 2rem",
+  paddingBottom: "1.5rem",
+});

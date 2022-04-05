@@ -36,11 +36,11 @@ const StyledTab = styled("div", {
 
 const StyledContent = styled("div", {
   flexGrow: 1,
-  padding: "1rem",
   backgroundColor: "white",
   borderBottomLeftRadius: "0.5rem",
   borderBottomRightRadius: "0.5rem",
   outline: "none",
+  padding: "1rem",
 });
 
 export const TabsList = StyledList;

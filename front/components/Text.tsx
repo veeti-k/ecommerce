@@ -10,6 +10,27 @@ export const Label = styled(RadixLabel.Root, {
 export const Paragraph = styled("p", {
   fontSize: "0.875rem",
   color: "Black",
+  marginBlockStart: "0.5rem",
+  marginBlockEnd: "0.5rem",
+
+  variants: {
+    light: {
+      true: {
+        fontWeight: 300,
+      },
+    },
+
+    bold: {
+      true: {
+        fontWeight: 700,
+      },
+    },
+  },
+});
+
+export const Text = styled("span", {
+  fontSize: "0.875rem",
+  color: "Black",
 
   variants: {
     light: {

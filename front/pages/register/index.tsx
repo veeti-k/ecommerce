@@ -51,7 +51,7 @@ const Register: NextPage = () => {
 
   return (
     <AuthPageLayout title="Register">
-      <AuthPageCard>
+      <AuthPageCard padding0>
         <TabsList>
           <Tab onClick={() => pushUser(router, routes.login, "register tab")}>Login</Tab>
           <Tab active>Register</Tab>

@@ -13,7 +13,7 @@ import { FlexDiv } from "../Containers";
 import { ProductsIcon, OrdersIcon, UserIcon } from "../Icons";
 import { BiggerParagraph, BigHeading } from "../Text";
 import { Layout } from "./Layout";
-import { PageTitleContainer, PageSelectorButtons, PageSelectorButton } from "./Styles";
+import { PageTitleContainer, PageSelectorButtons, PageSelectorButton, MainContent } from "./Styles";
 
 const ManagementPageCard = styled("div", {
   display: "flex",
@@ -21,18 +21,6 @@ const ManagementPageCard = styled("div", {
   borderRadius: "8px",
 
   boxShadow: "$shadowFar",
-});
-
-const MainContent = styled("div", {
-  backgroundColor: "#fcfcfc",
-  display: "flex",
-  width: "100%",
-  padding: "1.5rem 2rem",
-
-  borderTopRightRadius: "8px",
-  borderBottomRightRadius: "8px",
-
-  flexDirection: "column",
 });
 
 type ManagementPageLayoutProps = {

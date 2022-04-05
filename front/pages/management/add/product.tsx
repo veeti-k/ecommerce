@@ -2,7 +2,9 @@ import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import toast from "react-hot-toast";
 import { ProductForm, ProductFormValues } from "../../../components/Forms/ProductForm";
 import { ManagementPageLayout } from "../../../components/layouts/ManagementPageLayout";
+import { TitleContainer } from "../../../components/layouts/Styles";
 import { Heading } from "../../../components/Text";
+import { useGetCategories } from "../../../hooks/useGetCategories";
 import { ResolvedCategory } from "../../../types";
 import { getCategories_STATIC_PROPS } from "../../../utils/getStaticProps";
 import { request } from "../../../utils/requests";
@@ -23,6 +25,8 @@ export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsRe
 };
 
 const AddProduct: NextPage<Result> = ({ categories }) => {
+  const { allCategories } = useGetCategories();
+
   const onSubmit = async (values: ProductFormValues) => {
     const notifId = toast.loading("Adding the product");
 
@@ -50,9 +54,11 @@ const AddProduct: NextPage<Result> = ({ categories }) => {
 
   return (
     <ManagementPageLayout categories={categories}>
-      <Heading style={{ paddingBottom: "1rem" }}>Add a product</Heading>
+      <TitleContainer>
+        <Heading>Add a product</Heading>
+      </TitleContainer>
 
-      <ProductForm onSubmit={onSubmit} categories={categories} />
+      <ProductForm onSubmit={onSubmit} categories={allCategories} submitButtonText="Add" />
     </ManagementPageLayout>
   );
 };

@@ -6,7 +6,7 @@ import { ShowCaseProduct } from "../../types";
 import { ProductCard } from "../Card";
 import { FlexDiv } from "../Containers";
 import { ShoppingCartIcon } from "../Icons";
-import { BigHeading, Paragraph } from "../Text";
+import { BigHeading, Text } from "../Text";
 
 type TallProductProps = {
   product: ShowCaseProduct;
@@ -27,7 +27,7 @@ export const TallProduct: FC<TallProductProps> = ({ product }) => (
     </Link>
 
     <FlexDiv flexEnd fullWidth>
-      <Paragraph style={{ zIndex: 5 }}>{product.id}</Paragraph>
+      <Text style={{ zIndex: 5 }}>{product.id}</Text>
     </FlexDiv>
 
     <FlexDiv style={{ paddingTop: "1rem", paddingBottom: "1.5rem" }}>
@@ -35,12 +35,12 @@ export const TallProduct: FC<TallProductProps> = ({ product }) => (
     </FlexDiv>
 
     <FlexDiv column fullWidth fullHeight spaceBetween>
-      <Paragraph bold>{product.name}</Paragraph>
+      <Text bold>{product.name}</Text>
 
       <UnorderedList>
         {product.bulletPoints.map((bulletPoint) => (
           <ListItem key={bulletPoint.id}>
-            <Paragraph>{bulletPoint.text}</Paragraph>
+            <Text>{bulletPoint.text}</Text>
           </ListItem>
         ))}
       </UnorderedList>

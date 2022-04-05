@@ -24,11 +24,15 @@ import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { FC, FormEvent, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { Card } from "../../components/Card";
-import { FlexDiv, InputLabelContainer } from "../../components/Containers";
+import {
+  FlexDiv,
+  InputLabelContainer,
+  MgmtSettingsPageScrollableContent,
+} from "../../components/Containers";
 import { EditIcon, PlusIcon, TrashIcon } from "../../components/Icons";
 import { ManagementPageLayout } from "../../components/layouts/ManagementPageLayout";
 import { TitleContainer } from "../../components/pages/Settings";
-import { Heading, Paragraph } from "../../components/Text";
+import { Heading, Text } from "../../components/Text";
 import { styled } from "../../stitches.config";
 import { Category, ResolvedCategory } from "../../types";
 import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
@@ -82,24 +86,26 @@ const Categories: NextPage<Result> = (props) => {
         <AddCategoryModal categories={categories} getCategories={getCategories} />
       </TitleContainer>
 
-      <FlexDiv column gap05>
-        {categories.map((category) => (
-          <CategoryCard key={category.id}>
-            <FlexDiv spaceBetween fullWidth>
-              <Heading>{category.name}</Heading>
-              <FlexDiv gap05>
-                <DeleteCategoryModal category={category} getCategories={getCategories} />
+      <MgmtSettingsPageScrollableContent>
+        <FlexDiv column gap05>
+          {categories.map((category) => (
+            <CategoryCard key={category.id}>
+              <FlexDiv spaceBetween fullWidth>
+                <Heading>{category.name}</Heading>
+                <FlexDiv gap05>
+                  <DeleteCategoryModal category={category} getCategories={getCategories} />
 
-                <EditCategoryModal
-                  categories={categories}
-                  category={category}
-                  getCategories={getCategories}
-                />
+                  <EditCategoryModal
+                    categories={categories}
+                    category={category}
+                    getCategories={getCategories}
+                  />
+                </FlexDiv>
               </FlexDiv>
-            </FlexDiv>
-          </CategoryCard>
-        ))}
-      </FlexDiv>
+            </CategoryCard>
+          ))}
+        </FlexDiv>
+      </MgmtSettingsPageScrollableContent>
     </ManagementPageLayout>
   );
 };
@@ -343,9 +349,9 @@ const DeleteCategoryModal = ({ category, getCategories }: DeleteCategoryModalPro
           <AlertDialogHeader>Delete a category</AlertDialogHeader>
           <AlertDialogCloseButton />
           <AlertDialogBody>
-            <Paragraph>
+            <Text>
               Are you sure you want to delete the category <strong>{category.name}</strong>?
-            </Paragraph>
+            </Text>
           </AlertDialogBody>
 
           <AlertDialogFooter>

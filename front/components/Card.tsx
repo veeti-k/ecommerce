@@ -13,21 +13,26 @@ export const Card = styled("div", {
         padding: "0.8rem",
       },
     },
+    padding0: {
+      true: {
+        padding: "0",
+      },
+    },
   },
 });
 
 export const AuthPageCard = styled(Card, {
   display: "flex",
   flexDirection: "column",
-  maxWidth: "400px",
   boxShadow: "rgba(17, 12, 46, 0.15) 0px 48px 100px 0px",
+  width: "100%",
+  maxWidth: "400px",
 });
 
 export const ProductCard = styled(Card, {
   position: "relative",
   boxShadow: "2px 4px 12px rgb(0 0 0 / 8%)",
   display: "flex",
-  padding: "1rem",
   flexDirection: "column",
   alignItems: "center",
   maxWidth: "300px",

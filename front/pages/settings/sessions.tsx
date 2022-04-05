@@ -2,11 +2,10 @@ import { Button, Tooltip } from "@chakra-ui/react";
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { useContext } from "react";
 import { Card } from "../../components/Card";
-import { FlexDiv } from "../../components/Containers";
+import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../components/Containers";
 import { TrashIcon } from "../../components/Icons";
-import { TitleContainer } from "../../components/pages/Settings";
 import { PulsingCircle } from "../../components/pulsingCircle";
-import { Heading, Paragraph } from "../../components/Text";
+import { Heading, Text } from "../../components/Text";
 import { UserContext } from "../../UserProvider/provider";
 import { useGetMe } from "../../hooks/useGetMe";
 import { styled } from "../../stitches.config";
@@ -17,6 +16,7 @@ import { getMe } from "../../utils/logout";
 import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
 import { ResolvedCategory } from "../../types";
 import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
+import { TitleContainer } from "../../components/layouts/Styles";
 
 const SessionCard = styled(Card, {
   display: "flex",
@@ -69,44 +69,45 @@ const Sessions: NextPage<Result> = ({ categories }) => {
       <TitleContainer>
         <div>
           <Heading>Sessions</Heading>
-          <Paragraph light>Manage your sessions</Paragraph>
+          <Text light>Manage your sessions</Text>
         </div>
       </TitleContainer>
+      <MgmtSettingsPageScrollableContent>
+        <FlexDiv column>
+          {state.sessions.map((session) => {
+            const lastUsedAt = new Date(session.lastUsedAt);
 
-      <FlexDiv column>
-        {state.sessions.map((session) => {
-          const lastUsedAt = new Date(session.lastUsedAt);
+            return (
+              <SessionCard key={session.id}>
+                <div>
+                  <FlexDiv gap05 align>
+                    {session.isCurrentSession ? (
+                      <Tooltip label="Current session">
+                        <PulsingCircle />
+                      </Tooltip>
+                    ) : null}
+                    <Text bold>123.321.123.321</Text>
+                  </FlexDiv>
 
-          return (
-            <SessionCard key={session.id}>
-              <div>
-                <FlexDiv gap05 align>
-                  {session.isCurrentSession ? (
-                    <Tooltip label="Current session">
-                      <PulsingCircle />
-                    </Tooltip>
-                  ) : null}
-                  <Paragraph bold>123.321.123.321</Paragraph>
-                </FlexDiv>
+                  <Tooltip label="Last used at">
+                    <Text light>
+                      {lastUsedAt.toLocaleDateString()} - {lastUsedAt.toLocaleTimeString()}
+                    </Text>
+                  </Tooltip>
+                </div>
 
-                <Tooltip label="Last used at">
-                  <Paragraph light>
-                    {lastUsedAt.toLocaleDateString()} - {lastUsedAt.toLocaleTimeString()}
-                  </Paragraph>
-                </Tooltip>
-              </div>
-
-              <SessionCardButtons>
-                <Tooltip label="Revoke session">
-                  <Button size="sm" colorScheme="red" onClick={() => revokeSession(session.id)}>
-                    <TrashIcon />
-                  </Button>
-                </Tooltip>
-              </SessionCardButtons>
-            </SessionCard>
-          );
-        })}
-      </FlexDiv>
+                <SessionCardButtons>
+                  <Tooltip label="Revoke session">
+                    <Button size="sm" colorScheme="red" onClick={() => revokeSession(session.id)}>
+                      <TrashIcon />
+                    </Button>
+                  </Tooltip>
+                </SessionCardButtons>
+              </SessionCard>
+            );
+          })}
+        </FlexDiv>
+      </MgmtSettingsPageScrollableContent>
     </SettingsPageLayout>
   );
 };

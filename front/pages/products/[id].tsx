@@ -1,7 +1,7 @@
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { Card } from "../../components/Card";
 import { Layout } from "../../components/layouts/Layout";
-import { BigBigHeading, BigHeading, Heading, Paragraph } from "../../components/Text";
+import { BigBigHeading, BigHeading, Heading, Paragraph, Text } from "../../components/Text";
 import { styled } from "../../stitches.config";
 import { ProductPageProduct, ResolvedCategory } from "../../types";
 import {
@@ -76,7 +76,7 @@ const DescDiv = styled("div", {
   display: "flex",
   flexDirection: "column",
   gap: "1rem",
-  paddingTop: "1rem",
+  paddingTop: "0.5rem",
   height: "100%",
   maxWidth: "400px",
   width: "100%",
@@ -108,11 +108,11 @@ const ProductPage: NextPage<Result> = ({ product, categories }) => {
         <FlexDiv column fullWidth align>
           <FlexDiv align spaceBetween fullWidth>
             <BigHeading>{product.name}</BigHeading>
-            <Paragraph>{product.id}</Paragraph>
+            <Text>{product.id}</Text>
           </FlexDiv>
         </FlexDiv>
 
-        <FlexDiv align style={{ height: "calc(1rem + 5px)", marginTop: "0.5rem" }}>
+        <FlexDiv align style={{ height: "calc(1rem + 5px)" }}>
           <Reviews product={product} />
           <Divider orientation="vertical" />
           <Questions product={product} />
@@ -124,7 +124,7 @@ const ProductPage: NextPage<Result> = ({ product, categories }) => {
             <UnorderedList>
               {product.bulletPoints.map((bulletPoint) => (
                 <ListItem key={bulletPoint.id}>
-                  <Paragraph>{bulletPoint.text}</Paragraph>
+                  <Text>{bulletPoint.text}</Text>
                 </ListItem>
               ))}
             </UnorderedList>
@@ -140,13 +140,17 @@ const ProductPage: NextPage<Result> = ({ product, categories }) => {
           </DescDiv>
         </MainDiv>
 
-        <Divider style={{ margin: "2rem 0" }} />
+        <Divider style={{ marginTop: "1.5rem", marginBottom: "0.5rem" }} />
 
         <Markdown
           components={{
             h2: ({ node, ...props }) => <Heading {...props} />,
             ul: ({ node, ...props }) => <UnorderedList {...props} />,
-            li: ({ node, ...props }) => <ListItem {...props} />,
+            li: ({ node, ...props }) => (
+              <ListItem {...props}>
+                <Text>{props.children}</Text>
+              </ListItem>
+            ),
             p: ({ node, ...props }) => <Paragraph {...props} />,
             b: ({ node, ...props }) => <Paragraph bold {...props} />,
           }}
@@ -189,11 +193,11 @@ const Reviews = ({ product }: { product: ProductPageProduct }) => {
 
       <NextLink href={`/products/${product.id}/reviews${!product.reviewCount ? "/add" : ""}`} passHref>
         <Link>
-          <Paragraph>
+          <Text>
             {product.reviewCount 
               ? `Read ${product.reviewCount} reviews` 
               : "Write a review"}
-          </Paragraph>
+          </Text>
         </Link>
       </NextLink>
     </FlexDiv>
@@ -202,20 +206,16 @@ const Reviews = ({ product }: { product: ProductPageProduct }) => {
 
 const Questions = ({ product }: { product: ProductPageProduct }) => {
   return (
-    <Paragraph>
-      <NextLink
-        href={`/products/${product.id}/questions${!product.questionCount ? "/add" : ""}`}
-        passHref
-      >
-        <Link>
-          <Paragraph>
-            {product.questionCount
-              ? `${product.questionCount} questions`
-              : "Ask the first question"}
-          </Paragraph>
-        </Link>
-      </NextLink>
-    </Paragraph>
+    <NextLink
+      href={`/products/${product.id}/questions${!product.questionCount ? "/add" : ""}`}
+      passHref
+    >
+      <Link>
+        <Text>
+          {product.questionCount ? `${product.questionCount} questions` : "Ask the first question"}
+        </Text>
+      </Link>
+    </NextLink>
   );
 };
 

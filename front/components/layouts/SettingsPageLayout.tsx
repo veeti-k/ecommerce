@@ -32,7 +32,7 @@ export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({ children, cate
       {isLoggedIn ? (
         <>
           <PageTitleContainer>
-            <FlexDiv spaceBetween align>
+            <FlexDiv spaceBetween align fullWidth>
               <div>
                 <BigHeading>Account settings</BigHeading>
                 <Paragraph>Edit your account settings</Paragraph>

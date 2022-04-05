@@ -3,8 +3,7 @@ import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { useContext } from "react";
 import { Card } from "../../components/Card";
 import { TrashIcon } from "../../components/Icons";
-import { Grid, TitleContainer } from "../../components/pages/Settings";
-import { Heading, Paragraph } from "../../components/Text";
+import { Heading, Text } from "../../components/Text";
 import { UserContext } from "../../UserProvider/provider";
 import { useGetMe } from "../../hooks/useGetMe";
 import { styled } from "../../stitches.config";
@@ -17,12 +16,15 @@ import { getMe } from "../../utils/logout";
 import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
 import { ResolvedCategory } from "../../types";
 import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
+import { TitleContainer } from "../../components/layouts/Styles";
+import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../components/Containers";
 
 const AddressCard = styled(Card, {
   display: "flex",
   justifyContent: "space-between",
   boxShadow: "rgba(99, 99, 99, 0.1) 0px 2px 8px 0px",
   padding: "1rem",
+  width: "100%",
 });
 
 const AddressCardButtons = styled("div", {
@@ -70,43 +72,43 @@ export const Addresses: NextPage<Result> = ({ categories }) => {
       <TitleContainer>
         <div>
           <Heading>Addresses</Heading>
-          <Paragraph light>Add or edit your addresses</Paragraph>
+          <Text light>Add or edit your addresses</Text>
         </div>
 
         <NewAddressDialog />
       </TitleContainer>
+      <MgmtSettingsPageScrollableContent>
+        <FlexDiv fullWidth column>
+          {state.addresses.map((address) => (
+            <AddressCard key={address.id}>
+              <FlexDiv column>
+                <FlexDiv column gap0>
+                  <Text bold>{address.name}</Text>
+                  <Text>{address.streetAddress}</Text>
+                  <Text>
+                    {address.zip} {address.city}
+                  </Text>
+                  <Text>{address.state}</Text>
+                </FlexDiv>
 
-      <Grid col2>
-        {state.addresses.map((address) => (
-          <AddressCard key={address.id}>
-            <div>
-              <div style={{ paddingBottom: "0.3rem" }}>
-                <Paragraph bold>{address.name}</Paragraph>
-                <Paragraph>{address.line1}</Paragraph>
-                {address.line2 ? <Paragraph>{address.line2}</Paragraph> : null}
-                <Paragraph>
-                  {address.zip} {address.city}
-                </Paragraph>
-                <Paragraph>{address.state}</Paragraph>
-              </div>
+                <FlexDiv column gap0>
+                  <Text bold>{address.email}</Text>
+                  <Text bold>{address.phoneNumber}</Text>
+                </FlexDiv>
+              </FlexDiv>
+              <AddressCardButtons>
+                <EditAddressDialog />
 
-              <div>
-                <Paragraph bold>{address.email}</Paragraph>
-                <Paragraph bold>{address.phoneNumber}</Paragraph>
-              </div>
-            </div>
-            <AddressCardButtons>
-              <EditAddressDialog />
-
-              <Tooltip label="Delete address">
-                <Button colorScheme="red" size="sm" onClick={() => removeAddress(address.id)}>
-                  <TrashIcon />
-                </Button>
-              </Tooltip>
-            </AddressCardButtons>
-          </AddressCard>
-        ))}
-      </Grid>
+                <Tooltip label="Delete address">
+                  <Button colorScheme="red" size="sm" onClick={() => removeAddress(address.id)}>
+                    <TrashIcon />
+                  </Button>
+                </Tooltip>
+              </AddressCardButtons>
+            </AddressCard>
+          ))}
+        </FlexDiv>
+      </MgmtSettingsPageScrollableContent>
     </SettingsPageLayout>
   );
 };

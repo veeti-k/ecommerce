@@ -5,8 +5,7 @@ interface Address {
   name: string;
   phoneNumber: string;
   email: string;
-  line1: string;
-  line2: string;
+  streetAddress: string;
   city: string;
   state: string;
   zip: string;

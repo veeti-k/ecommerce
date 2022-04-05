@@ -46,7 +46,7 @@ const Login: NextPage = () => {
 
   return (
     <AuthPageLayout title="Login">
-      <AuthPageCard>
+      <AuthPageCard padding0>
         <TabsList>
           <Tab active>Login</Tab>
           <Tab onClick={() => pushUser(router, routes.register, "login tab")}>Sign Up</Tab>
