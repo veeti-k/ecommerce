@@ -40,6 +40,7 @@ public class UpdateProduct : EndpointBaseAsync
     existingProduct.DiscountPercent = request.Dto.DiscountPercent ?? existingProduct.DiscountPercent;
     existingProduct.DiscountAmount = request.Dto.DiscountAmount ?? existingProduct.DiscountAmount;
     existingProduct.IsDiscounted = request.Dto.IsDiscounted ?? existingProduct.IsDiscounted;
+    existingProduct.CategoryId = request.Dto.CategoryId ?? existingProduct.CategoryId;
 
     var updated = await _productRepo.Update(existingProduct);
 

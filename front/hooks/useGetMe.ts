@@ -17,6 +17,7 @@ export const useGetMe = () => {
       const res = await request({
         method: "GET",
         path: apiRoutes.userRoot("me"),
+        shouldRedirect401: false,
       });
 
       if (res) dispatch({ type: Actions.SetUser, payload: res.data });

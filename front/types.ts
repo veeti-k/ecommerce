@@ -54,4 +54,5 @@ export type ProductPageProduct = {
   questionCount: number;
   bulletPoints: BulletPoint[];
   images: ImageLink[];
+  categoryId: number;
 };

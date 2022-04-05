@@ -1,12 +1,19 @@
 import { styled } from "../stitches.config";
 
 export const Card = styled("div", {
-  width: "100%",
-
   backgroundColor: "white",
   borderRadius: "8px",
 
   transition: "all .3s cubic-bezier(0,0,.5,1)",
+  padding: "1rem",
+
+  variants: {
+    padding08: {
+      true: {
+        padding: "0.8rem",
+      },
+    },
+  },
 });
 
 export const AuthPageCard = styled(Card, {

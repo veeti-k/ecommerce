@@ -11,6 +11,7 @@ const Main = styled("main", {
   padding: "0 25px",
   position: "relative",
   paddingTop: "6rem",
+  paddingBottom: "1rem",
   zIndex: 1,
 });
 

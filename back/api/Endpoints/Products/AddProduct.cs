@@ -46,6 +46,7 @@ public class AddProduct : EndpointBaseAsync
       DiscountedPrice = request.Dto.DiscountedPrice,
       DiscountPercent = request.Dto.DiscountPercent,
       IsDiscounted = request.Dto.IsDiscounted,
+      CategoryId = request.Dto.CategoryId
     };
     
     var added = await _repo.Add(newProduct);
