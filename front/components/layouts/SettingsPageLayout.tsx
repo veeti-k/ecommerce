@@ -10,7 +10,7 @@ import { routes } from "../../utils/routes";
 import { PageCard } from "../Card";
 import { FlexDiv } from "../Containers";
 import { AddressesIcon, PasswordIcon, SessionsIcon, UserIcon } from "../Icons";
-import { BiggerParagraph, BigHeading, Paragraph } from "../Text";
+import { Text, BigHeading, Paragraph } from "../Text";
 import { Layout } from "./Layout";
 import { PageTitleContainer, PageSelectorButtons, PageSelectorButton, MainContent } from "./Styles";
 
@@ -57,25 +57,25 @@ export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({ children, cate
                   route={routes.settingsAccount}
                   active={window.location.pathname.includes("account")}
                 >
-                  <UserIcon size={20} /> <BiggerParagraph>Account</BiggerParagraph>
+                  <UserIcon size={20} /> <Text>Account</Text>
                 </PageSelectorButton>
                 <PageSelectorButton
                   route={routes.settingsPassword}
                   active={window.location.pathname.includes("password")}
                 >
-                  <PasswordIcon /> <BiggerParagraph>Password</BiggerParagraph>
+                  <PasswordIcon /> <Text>Password</Text>
                 </PageSelectorButton>
                 <PageSelectorButton
                   route={routes.settingsAddresses}
                   active={window.location.pathname.includes("addresses")}
                 >
-                  <AddressesIcon /> <BiggerParagraph>Addresses</BiggerParagraph>
+                  <AddressesIcon /> <Text>Addresses</Text>
                 </PageSelectorButton>
                 <PageSelectorButton
                   route={routes.settingsSessions}
                   active={window.location.pathname.includes("sessions")}
                 >
-                  <SessionsIcon /> <BiggerParagraph>Sessions</BiggerParagraph>
+                  <SessionsIcon /> <Text>Sessions</Text>
                 </PageSelectorButton>
               </PageSelectorButtons>
 

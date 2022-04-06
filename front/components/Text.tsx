@@ -10,8 +10,10 @@ export const Label = styled(RadixLabel.Root, {
 export const Paragraph = styled("p", {
   fontSize: "0.875rem",
   color: "Black",
-  marginBlockStart: "0.5rem",
-  marginBlockEnd: "0.5rem",
+
+  "&:not(:first-child)": {
+    marginTop: "1rem",
+  },
 
   variants: {
     light: {
@@ -47,23 +49,9 @@ export const Text = styled("span", {
   },
 });
 
-export const BiggerParagraph = styled("p", {
+export const BiggerParagraph = styled(Paragraph, {
   fontSize: "0.95rem",
   color: "Black",
-
-  variants: {
-    light: {
-      true: {
-        fontWeight: 300,
-      },
-    },
-
-    bold: {
-      true: {
-        fontWeight: 700,
-      },
-    },
-  },
 });
 
 export const Heading = styled("h1", {
