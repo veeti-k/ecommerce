@@ -22,78 +22,68 @@ import {
   getCategories_STATIC_PROPS,
   getProduct_STATIC_PROPS,
 } from "../../utils/getStaticProps";
-import { ShoppingCartIcon } from "../../components/Icons";
 import Markdown from "react-markdown";
 import NextLink from "next/link";
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
+import { pushUser } from "../../utils/router";
+import { useRouter } from "next/router";
+import { ShoppingCartIcon } from "../../components/Icons";
+import { DeleteProductModal } from "../../components/Dialogs/Product/DeleteProductModal";
 
 const ProductPageCard = styled(Card, {
   display: "flex",
   flexDirection: "column",
   boxShadow: "$shadowFar",
-  padding: "1rem",
+  padding: "1.5rem",
+  paddingTop: "1rem",
   height: "100%",
-  margin: "1rem 0",
+  marginBottom: "1rem",
 });
 
 const PriceCard = styled(Card, {
-  display: "flex",
-  flexDirection: "column",
-  gap: "1rem",
   boxShadow: "$shadowNearest",
   padding: "0.7rem",
   width: "100%",
-  maxWidth: "300px",
-
-  "@tabletAndUp": {
-    maxWidth: "100%",
-  },
 });
 
-const Image = styled("img", {
+const RightDiv = styled("div", {
+  display: "flex",
+  width: "400px",
+});
+
+const ImageContainer = styled("div", {
+  display: "flex",
   height: "100%",
-  paddingRight: "1rem",
+  width: "100%",
 
   "@tabletAndUp": {
-    maxWidth: "700px",
+    maxWidth: "800px",
   },
 });
 
 const MainDiv = styled("div", {
   display: "flex",
   flexDirection: "column",
-  gap: "1rem",
+  gap: "2rem",
   height: "100%",
-  paddingTop: "2rem",
   alignItems: "center",
 
   "@tabletAndUp": {
     flexDirection: "row",
+    alignItems: "flex-start",
   },
 });
 
-const DescDiv = styled("div", {
+const ProductDescription = styled("div", {
   display: "flex",
-  flexDirection: "column",
-  gap: "1rem",
-  paddingTop: "0.5rem",
-  height: "100%",
-  maxWidth: "400px",
+  maxWidth: "800px",
   width: "100%",
-  alignItems: "center",
-
-  "@mobileAndUp": {
-    alignItems: "normal",
-    flexDirection: "row",
-    maxWidth: "600px",
-  },
-
-  "@tabletAndUp": {
-    flexDirection: "column",
-  },
+  flexDirection: "column",
 });
 
 const ProductPage: NextPage<Result> = ({ product, categories }) => {
+  const router = useRouter();
+
   return (
     <Layout categories={categories}>
       <Breadcrumb>
@@ -112,51 +102,76 @@ const ProductPage: NextPage<Result> = ({ product, categories }) => {
           </FlexDiv>
         </FlexDiv>
 
-        <FlexDiv align style={{ height: "calc(1rem + 5px)" }}>
+        <FlexDiv align style={{ height: "calc(1rem + 5px)", marginTop: "0.3rem" }}>
           <Reviews product={product} />
           <Divider orientation="vertical" />
           <Questions product={product} />
         </FlexDiv>
 
-        <MainDiv>
-          <Image key={Math.random()} src={product.images[0].link} />
-          <DescDiv>
-            <UnorderedList>
-              {product.bulletPoints.map((bulletPoint) => (
-                <ListItem key={bulletPoint.id}>
-                  <Text>{bulletPoint.text}</Text>
-                </ListItem>
-              ))}
-            </UnorderedList>
+        <MainDiv style={{ paddingTop: "2rem" }}>
+          <ImageContainer>
+            <img src={product.images[0].link} alt={product.name} />
+          </ImageContainer>
+          <RightDiv>
+            <FlexDiv column fullWidth>
+              <UnorderedList>
+                {product.bulletPoints.map((bulletPoint) => (
+                  <ListItem key={bulletPoint.id}>
+                    <Text>{bulletPoint.text}</Text>
+                  </ListItem>
+                ))}
+              </UnorderedList>
 
-            <PriceCard>
-              <BigBigHeading>{product.price} €</BigBigHeading>
-              <Button colorScheme={"blue"}>
-                <FlexDiv align gap05>
-                  <ShoppingCartIcon /> Add to bag
+              <PriceCard>
+                <FlexDiv column fullWidth>
+                  <BigBigHeading>{product.price} €</BigBigHeading>
+                  <Button colorScheme="blue">
+                    <FlexDiv align gap05>
+                      <ShoppingCartIcon /> Add to bag
+                    </FlexDiv>
+                  </Button>
                 </FlexDiv>
-              </Button>
-            </PriceCard>
-          </DescDiv>
+              </PriceCard>
+            </FlexDiv>
+          </RightDiv>
         </MainDiv>
 
-        <Divider style={{ marginTop: "1.5rem", marginBottom: "0.5rem" }} />
+        <Divider style={{ marginTop: "1.5rem", marginBottom: "1.5rem" }} />
 
-        <Markdown
-          components={{
-            h2: ({ node, ...props }) => <Heading {...props} />,
-            ul: ({ node, ...props }) => <UnorderedList {...props} />,
-            li: ({ node, ...props }) => (
-              <ListItem {...props}>
-                <Text>{props.children}</Text>
-              </ListItem>
-            ),
-            p: ({ node, ...props }) => <Paragraph {...props} />,
-            b: ({ node, ...props }) => <Paragraph bold {...props} />,
-          }}
-        >
-          {product.description}
-        </Markdown>
+        <MainDiv>
+          <ProductDescription>
+            <Markdown
+              components={{
+                h2: ({ node, ...props }) => <Heading {...props} />,
+                ul: ({ node, ...props }) => <UnorderedList {...props} />,
+                li: ({ node, ...props }) => (
+                  <ListItem {...props}>
+                    <Text>{props.children}</Text>
+                  </ListItem>
+                ),
+                p: ({ node, ...props }) => <Paragraph {...props} />,
+                b: ({ node, ...props }) => <Paragraph bold {...props} />,
+              }}
+            >
+              {product.description}
+            </Markdown>
+          </ProductDescription>
+
+          <RightDiv style={{ height: "100%" }}>
+            <PriceCard>
+              <FlexDiv column fullWidth gap05>
+                <Button
+                  onClick={() =>
+                    pushUser(router, `/products/${product.id}/edit`, "Product page::Edit button")
+                  }
+                >
+                  Edit
+                </Button>
+                <DeleteProductModal product={product} />
+              </FlexDiv>
+            </PriceCard>
+          </RightDiv>
+        </MainDiv>
       </ProductPageCard>
     </Layout>
   );

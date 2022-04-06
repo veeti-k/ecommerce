@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { Card } from "../../components/Card";
 import { ProductForm, ProductFormValues } from "../../components/Forms/ProductForm";
 import { Layout } from "../../components/layouts/Layout";
-import { TitleContainer } from "../../components/pages/Settings";
+import { TitleContainer } from "../../components/layouts/Styles";
 import { Heading } from "../../components/Text";
 import { Category, ProductPageProduct, ResolvedCategory } from "../../types";
 import { request } from "../../utils/requests";
@@ -79,7 +79,7 @@ const ProductEdit: NextPage = () => {
 
   return (
     <Layout categories={resolvedCategories}>
-      <Card>
+      <Card padding0>
         <TitleContainer>
           <Heading>Edit product</Heading>
         </TitleContainer>
