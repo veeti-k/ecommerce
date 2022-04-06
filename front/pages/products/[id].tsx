@@ -3,7 +3,7 @@ import { Card } from "../../components/Card";
 import { Layout } from "../../components/layouts/Layout";
 import { BigBigHeading, BigHeading, Heading, Paragraph, Text } from "../../components/Text";
 import { styled } from "../../stitches.config";
-import { ProductPageProduct, ResolvedCategory } from "../../types";
+import { Category, ProductPageProduct, ResolvedCategory } from "../../types";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -18,6 +18,7 @@ import {
 import { FlexDiv } from "../../components/Containers";
 import { routes } from "../../utils/routes";
 import {
+  getAllCategories_STATIC_PROPS,
   getAllProducts_STATIC_PROPS,
   getCategories_STATIC_PROPS,
   getProduct_STATIC_PROPS,
@@ -27,8 +28,11 @@ import NextLink from "next/link";
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 import { pushUser } from "../../utils/router";
 import { useRouter } from "next/router";
-import { ShoppingCartIcon } from "../../components/Icons";
+import { ExternalLinkIcon, ShoppingCartIcon } from "../../components/Icons";
 import { DeleteProductModal } from "../../components/Dialogs/Product/DeleteProductModal";
+import { isAdmin } from "../../utils/flagResolve";
+import { useContext } from "react";
+import { UserContext } from "../../UserProvider/provider";
 
 const ProductPageCard = styled(Card, {
   display: "flex",
@@ -81,8 +85,10 @@ const ProductDescription = styled("div", {
   flexDirection: "column",
 });
 
-const ProductPage: NextPage<Result> = ({ product, categories }) => {
+const ProductPage: NextPage<Result> = ({ product, categories, allCategories }) => {
   const router = useRouter();
+
+  const { state } = useContext(UserContext);
 
   return (
     <Layout categories={categories}>
@@ -160,14 +166,29 @@ const ProductPage: NextPage<Result> = ({ product, categories }) => {
           <RightDiv style={{ height: "100%" }}>
             <PriceCard>
               <FlexDiv column fullWidth gap05>
-                <Button
-                  onClick={() =>
-                    pushUser(router, `/products/${product.id}/edit`, "Product page::Edit button")
-                  }
-                >
-                  Edit
+                <Button>
+                  <FlexDiv align gap05>
+                    {allCategories.find((c) => c.id == product.categoryId)?.name}
+                    <ExternalLinkIcon />
+                  </FlexDiv>
                 </Button>
-                <DeleteProductModal product={product} />
+
+                {isAdmin(state.flags) ? (
+                  <>
+                    <Button
+                      onClick={() =>
+                        pushUser(
+                          router,
+                          `/products/${product.id}/edit`,
+                          "Product page::Edit button"
+                        )
+                      }
+                    >
+                      Edit
+                    </Button>
+                    <DeleteProductModal product={product} />
+                  </>
+                ) : null}
               </FlexDiv>
             </PriceCard>
           </RightDiv>
@@ -237,6 +258,7 @@ const Questions = ({ product }: { product: ProductPageProduct }) => {
 type Result = {
   product: ProductPageProduct;
   categories: ResolvedCategory[];
+  allCategories: Category[];
 };
 
 export const getStaticProps: GetStaticProps = async (
@@ -246,11 +268,13 @@ export const getStaticProps: GetStaticProps = async (
 
   const product = await getProduct_STATIC_PROPS(id);
   const categories = await getCategories_STATIC_PROPS();
+  const allCategories = await getAllCategories_STATIC_PROPS();
 
   return {
     props: {
       product,
       categories,
+      allCategories,
     },
   };
 };
