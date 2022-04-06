@@ -42,12 +42,12 @@ export const apiRoutes = {
   productsRoot: "/products",
 
   products: {
-    product: (productId: string) => `/products/${productId}`,
+    product: (productId: number) => `/products/${productId}`,
   },
 
   categoriesRoot: "/categories",
 
   categories: {
-    category: (categoryId: string) => `/categories/${categoryId}`,
+    category: (categoryId: number) => `/categories/${categoryId}`,
   },
 };
