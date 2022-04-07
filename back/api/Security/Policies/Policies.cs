@@ -8,4 +8,5 @@ public static class Policies
   public const string ManageQuestions = "ManageQuestions";
   public const string ViewUsers = "ViewUsers";
   public const string Administrator = "Administrator";
+  public const string ManageCategories = "ManageCategories";
 }
