@@ -11,8 +11,7 @@ namespace api.Endpoints.Categories;
 
 public class AddCategory : EndpointBaseAsync
   .WithRequest<AddCategoryRequest>
-  .WithActionResult<ProductCategoryResponse>
-
+  .WithActionResult
 {
   private readonly IGenericRepo<ProductCategory> _repo;
 
@@ -22,10 +21,10 @@ public class AddCategory : EndpointBaseAsync
     _repo = repo;
   }
 
-  [Authorize(Policy = Policies.Administrator)]
+  [Authorize(Policy = Policies.ManageCategories)]
   [HttpPost(Routes.CategoriesRoot)]
-  public override async Task<ActionResult<ProductCategoryResponse>> HandleAsync(
-    [FromRoute] AddCategoryRequest request, 
+  public override async Task<ActionResult> HandleAsync(
+    [FromRoute] AddCategoryRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
     ProductCategory newCategory = new()
@@ -35,7 +34,9 @@ public class AddCategory : EndpointBaseAsync
     };
 
     var added = await _repo.Add(newCategory);
+    
+    var locationUri = Routes.Categories.Category.Replace(Routes.Categories.CategoryId, added.Id.ToString());
 
-    return Created("",added);
+    return Created(locationUri, null);
   }
 }

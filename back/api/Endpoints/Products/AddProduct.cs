@@ -110,8 +110,8 @@ public class AddProduct : EndpointBaseAsync
       });
     }
 
-    var uri = Routes.Products.ProductRoot.Replace(Routes.Products.ProductId, added.Id.ToString());
+    var locationUri = Routes.Products.ProductRoot.Replace(Routes.Products.ProductId, added.Id.ToString());
 
-    return Created(uri, null);
+    return Created(locationUri, null);
   }
 }

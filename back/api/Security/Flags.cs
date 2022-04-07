@@ -10,5 +10,6 @@ public enum Flags : long
   TEST_ACCOUNT = 1 << 3,
   EMPLOYEE = 1 << 4,
   MANAGE_REVIEWS = 1 << 5,
-  MANAGE_QUESTIONS = 1 << 6
+  MANAGE_QUESTIONS = 1 << 6,
+  MANAGE_CATEGORIES = 1 << 7,
 }
