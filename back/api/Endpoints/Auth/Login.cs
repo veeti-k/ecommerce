@@ -36,7 +36,7 @@ public class Login : EndpointBaseAsync
     CancellationToken cancellationToken = new CancellationToken())
   {
     var existingUser = await _userRepo.GetByEmail(request.Dto.Email);
-    if (existingUser is null) throw new NotFoundException("User not found");
+    if (existingUser is null) throw new BadRequestException("User not found");
 
     var passwordMatch = Hashing.Verify(request.Dto.Password, existingUser.Password);
     if (!passwordMatch) throw new UnauthorizedException("Invalid password");
