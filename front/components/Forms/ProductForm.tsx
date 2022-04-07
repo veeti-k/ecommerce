@@ -101,7 +101,7 @@ export const ProductForm: FC<ProductFormProps> = ({
     setPrice(initialValues?.price?.toString() ?? "");
     setDescription(initialValues?.description ?? "");
 
-    setCategoryId(initialValues?.categoryId?.toString() ?? null);
+    setCategoryId(initialValues?.path[initialValues?.path.length - 1]?.id?.toString() ?? null);
 
     setDiscountedPrice(initialValues?.discountedPrice?.toString() ?? "");
     setDiscountPercent(initialValues?.discountPercent?.toString() ?? "");
