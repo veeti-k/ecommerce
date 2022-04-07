@@ -13,7 +13,6 @@ import { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Category, ProductPageProduct } from "../../types";
 import { FlexDiv, InputLabelContainer, MgmtSettingsPageScrollableContent } from "../Containers";
-import { Text } from "../Text";
 
 export type ProductFormValues = {
   name: string;

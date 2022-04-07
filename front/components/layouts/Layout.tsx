@@ -13,14 +13,23 @@ const Main = styled("main", {
   paddingTop: "6rem",
   paddingBottom: "1rem",
   zIndex: 1,
+
+  variants: {
+    noPadding: {
+      true: {
+        paddingTop: "5rem",
+      },
+    },
+  },
 });
 
 type LayoutProps = {
   title?: string;
   categories: ResolvedCategory[];
+  noPadding?: boolean;
 };
 
-export const Layout: FC<LayoutProps> = ({ children, title, categories }) => {
+export const Layout: FC<LayoutProps> = ({ children, title, categories, noPadding }) => {
   useGetMe();
 
   return (
@@ -29,7 +38,7 @@ export const Layout: FC<LayoutProps> = ({ children, title, categories }) => {
         <title>{title ?? "DEMO"}</title>
       </Head>
       <Menubar categories={categories} />
-      <Main>{children}</Main>
+      <Main noPadding={noPadding}>{children}</Main>
     </>
   );
 };

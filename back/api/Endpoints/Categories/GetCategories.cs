@@ -35,16 +35,10 @@ public class GetCategories : EndpointBaseAsync
       if (category.ParentId is not null)
       {
         var parent = mappedCategories.FirstOrDefault(c => c.Id == category.ParentId);
-
-        if (parent.Children is null)
-        {
-          parent.Children = new Collection<ResolvedCategory>();
-          parent.Children.Add(category);
-        }
-        else
-        {
-          parent.Children.Add(category);
-        }
+        if (parent == null) continue;
+        
+        parent.Children ??= new Collection<ResolvedCategory>();
+        parent.Children.Add(category);
       }
       else
       {
@@ -52,6 +46,6 @@ public class GetCategories : EndpointBaseAsync
       }
     }
 
-    return Ok(new ProductCategoryResponse(){ AllCategories = categories, ResolvedCategories = resolvedCategories });
+    return Ok(new ProductCategoryResponse() {AllCategories = categories, ResolvedCategories = resolvedCategories});
   }
 }

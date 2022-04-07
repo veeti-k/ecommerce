@@ -15,6 +15,24 @@ using AutoMapper;
 
 namespace api.Mapping;
 
+public class ProductPathResolver<TDest> : IValueResolver<Product, TDest, IEnumerable<ProductCategory>>
+{
+  public IEnumerable<ProductCategory> Resolve(Product source, TDest destination,
+    IEnumerable<ProductCategory> destMember, ResolutionContext context)
+  {
+    var resolvedPath = new List<ProductCategory>();
+
+    foreach (var pc in source.ProductsCategories)
+    {
+      resolvedPath.Add(pc.Category);
+
+      if (pc.Category.ParentId == null) continue;
+    }
+
+    return resolvedPath;
+  }
+}
+
 public class DomainToResponseMappingProfile : Profile
 {
   public DomainToResponseMappingProfile()
@@ -24,7 +42,11 @@ public class DomainToResponseMappingProfile : Profile
     CreateMap<Address, AddressResponse>();
 
     CreateMap<Product, BaseProductResponse>();
-    CreateMap<Product, ProductPageProductResponse>();
+    CreateMap<Product, ProductPageProductResponse>()
+      .ForMember(dest => dest.Path,
+        options => options
+          .MapFrom<ProductPathResolver<ProductPageProductResponse>>());
+
     CreateMap<ProductReview, ProductReviewResponse>();
     CreateMap<ProductReviewComment, ProductReviewCommentResponse>();
     CreateMap<ProductQuestion, ProductQuestionResponse>();
@@ -35,7 +57,7 @@ public class DomainToResponseMappingProfile : Profile
       .ForMember(dest => dest.Id,
         options => options
           .MapFrom(src => src.BulletPointId));
-      
+
     CreateMap<ProductImageLink, ProductImageResponse>()
       .ForMember(dest => dest.Id,
         options => options

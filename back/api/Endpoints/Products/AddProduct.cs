@@ -16,25 +16,31 @@ public class AddProduct : EndpointBaseAsync
 {
   private readonly IMapper _mapper;
   private readonly IProductRepo _repo;
-  private readonly IGenericRepo<ProductBulletPoint> _bulletPointRepo;
   private readonly IGenericRepo<ProductImageLink> _imageRepo;
+  private readonly IGenericRepo<ProductBulletPoint> _bulletPointRepo;
+  private readonly IGenericRepo<ProductsCategories> _pcRepo;
+  private readonly ICategoryRepo _categoryRepo;
 
   public AddProduct(
-    IMapper mapper, 
-    IProductRepo repo, 
-    IGenericRepo<ProductBulletPoint> bulletPointRepo, 
-    IGenericRepo<ProductImageLink> imageRepo)
+    IMapper mapper,
+    IProductRepo repo,
+    IGenericRepo<ProductImageLink> imageRepo,
+    IGenericRepo<ProductBulletPoint> bulletPointRepo,
+    IGenericRepo<ProductsCategories> pcRepo,
+    ICategoryRepo categoryRepo)
   {
     _mapper = mapper;
     _repo = repo;
-    _bulletPointRepo = bulletPointRepo;
     _imageRepo = imageRepo;
+    _bulletPointRepo = bulletPointRepo;
+    _pcRepo = pcRepo;
+    _categoryRepo = categoryRepo;
   }
 
   [Authorize(Policy = Policies.ManageProducts)]
   [HttpPost(Routes.ProductsRoot)]
   public override async Task<ActionResult<BaseProductResponse>> HandleAsync(
-    [FromRoute] AddProductRequest request, 
+    [FromRoute] AddProductRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
     var newProduct = new Models.Product.Product
@@ -46,9 +52,8 @@ public class AddProduct : EndpointBaseAsync
       DiscountedPrice = request.Dto.DiscountedPrice,
       DiscountPercent = request.Dto.DiscountPercent,
       IsDiscounted = request.Dto.IsDiscounted,
-      CategoryId = request.Dto.CategoryId
     };
-    
+
     var added = await _repo.Add(newProduct);
 
     foreach (var bulletPoint in request.Dto.BulletPoints)
@@ -60,7 +65,7 @@ public class AddProduct : EndpointBaseAsync
         Text = bulletPoint
       });
     }
-    
+
     foreach (var link in request.Dto.ImageLinks)
     {
       await _imageRepo.Add(new ProductImageLink()
@@ -70,7 +75,38 @@ public class AddProduct : EndpointBaseAsync
         Link = link
       });
     }
+
+    var allCategories = await _categoryRepo.GetAll();
     
+    var currentCategory = allCategories.FirstOrDefault(c => c.Id == request.Dto.CategoryId);
+    var path = new List<ProductCategory>() {currentCategory};
+
+    var lookForParent = allCategories.Any();
+    while (lookForParent)
+    {
+      var parent = allCategories
+        .FirstOrDefault(c => c.Id == currentCategory.ParentId);
+
+      if (parent == null)
+      {
+        lookForParent = false;
+        continue;
+      }
+      
+      path.Add(parent);
+      
+      currentCategory = parent;
+    }
+
+    foreach (var category in path)
+    {
+      await _pcRepo.Add(new ProductsCategories()
+      {
+        ProductId = added.Id,
+        CategoryId = category.Id
+      });
+    }
+
     return Created("", _mapper.Map<BaseProductResponse>(added));
   }
 }

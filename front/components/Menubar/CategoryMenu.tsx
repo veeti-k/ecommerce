@@ -1,7 +1,7 @@
 import { Button, Drawer, DrawerCloseButton, DrawerContent, DrawerOverlay } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FC, MouseEvent, useEffect, useState } from "react";
+import { FC, MouseEvent, useState } from "react";
 import { Chevron, HamburgerIcon } from "../Icons";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import { FlexDiv } from "../Containers";
@@ -9,11 +9,7 @@ import { styled } from "../../stitches.config";
 import { AnimatePresence, motion } from "framer-motion";
 import { Heading } from "../Text";
 import { pushUser } from "../../utils/router";
-import { request } from "../../utils/requests";
-import { apiRoutes } from "../../utils/routes";
 import { ResolvedCategory } from "../../types";
-import { GetStaticProps, GetStaticPropsResult } from "next";
-import { apiBase } from "../../utils/consts";
 
 const CollapsibleTrigger = styled(Collapsible.Trigger, {
   transition: "$buttonHover",

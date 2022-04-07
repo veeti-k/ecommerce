@@ -21,3 +21,9 @@ export const AddCategoryRequest = (newCategory: Omit<Category, "id">) =>
     method: "POST",
     body: newCategory,
   });
+
+export const GetCategoriesRequest = () =>
+  request({
+    path: apiRoutes.categoriesRoot,
+    method: "GET",
+  });

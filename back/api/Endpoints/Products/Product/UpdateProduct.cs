@@ -1,4 +1,5 @@
 ﻿using api.Exceptions;
+using api.Models.Product;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Product;
 using api.RequestsAndResponses.Product.Update;
@@ -10,18 +11,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Endpoints.Products.Product;
 
-
 public class UpdateProduct : EndpointBaseAsync
   .WithRequest<UpdateProductRequest>
   .WithActionResult<BaseProductResponse>
 {
   private readonly IMapper _mapper;
   private readonly IProductRepo _productRepo;
+  private readonly IProductsCategoriesRepo _pcRepo;
+  private readonly ICategoryRepo _productCategoryRepo;
 
-  public UpdateProduct(IMapper mapper, IProductRepo productRepo)
+  public UpdateProduct(IMapper mapper, IProductRepo productRepo, IProductsCategoriesRepo pcRepo, ICategoryRepo productCategoryRepo)
   {
     _mapper = mapper;
     _productRepo = productRepo;
+    _pcRepo = pcRepo;
+    _productCategoryRepo = productCategoryRepo;
   }
 
   [Authorize(Policy = Policies.ManageProducts)]
@@ -32,7 +36,7 @@ public class UpdateProduct : EndpointBaseAsync
   {
     var existingProduct = await _productRepo.GetOne(request.ProductId);
     if (existingProduct is null) throw new ProductNotFoundException(request.ProductId);
-    
+
     existingProduct.Name = request.Dto.Name ?? existingProduct.Name;
     existingProduct.Description = request.Dto.Description ?? existingProduct.Description;
     existingProduct.Price = request.Dto.Price ?? existingProduct.Price;
@@ -40,9 +44,42 @@ public class UpdateProduct : EndpointBaseAsync
     existingProduct.DiscountPercent = request.Dto.DiscountPercent ?? existingProduct.DiscountPercent;
     existingProduct.DiscountAmount = request.Dto.DiscountAmount ?? existingProduct.DiscountAmount;
     existingProduct.IsDiscounted = request.Dto.IsDiscounted ?? existingProduct.IsDiscounted;
-    existingProduct.CategoryId = request.Dto.CategoryId ?? existingProduct.CategoryId;
 
     var updated = await _productRepo.Update(existingProduct);
+
+    var oldCategories = await _pcRepo.GetManyByProductId(existingProduct.Id);
+    await _pcRepo.DeleteMany(oldCategories);
+    
+    var allCategories = await _productCategoryRepo.GetAll();
+    
+    var currentCategory = allCategories.FirstOrDefault(c => c.Id == request.Dto.CategoryId);
+    var path = new List<ProductCategory>() {currentCategory};
+
+    var lookForParent = allCategories.Any();
+    while (lookForParent)
+    {
+      var parent = allCategories
+        .FirstOrDefault(c => c.Id == currentCategory.ParentId);
+
+      if (parent == null)
+      {
+        lookForParent = false;
+        continue;
+      }
+      
+      path.Add(parent);
+      
+      currentCategory = parent;
+    }
+
+    foreach (var category in path)
+    {
+      await _pcRepo.Add(new ProductsCategories()
+      {
+        ProductId = existingProduct.Id,
+        CategoryId = category.Id
+      });
+    }
 
     return Ok(_mapper.Map<BaseProductResponse>(updated));
   }

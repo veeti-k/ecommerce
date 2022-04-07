@@ -90,9 +90,14 @@ const ProductPage: NextPage<Result> = ({ product, categories, allCategories }) =
 
   const { state } = useContext(UserContext);
 
+  const deepestCategory = product.path[product.path.length - 1];
+
   return (
-    <Layout categories={categories}>
-      <Breadcrumb>
+    <Layout categories={categories} noPadding>
+      <Breadcrumb style={{ padding: "0.3rem 0", paddingTop: "0.5rem" }}>
+        <BreadcrumbItem>
+          <BreadcrumbLink href={routes.home}>Home</BreadcrumbLink>
+        </BreadcrumbItem>
         {product.path?.length &&
           product.path.map((category) => (
             <BreadcrumbItem key={category.id}>
@@ -165,21 +170,19 @@ const ProductPage: NextPage<Result> = ({ product, categories, allCategories }) =
 
           <RightDiv style={{ height: "100%" }}>
             <PriceCard>
-              <FlexDiv column fullWidth gap05>
-                <Button>
-                  <FlexDiv align gap05>
-                    {allCategories.find((c) => c.id == product.categoryId)?.name}
-                    <ExternalLinkIcon />
-                  </FlexDiv>
-                </Button>
+              <FlexDiv column fullWidth>
+                <div>
+                  <Text>Product id: </Text>
+                  <Text bold>{product.id}</Text>
+                </div>
 
                 {isAdmin(state.flags) ? (
-                  <>
+                  <FlexDiv column fullWidth gap05>
                     <Button
                       onClick={() =>
                         pushUser(
                           router,
-                          `/products/${product.id}/edit`,
+                          `/products/edit/${product.id}`,
                           "Product page::Edit button"
                         )
                       }
@@ -187,7 +190,7 @@ const ProductPage: NextPage<Result> = ({ product, categories, allCategories }) =
                       Edit
                     </Button>
                     <DeleteProductModal product={product} />
-                  </>
+                  </FlexDiv>
                 ) : null}
               </FlexDiv>
             </PriceCard>
