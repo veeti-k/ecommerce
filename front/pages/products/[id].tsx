@@ -28,7 +28,7 @@ import NextLink from "next/link";
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 import { pushUser } from "../../utils/router";
 import { useRouter } from "next/router";
-import { ExternalLinkIcon, ShoppingCartIcon } from "../../components/Icons";
+import { ShoppingCartIcon } from "../../components/Icons";
 import { DeleteProductModal } from "../../components/Dialogs/Product/DeleteProductModal";
 import { isAdmin } from "../../utils/flagResolve";
 import { useContext } from "react";
@@ -89,8 +89,6 @@ const ProductPage: NextPage<Result> = ({ product, categories, allCategories }) =
   const router = useRouter();
 
   const { state } = useContext(UserContext);
-
-  const deepestCategory = product.path[product.path.length - 1];
 
   return (
     <Layout categories={categories} noPadding>
