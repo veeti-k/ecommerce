@@ -1,10 +1,10 @@
-﻿using api.Models.Product;
+﻿using api.Exceptions;
+using api.Models.Product;
 using api.Repositories.Interfaces;
-using api.RequestsAndResponses.Product;
 using api.RequestsAndResponses.Product.Add;
 using api.Security.Policies;
 using Ardalis.ApiEndpoints;
-using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,37 +12,39 @@ namespace api.Endpoints.Products;
 
 public class AddProduct : EndpointBaseAsync
   .WithRequest<AddProductRequest>
-  .WithActionResult<BaseProductResponse>
+  .WithActionResult
 {
-  private readonly IMapper _mapper;
   private readonly IProductRepo _repo;
   private readonly IGenericRepo<ProductImageLink> _imageRepo;
   private readonly IGenericRepo<ProductBulletPoint> _bulletPointRepo;
   private readonly IGenericRepo<ProductsCategories> _pcRepo;
   private readonly ICategoryRepo _categoryRepo;
+  private readonly IValidator<AddProductDto> _validator;
 
   public AddProduct(
-    IMapper mapper,
     IProductRepo repo,
     IGenericRepo<ProductImageLink> imageRepo,
     IGenericRepo<ProductBulletPoint> bulletPointRepo,
     IGenericRepo<ProductsCategories> pcRepo,
-    ICategoryRepo categoryRepo)
+    ICategoryRepo categoryRepo, IValidator<AddProductDto> validator)
   {
-    _mapper = mapper;
     _repo = repo;
     _imageRepo = imageRepo;
     _bulletPointRepo = bulletPointRepo;
     _pcRepo = pcRepo;
     _categoryRepo = categoryRepo;
+    _validator = validator;
   }
 
   [Authorize(Policy = Policies.ManageProducts)]
   [HttpPost(Routes.ProductsRoot)]
-  public override async Task<ActionResult<BaseProductResponse>> HandleAsync(
+  public override async Task<ActionResult> HandleAsync(
     [FromRoute] AddProductRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
+    var validationResult = await _validator.ValidateAsync(request.Dto, cancellationToken);
+    if (!validationResult.IsValid) throw new BadRequestException(validationResult.ToString());
+    
     var newProduct = new Models.Product.Product
     {
       Name = request.Dto.Name,
@@ -52,6 +54,7 @@ public class AddProduct : EndpointBaseAsync
       DiscountedPrice = request.Dto.DiscountedPrice,
       DiscountPercent = request.Dto.DiscountPercent,
       IsDiscounted = request.Dto.IsDiscounted,
+      DeepestCategoryId = request.Dto.CategoryId
     };
 
     var added = await _repo.Add(newProduct);
@@ -85,7 +88,7 @@ public class AddProduct : EndpointBaseAsync
     while (lookForParent)
     {
       var parent = allCategories
-        .FirstOrDefault(c => c.Id == currentCategory.ParentId);
+        .FirstOrDefault(c => c.Id == currentCategory?.ParentId);
 
       if (parent == null)
       {
@@ -107,6 +110,8 @@ public class AddProduct : EndpointBaseAsync
       });
     }
 
-    return Created("", _mapper.Map<BaseProductResponse>(added));
+    var uri = Routes.Products.ProductRoot.Replace(Routes.Products.ProductId, added.Id.ToString());
+
+    return Created(uri, null);
   }
 }

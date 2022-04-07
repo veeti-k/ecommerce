@@ -7,12 +7,15 @@ using api.Models.Product.Review;
 using api.Models.User;
 using api.Repositories;
 using api.Repositories.Interfaces;
+using api.RequestsAndResponses.Product.Add;
+using api.RequestsAndResponses.Product.Update;
 using api.Security.Policies.Handlers;
 using api.Services;
 using api.Services.Interfaces;
 using api.Startup;
 using api.Utils;
 using api.Utils.Interfaces;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
@@ -69,6 +72,9 @@ builder.Services.AddScoped<IAuthorizationHandler, ValidSessionAndUserHandler>();
 builder.Services.AddScoped<IAuthorizationHandler, FlagHandler>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddScoped<IValidator<AddProductDto>, AddProductDtoValidator>();
+builder.Services.AddScoped<IValidator<UpdateProductDto>, UpdateProductDtoValidator>();
 
 builder.Services.Configure<TokenOptions>(
   builder.Configuration.GetSection(TokenOptions.Position));

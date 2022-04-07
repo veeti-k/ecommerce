@@ -22,6 +22,7 @@ public class Product
   [Required] public float AverageStars { get; set; }
   [Required] public int ReviewCount { get; set; }
   [Required] public int QuestionCount { get; set; }
+  [Required] public int DeepestCategoryId { get; set; }
 
   public virtual IEnumerable<ProductImageLink> Images { get; init; }
   public virtual IEnumerable<ProductBulletPoint> BulletPoints { get; init; }

@@ -74,11 +74,13 @@ public class DataContext : DbContext, IDataContext
     aBuilder.Entity<ProductsCategories>()
       .HasOne<Product>()
       .WithMany(product => product.ProductsCategories)
+      .HasForeignKey(pc => pc.ProductId)
       .OnDelete(DeleteBehavior.Cascade);
 
     aBuilder.Entity<ProductsCategories>()
       .HasOne(linked => linked.Category)
       .WithMany()
+      .HasForeignKey(pc => pc.CategoryId)
       .OnDelete(DeleteBehavior.Cascade);
   }
 
