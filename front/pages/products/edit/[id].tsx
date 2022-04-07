@@ -1,14 +1,15 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Card } from "../../../components/Card";
 import { ProductForm, ProductFormValues } from "../../../components/Forms/ProductForm";
 import { Layout } from "../../../components/layouts/Layout";
 import { TitleContainer } from "../../../components/layouts/Styles";
 import { Heading } from "../../../components/Text";
-import { useGetProduct } from "../../../hooks/getProductHooks";
 import { useGetCategories } from "../../../hooks/useGetCategories";
-import { UpdateProductRequest } from "../../../utils/Requests/Product";
+import { ProductPageProduct } from "../../../types";
+import { GetProductRequest, UpdateProductRequest } from "../../../utils/Requests/Product";
 
 const ProductEdit: NextPage = () => {
   const router = useRouter();
@@ -16,7 +17,19 @@ const ProductEdit: NextPage = () => {
   const productId = Number(router.query.id);
 
   const { allCategories, resolvedCategories } = useGetCategories();
-  const { product } = useGetProduct(productId);
+  const [product, setProduct] = useState<ProductPageProduct>();
+
+  useEffect(() => {
+    (async () => {
+      if (!productId) return;
+
+      const res = await GetProductRequest(productId);
+
+      if (res) setProduct(res.data);
+    })();
+  }, [productId]);
+
+  if (!productId) return null;
 
   const onSubmit = async (values: ProductFormValues) => {
     const notifId = toast.loading("Updating the product");
