@@ -14,19 +14,16 @@ namespace tests.EndpointIntegrationTests.ProductQuestion;
 public class ApproveProductQuestionTests : ProductQuestionIntegrationTest
 {
   [Fact]
-  public async Task
-    ApproveProductQuestion_WithExistingProduct_WithExistingQuestion_ApprovesReview_ReturnsApprovedReview()
+  public async Task ApproveProductQuestion_WithExistingProduct_WithExistingQuestion_ApprovesReview_ReturnsApprovedReview()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
+    var product = await AddProduct();
+    var question = await AddProductQuestion(product.Id);
 
-    var product = await AddProduct(testClient);
-    var question = await AddProductQuestion(testClient, product.Id);
+    await LoginAs(Flags.ADMINISTRATOR);
 
-    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
+    var response = await ApproveProductQuestion_TEST_REQUEST(product.Id, question.Id);
 
-    var response = await ApproveProductQuestion_TEST_REQUEST(testClient, product.Id, question.Id);
-
-    await TestThings.Logout(testClient);
+    await Logout();
 
     response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -34,20 +31,18 @@ public class ApproveProductQuestionTests : ProductQuestionIntegrationTest
 
     json.Should().BeEquivalentTo(TestAddProductQuestionDto);
 
-    var questions = await GetApprovedProductQuestions(testClient, product.Id);
+    var questions = await GetApprovedProductQuestions(product.Id);
     questions.Any(q => q.Id == question.Id).Should().BeTrue();
   }
 
   [Fact]
   public async Task ApproveProductQuestion_WithNonExistentProduct_ReturnsProductNotFound()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
+    await LoginAs(Flags.ADMINISTRATOR);
 
-    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
+    var response = await ApproveProductQuestion_TEST_REQUEST(NonExistentIntId, NonExistentGuidId);
 
-    var response = await ApproveProductQuestion_TEST_REQUEST(testClient, NonExistentIntId, NonExistentGuidId);
-
-    await TestThings.Logout(testClient);
+    await Logout();
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -59,15 +54,13 @@ public class ApproveProductQuestionTests : ProductQuestionIntegrationTest
   [Fact]
   public async Task ApproveProductQuestion_WithExistingProduct_WithNonExistentQuestion_ReturnsQuestionNotFound()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
+    var product = await AddProduct();
 
-    var product = await AddProduct(testClient);
+    await LoginAs(Flags.ADMINISTRATOR);
 
-    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
+    var response = await ApproveProductQuestion_TEST_REQUEST(product.Id, NonExistentGuidId);
 
-    var response = await ApproveProductQuestion_TEST_REQUEST(testClient, product.Id, NonExistentGuidId);
-
-    await TestThings.Logout(testClient);
+    await Logout();
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -79,10 +72,7 @@ public class ApproveProductQuestionTests : ProductQuestionIntegrationTest
   [Fact]
   public async Task ApproveProductQuestion_TestPerms()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
-
-    await TestThings.TestPermissions(testClient,
-      () => ApproveProductQuestion_TEST_REQUEST(testClient, NonExistentIntId, NonExistentGuidId),
+    await TestPermissions(() => ApproveProductQuestion_TEST_REQUEST(NonExistentIntId, NonExistentGuidId),
       new List<Flags> {Flags.MANAGE_QUESTIONS});
   }
 }

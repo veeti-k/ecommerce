@@ -14,19 +14,17 @@ public class DeleteProductTests : ProductIntegrationTest
   [Fact]
   public async Task DeleteProduct_WithExistingProduct_DeletesProduct_Returns204()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
+    var product = await AddProduct();
 
-    var product = await AddProduct(testClient);
+    await LoginAs(Flags.ADMINISTRATOR);
 
-    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
+    var response = await DeleteProduct_TEST_REQUEST(product.Id);
 
-    var response = await DeleteProduct_TEST_REQUEST(testClient, product.Id);
-
-    await TestThings.Logout(testClient);
+    await Logout();
 
     response.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-    var checkRequest = await GetProduct_TEST_REQUEST(testClient, product.Id);
+    var checkRequest = await GetProduct_TEST_REQUEST(product.Id);
     checkRequest.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
     var json = await checkRequest.Content.ReadFromJsonAsync<MyExceptionResponse>();
@@ -37,13 +35,11 @@ public class DeleteProductTests : ProductIntegrationTest
   [Fact]
   public async Task DeleteProduct_WithNonExistentProduct_ReturnsProductNotFound()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
+    await LoginAs(Flags.ADMINISTRATOR);
 
-    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
+    var response = await DeleteProduct_TEST_REQUEST(NonExistentIntId);
 
-    var response = await DeleteProduct_TEST_REQUEST(testClient, NonExistentIntId);
-
-    await TestThings.Logout(testClient);
+    await Logout();
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -55,9 +51,7 @@ public class DeleteProductTests : ProductIntegrationTest
   [Fact]
   public async Task DeleteProduct_TestPerms()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
-
-    await TestThings.TestPermissions(testClient, () => DeleteProduct_TEST_REQUEST(testClient, NonExistentIntId),
+    await TestPermissions(() => DeleteProduct_TEST_REQUEST(NonExistentIntId),
       new List<Flags> {Flags.MANAGE_PRODUCTS});
   }
 }

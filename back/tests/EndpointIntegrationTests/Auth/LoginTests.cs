@@ -44,7 +44,7 @@ public class LoginTests : AuthIntegrationTest
 
     var response = await Login_TEST_REQUEST(dto);
 
-    response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
     var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
 

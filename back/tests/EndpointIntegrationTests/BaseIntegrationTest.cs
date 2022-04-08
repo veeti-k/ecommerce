@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Net.Http;
 using api;
@@ -28,17 +27,17 @@ public class BaseIntegrationTest
           services.Remove(descriptor);
 
           services.AddDbContext<DataContext>(options => options
-            .UseInMemoryDatabase(Guid.NewGuid().ToString()));
+            .UseInMemoryDatabase("test-db"));
 
           var sp = services.BuildServiceProvider();
 
           using var scope = sp.CreateScope();
-          var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+          var scopedServices = scope.ServiceProvider;
+          var db = scopedServices.GetRequiredService<DataContext>();
 
-          db.Database.EnsureDeleted();
+          db.Database.EnsureCreated();
 
           DbSeeding.SeedUsers(db);
-          DbSeeding.SeedCategory(db);
         });
       });
 

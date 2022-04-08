@@ -36,12 +36,8 @@ public class NeedsAuthIntegrationTest : BaseIntegrationTest
 
     var response = await TestClient.PostAsync(Routes.Auth.Login, JsonContent.Create(loginDto));
 
-    if (!response.IsSuccessStatusCode)
-    {
-      var debug = await response.Content.ReadFromJsonAsync<object>();
-      throw new Exception("Login failed");
-    }
-    
+    response.IsSuccessStatusCode.Should().BeTrue();
+
     var json = await response.Content.ReadFromJsonAsync<LoginResponse>();
 
     var accessToken = json.AccessToken;

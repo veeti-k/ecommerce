@@ -15,34 +15,30 @@ public class DeleteReviewTests : ProductReviewIntegrationTest
   [Fact]
   public async Task DeleteReview_WithExistingProduct_WithApprovedExistingReview_DeletesReview_ReturnsNoContent()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
+    var product = await AddProduct();
+    var review = await AddReview(product.Id);
+    await ApproveReview(product.Id, review.Id);
 
-    var product = await AddProduct(testClient);
-    var review = await AddReview(testClient, product.Id);
-    await ApproveReview(testClient, product.Id, review.Id);
+    await LoginAs(Flags.ADMINISTRATOR);
 
-    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
+    var response = await DeleteReview_TEST_REQUEST(product.Id, review.Id);
 
-    var response = await DeleteReview_TEST_REQUEST(testClient, product.Id, review.Id);
-
-    await TestThings.Logout(testClient);
+    await Logout();
 
     response.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-    var reviews = await GetApprovedProductReviews(testClient, product.Id);
+    var reviews = await GetApprovedProductReviews(product.Id);
     reviews.Any(foundReview => foundReview.Id == review.Id).Should().BeFalse();
   }
 
   [Fact]
   public async Task DeleteReview_WithNonExistentProduct_ReturnsProductNotFound()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
+    await LoginAs(Flags.ADMINISTRATOR);
 
-    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
+    var response = await DeleteReview_TEST_REQUEST(NonExistentIntId, NonExistentGuidId);
 
-    var response = await DeleteReview_TEST_REQUEST(testClient, NonExistentIntId, NonExistentGuidId);
-
-    await TestThings.Logout(testClient);
+    await Logout();
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -54,15 +50,13 @@ public class DeleteReviewTests : ProductReviewIntegrationTest
   [Fact]
   public async Task DeleteReview_WithExistingProduct_WithNonExistentReview_ReturnsReviewNotFound()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
+    var product = await AddProduct();
 
-    var product = await AddProduct(testClient);
+    await LoginAs(Flags.ADMINISTRATOR);
 
-    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
+    var response = await DeleteReview_TEST_REQUEST(product.Id, NonExistentGuidId);
 
-    var response = await DeleteReview_TEST_REQUEST(testClient, product.Id, NonExistentGuidId);
-
-    await TestThings.Logout(testClient);
+    await Logout();
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -70,34 +64,29 @@ public class DeleteReviewTests : ProductReviewIntegrationTest
 
     json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductReviewNotFoundException(NonExistentGuidId));
   }
-
+  
   [Fact]
   public async Task DeleteReview_WithExistingProduct_WithNotApprovedExistingReview_DeletesReview_ReturnsNoContent()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
+    var product = await AddProduct();
+    var review = await AddReview(product.Id);
 
-    var product = await AddProduct(testClient);
-    var review = await AddReview(testClient, product.Id);
+    await LoginAs(Flags.ADMINISTRATOR);
 
-    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
+    var response = await DeleteReview_TEST_REQUEST(product.Id, review.Id);
 
-    var response = await DeleteReview_TEST_REQUEST(testClient, product.Id, review.Id);
-
-    await TestThings.Logout(testClient);
+    await Logout();
 
     response.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-    var reviews = await GetApprovedProductReviews(testClient, product.Id);
+    var reviews = await GetApprovedProductReviews(product.Id);
     reviews.Any(foundReview => foundReview.Id == review.Id).Should().BeFalse();
   }
 
   [Fact]
   public async Task DeleteReview_TestPerms()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
-
-    await TestThings.TestPermissions(testClient,
-      () => DeleteReview_TEST_REQUEST(testClient, NonExistentIntId, NonExistentGuidId),
+    await TestPermissions(() => DeleteReview_TEST_REQUEST(NonExistentIntId, NonExistentGuidId),
       new List<Flags> {Flags.MANAGE_REVIEWS});
   }
 }

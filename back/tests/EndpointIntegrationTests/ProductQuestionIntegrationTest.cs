@@ -21,19 +21,19 @@ public class ProductQuestionIntegrationTest : ProductIntegrationTest
     Title = Guid.NewGuid().ToString()
   };
 
-  public async Task<HttpResponseMessage?> AddProductQuestion_TEST_REQUEST(HttpClient testClient, int productId)
+  public async Task<HttpResponseMessage?> AddProductQuestion_TEST_REQUEST(int productId)
   {
     var path = Routes.Products.Product.QuestionsRoot
       .Replace(Routes.Products.ProductId, productId.ToString());
 
-    var response = await testClient.PostAsync(path, JsonContent.Create(TestAddProductQuestionDto));
+    var response = await TestClient.PostAsync(path, JsonContent.Create(TestAddProductQuestionDto));
 
     return response;
   }
 
-  public async Task<ProductQuestionResponse> AddProductQuestion(HttpClient testClient, int productId)
+  public async Task<ProductQuestionResponse> AddProductQuestion(int productId)
   {
-    var response = await AddProductQuestion_TEST_REQUEST(testClient, productId);
+    var response = await AddProductQuestion_TEST_REQUEST(productId);
 
     response.IsSuccessStatusCode.Should().BeTrue();
 
@@ -41,78 +41,74 @@ public class ProductQuestionIntegrationTest : ProductIntegrationTest
 
     return json;
   }
-
+  
   // approve question
-  public async Task<HttpResponseMessage?> ApproveProductQuestion_TEST_REQUEST(HttpClient testClient, int productId,
-    Guid questionId)
+  public async Task<HttpResponseMessage?> ApproveProductQuestion_TEST_REQUEST(int productId, Guid questionId)
   {
     var path = Routes.Products.Product.Questions.QuestionRoot
       .Replace(Routes.Products.ProductId, productId.ToString())
       .Replace(Routes.Products.QuestionId, questionId.ToString());
 
-    var response = await testClient.PatchAsync(path, JsonContent.Create(""));
+    var response = await TestClient.PatchAsync(path, JsonContent.Create(""));
 
     return response;
   }
 
-  public async Task<ProductQuestionResponse> ApproveProductQuestion(HttpClient testClient, int productId,
-    Guid questionId)
+  public async Task<ProductQuestionResponse> ApproveProductQuestion(int productId, Guid questionId)
   {
-    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
+    await LoginAs(Flags.ADMINISTRATOR);
+    
+    var response = await ApproveProductQuestion_TEST_REQUEST(productId, questionId);
 
-    var response = await ApproveProductQuestion_TEST_REQUEST(testClient, productId, questionId);
-
-    await TestThings.Logout(testClient);
-
+    await Logout();
+    
     response.IsSuccessStatusCode.Should().BeTrue();
 
     var json = await response.Content.ReadFromJsonAsync<ProductQuestionResponse>();
 
     return json;
   }
-
+  
   // delete question
-  public async Task<HttpResponseMessage?> DeleteProductQuestion_TEST_REQUEST(HttpClient testClient, int productId,
-    Guid questionId)
+  public async Task<HttpResponseMessage?> DeleteProductQuestion_TEST_REQUEST(int productId, Guid questionId)
   {
     var path = Routes.Products.Product.Questions.QuestionRoot
       .Replace(Routes.Products.ProductId, productId.ToString())
       .Replace(Routes.Products.QuestionId, questionId.ToString());
 
-    var response = await testClient.DeleteAsync(path);
+    var response = await TestClient.DeleteAsync(path);
 
     return response;
   }
 
-  public async Task DeleteProductQuestion(HttpClient testClient, int productId, Guid questionId)
+  public async Task DeleteProductQuestion(int productId, Guid questionId)
   {
-    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
-
-    var response = await DeleteProductQuestion_TEST_REQUEST(testClient, productId, questionId);
-
-    await TestThings.Logout(testClient);
+    await LoginAs(Flags.ADMINISTRATOR);
+    
+    var response = await DeleteProductQuestion_TEST_REQUEST(productId, questionId);
+    
+    await Logout();
 
     response.IsSuccessStatusCode.Should().BeTrue();
   }
 
   // get approved questions
-  public async Task<HttpResponseMessage?> GetApprovedProductQuestions_TEST_REQUEST(HttpClient testClient, int productId)
+  public async Task<HttpResponseMessage?> GetApprovedProductQuestions_TEST_REQUEST(int productId)
   {
     var path = Routes.Products.Product.QuestionsRoot
       .Replace(Routes.Products.ProductId, productId.ToString());
 
-    var response = await testClient.GetAsync(path);
+    var response = await TestClient.GetAsync(path);
 
     return response;
   }
 
-  public async Task<IEnumerable<ProductQuestionResponse>> GetApprovedProductQuestions(HttpClient testClient,
-    int productId)
+  public async Task<IEnumerable<ProductQuestionResponse>> GetApprovedProductQuestions(int productId)
   {
-    var response = await GetApprovedProductQuestions_TEST_REQUEST(testClient, productId);
+    var response = await GetApprovedProductQuestions_TEST_REQUEST(productId);
 
     response.IsSuccessStatusCode.Should().BeTrue();
-
+    
     var json = await response.Content.ReadFromJsonAsync<IEnumerable<ProductQuestionResponse>>();
 
     return json;

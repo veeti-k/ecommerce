@@ -17,39 +17,34 @@ public class ApproveReviewTests : ProductReviewIntegrationTest
   [Fact]
   public async Task ApproveReview_WithExistingProduct_WithExistingReview_ApprovesReview_ReturnsApprovedReview()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
+    var product = await AddProduct();
+    var review = await AddReview(product.Id);
 
-    var product = await AddProduct(testClient);
-    var review = await AddReview(testClient, product.Id);
+    await LoginAs(Flags.ADMINISTRATOR);
 
-    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
-
-    var response = await ApproveReview_TEST_REQUEST(testClient, product.Id, review.Id);
-
-    await TestThings.Logout(testClient);
-
-
+    var response = await ApproveReview_TEST_REQUEST(product.Id, review.Id);
+    
+    await Logout();
+    
     response.StatusCode.Should().Be(HttpStatusCode.OK);
 
     var json = await response.Content.ReadFromJsonAsync<ProductReviewResponse>();
 
     json.Should().BeEquivalentTo(review, options => options.ExcludingMissingMembers());
 
-    var reviews = await GetApprovedProductReviews(testClient, product.Id);
+    var reviews = await GetApprovedProductReviews(product.Id);
     reviews.Any(approvedReview => approvedReview.Id == review.Id).Should().BeTrue();
   }
 
   [Fact]
   public async Task ApproveReview_WithNonExistentProduct_ReturnsProductNotFound()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
+    await LoginAs(Flags.ADMINISTRATOR);
 
-    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
-
-    var response = await ApproveReview_TEST_REQUEST(testClient, NonExistentIntId, Guid.NewGuid());
-
-    await TestThings.Logout(testClient);
-
+    var response = await ApproveReview_TEST_REQUEST(NonExistentIntId, Guid.NewGuid());
+    
+    await Logout();
+    
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
     var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
@@ -60,16 +55,14 @@ public class ApproveReviewTests : ProductReviewIntegrationTest
   [Fact]
   public async Task ApproveReview_WithExistingProduct_WithNonExistentReview_ReturnsReviewNotFound()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
+    var product = await AddProduct();
 
-    var product = await AddProduct(testClient);
+    await LoginAs(Flags.ADMINISTRATOR);
 
-    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
-
-    var response = await ApproveReview_TEST_REQUEST(testClient, product.Id, NonExistentGuidId);
-
-    await TestThings.Logout(testClient);
-
+    var response = await ApproveReview_TEST_REQUEST(product.Id, NonExistentGuidId);
+    
+    await Logout();
+    
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
     var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
@@ -80,10 +73,7 @@ public class ApproveReviewTests : ProductReviewIntegrationTest
   [Fact]
   public async Task ApproveReview_TestPerms()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
-
-    await TestThings.TestPermissions(testClient,
-      () => ApproveReview_TEST_REQUEST(testClient, NonExistentIntId, NonExistentGuidId),
+    await TestPermissions(() => ApproveReview_TEST_REQUEST(NonExistentIntId, NonExistentGuidId),
       new List<Flags> {Flags.MANAGE_REVIEWS});
   }
 }

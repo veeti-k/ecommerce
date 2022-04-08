@@ -17,20 +17,16 @@ public class ApproveReviewCommentTests : ProductReviewCommentIntegrationTest
   public async Task
     ApproveReviewComment_WithExistingProduct_WithApprovedExistingReview_WithExistingComment_Approves_ReturnsApprovedReviewComment()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
+    var existingProduct = await AddProduct();
+    var existingReview = await AddReview(existingProduct.Id);
+    await ApproveReview(existingProduct.Id, existingReview.Id);
+    var existingComment = await AddReviewComment(existingProduct.Id, existingReview.Id);
 
-    var existingProduct = await AddProduct(testClient);
-    var existingReview = await AddReview(testClient, existingProduct.Id);
-    await ApproveReview(testClient, existingProduct.Id, existingReview.Id);
-    var existingComment = await AddReviewComment(testClient, existingProduct.Id, existingReview.Id);
+    await LoginAs(Flags.ADMINISTRATOR);
 
-    await TestThings.Login(
-      testClient, Flags.ADMINISTRATOR);
+    var response = await ApproveReviewComment_TEST_REQUEST(existingProduct.Id, existingReview.Id, existingComment.Id);
 
-    var response =
-      await ApproveReviewComment_TEST_REQUEST(testClient, existingProduct.Id, existingReview.Id, existingComment.Id);
-
-    await TestThings.Logout(testClient);
+    await Logout();
 
     response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -38,7 +34,7 @@ public class ApproveReviewCommentTests : ProductReviewCommentIntegrationTest
 
     json.Should().BeEquivalentTo(existingComment, options => options.ExcludingMissingMembers());
 
-    var reviews = await GetApprovedProductReviews(testClient, existingProduct.Id);
+    var reviews = await GetApprovedProductReviews(existingProduct.Id);
     var theReview = reviews.FirstOrDefault(review => review.Id == existingReview.Id);
     theReview.Should().NotBeNull();
 
@@ -51,15 +47,11 @@ public class ApproveReviewCommentTests : ProductReviewCommentIntegrationTest
   [Fact]
   public async Task ApproveReviewComment_WithNonExistentProduct_ReturnsProductNotFound()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
+    await LoginAs(Flags.ADMINISTRATOR);
 
-    await TestThings.Login(
-      testClient, Flags.ADMINISTRATOR);
+    var response = await ApproveReviewComment_TEST_REQUEST(NonExistentIntId, NonExistentGuidId, NonExistentGuidId);
 
-    var response =
-      await ApproveReviewComment_TEST_REQUEST(testClient, NonExistentIntId, NonExistentGuidId, NonExistentGuidId);
-
-    await TestThings.Logout(testClient);
+    await Logout();
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -71,17 +63,13 @@ public class ApproveReviewCommentTests : ProductReviewCommentIntegrationTest
   [Fact]
   public async Task ApproveReviewComment_WithExistingProduct_WithNonExistentReview_ReturnsReviewNotFound()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
+    var product = await AddProduct();
 
-    var product = await AddProduct(testClient);
+    await LoginAs(Flags.ADMINISTRATOR);
 
-    await TestThings.Login(
-      testClient, Flags.ADMINISTRATOR);
+    var response = await ApproveReviewComment_TEST_REQUEST(product.Id, NonExistentGuidId, NonExistentGuidId);
 
-    var response =
-      await ApproveReviewComment_TEST_REQUEST(testClient, product.Id, NonExistentGuidId, NonExistentGuidId);
-
-    await TestThings.Logout(testClient);
+    await Logout();
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -94,18 +82,15 @@ public class ApproveReviewCommentTests : ProductReviewCommentIntegrationTest
   public async Task
     ApproveReviewComment_WithExistingProduct_WithApprovedExistingReview_WithNonExistentComment_ReturnsCommentNotFound()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
+    var product = await AddProduct();
+    var review = await AddReview(product.Id);
+    await ApproveReview(product.Id, review.Id);
 
-    var product = await AddProduct(testClient);
-    var review = await AddReview(testClient, product.Id);
-    await ApproveReview(testClient, product.Id, review.Id);
+    await LoginAs(Flags.ADMINISTRATOR);
 
-    await TestThings.Login(
-      testClient, Flags.ADMINISTRATOR);
+    var response = await ApproveReviewComment_TEST_REQUEST(product.Id, review.Id, NonExistentGuidId);
 
-    var response = await ApproveReviewComment_TEST_REQUEST(testClient, product.Id, review.Id, NonExistentGuidId);
-
-    await TestThings.Logout(testClient);
+    await Logout();
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -113,22 +98,19 @@ public class ApproveReviewCommentTests : ProductReviewCommentIntegrationTest
 
     json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductReviewCommentNotFoundException(NonExistentGuidId));
   }
-
+  
   [Fact]
   public async Task
     ApproveReviewComment_WithExistingProduct_WithNotApprovedExistingReview_ReturnsReviewNotFound()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
+    var product = await AddProduct();
+    var review = await AddReview(product.Id);
 
-    var product = await AddProduct(testClient);
-    var review = await AddReview(testClient, product.Id);
+    await LoginAs(Flags.ADMINISTRATOR);
 
-    await TestThings.Login(
-      testClient, Flags.ADMINISTRATOR);
+    var response = await ApproveReviewComment_TEST_REQUEST(product.Id, review.Id, NonExistentGuidId);
 
-    var response = await ApproveReviewComment_TEST_REQUEST(testClient, product.Id, review.Id, NonExistentGuidId);
-
-    await TestThings.Logout(testClient);
+    await Logout();
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -140,10 +122,8 @@ public class ApproveReviewCommentTests : ProductReviewCommentIntegrationTest
   [Fact]
   public async Task ApproveReviewComment_TestPerms()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
-
-    await TestThings.TestPermissions(testClient, () =>
-        ApproveReviewComment_TEST_REQUEST(testClient, NonExistentIntId, NonExistentGuidId, NonExistentGuidId),
+    await TestPermissions(() =>
+        ApproveReviewComment_TEST_REQUEST(NonExistentIntId, NonExistentGuidId, NonExistentGuidId),
       new List<Flags> {Flags.MANAGE_REVIEWS});
   }
 }

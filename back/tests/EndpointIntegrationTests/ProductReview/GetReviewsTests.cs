@@ -16,15 +16,13 @@ public class GetReviewsTests : ProductReviewIntegrationTest
   [Fact]
   public async Task GetReviews_WithExistingProduct_WithExistingReviews_ReturnsOnlyApprovedReviews()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
+    var product = await AddProduct();
+    var review1 = await AddReview(product.Id);
+    var review2 = await AddReview(product.Id);
 
-    var product = await AddProduct(testClient);
-    var review1 = await AddReview(testClient, product.Id);
-    var review2 = await AddReview(testClient, product.Id);
+    await ApproveReview(product.Id, review1.Id);
 
-    await ApproveReview(testClient, product.Id, review1.Id);
-
-    var reviews = await GetApprovedProductReviews(testClient, product.Id);
+    var reviews = await GetApprovedProductReviews(product.Id);
 
     reviews.Any(rev => rev.Id == review2.Id).Should().BeFalse();
     reviews.Any(rev => rev.Id == review1.Id).Should().BeTrue();
@@ -33,9 +31,7 @@ public class GetReviewsTests : ProductReviewIntegrationTest
   [Fact]
   public async Task GetReviews_WithNonExistentProductId_ReturnsProductNotFound()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
-
-    var response = await GetApprovedProductReviews_TEST_REQUEST(testClient, NonExistentIntId);
+    var response = await GetApprovedProductReviews_TEST_REQUEST(NonExistentIntId);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -47,11 +43,9 @@ public class GetReviewsTests : ProductReviewIntegrationTest
   [Fact]
   public async Task GetReviews_WithExistingProductId_NoReviews_ReturnsEmptyList()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
+    var product = await AddProduct();
 
-    var product = await AddProduct(testClient);
-
-    var response = await GetApprovedProductReviews_TEST_REQUEST(testClient, product.Id);
+    var response = await GetApprovedProductReviews_TEST_REQUEST(product.Id);
 
     response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -63,10 +57,7 @@ public class GetReviewsTests : ProductReviewIntegrationTest
   [Fact]
   public async Task GetReviews_TestPerms()
   {
-    var testClient = TestThings.InitDatabaseAndCreateClient();
-
-    await TestThings.TestPermissions(testClient,
-      () => GetApprovedProductReviews_TEST_REQUEST(testClient, NonExistentIntId),
+    await TestPermissions(() => GetApprovedProductReviews_TEST_REQUEST(NonExistentIntId),
       new List<Flags> {Flags.NO_FLAGS});
   }
 }

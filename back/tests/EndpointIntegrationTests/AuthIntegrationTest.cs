@@ -7,7 +7,6 @@ using api.RequestsAndResponses.Auth.Login;
 using api.RequestsAndResponses.Auth.Register;
 using FluentAssertions;
 using tests.UtilsForTesting;
-using Xunit;
 
 namespace tests.EndpointIntegrationTests;
 
