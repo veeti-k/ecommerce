@@ -16,11 +16,13 @@ public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
   [Fact]
   public async Task AddReviewComment_WithExistingProduct_WithExistingReview_ReturnsAddedComment()
   {
-    var product = await AddProduct();
-    var review = await AddReview(product.Id);
-    await ApproveReview(product.Id, review.Id);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    var response = await AddReviewComment_TEST_REQUEST(product.Id, review.Id);
+    var product = await AddProduct(testClient);
+    var review = await AddReview(testClient, product.Id);
+    await ApproveReview(testClient, product.Id, review.Id);
+
+    var response = await AddReviewComment_TEST_REQUEST(testClient, product.Id, review.Id);
 
     response.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -28,14 +30,16 @@ public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
 
     json.Should().BeEquivalentTo(TestProductReviewCommentDto);
   }
-  
+
   [Fact]
   public async Task AddReviewComment_WithExistingProduct_WithExistingReviewButNotApproved_ReturnsReviewNotFound()
   {
-    var product = await AddProduct();
-    var review = await AddReview(product.Id);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    var response = await AddReviewComment_TEST_REQUEST(product.Id, review.Id);
+    var product = await AddProduct(testClient);
+    var review = await AddReview(testClient, product.Id);
+
+    var response = await AddReviewComment_TEST_REQUEST(testClient, product.Id, review.Id);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -47,19 +51,21 @@ public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
   [Fact]
   public async Task AddReviewComment_AfterAdding_DoesNotExposeReview_UntilApproved()
   {
-    var product = await AddProduct();
-    var review = await AddReview(product.Id);
-    await ApproveReview(product.Id, review.Id);
-    var comment = await AddReviewComment(product.Id, review.Id);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    var reviews = await GetApprovedProductReviews(product.Id);
+    var product = await AddProduct(testClient);
+    var review = await AddReview(testClient, product.Id);
+    await ApproveReview(testClient, product.Id, review.Id);
+    var comment = await AddReviewComment(testClient, product.Id, review.Id);
+
+    var reviews = await GetApprovedProductReviews(testClient, product.Id);
     var reviewTheCommentWasAddedOn1 = reviews.FirstOrDefault(foundReview => foundReview.Id == review.Id);
 
     reviewTheCommentWasAddedOn1.Comments.Any(foundComment => foundComment.Id == comment.Id).Should().BeFalse();
 
-    await ApproveReviewComment(product.Id, review.Id, comment.Id);
+    await ApproveReviewComment(testClient, product.Id, review.Id, comment.Id);
 
-    var reviews2 = await GetApprovedProductReviews(product.Id);
+    var reviews2 = await GetApprovedProductReviews(testClient, product.Id);
     var reviewTheCommentWasAddedOn2 = reviews2.FirstOrDefault(foundReview => foundReview.Id == review.Id);
 
     reviewTheCommentWasAddedOn2.Comments.Any(foundComment => foundComment.Id == comment.Id).Should().BeTrue();
@@ -68,7 +74,9 @@ public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
   [Fact]
   public async Task AddReviewComment_WithNonExistentProduct_ReturnsProductNotFound()
   {
-    var response = await AddReviewComment_TEST_REQUEST(NonExistentIntId, NonExistentGuidId);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
+
+    var response = await AddReviewComment_TEST_REQUEST(testClient, NonExistentIntId, NonExistentGuidId);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -80,9 +88,11 @@ public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
   [Fact]
   public async Task AddReviewComment_WithExistingProduct_WithNonExistentReview_ReturnsReviewNotFound()
   {
-    var product = await AddProduct();
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    var response = await AddReviewComment_TEST_REQUEST(product.Id, NonExistentGuidId);
+    var product = await AddProduct(testClient);
+
+    var response = await AddReviewComment_TEST_REQUEST(testClient, product.Id, NonExistentGuidId);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -94,7 +104,10 @@ public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
   [Fact]
   public async Task AddReviewComment_TestPerms()
   {
-    await TestPermissions(() => AddReviewComment_TEST_REQUEST(NonExistentIntId, NonExistentGuidId),
+    var testClient = TestThings.InitDatabaseAndCreateClient();
+
+    await TestThings.TestPermissions(testClient,
+      () => AddReviewComment_TEST_REQUEST(testClient, NonExistentIntId, NonExistentGuidId),
       new List<Flags> {Flags.NO_FLAGS});
   }
 }

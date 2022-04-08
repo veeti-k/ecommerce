@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using api.Data;
+using api.Models.Product;
 using api.Models.User;
 using api.Security;
 using api.Utils;
@@ -10,89 +12,14 @@ namespace tests.UtilsForTesting;
 
 public static class DbSeeding
 {
-  public static List<User> Users = new()
+  private static readonly List<User> Users = new() { };
+  
+  public static readonly ProductCategory BaseCategory = new()
   {
-    new User
-    {
-      Name = "admin",
-      Email = "admin-test@test.test",
-      PhoneNumber = "admin-123",
-      Password = "admin-pass",
-      CreatedAt = DateTimeOffset.UtcNow,
-      Flags = Flags.ADMINISTRATOR,
-    },
-
-    new User
-    {
-      Name = "non-admin",
-      Email = "normal-test@test.test",
-      PhoneNumber = "non-admin-123",
-      Password = "normal-pass",
-      CreatedAt = DateTimeOffset.UtcNow,
-      Flags = 0,
-    },
-
-    new User
-    {
-      Name = "manage-products",
-      Email = "manage-products-test@test.test",
-      PhoneNumber = "manage-products-123",
-      Password = "manage-products-pass",
-      CreatedAt = DateTimeOffset.UtcNow,
-      Flags = Flags.MANAGE_PRODUCTS,
-    },
-
-    new User
-    {
-      Name = "manage-reviews",
-      Email = "manage-reviews-test@test.test",
-      PhoneNumber = "manage-reviews-123",
-      Password = "manage-reviews-pass",
-      CreatedAt = DateTimeOffset.UtcNow,
-      Flags = Flags.MANAGE_REVIEWS,
-    },
-
-    new User
-    {
-      Name = "manage-questions",
-      Email = "manage-questions-test@test.test",
-      PhoneNumber = "manage-questions-123",
-      Password = "manage-questions-pass",
-      CreatedAt = DateTimeOffset.UtcNow,
-      Flags = Flags.MANAGE_QUESTIONS,
-    },
-
-    new User
-    {
-      Name = "view-users",
-      Email = "view-users-test@test.test",
-      PhoneNumber = "view-users-123",
-      Password = "view-users-pass",
-      CreatedAt = DateTimeOffset.UtcNow,
-      Flags = Flags.VIEW_USERS,
-    },
-
-    new User
-    {
-      Name = "test-account",
-      Email = "test-account-test@test.test",
-      PhoneNumber = "test-account-123",
-      Password = "test-account-pass",
-      CreatedAt = DateTimeOffset.UtcNow,
-      Flags = Flags.TEST_ACCOUNT,
-    },
-
-    new User
-    {
-      Name = "employee",
-      Email = "employee-test@test.test",
-      PhoneNumber = "employee-123",
-      Password = "employee-pass",
-      CreatedAt = DateTimeOffset.UtcNow,
-      Flags = Flags.EMPLOYEE,
-    },
+    Name = Guid.NewGuid().ToString(),
+    ParentId = null
   };
-
+  
   public static User? GetUser(Flags flags)
   {
     return Users.FirstOrDefault(user => user.Flags == flags);
@@ -100,19 +27,46 @@ public static class DbSeeding
 
   public static void SeedUsers(DataContext db)
   {
-    foreach (var user in Users)
+    foreach (Flags flag in Enum.GetValues(typeof(Flags)))
     {
-      db.Users.Add(new User
+      var password = flag.ToString() + Guid.NewGuid();
+      
+      var dbUser = new User
       {
-        Name = user.Name,
-        Email = user.Email,
-        Flags = user.Flags,
-        Password = Hashing.HashToString(user.Password),
-        CreatedAt = user.CreatedAt,
-        PhoneNumber = user.PhoneNumber
-      });
+        Name = flag.ToString() + Guid.NewGuid(),
+        Email = flag.ToString() + Guid.NewGuid(),
+        Flags = flag,
+        Password = Hashing.HashToString(password),
+        CreatedAt = DateTimeOffset.UtcNow,
+        PhoneNumber = flag.ToString() + Guid.NewGuid()
+      };
+
+      var user = new User()
+      {
+        Name = dbUser.Name,
+        Email = dbUser.Email,
+        Flags = dbUser.Flags,
+        Password = password,
+        CreatedAt = dbUser.CreatedAt,
+        PhoneNumber = dbUser.PhoneNumber
+      };
+      
+      db.Users.Add(dbUser);
+      Users.Add(user);
     }
 
     db.SaveChanges();
+  }
+
+  public static void SeedCategory(DataContext db)
+  {
+    db.ProductCategories.Add(BaseCategory);
+    try
+    {
+      db.SaveChanges();
+
+    } catch (Exception e)
+    {
+    }
   }
 }

@@ -16,9 +16,11 @@ public class AddReviewTests : ProductReviewIntegrationTest
   [Fact]
   public async Task AddReview_WithExistingProduct_AddsReview_ReturnsAddedReview()
   {
-    var product = await AddProduct();
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    var response = await AddReview_TEST_REQUEST(product.Id);
+    var product = await AddProduct(testClient);
+
+    var response = await AddReview_TEST_REQUEST(testClient, product.Id);
 
     response.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -30,22 +32,26 @@ public class AddReviewTests : ProductReviewIntegrationTest
   [Fact]
   public async Task AddReview_AfterAdding_DoesNotExposeReview_UntilApproved()
   {
-    var product = await AddProduct();
-    var review = await AddReview(product.Id);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    var reviews1 = await GetApprovedProductReviews(product.Id);
+    var product = await AddProduct(testClient);
+    var review = await AddReview(testClient, product.Id);
+
+    var reviews1 = await GetApprovedProductReviews(testClient, product.Id);
     reviews1.Any(foundReview => foundReview.Id == review.Id).Should().BeFalse();
 
-    await ApproveReview(product.Id, review.Id);
+    await ApproveReview(testClient, product.Id, review.Id);
 
-    var reviews2 = await GetApprovedProductReviews(product.Id);
+    var reviews2 = await GetApprovedProductReviews(testClient, product.Id);
     reviews2.Any(foundReview => foundReview.Id == review.Id).Should().BeTrue();
   }
 
   [Fact]
   public async Task AddReview_WithNonExistentProduct_ReturnsProductNotFound()
   {
-    var response = await AddReview_TEST_REQUEST(NonExistentIntId);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
+
+    var response = await AddReview_TEST_REQUEST(testClient, NonExistentIntId);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -57,7 +63,9 @@ public class AddReviewTests : ProductReviewIntegrationTest
   [Fact]
   public async Task AddReview_TestPerms()
   {
-    await TestPermissions(() => AddReview_TEST_REQUEST(NonExistentIntId),
+     var testClient = TestThings.InitDatabaseAndCreateClient();
+
+    await TestThings.TestPermissions(testClient, () => AddReview_TEST_REQUEST(testClient, NonExistentIntId),
       new List<Flags> {Flags.NO_FLAGS});
   }
 }

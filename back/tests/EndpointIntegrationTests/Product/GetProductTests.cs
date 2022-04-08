@@ -15,9 +15,11 @@ public class GetProductTests : ProductIntegrationTest
   [Fact]
   public async Task GetProduct_WithExistingProduct_ReturnsProduct()
   {
-    var product = await AddProduct();
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    var response = await GetProduct_TEST_REQUEST(product.Id);
+    var product = await AddProduct(testClient);
+
+    var response = await GetProduct_TEST_REQUEST(testClient, product.Id);
 
     response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -30,7 +32,9 @@ public class GetProductTests : ProductIntegrationTest
   [Fact]
   public async Task GetProduct_WithNonExistentProduct_ReturnsProductNotFound()
   {
-    var response = await GetProduct_TEST_REQUEST(NonExistentIntId);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
+
+    var response = await GetProduct_TEST_REQUEST(testClient, NonExistentIntId);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -42,7 +46,9 @@ public class GetProductTests : ProductIntegrationTest
   [Fact]
   public async Task GetProduct_TestPerms()
   {
-    await TestPermissions(() => GetProduct_TEST_REQUEST(NonExistentIntId),
+    var testClient = TestThings.InitDatabaseAndCreateClient();
+
+    await TestThings.TestPermissions(testClient, () => GetProduct_TEST_REQUEST(testClient, NonExistentIntId),
       new EditableList<Flags> {Flags.NO_FLAGS});
   }
 }

@@ -16,23 +16,25 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
   public async Task
     DeleteReviewComment_WithExistingProduct_WithApprovedExistingReview_WithApprovedExistingComment_DeletesComment_Returns204()
   {
-    var product = await AddProduct();
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    var review = await AddReview(product.Id);
-    await ApproveReview(product.Id, review.Id);
+    var product = await AddProduct(testClient);
 
-    var comment = await AddReviewComment(product.Id, review.Id);
-    await ApproveReviewComment(product.Id, review.Id, comment.Id);
+    var review = await AddReview(testClient, product.Id);
+    await ApproveReview(testClient, product.Id, review.Id);
 
-    await LoginAs(Flags.ADMINISTRATOR);
+    var comment = await AddReviewComment(testClient, product.Id, review.Id);
+    await ApproveReviewComment(testClient, product.Id, review.Id, comment.Id);
 
-    var response = await DeleteReviewComment_TEST_REQUEST(product.Id, review.Id, comment.Id);
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
 
-    await Logout();
+    var response = await DeleteReviewComment_TEST_REQUEST(testClient, product.Id, review.Id, comment.Id);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-    var reviews = await GetApprovedProductReviews(product.Id);
+    var reviews = await GetApprovedProductReviews(testClient, product.Id);
     var theReview = reviews.FirstOrDefault(foundReview => foundReview.Id == review.Id);
 
     theReview.Comments.Any(comment => comment.Id == comment.Id).Should().BeFalse();
@@ -42,22 +44,24 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
   public async Task
     DeleteReviewComment_WithExistingProduct_WithApprovedExistingReview_WithNotApprovedExistingComment_DeletesComment_Returns204()
   {
-    var product = await AddProduct();
-    
-    var review = await AddReview(product.Id);
-    await ApproveReview(product.Id, review.Id);
-    
-    var comment = await AddReviewComment(product.Id, review.Id);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    await LoginAs(Flags.ADMINISTRATOR);
+    var product = await AddProduct(testClient);
 
-    var response = await DeleteReviewComment_TEST_REQUEST(product.Id, review.Id, comment.Id);
+    var review = await AddReview(testClient, product.Id);
+    await ApproveReview(testClient, product.Id, review.Id);
 
-    await Logout();
+    var comment = await AddReviewComment(testClient, product.Id, review.Id);
+
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
+
+    var response = await DeleteReviewComment_TEST_REQUEST(testClient, product.Id, review.Id, comment.Id);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-    var reviews = await GetApprovedProductReviews(product.Id);
+    var reviews = await GetApprovedProductReviews(testClient, product.Id);
     var theReview = reviews.FirstOrDefault(foundReview => foundReview.Id == review.Id);
 
     theReview.Comments.Any(comment => comment.Id == comment.Id).Should().BeFalse();
@@ -66,11 +70,14 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
   [Fact]
   public async Task DeleteReviewComment_WithNonExistentProduct_ReturnsProductNotFound()
   {
-    await LoginAs(Flags.ADMINISTRATOR);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    var response = await DeleteReviewComment_TEST_REQUEST(NonExistentIntId, NonExistentGuidId, NonExistentGuidId);
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
 
-    await Logout();
+    var response =
+      await DeleteReviewComment_TEST_REQUEST(testClient, NonExistentIntId, NonExistentGuidId, NonExistentGuidId);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -82,13 +89,15 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
   [Fact]
   public async Task DeleteReviewComment_WithExistingProduct_WithoutExistingReview_ReturnsReviewNotFound()
   {
-    var product = await AddProduct();
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    await LoginAs(Flags.ADMINISTRATOR);
+    var product = await AddProduct(testClient);
 
-    var response = await DeleteReviewComment_TEST_REQUEST(product.Id, NonExistentGuidId, NonExistentGuidId);
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
 
-    await Logout();
+    var response = await DeleteReviewComment_TEST_REQUEST(testClient, product.Id, NonExistentGuidId, NonExistentGuidId);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -100,14 +109,16 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
   [Fact]
   public async Task DeleteReviewComment_WithExistingProduct_WithNotApprovedExistingReview_ReturnsReviewNotFound()
   {
-    var product = await AddProduct();
-    var review = await AddReview(product.Id);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    await LoginAs(Flags.ADMINISTRATOR);
+    var product = await AddProduct(testClient);
+    var review = await AddReview(testClient, product.Id);
 
-    var response = await DeleteReviewComment_TEST_REQUEST(product.Id, review.Id, NonExistentGuidId);
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
 
-    await Logout();
+    var response = await DeleteReviewComment_TEST_REQUEST(testClient, product.Id, review.Id, NonExistentGuidId);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -120,16 +131,18 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
   public async Task
     DeleteReviewComment_WithExistingProduct_WithApprovedExistingReview_WithoutExistingComment_ReturnsCommentNotFound()
   {
-    var product = await AddProduct();
-    
-    var review = await AddReview(product.Id);
-    await ApproveReview(product.Id, review.Id);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    await LoginAs(Flags.ADMINISTRATOR);
+    var product = await AddProduct(testClient);
 
-    var response = await DeleteReviewComment_TEST_REQUEST(product.Id, review.Id, NonExistentGuidId);
+    var review = await AddReview(testClient, product.Id);
+    await ApproveReview(testClient, product.Id, review.Id);
 
-    await Logout();
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
+
+    var response = await DeleteReviewComment_TEST_REQUEST(testClient, product.Id, review.Id, NonExistentGuidId);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -142,8 +155,10 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
   [Fact]
   public async Task DeleteReviewComment_TestPerms()
   {
-    await TestPermissions(
-      () => DeleteReviewComment_TEST_REQUEST(NonExistentIntId, NonExistentGuidId, NonExistentGuidId),
+    var testClient = TestThings.InitDatabaseAndCreateClient();
+
+    await TestThings.TestPermissions(testClient,
+      () => DeleteReviewComment_TEST_REQUEST(testClient, NonExistentIntId, NonExistentGuidId, NonExistentGuidId),
       new List<Flags> {Flags.MANAGE_REVIEWS}
     );
   }

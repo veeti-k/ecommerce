@@ -20,20 +20,22 @@ public class ProductQuestionAnswerIntegrationTest : ProductQuestionIntegrationTe
     Title = Guid.NewGuid().ToString()
   };
 
-  public async Task<HttpResponseMessage?> AddQuestionAnswer_TEST_REQUEST(int productId, Guid questionId)
+  public async Task<HttpResponseMessage?> AddQuestionAnswer_TEST_REQUEST(HttpClient testClient, int productId,
+    Guid questionId)
   {
     var path = Routes.Products.Product.Questions.Quesion.AnswersRoot
       .Replace(Routes.Products.ProductId, productId.ToString())
       .Replace(Routes.Products.QuestionId, questionId.ToString());
 
-    var response = await TestClient.PostAsync(path, JsonContent.Create(TestAddProductQuestionAnswerDto));
+    var response = await testClient.PostAsync(path, JsonContent.Create(TestAddProductQuestionAnswerDto));
 
     return response;
   }
 
-  public async Task<ProductQuestionAnswerResponse> AddQuestionAnswer(int productId, Guid questionId)
+  public async Task<ProductQuestionAnswerResponse> AddQuestionAnswer(HttpClient testClient, int productId,
+    Guid questionId)
   {
-    var response = await AddQuestionAnswer_TEST_REQUEST(productId, questionId);
+    var response = await AddQuestionAnswer_TEST_REQUEST(testClient, productId, questionId);
 
     response.IsSuccessStatusCode.Should().BeTrue();
 
@@ -43,7 +45,7 @@ public class ProductQuestionAnswerIntegrationTest : ProductQuestionIntegrationTe
   }
 
   // approve question answer
-  public async Task<HttpResponseMessage?> ApproveQuestionAnswer_TEST_REQUEST(
+  public async Task<HttpResponseMessage?> ApproveQuestionAnswer_TEST_REQUEST(HttpClient testClient,
     int productId,
     Guid questionId,
     Guid answerId)
@@ -53,46 +55,48 @@ public class ProductQuestionAnswerIntegrationTest : ProductQuestionIntegrationTe
       .Replace(Routes.Products.QuestionId, questionId.ToString())
       .Replace(Routes.Products.AnswerId, answerId.ToString());
 
-    var response = await TestClient.PatchAsync(path, JsonContent.Create(""));
+    var response = await testClient.PatchAsync(path, JsonContent.Create(""));
 
     return response;
   }
 
-  public async Task<ProductQuestionAnswerResponse> ApproveQuestionAnswer(int productId, Guid questionId, Guid answerId)
+  public async Task<ProductQuestionAnswerResponse> ApproveQuestionAnswer(HttpClient testClient, int productId,
+    Guid questionId, Guid answerId)
   {
-    await LoginAs(Flags.ADMINISTRATOR);
-    
-    var response = await ApproveQuestionAnswer_TEST_REQUEST(productId, questionId, answerId);
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
 
-    await Logout();
-    
+    var response = await ApproveQuestionAnswer_TEST_REQUEST(testClient, productId, questionId, answerId);
+
+    await TestThings.Logout(testClient);
+
     response.IsSuccessStatusCode.Should().BeTrue();
 
     var json = await response.Content.ReadFromJsonAsync<ProductQuestionAnswerResponse>();
 
     return json;
   }
-  
+
   // delete question answer
-  public async Task<HttpResponseMessage?> DeleteQuestionAnswer_TEST_REQUEST(int productId, Guid questionId, Guid answerId)
+  public async Task<HttpResponseMessage?> DeleteQuestionAnswer_TEST_REQUEST(HttpClient testClient, int productId,
+    Guid questionId, Guid answerId)
   {
     var path = Routes.Products.Product.Questions.Quesion.Answers.Answer
       .Replace(Routes.Products.ProductId, productId.ToString())
       .Replace(Routes.Products.QuestionId, questionId.ToString())
       .Replace(Routes.Products.AnswerId, answerId.ToString());
 
-    var response = await TestClient.DeleteAsync(path);
+    var response = await testClient.DeleteAsync(path);
 
     return response;
   }
 
-  public async Task DeleteQuestionAnswer(int productId, Guid questionId, Guid answerId)
+  public async Task DeleteQuestionAnswer(HttpClient testClient, int productId, Guid questionId, Guid answerId)
   {
-    await LoginAs(Flags.ADMINISTRATOR);
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
 
-    var response = await DeleteQuestionAnswer_TEST_REQUEST(productId, questionId, answerId);
+    var response = await DeleteQuestionAnswer_TEST_REQUEST(testClient, productId, questionId, answerId);
 
-    await Logout();
+    await TestThings.Logout(testClient);
 
     response.IsSuccessStatusCode.Should().BeTrue();
   }

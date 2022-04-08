@@ -15,30 +15,35 @@ public class DeleteProductQuestionTests : ProductQuestionIntegrationTest
   [Fact]
   public async Task DeleteProductQuestion_WithApprovedExistingQuestion_DeletesQuestion_Returns204()
   {
-    var product = await AddProduct();
-    var question = await AddProductQuestion(product.Id);
-    await ApproveProductQuestion(product.Id, question.Id);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    await LoginAs(Flags.ADMINISTRATOR);
-    
-    var response = await DeleteProductQuestion_TEST_REQUEST(product.Id, question.Id);
 
-    await Logout();
+    var product = await AddProduct(testClient);
+    var question = await AddProductQuestion(testClient, product.Id);
+    await ApproveProductQuestion(testClient, product.Id, question.Id);
+
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
+
+    var response = await DeleteProductQuestion_TEST_REQUEST(testClient, product.Id, question.Id);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-    var questions = await GetApprovedProductQuestions(product.Id);
+    var questions = await GetApprovedProductQuestions(testClient, product.Id);
     questions.Any(q => q.Id == question.Id).Should().BeFalse();
   }
 
   [Fact]
   public async Task DeleteProductQuestion_WithNonExistentProduct_ReturnsProductNotFound()
   {
-    await LoginAs(Flags.ADMINISTRATOR);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    var response = await DeleteProductQuestion_TEST_REQUEST(NonExistentIntId, NonExistentGuidId);
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
 
-    await Logout();
+    var response = await DeleteProductQuestion_TEST_REQUEST(testClient, NonExistentIntId, NonExistentGuidId);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -51,13 +56,15 @@ public class DeleteProductQuestionTests : ProductQuestionIntegrationTest
   [Fact]
   public async Task DeleteProductQuestion_WithExistingProduct_WithNonExistentQuestion_ReturnsQuestionNotFound()
   {
-    var product = await AddProduct();
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    await LoginAs(Flags.ADMINISTRATOR);
+    var product = await AddProduct(testClient);
 
-    var response = await DeleteProductQuestion_TEST_REQUEST(product.Id, NonExistentGuidId);
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
 
-    await Logout();
+    var response = await DeleteProductQuestion_TEST_REQUEST(testClient, product.Id, NonExistentGuidId);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -69,25 +76,30 @@ public class DeleteProductQuestionTests : ProductQuestionIntegrationTest
   [Fact]
   public async Task DeleteProductQuestion_WithExistingProduct_WithNotApprovedQuestion_DeletesQuestion_Returns204()
   {
-    var product = await AddProduct();
-    var question = await AddProductQuestion(product.Id);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    await LoginAs(Flags.ADMINISTRATOR);
+    var product = await AddProduct(testClient);
+    var question = await AddProductQuestion(testClient, product.Id);
 
-    var response = await DeleteProductQuestion_TEST_REQUEST(product.Id, question.Id);
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
 
-    await Logout();
+    var response = await DeleteProductQuestion_TEST_REQUEST(testClient, product.Id, question.Id);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-    var questions = await GetApprovedProductQuestions(product.Id);
+    var questions = await GetApprovedProductQuestions(testClient, product.Id);
     questions.Any(q => q.Id == question.Id).Should().BeFalse();
   }
 
   [Fact]
   public async Task DeleteProductQuestion_TestPerms()
   {
-    await TestPermissions(() => DeleteProductQuestion_TEST_REQUEST(NonExistentIntId, NonExistentGuidId),
+    var testClient = TestThings.InitDatabaseAndCreateClient();
+
+    await TestThings.TestPermissions(testClient,
+      () => DeleteProductQuestion_TEST_REQUEST(testClient, NonExistentIntId, NonExistentGuidId),
       new List<Flags> {Flags.MANAGE_QUESTIONS});
   }
 }

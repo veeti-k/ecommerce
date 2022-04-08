@@ -16,60 +16,69 @@ public class DeleteQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
   public async Task
     DeleteQuestionAnswer_WithExistingProduct_WithApprovedExistingQuestion_WithApprovedExistingAnswer_DeletesAnswer_Returns204()
   {
-    var product = await AddProduct();
-    var question = await AddProductQuestion(product.Id);
-    await ApproveProductQuestion(product.Id, question.Id);
-    var answer = await AddQuestionAnswer(product.Id, question.Id);
-    await ApproveQuestionAnswer(product.Id, question.Id, answer.Id);    
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    await LoginAs(Flags.ADMINISTRATOR);
+    var product = await AddProduct(testClient);
 
-    var response = await DeleteQuestionAnswer_TEST_REQUEST(product.Id, question.Id, answer.Id);
+    var question = await AddProductQuestion(testClient, product.Id);
+    await ApproveProductQuestion(testClient, product.Id, question.Id);
+    var answer = await AddQuestionAnswer(testClient, product.Id, question.Id);
+    await ApproveQuestionAnswer(testClient, product.Id, question.Id, answer.Id);
 
-    await Logout();
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
+
+    var response = await DeleteQuestionAnswer_TEST_REQUEST(testClient, product.Id, question.Id, answer.Id);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-    var reviews = await GetApprovedProductQuestions(product.Id);
+    var reviews = await GetApprovedProductQuestions(testClient, product.Id);
     var theQuestion = reviews.FirstOrDefault(foundQuestion => foundQuestion.Id == question.Id);
 
     theQuestion.Answers.Any(comment => comment.Id == answer.Id).Should().BeFalse();
   }
-  
+
   [Fact]
   public async Task
     DeleteQuestionAnswer_WithExistingProduct_WithApprovedExistingQuestion_WithNotApprovedExistingAnswer_DeletesAnswer_Returns204()
   {
-    var product = await AddProduct();
-    var question = await AddProductQuestion(product.Id);
-    await ApproveProductQuestion(product.Id, question.Id);
-    var answer = await AddQuestionAnswer(product.Id, question.Id);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    await LoginAs(Flags.ADMINISTRATOR);
+    var product = await AddProduct(testClient);
 
-    var response = await DeleteQuestionAnswer_TEST_REQUEST(product.Id, question.Id, answer.Id);
+    var question = await AddProductQuestion(testClient, product.Id);
+    await ApproveProductQuestion(testClient, product.Id, question.Id);
+    var answer = await AddQuestionAnswer(testClient, product.Id, question.Id);
 
-    await Logout();
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
+
+    var response = await DeleteQuestionAnswer_TEST_REQUEST(testClient, product.Id, question.Id, answer.Id);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-    var reviews = await GetApprovedProductQuestions(product.Id);
+    var reviews = await GetApprovedProductQuestions(testClient, product.Id);
     var theQuestion = reviews.FirstOrDefault(foundQuestion => foundQuestion.Id == question.Id);
 
     theQuestion.Answers.Any(comment => comment.Id == answer.Id).Should().BeFalse();
   }
-  
+
   [Fact]
   public async Task DeleteQuestionAnswer_WithExistingProduct_WithNotApprovedExistingQuestion_ReturnsQuestionNotFound()
   {
-    var product = await AddProduct();
-    var question = await AddProductQuestion(product.Id);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    await LoginAs(Flags.ADMINISTRATOR);
+    var product = await AddProduct(testClient);
 
-    var response = await DeleteQuestionAnswer_TEST_REQUEST(product.Id, question.Id, NonExistentGuidId);
+    var question = await AddProductQuestion(testClient, product.Id);
 
-    await Logout();
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
+
+    var response = await DeleteQuestionAnswer_TEST_REQUEST(testClient, product.Id, question.Id, NonExistentGuidId);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -81,11 +90,14 @@ public class DeleteQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
   [Fact]
   public async Task DeleteQuestionAnswer_WithNonExistentProduct_ReturnsProductNotFound()
   {
-    await LoginAs(Flags.ADMINISTRATOR);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    var response = await DeleteQuestionAnswer_TEST_REQUEST(NonExistentIntId, NonExistentGuidId, NonExistentGuidId);
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
 
-    await Logout();
+    var response =
+      await DeleteQuestionAnswer_TEST_REQUEST(testClient, NonExistentIntId, NonExistentGuidId, NonExistentGuidId);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -97,13 +109,17 @@ public class DeleteQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
   [Fact]
   public async Task DeleteQuestionAnswer_WithExistingProduct_WithNonExistingQuestion_ReturnsQuestionNotFound()
   {
-    var product = await AddProduct();
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    await LoginAs(Flags.ADMINISTRATOR);
+    var product = await AddProduct(testClient);
 
-    var response = await DeleteQuestionAnswer_TEST_REQUEST(product.Id, NonExistentGuidId, NonExistentGuidId);
 
-    await Logout();
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
+
+    var response =
+      await DeleteQuestionAnswer_TEST_REQUEST(testClient, product.Id, NonExistentGuidId, NonExistentGuidId);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -116,15 +132,18 @@ public class DeleteQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
   public async Task
     DeleteQuestionAnswer_WithExistingProduct_WithApprovedExistingQuestion_WithoutExistingAnswer_ReturnsAnswerNotFound()
   {
-    var product = await AddProduct();
-    var review = await AddProductQuestion(product.Id);
-    await ApproveProductQuestion(product.Id, review.Id);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    await LoginAs(Flags.ADMINISTRATOR);
+    var product = await AddProduct(testClient);
 
-    var response = await DeleteQuestionAnswer_TEST_REQUEST(product.Id, review.Id, NonExistentGuidId);
+    var review = await AddProductQuestion(testClient, product.Id);
+    await ApproveProductQuestion(testClient, product.Id, review.Id);
 
-    await Logout();
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
+
+    var response = await DeleteQuestionAnswer_TEST_REQUEST(testClient, product.Id, review.Id, NonExistentGuidId);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -136,8 +155,10 @@ public class DeleteQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
   [Fact]
   public async Task DeleteQuestionAnswer_TestPerms()
   {
-    await TestPermissions(
-      () => DeleteQuestionAnswer_TEST_REQUEST(NonExistentIntId, NonExistentGuidId, NonExistentGuidId),
+    using  var testClient = TestThings.InitDatabaseAndCreateClient();
+
+    await TestThings.TestPermissions(testClient,
+      () => DeleteQuestionAnswer_TEST_REQUEST(testClient, NonExistentIntId, NonExistentGuidId, NonExistentGuidId),
       new List<Flags> {Flags.MANAGE_QUESTIONS}
     );
   }

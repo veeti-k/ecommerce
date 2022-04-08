@@ -16,13 +16,15 @@ public class GetQuestionTests : ProductQuestionIntegrationTest
   [Fact]
   public async Task GetQuestions_WithExistingProduct_WithExistingQuestions_ReturnsOnlyApprovedQuestions()
   {
-    var product = await AddProduct();
-    var question1 = await AddProductQuestion(product.Id);
-    var question2 = await AddProductQuestion(product.Id);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    await ApproveProductQuestion(product.Id, question1.Id);
+    var product = await AddProduct(testClient);
+    var question1 = await AddProductQuestion(testClient, product.Id);
+    var question2 = await AddProductQuestion(testClient, product.Id);
 
-    var questions = await GetApprovedProductQuestions(product.Id);
+    await ApproveProductQuestion(testClient, product.Id, question1.Id);
+
+    var questions = await GetApprovedProductQuestions(testClient, product.Id);
 
     questions.Any(q => q.Id == question1.Id).Should().BeTrue();
     questions.Any(q => q.Id == question2.Id).Should().BeFalse();
@@ -31,7 +33,9 @@ public class GetQuestionTests : ProductQuestionIntegrationTest
   [Fact]
   public async Task GetQuestions_WithNonExistentProduct_ReturnsProductNotFound()
   {
-    var response = await GetApprovedProductQuestions_TEST_REQUEST(NonExistentIntId);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
+
+    var response = await GetApprovedProductQuestions_TEST_REQUEST(testClient, NonExistentIntId);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -43,9 +47,11 @@ public class GetQuestionTests : ProductQuestionIntegrationTest
   [Fact]
   public async Task GetQuestions_WithExistingProduct_WithoutExistingQuestions_ReturnsEmptyList()
   {
-    var product = await AddProduct();
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    var response = await GetApprovedProductQuestions_TEST_REQUEST(product.Id);
+    var product = await AddProduct(testClient);
+
+    var response = await GetApprovedProductQuestions_TEST_REQUEST(testClient, product.Id);
 
     response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -57,7 +63,10 @@ public class GetQuestionTests : ProductQuestionIntegrationTest
   [Fact]
   public async Task GetQuestions_TestPerms()
   {
-    await TestPermissions(() => GetApprovedProductQuestions_TEST_REQUEST(NonExistentIntId),
+    var testClient = TestThings.InitDatabaseAndCreateClient();
+
+    await TestThings.TestPermissions(testClient,
+      () => GetApprovedProductQuestions_TEST_REQUEST(testClient, NonExistentIntId),
       new List<Flags> {Flags.NO_FLAGS});
   }
 }

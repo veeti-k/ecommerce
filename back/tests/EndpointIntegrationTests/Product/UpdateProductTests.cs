@@ -3,7 +3,6 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using api.Exceptions;
-using api.RequestsAndResponses.Product;
 using api.Security;
 using FluentAssertions;
 using Xunit;
@@ -13,34 +12,34 @@ namespace tests.EndpointIntegrationTests.Product;
 public class UpdateProductTests : ProductIntegrationTest
 {
   [Fact]
-  public async Task UpdateProduct_WithExistingProduct_UpdatesProduct_ReturnsUpdatedProduct()
+  public async Task UpdateProduct_WithExistingProduct_UpdatesProduct_Returns200()
   {
-    var product = await AddProduct();
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    await LoginAs(Flags.ADMINISTRATOR);
+    var product = await AddProduct(testClient);
 
-    var response = await UpdateProduct_TEST_REQUEST(product.Id);
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
 
-    await Logout();
+    var response = await UpdateProduct_TEST_REQUEST(testClient, product.Id);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-    var json = await response.Content.ReadFromJsonAsync<BaseProductResponse>();
-
-    json.Should().BeEquivalentTo(TestUpdateProductDto, options => options.ExcludingMissingMembers());
-
-    var updated = await GetProduct(product.Id);
-    updated.Should().BeEquivalentTo(TestUpdateProductDto);
+    var updated = await GetProduct(testClient, product.Id);
+    updated.Should().BeEquivalentTo(TestUpdateProductDto, options => options.Excluding(x => x.CategoryId));
   }
 
   [Fact]
   public async Task UpdateProduct_WithNonExistentProduct_ReturnsProductNotFound()
   {
-    await LoginAs(Flags.ADMINISTRATOR);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    var response = await UpdateProduct_TEST_REQUEST(NonExistentIntId);
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
 
-    await Logout();
+    var response = await UpdateProduct_TEST_REQUEST(testClient, NonExistentIntId);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -52,7 +51,9 @@ public class UpdateProductTests : ProductIntegrationTest
   [Fact]
   public async Task UpdateProduct_TestPerms()
   {
-    await TestPermissions(() => UpdateProduct_TEST_REQUEST(NonExistentIntId),
+    var testClient = TestThings.InitDatabaseAndCreateClient();
+
+    await TestThings.TestPermissions(testClient, () => UpdateProduct_TEST_REQUEST(testClient, NonExistentIntId),
       new List<Flags> {Flags.MANAGE_PRODUCTS});
   }
 }

@@ -17,16 +17,18 @@ public class ApproveQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
   public async Task
     ApproveQuestionAnswer_WithExistingProduct_WithApprovedExistingQuestion_WithExistingAnswer_Approves_ReturnsApprovedQuestionAnswer()
   {
-    var product = await AddProduct();
-    var question = await AddProductQuestion(product.Id);
-    await ApproveProductQuestion(product.Id, question.Id);
-    var answer = await AddQuestionAnswer(product.Id, question.Id);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    await LoginAs(Flags.ADMINISTRATOR);
+    var product = await AddProduct(testClient);
+    var question = await AddProductQuestion(testClient, product.Id);
+    await ApproveProductQuestion(testClient, product.Id, question.Id);
+    var answer = await AddQuestionAnswer(testClient, product.Id, question.Id);
 
-    var response = await ApproveQuestionAnswer_TEST_REQUEST(product.Id, question.Id, answer.Id);
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
 
-    await Logout();
+    var response = await ApproveQuestionAnswer_TEST_REQUEST(testClient, product.Id, question.Id, answer.Id);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -34,7 +36,7 @@ public class ApproveQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
 
     json.Should().BeEquivalentTo(answer, options => options.ExcludingMissingMembers());
 
-    var questions = await GetApprovedProductQuestions(product.Id);
+    var questions = await GetApprovedProductQuestions(testClient, product.Id);
     var theQuestion = questions.FirstOrDefault(review => review.Id == question.Id);
     theQuestion.Should().NotBeNull();
 
@@ -47,11 +49,14 @@ public class ApproveQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
   [Fact]
   public async Task ApproveQuestionAnswer_WithNonExistentProduct_ReturnsProductNotFound()
   {
-    await LoginAs(Flags.ADMINISTRATOR);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    var response = await ApproveQuestionAnswer_TEST_REQUEST(NonExistentIntId, NonExistentGuidId, NonExistentGuidId);
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
 
-    await Logout();
+    var response =
+      await ApproveQuestionAnswer_TEST_REQUEST(testClient, NonExistentIntId, NonExistentGuidId, NonExistentGuidId);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -63,13 +68,16 @@ public class ApproveQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
   [Fact]
   public async Task ApproveQuestionAnswer_WithExistingProduct_WithoutExistingQuestion_ReturnsQuestionNotFound()
   {
-    var product = await AddProduct();
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    await LoginAs(Flags.ADMINISTRATOR);
+    var product = await AddProduct(testClient);
 
-    var response = await ApproveQuestionAnswer_TEST_REQUEST(product.Id, NonExistentGuidId, NonExistentGuidId);
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
 
-    await Logout();
+    var response =
+      await ApproveQuestionAnswer_TEST_REQUEST(testClient, product.Id, NonExistentGuidId, NonExistentGuidId);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -82,15 +90,17 @@ public class ApproveQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
   public async Task
     ApproveQuestionAnswer_WithExistingProduct_WithApprovedExistingQuestion_WithoutExistingAnswer_ReturnsAnswerNotFound()
   {
-    var product = await AddProduct();
-    var review = await AddProductQuestion(product.Id);
-    await ApproveProductQuestion(product.Id, review.Id);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    await LoginAs(Flags.ADMINISTRATOR);
+    var product = await AddProduct(testClient);
+    var review = await AddProductQuestion(testClient, product.Id);
+    await ApproveProductQuestion(testClient, product.Id, review.Id);
 
-    var response = await ApproveQuestionAnswer_TEST_REQUEST(product.Id, review.Id, NonExistentGuidId);
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
 
-    await Logout();
+    var response = await ApproveQuestionAnswer_TEST_REQUEST(testClient, product.Id, review.Id, NonExistentGuidId);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -98,19 +108,21 @@ public class ApproveQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
 
     json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductQuestionAnswerNotFoundException(NonExistentGuidId));
   }
-  
+
   [Fact]
   public async Task
     ApproveQuestionAnswer_WithExistingProduct_WithNotApprovedExistingQuestion_ReturnsQuestionNotFound()
   {
-    var product = await AddProduct();
-    var question = await AddProductQuestion(product.Id);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    await LoginAs(Flags.ADMINISTRATOR);
+    var product = await AddProduct(testClient);
+    var question = await AddProductQuestion(testClient, product.Id);
 
-    var response = await ApproveQuestionAnswer_TEST_REQUEST(product.Id, question.Id, NonExistentGuidId);
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
 
-    await Logout();
+    var response = await ApproveQuestionAnswer_TEST_REQUEST(testClient, product.Id, question.Id, NonExistentGuidId);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
@@ -122,8 +134,10 @@ public class ApproveQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
   [Fact]
   public async Task ApproveQuestionAnswer_TestPerms()
   {
-    await TestPermissions(() =>
-        ApproveQuestionAnswer_TEST_REQUEST(NonExistentIntId, NonExistentGuidId, NonExistentGuidId),
+    var testClient = TestThings.InitDatabaseAndCreateClient();
+
+    await TestThings.TestPermissions(testClient, () =>
+        ApproveQuestionAnswer_TEST_REQUEST(testClient, NonExistentIntId, NonExistentGuidId, NonExistentGuidId),
       new List<Flags> {Flags.MANAGE_QUESTIONS});
   }
 }

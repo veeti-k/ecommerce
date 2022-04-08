@@ -1,9 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
-using api.RequestsAndResponses.Product;
 using api.Security;
 using FluentAssertions;
 using Xunit;
@@ -13,30 +10,33 @@ namespace tests.EndpointIntegrationTests.Product;
 public class AddProductTest : ProductIntegrationTest
 {
   [Fact]
-  public async Task AddProduct_ReturnsAddedProduct()
+  public async Task AddProduct_AddsProduct_Returns201()
   {
-    await LoginAs(Flags.ADMINISTRATOR);
+    var testClient = TestThings.InitDatabaseAndCreateClient();
 
-    var response = await AddProduct_TEST_REQUEST();
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
 
-    await Logout();
+    var response = await AddProduct_TEST_REQUEST(testClient);
+
+    await TestThings.Logout(testClient);
 
     response.StatusCode.Should().Be(HttpStatusCode.Created);
 
-    var jsonResponse = await response.Content.ReadFromJsonAsync<BaseProductResponse>();
+    var addedId = int.Parse(TestThings.GetIdFromLocationUri(response.Headers.Location));
+    var product = await GetProduct(testClient, addedId);
 
-    jsonResponse.Should().BeEquivalentTo(TestProductDto, options => options.Excluding(dto => dto.BulletPoints));
-
-    foreach (var item in jsonResponse.BulletPoints.Select((value, i) => (value, i)))
-    {
-      item.value.Text.Should().Be(TestProductDto.BulletPoints[item.i]);
-    }
+    product.Should().BeEquivalentTo(TestProductDto, options => options
+      .Excluding(x => x.CategoryId)
+      .Excluding(x => x.BulletPoints)
+      .Excluding(x => x.ImageLinks));
   }
 
   [Fact]
   public async Task AddProduct_TestPerms()
   {
-    await TestPermissions(AddProduct_TEST_REQUEST,
+    var testClient = TestThings.InitDatabaseAndCreateClient();
+
+    await TestThings.TestPermissions(testClient, () => AddProduct_TEST_REQUEST(testClient),
       new List<Flags> {Flags.MANAGE_PRODUCTS});
   }
 }

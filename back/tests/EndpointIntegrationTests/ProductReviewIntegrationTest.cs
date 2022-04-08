@@ -22,19 +22,19 @@ public class ProductReviewIntegrationTest : ProductIntegrationTest
     Stars = new Random().Next()
   };
 
-  public async Task<HttpResponseMessage?> AddReview_TEST_REQUEST(int productId)
+  public async Task<HttpResponseMessage?> AddReview_TEST_REQUEST(HttpClient testClient, int productId)
   {
     var path = Routes.Products.Product.ReviewsRoot
       .Replace(Routes.Products.ProductId, productId.ToString());
 
-    var response = await TestClient.PostAsJsonAsync(path, TestProductReviewDto);
+    var response = await testClient.PostAsJsonAsync(path, TestProductReviewDto);
 
     return response;
   }
 
-  public async Task<ProductReviewResponse> AddReview(int productId)
+  public async Task<ProductReviewResponse> AddReview(HttpClient testClient, int productId)
   {
-    var response = await AddReview_TEST_REQUEST(productId);
+    var response = await AddReview_TEST_REQUEST(testClient, productId);
 
     response.IsSuccessStatusCode.Should().BeTrue();
 
@@ -44,24 +44,25 @@ public class ProductReviewIntegrationTest : ProductIntegrationTest
   }
 
   // approve review
-  public async Task<HttpResponseMessage?> ApproveReview_TEST_REQUEST(int productId, Guid reviewId)
+  public async Task<HttpResponseMessage?> ApproveReview_TEST_REQUEST(HttpClient testClient, int productId,
+    Guid reviewId)
   {
     var path = Routes.Products.Product.Reviews.ReviewRoot
       .Replace(Routes.Products.ProductId, productId.ToString())
       .Replace(Routes.Products.ReviewId, reviewId.ToString());
 
-    var response = await TestClient.PatchAsync(path, JsonContent.Create(""));
+    var response = await testClient.PatchAsync(path, JsonContent.Create(""));
 
     return response;
   }
 
-  public async Task<ProductReviewResponse> ApproveReview(int productId, Guid reviewId)
+  public async Task<ProductReviewResponse> ApproveReview(HttpClient testClient, int productId, Guid reviewId)
   {
-    await LoginAs(Flags.ADMINISTRATOR);
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
 
-    var response = await ApproveReview_TEST_REQUEST(productId, reviewId);
+    var response = await ApproveReview_TEST_REQUEST(testClient, productId, reviewId);
 
-    await Logout();
+    await TestThings.Logout(testClient);
 
     response.IsSuccessStatusCode.Should().BeTrue();
 
@@ -71,19 +72,19 @@ public class ProductReviewIntegrationTest : ProductIntegrationTest
   }
 
   // get approved reviews
-  public async Task<HttpResponseMessage?> GetApprovedProductReviews_TEST_REQUEST(int productId)
+  public async Task<HttpResponseMessage?> GetApprovedProductReviews_TEST_REQUEST(HttpClient testClient, int productId)
   {
     var path = Routes.Products.Product.ReviewsRoot
       .Replace(Routes.Products.ProductId, productId.ToString());
 
-    var response = await TestClient.GetAsync(path);
+    var response = await testClient.GetAsync(path);
 
     return response;
   }
 
-  public async Task<IEnumerable<ProductReviewResponse>> GetApprovedProductReviews(int productId)
+  public async Task<IEnumerable<ProductReviewResponse>> GetApprovedProductReviews(HttpClient testClient, int productId)
   {
-    var response = await GetApprovedProductReviews_TEST_REQUEST(productId);
+    var response = await GetApprovedProductReviews_TEST_REQUEST(testClient, productId);
 
     response.IsSuccessStatusCode.Should().BeTrue();
 
@@ -93,24 +94,24 @@ public class ProductReviewIntegrationTest : ProductIntegrationTest
   }
 
   // delete review
-  public async Task<HttpResponseMessage?> DeleteReview_TEST_REQUEST(int productId, Guid reviewId)
+  public async Task<HttpResponseMessage?> DeleteReview_TEST_REQUEST(HttpClient testClient, int productId, Guid reviewId)
   {
     var path = Routes.Products.Product.Reviews.ReviewRoot
       .Replace(Routes.Products.ProductId, productId.ToString())
       .Replace(Routes.Products.ReviewId, reviewId.ToString());
 
-    var response = await TestClient.DeleteAsync(path);
+    var response = await testClient.DeleteAsync(path);
 
     return response;
   }
 
-  public async Task DeleteReview(int productId, Guid reviewId)
+  public async Task DeleteReview(HttpClient testClient, int productId, Guid reviewId)
   {
-    await LoginAs(Flags.ADMINISTRATOR);
+    await TestThings.Login(testClient, Flags.ADMINISTRATOR);
 
-    var response = await DeleteReview_TEST_REQUEST(productId, reviewId);
+    var response = await DeleteReview_TEST_REQUEST(testClient, productId, reviewId);
 
-    await Logout();
+    await TestThings.Logout(testClient);
 
     response.IsSuccessStatusCode.Should().BeTrue();
   }
