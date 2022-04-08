@@ -22,7 +22,7 @@ public class RemoveCategory : EndpointBaseAsync
   }
 
   [Authorize(Policy = Policies.Administrator)]
-  [HttpDelete(Routes.Categories.Category)]
+  [HttpDelete(Routes.Categories.CategoryRoot)]
   public override async Task<ActionResult> HandleAsync(
     [FromRoute] RemoveCategoryRequest request,
     CancellationToken cancellationToken = new CancellationToken())

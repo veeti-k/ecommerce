@@ -22,7 +22,7 @@ public class UpdateCategory : EndpointBaseAsync
   }
 
   [Authorize(Policy = Policies.Administrator)]
-  [HttpPatch(Routes.Categories.Category)]
+  [HttpPatch(Routes.Categories.CategoryRoot)]
   public override async Task<ActionResult<ProductCategory>> HandleAsync(
     [FromRoute] UpdateCategoryRequest request,
     CancellationToken cancellationToken = new CancellationToken())

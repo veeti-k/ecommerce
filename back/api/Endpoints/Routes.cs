@@ -124,6 +124,6 @@ public static class Routes
   {
     public const string CategoryId = "{categoryId:int}";
 
-    public const string Category = $"{CategoriesRoot}/{CategoryId}";
+    public const string CategoryRoot = $"{CategoriesRoot}/{CategoryId}";
   }
 }
