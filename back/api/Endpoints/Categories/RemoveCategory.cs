@@ -21,7 +21,7 @@ public class RemoveCategory : EndpointBaseAsync
     _categoryRepo = categoryRepo;
   }
 
-  [Authorize(Policy = Policies.Administrator)]
+  [Authorize(Policy = Policies.ManageCategories)]
   [HttpDelete(Routes.Categories.CategoryRoot)]
   public override async Task<ActionResult> HandleAsync(
     [FromRoute] RemoveCategoryRequest request,
