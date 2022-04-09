@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using api.Exceptions;
+using api.Models.Product;
 using api.RequestsAndResponses.Product;
 using api.Security;
 using Castle.Components.DictionaryAdapter;
@@ -37,6 +39,24 @@ public class GetProductTests : ProductIntegrationTest
     var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
 
     json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductNotFoundException(NonExistentIntId));
+  }
+
+
+  [Fact]
+  public async Task GetProduct_WithExistingProduct_ReturnsProduct_WithCorrectPath()
+  {
+    var parentCategory = await AddCategory();
+    var childCategory = await AddChildCategory(parentCategory.Id);
+
+    var product = await AddProduct(childCategory.Id);
+
+    var expectedPath = new List<ProductCategory>()
+    {
+      parentCategory,
+      childCategory
+    };
+
+    product.Path.Should().BeEquivalentTo(expectedPath);
   }
 
   [Fact]
