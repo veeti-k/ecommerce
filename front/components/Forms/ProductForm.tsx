@@ -27,7 +27,7 @@ export type ProductFormValues = {
   bulletPoints: string[];
   imageLinks: string[];
 
-  categoryId: string;
+  deepestCategoryId: number;
 };
 
 export type ProductFormProps = {
@@ -92,7 +92,7 @@ export const ProductForm: FC<ProductFormProps> = ({
       bulletPoints,
       imageLinks,
 
-      categoryId,
+      deepestCategoryId: Number(categoryId),
     });
   };
 
@@ -112,6 +112,8 @@ export const ProductForm: FC<ProductFormProps> = ({
 
     setIsDiscounted(initialValues?.isDiscounted ?? false);
   }, [initialValues]);
+
+  console.log(categoryId);
 
   return (
     <form onSubmit={onSubmit}>

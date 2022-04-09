@@ -43,7 +43,7 @@ const AddProduct: NextPage<Result> = ({ categories }) => {
         isDiscounted: values.isDiscounted,
         bulletPoints: values.bulletPoints,
         imageLinks: values.imageLinks,
-        categoryId: values.categoryId,
+        deepestCategoryId: values.deepestCategoryId,
       },
     });
 
