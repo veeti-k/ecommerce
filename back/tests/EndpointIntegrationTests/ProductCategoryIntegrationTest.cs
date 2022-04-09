@@ -95,4 +95,13 @@ public class ProductCategoryIntegrationTest : NeedsAuthIntegrationTest
 
     return await TestClient.PatchAsync(path, JsonContent.Create(dto));
   }
+
+  // delete category 
+  public async Task<HttpResponseMessage?> DeleteCategory_TEST_REQUEST(int categoryId)
+  {
+    var path = Routes.Categories.CategoryRoot
+      .Replace(Routes.Categories.CategoryId, categoryId.ToString());
+
+    return await TestClient.DeleteAsync(path);
+  }
 }
