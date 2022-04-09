@@ -44,6 +44,9 @@ public class AddProduct : EndpointBaseAsync
   {
     var validationResult = await _validator.ValidateAsync(request.Dto, cancellationToken);
     if (!validationResult.IsValid) throw new BadRequestException(validationResult.ToString());
+
+    var category = await _categoryRepo.GetById(request.Dto.DeepestCategoryId);
+    if (category is null) throw new ProductCategoryNotFoundException(request.Dto.DeepestCategoryId);
     
     var newProduct = new Models.Product.Product
     {
@@ -54,7 +57,7 @@ public class AddProduct : EndpointBaseAsync
       DiscountedPrice = request.Dto.DiscountedPrice,
       DiscountPercent = request.Dto.DiscountPercent,
       IsDiscounted = request.Dto.IsDiscounted,
-      DeepestCategoryId = request.Dto.CategoryId
+      DeepestCategoryId = category.Id
     };
 
     var added = await _repo.Add(newProduct);
@@ -80,33 +83,15 @@ public class AddProduct : EndpointBaseAsync
     }
 
     var allCategories = await _categoryRepo.GetAll();
-    
-    var currentCategory = allCategories.FirstOrDefault(c => c.Id == request.Dto.CategoryId);
-    var path = new List<ProductCategory>() {currentCategory};
 
-    var lookForParent = allCategories.Any();
-    while (lookForParent)
-    {
-      var parent = allCategories
-        .FirstOrDefault(c => c.Id == currentCategory?.ParentId);
+    var path = Utils.Categories.GetCategoryPath(allCategories, request.Dto.DeepestCategoryId);
 
-      if (parent == null)
-      {
-        lookForParent = false;
-        continue;
-      }
-      
-      path.Add(parent);
-      
-      currentCategory = parent;
-    }
-
-    foreach (var category in path)
+    foreach (var pathCategory in path)
     {
       await _pcRepo.Add(new ProductsCategories()
       {
         ProductId = added.Id,
-        CategoryId = category.Id
+        CategoryId = pathCategory.Id
       });
     }
 

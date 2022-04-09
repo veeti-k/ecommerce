@@ -8,14 +8,15 @@ using api.Security;
 using FluentAssertions;
 using Xunit;
 
-namespace tests.EndpointIntegrationTests.ProductReview;
+namespace tests.EndpointIntegrationTests.ProductReviewTests;
 
 public class DeleteReviewTests : ProductReviewIntegrationTest
 {
   [Fact]
   public async Task DeleteReview_WithExistingProduct_WithApprovedExistingReview_DeletesReview_ReturnsNoContent()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var review = await AddReview(product.Id);
     await ApproveReview(product.Id, review.Id);
 
@@ -50,7 +51,8 @@ public class DeleteReviewTests : ProductReviewIntegrationTest
   [Fact]
   public async Task DeleteReview_WithExistingProduct_WithNonExistentReview_ReturnsReviewNotFound()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
 
@@ -64,11 +66,12 @@ public class DeleteReviewTests : ProductReviewIntegrationTest
 
     json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductReviewNotFoundException(NonExistentGuidId));
   }
-  
+
   [Fact]
   public async Task DeleteReview_WithExistingProduct_WithNotApprovedExistingReview_DeletesReview_ReturnsNoContent()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var review = await AddReview(product.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);

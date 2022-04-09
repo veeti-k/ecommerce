@@ -8,7 +8,7 @@ using api.Security;
 using FluentAssertions;
 using Xunit;
 
-namespace tests.EndpointIntegrationTests.ProductQuestionAnswer;
+namespace tests.EndpointIntegrationTests.ProductQuestionAnswerTests;
 
 public class DeleteQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
 {
@@ -16,11 +16,12 @@ public class DeleteQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
   public async Task
     DeleteQuestionAnswer_WithExistingProduct_WithApprovedExistingQuestion_WithApprovedExistingAnswer_DeletesAnswer_Returns204()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var question = await AddProductQuestion(product.Id);
     await ApproveProductQuestion(product.Id, question.Id);
     var answer = await AddQuestionAnswer(product.Id, question.Id);
-    await ApproveQuestionAnswer(product.Id, question.Id, answer.Id);    
+    await ApproveQuestionAnswer(product.Id, question.Id, answer.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
 
@@ -35,12 +36,13 @@ public class DeleteQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
 
     theQuestion.Answers.Any(comment => comment.Id == answer.Id).Should().BeFalse();
   }
-  
+
   [Fact]
   public async Task
     DeleteQuestionAnswer_WithExistingProduct_WithApprovedExistingQuestion_WithNotApprovedExistingAnswer_DeletesAnswer_Returns204()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var question = await AddProductQuestion(product.Id);
     await ApproveProductQuestion(product.Id, question.Id);
     var answer = await AddQuestionAnswer(product.Id, question.Id);
@@ -58,11 +60,12 @@ public class DeleteQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
 
     theQuestion.Answers.Any(comment => comment.Id == answer.Id).Should().BeFalse();
   }
-  
+
   [Fact]
   public async Task DeleteQuestionAnswer_WithExistingProduct_WithNotApprovedExistingQuestion_ReturnsQuestionNotFound()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var question = await AddProductQuestion(product.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
@@ -97,7 +100,8 @@ public class DeleteQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
   [Fact]
   public async Task DeleteQuestionAnswer_WithExistingProduct_WithNonExistingQuestion_ReturnsQuestionNotFound()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
 
@@ -116,7 +120,8 @@ public class DeleteQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
   public async Task
     DeleteQuestionAnswer_WithExistingProduct_WithApprovedExistingQuestion_WithoutExistingAnswer_ReturnsAnswerNotFound()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var review = await AddProductQuestion(product.Id);
     await ApproveProductQuestion(product.Id, review.Id);
 

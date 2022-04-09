@@ -11,7 +11,7 @@ public static class NotFoundExceptionErrorMessages
 {
   public static string ProductNotFoundException(int productId) =>
     $"Product with an id of {productId} was not found";
-
+  
   public static string ProductBulletPointNotFoundException(Guid bulletPointId) =>
     $"Product bullet point with an id of {bulletPointId} was not found";
 

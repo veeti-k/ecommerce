@@ -12,7 +12,7 @@ public record UpdateProductDto
   public float? DiscountPercent { get; init; }
   public double? DiscountAmount { get; init; }
   public bool? IsDiscounted { get; init; }
-  public int? CategoryId { get; init; }
+  public int? DeepestCategoryId { get; init; }
 }
 
 public class UpdateProductRequest

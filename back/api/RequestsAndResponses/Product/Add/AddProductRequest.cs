@@ -12,7 +12,7 @@ public record AddProductDto
   public float DiscountPercent { get; init; }
   public double DiscountAmount { get; init; }
   public bool IsDiscounted { get; init; }
-  public int CategoryId { get; init; }
+  public int DeepestCategoryId { get; init; }
   public string[] BulletPoints { get; init; }
   public string[] ImageLinks { get; init; }
 }
@@ -30,7 +30,7 @@ public class AddProductDtoValidator : AbstractValidator<AddProductDto>
     RuleFor(x => x.Description).NotEmpty();
     RuleFor(x => x.Price).NotEmpty().GreaterThan(0);
     
-    RuleFor(x => x.CategoryId).NotEmpty();
+    RuleFor(x => x.DeepestCategoryId).NotEmpty();
     RuleFor(x => x.BulletPoints).NotEmpty();
     RuleFor(x => x.ImageLinks).NotEmpty();
 

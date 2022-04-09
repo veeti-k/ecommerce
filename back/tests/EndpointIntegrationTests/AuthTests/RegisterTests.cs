@@ -9,7 +9,7 @@ using FluentAssertions;
 using tests.UtilsForTesting;
 using Xunit;
 
-namespace tests.EndpointIntegrationTests.Auth;
+namespace tests.EndpointIntegrationTests.AuthTests;
 
 public class RegisterTests : AuthIntegrationTest
 {

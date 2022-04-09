@@ -8,19 +8,20 @@ using api.Security;
 using FluentAssertions;
 using Xunit;
 
-namespace tests.EndpointIntegrationTests.ProductQuestion;
+namespace tests.EndpointIntegrationTests.ProductQuestionTests;
 
 public class DeleteProductQuestionTests : ProductQuestionIntegrationTest
 {
   [Fact]
   public async Task DeleteProductQuestion_WithApprovedExistingQuestion_DeletesQuestion_Returns204()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var question = await AddProductQuestion(product.Id);
     await ApproveProductQuestion(product.Id, question.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
-    
+
     var response = await DeleteProductQuestion_TEST_REQUEST(product.Id, question.Id);
 
     await Logout();
@@ -51,7 +52,8 @@ public class DeleteProductQuestionTests : ProductQuestionIntegrationTest
   [Fact]
   public async Task DeleteProductQuestion_WithExistingProduct_WithNonExistentQuestion_ReturnsQuestionNotFound()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
 
@@ -69,7 +71,8 @@ public class DeleteProductQuestionTests : ProductQuestionIntegrationTest
   [Fact]
   public async Task DeleteProductQuestion_WithExistingProduct_WithNotApprovedQuestion_DeletesQuestion_Returns204()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var question = await AddProductQuestion(product.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);

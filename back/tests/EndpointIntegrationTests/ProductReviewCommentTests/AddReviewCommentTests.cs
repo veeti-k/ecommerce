@@ -9,14 +9,15 @@ using api.Security;
 using FluentAssertions;
 using Xunit;
 
-namespace tests.EndpointIntegrationTests.ProductReviewComment;
+namespace tests.EndpointIntegrationTests.ProductReviewCommentTests;
 
 public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
 {
   [Fact]
   public async Task AddReviewComment_WithExistingProduct_WithExistingReview_ReturnsAddedComment()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var review = await AddReview(product.Id);
     await ApproveReview(product.Id, review.Id);
 
@@ -28,11 +29,12 @@ public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
 
     json.Should().BeEquivalentTo(TestProductReviewCommentDto);
   }
-  
+
   [Fact]
   public async Task AddReviewComment_WithExistingProduct_WithExistingReviewButNotApproved_ReturnsReviewNotFound()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var review = await AddReview(product.Id);
 
     var response = await AddReviewComment_TEST_REQUEST(product.Id, review.Id);
@@ -47,7 +49,8 @@ public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
   [Fact]
   public async Task AddReviewComment_AfterAdding_DoesNotExposeReview_UntilApproved()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var review = await AddReview(product.Id);
     await ApproveReview(product.Id, review.Id);
     var comment = await AddReviewComment(product.Id, review.Id);
@@ -80,7 +83,8 @@ public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
   [Fact]
   public async Task AddReviewComment_WithExistingProduct_WithNonExistentReview_ReturnsReviewNotFound()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
 
     var response = await AddReviewComment_TEST_REQUEST(product.Id, NonExistentGuidId);
 

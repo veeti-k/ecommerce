@@ -55,10 +55,11 @@ public class UpdateProduct : EndpointBaseAsync
     existingProduct.DiscountPercent = request.Dto.DiscountPercent ?? existingProduct.DiscountPercent;
     existingProduct.DiscountAmount = request.Dto.DiscountAmount ?? existingProduct.DiscountAmount;
     existingProduct.IsDiscounted = request.Dto.IsDiscounted ?? existingProduct.IsDiscounted;
+    existingProduct.DeepestCategoryId = request.Dto.DeepestCategoryId ?? existingProduct.DeepestCategoryId;
 
     await _productRepo.Update(existingProduct);
 
-    if (request.Dto.CategoryId == null && request.Dto.CategoryId == existingProduct.DeepestCategoryId)
+    if (request.Dto.DeepestCategoryId == null && request.Dto.DeepestCategoryId == existingProduct.DeepestCategoryId)
       return Ok();
 
     var oldCategories = await _pcRepo.GetManyByProductId(existingProduct.Id);
@@ -66,25 +67,7 @@ public class UpdateProduct : EndpointBaseAsync
 
     var allCategories = await _productCategoryRepo.GetAll();
 
-    var currentCategory = allCategories.FirstOrDefault(c => c.Id == request.Dto.CategoryId);
-    var path = new List<ProductCategory>() {currentCategory};
-
-    var lookForParent = allCategories.Any();
-    while (lookForParent)
-    {
-      var parent = allCategories
-        .FirstOrDefault(c => c.Id == currentCategory.ParentId);
-
-      if (parent == null)
-      {
-        lookForParent = false;
-        continue;
-      }
-
-      path.Add(parent);
-
-      currentCategory = parent;
-    }
+    var path = Utils.Categories.GetCategoryPath(allCategories, request.Dto.DeepestCategoryId ?? existingProduct.DeepestCategoryId);
 
     foreach (var category in path)
     {

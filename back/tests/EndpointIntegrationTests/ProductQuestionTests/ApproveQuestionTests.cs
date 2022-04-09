@@ -9,14 +9,15 @@ using api.Security;
 using FluentAssertions;
 using Xunit;
 
-namespace tests.EndpointIntegrationTests.ProductQuestion;
+namespace tests.EndpointIntegrationTests.ProductQuestionTests;
 
 public class ApproveProductQuestionTests : ProductQuestionIntegrationTest
 {
   [Fact]
   public async Task ApproveProductQuestion_WithExistingProduct_WithExistingQuestion_ApprovesReview_ReturnsApprovedReview()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var question = await AddProductQuestion(product.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
@@ -54,7 +55,8 @@ public class ApproveProductQuestionTests : ProductQuestionIntegrationTest
   [Fact]
   public async Task ApproveProductQuestion_WithExistingProduct_WithNonExistentQuestion_ReturnsQuestionNotFound()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
 

@@ -8,14 +8,15 @@ using Castle.Components.DictionaryAdapter;
 using FluentAssertions;
 using Xunit;
 
-namespace tests.EndpointIntegrationTests.Product;
+namespace tests.EndpointIntegrationTests.ProductTests;
 
 public class GetProductTests : ProductIntegrationTest
 {
   [Fact]
   public async Task GetProduct_WithExistingProduct_ReturnsProduct()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
 
     var response = await GetProduct_TEST_REQUEST(product.Id);
 

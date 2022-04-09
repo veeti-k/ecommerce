@@ -12,11 +12,11 @@ using FluentAssertions;
 
 namespace tests.EndpointIntegrationTests;
 
-public class ProductIntegrationTest : NeedsAuthIntegrationTest
+public class ProductIntegrationTest : ProductCategoryIntegrationTest
 {
   protected readonly int NonExistentIntId = Int32.MaxValue;
   protected readonly Guid NonExistentGuidId = Guid.NewGuid();
-  
+
   // add product
   public static readonly AddProductDto TestProductDto = new()
   {
@@ -27,32 +27,44 @@ public class ProductIntegrationTest : NeedsAuthIntegrationTest
     DiscountedPrice = 123,
     DiscountPercent = 0,
     IsDiscounted = false,
-    BulletPoints = new []{Guid.NewGuid().ToString(), Guid.NewGuid().ToString()},
-    ImageLinks = new []{Guid.NewGuid().ToString(), Guid.NewGuid().ToString()}
+    BulletPoints = new[] {Guid.NewGuid().ToString(), Guid.NewGuid().ToString()},
+    ImageLinks = new[] {Guid.NewGuid().ToString(), Guid.NewGuid().ToString()},
   };
-  public async Task<HttpResponseMessage?> AddProduct_TEST_REQUEST()
+
+  public async Task<HttpResponseMessage?> AddProduct_TEST_REQUEST(int deepestCategoryId)
   {
-    var request = TestProductDto;
+    var request = new AddProductDto()
+    {
+      Name = TestProductDto.Name,
+      Description = TestProductDto.Description,
+      Price = TestProductDto.Price,
+      DiscountAmount = TestProductDto.DiscountAmount,
+      DiscountedPrice = TestProductDto.DiscountedPrice,
+      DiscountPercent = TestProductDto.DiscountPercent,
+      IsDiscounted = TestProductDto.IsDiscounted,
+      BulletPoints = TestProductDto.BulletPoints,
+      ImageLinks = TestProductDto.ImageLinks,
+      DeepestCategoryId = deepestCategoryId,
+    };
 
     return await TestClient.PostAsJsonAsync(Routes.ProductsRoot, request);
   }
 
-  public async Task<BaseProductResponse> AddProduct()
+  public async Task<ProductPageProductResponse> AddProduct(int deepestCategoryId)
   {
     await LoginAs(Flags.ADMINISTRATOR);
 
-    var response = await AddProduct_TEST_REQUEST();
+    var response = await AddProduct_TEST_REQUEST(deepestCategoryId);
 
     await Logout();
 
-    response.IsSuccessStatusCode.Should().BeTrue();
-
-    var json = await response.Content.ReadFromJsonAsync<BaseProductResponse>();
-
     response.StatusCode.Should().Be(HttpStatusCode.Created);
-    json.Id.Should().BePositive();
 
-    return json;
+    var addedId = int.Parse(GetIdFromLocationHeader(response.Headers.Location));
+    ;
+    var addedProduct = await GetProduct(addedId);
+
+    return addedProduct;
   }
 
   // get product
@@ -86,39 +98,48 @@ public class ProductIntegrationTest : NeedsAuthIntegrationTest
     DiscountPercent = new Random().Next(),
     IsDiscounted = true
   };
-  public async Task<HttpResponseMessage?> UpdateProduct_TEST_REQUEST(int productId)
+
+  public async Task<HttpResponseMessage?> UpdateProduct_TEST_REQUEST(int productId, int newCategoryId)
   {
-    var request = TestUpdateProductDto;
-    
+    var request = new UpdateProductDto()
+    {
+      Name = TestProductDto.Name,
+      Description = TestProductDto.Description,
+      Price = TestProductDto.Price,
+      DiscountAmount = TestProductDto.DiscountAmount,
+      DiscountedPrice = TestProductDto.DiscountedPrice,
+      DiscountPercent = TestProductDto.DiscountPercent,
+      IsDiscounted = TestProductDto.IsDiscounted,
+      DeepestCategoryId = newCategoryId,
+    };
+
     var path = Routes.Products.ProductRoot
       .Replace(Routes.Products.ProductId, productId.ToString());
 
-    var response = await TestClient.PatchAsync(path, JsonContent.Create(request));
-
-    return response;
+    return await TestClient.PatchAsync(path, JsonContent.Create(request));
   }
 
-  public async Task<BaseProductResponse> UpdateProduct(int productId)
+  public async Task<ProductPageProductResponse> UpdateProduct(int productId, int newCategoryId)
   {
     await LoginAs(Flags.ADMINISTRATOR);
 
-    var response = await UpdateProduct_TEST_REQUEST(productId);
-    
-    response.IsSuccessStatusCode.Should().BeTrue();
+    var response = await UpdateProduct_TEST_REQUEST(productId, newCategoryId);
+
+    response.StatusCode.Should().Be(HttpStatusCode.OK);
 
     await Logout();
 
-    var json = await response.Content.ReadFromJsonAsync<BaseProductResponse>();
+    var updatedProduct = await GetProduct(productId);
 
-    return json;
+    return updatedProduct;
   }
-  
+
   // delete product
   public async Task<HttpResponseMessage?> DeleteProduct_TEST_REQUEST(int productId)
   {
     var path = Routes.Products.ProductRoot
       .Replace(Routes.Products.ProductId, productId.ToString());
-    
+
     var response = await TestClient.DeleteAsync(path);
 
     return response;
@@ -129,7 +150,7 @@ public class ProductIntegrationTest : NeedsAuthIntegrationTest
     await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await DeleteProduct_TEST_REQUEST(productId);
-    
+
     response.IsSuccessStatusCode.Should().BeTrue();
 
     await Logout();

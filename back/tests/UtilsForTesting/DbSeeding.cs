@@ -10,87 +10,89 @@ namespace tests.UtilsForTesting;
 
 public static class DbSeeding
 {
-  public static List<User> Users = new()
+  private static readonly List<User> Users = new()
   {
     new User
     {
-      Name = "admin",
-      Email = "admin-test@test.test",
-      PhoneNumber = "admin-123",
-      Password = "admin-pass",
+      Name = Flags.NO_FLAGS + "name",
+      Email = Flags.NO_FLAGS + "@test.test",
+      PhoneNumber = Flags.NO_FLAGS + "phone",
+      Password = Flags.NO_FLAGS + "password",
+      CreatedAt = DateTimeOffset.UtcNow,
+      Flags = Flags.NO_FLAGS,
+    },
+    new User
+    {
+      Name = Flags.ADMINISTRATOR + "name",
+      Email = Flags.ADMINISTRATOR + "@test.test",
+      PhoneNumber = Flags.ADMINISTRATOR + "phone",
+      Password = Flags.ADMINISTRATOR + "password",
       CreatedAt = DateTimeOffset.UtcNow,
       Flags = Flags.ADMINISTRATOR,
     },
-
     new User
     {
-      Name = "non-admin",
-      Email = "normal-test@test.test",
-      PhoneNumber = "non-admin-123",
-      Password = "normal-pass",
-      CreatedAt = DateTimeOffset.UtcNow,
-      Flags = 0,
-    },
-
-    new User
-    {
-      Name = "manage-products",
-      Email = "manage-products-test@test.test",
-      PhoneNumber = "manage-products-123",
-      Password = "manage-products-pass",
-      CreatedAt = DateTimeOffset.UtcNow,
-      Flags = Flags.MANAGE_PRODUCTS,
-    },
-
-    new User
-    {
-      Name = "manage-reviews",
-      Email = "manage-reviews-test@test.test",
-      PhoneNumber = "manage-reviews-123",
-      Password = "manage-reviews-pass",
-      CreatedAt = DateTimeOffset.UtcNow,
-      Flags = Flags.MANAGE_REVIEWS,
-    },
-
-    new User
-    {
-      Name = "manage-questions",
-      Email = "manage-questions-test@test.test",
-      PhoneNumber = "manage-questions-123",
-      Password = "manage-questions-pass",
-      CreatedAt = DateTimeOffset.UtcNow,
-      Flags = Flags.MANAGE_QUESTIONS,
-    },
-
-    new User
-    {
-      Name = "view-users",
-      Email = "view-users-test@test.test",
-      PhoneNumber = "view-users-123",
-      Password = "view-users-pass",
+      Name = Flags.VIEW_USERS + "name",
+      Email = Flags.VIEW_USERS + "@test.test",
+      PhoneNumber = Flags.VIEW_USERS + "phone",
+      Password = Flags.VIEW_USERS + "password",
       CreatedAt = DateTimeOffset.UtcNow,
       Flags = Flags.VIEW_USERS,
     },
-
     new User
     {
-      Name = "test-account",
-      Email = "test-account-test@test.test",
-      PhoneNumber = "test-account-123",
-      Password = "test-account-pass",
+      Name = Flags.MANAGE_PRODUCTS + "name",
+      Email = Flags.MANAGE_PRODUCTS + "@test.test",
+      PhoneNumber = Flags.MANAGE_PRODUCTS + "phone",
+      Password = Flags.MANAGE_PRODUCTS + "password",
+      CreatedAt = DateTimeOffset.UtcNow,
+      Flags = Flags.MANAGE_PRODUCTS,
+    },
+    new User
+    {
+      Name = Flags.TEST_ACCOUNT + "name",
+      Email = Flags.TEST_ACCOUNT + "@test.test",
+      PhoneNumber = Flags.TEST_ACCOUNT + "phone",
+      Password = Flags.TEST_ACCOUNT + "password",
       CreatedAt = DateTimeOffset.UtcNow,
       Flags = Flags.TEST_ACCOUNT,
     },
-
     new User
     {
-      Name = "employee",
-      Email = "employee-test@test.test",
-      PhoneNumber = "employee-123",
-      Password = "employee-pass",
+      Name = Flags.EMPLOYEE + "name",
+      Email = Flags.EMPLOYEE + "@test.test",
+      PhoneNumber = Flags.EMPLOYEE + "phone",
+      Password = Flags.EMPLOYEE + "password",
       CreatedAt = DateTimeOffset.UtcNow,
       Flags = Flags.EMPLOYEE,
     },
+    new User
+    {
+      Name = Flags.MANAGE_REVIEWS + "name",
+      Email = Flags.MANAGE_REVIEWS + "@test.test",
+      PhoneNumber = Flags.MANAGE_REVIEWS + "phone",
+      Password = Flags.MANAGE_REVIEWS + "password",
+      CreatedAt = DateTimeOffset.UtcNow,
+      Flags = Flags.MANAGE_REVIEWS,
+    },
+    new User
+    {
+      Name = Flags.MANAGE_QUESTIONS + "name",
+      Email = Flags.MANAGE_QUESTIONS + "@test.test",
+      PhoneNumber = Flags.MANAGE_QUESTIONS + "phone",
+      Password = Flags.MANAGE_QUESTIONS + "password",
+      CreatedAt = DateTimeOffset.UtcNow,
+      Flags = Flags.MANAGE_QUESTIONS,
+    },
+    new User
+    {
+      Name = Flags.MANAGE_CATEGORIES + "name",
+      Email = Flags.MANAGE_CATEGORIES + "@test.test",
+      PhoneNumber = Flags.MANAGE_CATEGORIES + "phone",
+      Password = Flags.MANAGE_CATEGORIES + "password",
+      CreatedAt = DateTimeOffset.UtcNow,
+      Flags = Flags.MANAGE_CATEGORIES,
+    }
   };
 
   public static User? GetUser(Flags flags)

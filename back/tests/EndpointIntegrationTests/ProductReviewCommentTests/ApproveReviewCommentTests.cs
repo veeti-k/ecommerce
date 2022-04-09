@@ -9,7 +9,7 @@ using api.Security;
 using FluentAssertions;
 using Xunit;
 
-namespace tests.EndpointIntegrationTests.ProductReviewComment;
+namespace tests.EndpointIntegrationTests.ProductReviewCommentTests;
 
 public class ApproveReviewCommentTests : ProductReviewCommentIntegrationTest
 {
@@ -17,14 +17,15 @@ public class ApproveReviewCommentTests : ProductReviewCommentIntegrationTest
   public async Task
     ApproveReviewComment_WithExistingProduct_WithApprovedExistingReview_WithExistingComment_Approves_ReturnsApprovedReviewComment()
   {
-    var existingProduct = await AddProduct();
-    var existingReview = await AddReview(existingProduct.Id);
-    await ApproveReview(existingProduct.Id, existingReview.Id);
-    var existingComment = await AddReviewComment(existingProduct.Id, existingReview.Id);
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
+    var existingReview = await AddReview(product.Id);
+    await ApproveReview(product.Id, existingReview.Id);
+    var existingComment = await AddReviewComment(product.Id, existingReview.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
 
-    var response = await ApproveReviewComment_TEST_REQUEST(existingProduct.Id, existingReview.Id, existingComment.Id);
+    var response = await ApproveReviewComment_TEST_REQUEST(product.Id, existingReview.Id, existingComment.Id);
 
     await Logout();
 
@@ -34,7 +35,7 @@ public class ApproveReviewCommentTests : ProductReviewCommentIntegrationTest
 
     json.Should().BeEquivalentTo(existingComment, options => options.ExcludingMissingMembers());
 
-    var reviews = await GetApprovedProductReviews(existingProduct.Id);
+    var reviews = await GetApprovedProductReviews(product.Id);
     var theReview = reviews.FirstOrDefault(review => review.Id == existingReview.Id);
     theReview.Should().NotBeNull();
 
@@ -63,7 +64,8 @@ public class ApproveReviewCommentTests : ProductReviewCommentIntegrationTest
   [Fact]
   public async Task ApproveReviewComment_WithExistingProduct_WithNonExistentReview_ReturnsReviewNotFound()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
 
@@ -82,7 +84,8 @@ public class ApproveReviewCommentTests : ProductReviewCommentIntegrationTest
   public async Task
     ApproveReviewComment_WithExistingProduct_WithApprovedExistingReview_WithNonExistentComment_ReturnsCommentNotFound()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var review = await AddReview(product.Id);
     await ApproveReview(product.Id, review.Id);
 
@@ -98,12 +101,13 @@ public class ApproveReviewCommentTests : ProductReviewCommentIntegrationTest
 
     json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductReviewCommentNotFoundException(NonExistentGuidId));
   }
-  
+
   [Fact]
   public async Task
     ApproveReviewComment_WithExistingProduct_WithNotApprovedExistingReview_ReturnsReviewNotFound()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var review = await AddReview(product.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);

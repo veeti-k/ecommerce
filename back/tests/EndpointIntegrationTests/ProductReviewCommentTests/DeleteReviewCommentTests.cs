@@ -8,7 +8,7 @@ using api.Security;
 using FluentAssertions;
 using Xunit;
 
-namespace tests.EndpointIntegrationTests.ProductReviewComment;
+namespace tests.EndpointIntegrationTests.ProductReviewCommentTests;
 
 public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
 {
@@ -16,7 +16,8 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
   public async Task
     DeleteReviewComment_WithExistingProduct_WithApprovedExistingReview_WithApprovedExistingComment_DeletesComment_Returns204()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
 
     var review = await AddReview(product.Id);
     await ApproveReview(product.Id, review.Id);
@@ -42,11 +43,12 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
   public async Task
     DeleteReviewComment_WithExistingProduct_WithApprovedExistingReview_WithNotApprovedExistingComment_DeletesComment_Returns204()
   {
-    var product = await AddProduct();
-    
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
+
     var review = await AddReview(product.Id);
     await ApproveReview(product.Id, review.Id);
-    
+
     var comment = await AddReviewComment(product.Id, review.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
@@ -82,7 +84,8 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
   [Fact]
   public async Task DeleteReviewComment_WithExistingProduct_WithoutExistingReview_ReturnsReviewNotFound()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
 
@@ -100,7 +103,8 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
   [Fact]
   public async Task DeleteReviewComment_WithExistingProduct_WithNotApprovedExistingReview_ReturnsReviewNotFound()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var review = await AddReview(product.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
@@ -120,8 +124,9 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
   public async Task
     DeleteReviewComment_WithExistingProduct_WithApprovedExistingReview_WithoutExistingComment_ReturnsCommentNotFound()
   {
-    var product = await AddProduct();
-    
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
+
     var review = await AddReview(product.Id);
     await ApproveReview(product.Id, review.Id);
 

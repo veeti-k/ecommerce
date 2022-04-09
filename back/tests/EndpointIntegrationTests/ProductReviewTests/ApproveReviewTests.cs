@@ -10,22 +10,23 @@ using api.Security;
 using FluentAssertions;
 using Xunit;
 
-namespace tests.EndpointIntegrationTests.ProductReview;
+namespace tests.EndpointIntegrationTests.ProductReviewTests;
 
 public class ApproveReviewTests : ProductReviewIntegrationTest
 {
   [Fact]
   public async Task ApproveReview_WithExistingProduct_WithExistingReview_ApprovesReview_ReturnsApprovedReview()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var review = await AddReview(product.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await ApproveReview_TEST_REQUEST(product.Id, review.Id);
-    
+
     await Logout();
-    
+
     response.StatusCode.Should().Be(HttpStatusCode.OK);
 
     var json = await response.Content.ReadFromJsonAsync<ProductReviewResponse>();
@@ -42,9 +43,9 @@ public class ApproveReviewTests : ProductReviewIntegrationTest
     await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await ApproveReview_TEST_REQUEST(NonExistentIntId, Guid.NewGuid());
-    
+
     await Logout();
-    
+
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
     var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
@@ -55,14 +56,15 @@ public class ApproveReviewTests : ProductReviewIntegrationTest
   [Fact]
   public async Task ApproveReview_WithExistingProduct_WithNonExistentReview_ReturnsReviewNotFound()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
 
     var response = await ApproveReview_TEST_REQUEST(product.Id, NonExistentGuidId);
-    
+
     await Logout();
-    
+
     response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
     var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Net.Http;
 using api;
@@ -43,4 +44,7 @@ public class BaseIntegrationTest
 
     TestClient = appFactory.CreateClient();
   }
+  
+  public static string GetIdFromLocationHeader(Uri locationHeader)
+    => locationHeader.ToString().Split("/").Last(); 
 }

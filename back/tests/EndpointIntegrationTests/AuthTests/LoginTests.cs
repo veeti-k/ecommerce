@@ -9,7 +9,7 @@ using FluentAssertions;
 using tests.UtilsForTesting;
 using Xunit;
 
-namespace tests.EndpointIntegrationTests.Auth;
+namespace tests.EndpointIntegrationTests.AuthTests;
 
 public class LoginTests : AuthIntegrationTest
 {
@@ -44,7 +44,7 @@ public class LoginTests : AuthIntegrationTest
 
     var response = await Login_TEST_REQUEST(dto);
 
-    response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
     var json = await response.Content.ReadFromJsonAsync<MyExceptionResponse>();
 

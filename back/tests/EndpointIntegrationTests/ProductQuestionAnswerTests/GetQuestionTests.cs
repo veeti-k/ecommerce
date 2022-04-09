@@ -3,14 +3,15 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 
-namespace tests.EndpointIntegrationTests.ProductQuestionAnswer;
+namespace tests.EndpointIntegrationTests.ProductQuestionAnswerTests;
 
 public class GetQuestionTests : ProductQuestionAnswerIntegrationTest
 {
   [Fact]
   public async Task GetReviews_WithApprovedReviews_WithApprovedAndNotApprovedComments_ReturnsOnlyApprovedComments()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var question = await AddProductQuestion(product.Id);
     await ApproveProductQuestion(product.Id, question.Id);
 
@@ -26,6 +27,6 @@ public class GetQuestionTests : ProductQuestionAnswerIntegrationTest
     theReview.Answers.Any(a => a.Id == answer1.Id).Should().BeTrue();
     theReview.Answers.Any(a => a.Id == answer2.Id).Should().BeFalse();
   }
-  
+
   // perms are already tested in ../ProductQuestion/GetQuestionTests.cs
 }

@@ -28,7 +28,7 @@ public record BaseProductResponse
   public float AverageStars { get; set; }
   public int ReviewCount { get; set; }
   public int QuestionCount { get; set; }
-  public List<string> CategoryIds { get; set; }
+  public int DeepestCategoryId { get; set; }
   public IEnumerable<ProductBulletPointResponse> BulletPoints { get; set; }
   public IEnumerable<ProductImageResponse> Images { get; set; }
 }

@@ -9,14 +9,15 @@ using api.Security;
 using FluentAssertions;
 using Xunit;
 
-namespace tests.EndpointIntegrationTests.ProductReview;
+namespace tests.EndpointIntegrationTests.ProductReviewTests;
 
 public class AddReviewTests : ProductReviewIntegrationTest
 {
   [Fact]
   public async Task AddReview_WithExistingProduct_AddsReview_ReturnsAddedReview()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
 
     var response = await AddReview_TEST_REQUEST(product.Id);
 
@@ -30,7 +31,8 @@ public class AddReviewTests : ProductReviewIntegrationTest
   [Fact]
   public async Task AddReview_AfterAdding_DoesNotExposeReview_UntilApproved()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var review = await AddReview(product.Id);
 
     var reviews1 = await GetApprovedProductReviews(product.Id);

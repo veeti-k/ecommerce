@@ -7,14 +7,15 @@ using api.Security;
 using FluentAssertions;
 using Xunit;
 
-namespace tests.EndpointIntegrationTests.Product;
+namespace tests.EndpointIntegrationTests.ProductTests;
 
 public class DeleteProductTests : ProductIntegrationTest
 {
   [Fact]
   public async Task DeleteProduct_WithExistingProduct_DeletesProduct_Returns204()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
 

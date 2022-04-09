@@ -9,7 +9,7 @@ using api.Security;
 using FluentAssertions;
 using Xunit;
 
-namespace tests.EndpointIntegrationTests.ProductQuestionAnswer;
+namespace tests.EndpointIntegrationTests.ProductQuestionAnswerTests;
 
 public class ApproveQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
 {
@@ -17,7 +17,8 @@ public class ApproveQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
   public async Task
     ApproveQuestionAnswer_WithExistingProduct_WithApprovedExistingQuestion_WithExistingAnswer_Approves_ReturnsApprovedQuestionAnswer()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var question = await AddProductQuestion(product.Id);
     await ApproveProductQuestion(product.Id, question.Id);
     var answer = await AddQuestionAnswer(product.Id, question.Id);
@@ -63,7 +64,8 @@ public class ApproveQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
   [Fact]
   public async Task ApproveQuestionAnswer_WithExistingProduct_WithoutExistingQuestion_ReturnsQuestionNotFound()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
 
@@ -82,7 +84,8 @@ public class ApproveQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
   public async Task
     ApproveQuestionAnswer_WithExistingProduct_WithApprovedExistingQuestion_WithoutExistingAnswer_ReturnsAnswerNotFound()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var review = await AddProductQuestion(product.Id);
     await ApproveProductQuestion(product.Id, review.Id);
 
@@ -98,12 +101,13 @@ public class ApproveQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
 
     json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductQuestionAnswerNotFoundException(NonExistentGuidId));
   }
-  
+
   [Fact]
   public async Task
     ApproveQuestionAnswer_WithExistingProduct_WithNotApprovedExistingQuestion_ReturnsQuestionNotFound()
   {
-    var product = await AddProduct();
+    var category = await AddCategory();
+    var product = await AddProduct(category.Id);
     var question = await AddProductQuestion(product.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
