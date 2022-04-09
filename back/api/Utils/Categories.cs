@@ -14,7 +14,7 @@ public static class Categories
 
     while (current.ParentId != null)
     {
-      current = allCategories.FirstOrDefault(c => c.Id == c.ParentId);
+      current = allCategories.FirstOrDefault(c => c.Id == current.ParentId);
       result.Add(current);
     }
 
