@@ -16,12 +16,12 @@ public class UpdateCategory : EndpointBaseAsync
 {
   private readonly IGenericRepo<ProductCategory> _categoryRepo;
 
-  public UpdateCategory( IGenericRepo<ProductCategory> categoryRepo)
+  public UpdateCategory(IGenericRepo<ProductCategory> categoryRepo)
   {
     _categoryRepo = categoryRepo;
   }
 
-  [Authorize(Policy = Policies.Administrator)]
+  [Authorize(Policy = Policies.ManageCategories)]
   [HttpPatch(Routes.Categories.CategoryRoot)]
   public override async Task<ActionResult<ProductCategory>> HandleAsync(
     [FromRoute] UpdateCategoryRequest request,
@@ -29,9 +29,15 @@ public class UpdateCategory : EndpointBaseAsync
   {
     var existingCategory = await _categoryRepo.GetById(request.CategoryId);
     if (existingCategory is null) throw new ProductCategoryNotFoundException(request.CategoryId);
-    
+
     if (existingCategory.Id == request.Dto.ParentId)
       throw new BadRequestException("Parent category cannot be the same as the category itself");
+
+    if (request.Dto.ParentId != null)
+    {
+      var parentCategory = await _categoryRepo.GetById(request.Dto.ParentId.Value);
+      if (parentCategory is null) throw new ProductCategoryNotFoundException(request.Dto.ParentId.Value);
+    }
 
     existingCategory.Name = request.Dto.Name ?? existingCategory.Name;
     existingCategory.ParentId = request.Dto.ParentId ?? existingCategory.ParentId;

@@ -16,8 +16,6 @@ namespace tests.EndpointIntegrationTests;
 
 public class ProductCategoryIntegrationTest : NeedsAuthIntegrationTest
 {
-  
-
   // get categories
   public async Task<HttpResponseMessage?> GetCategories_TEST_REQUEST()
     => await TestClient.GetAsync(Routes.CategoriesRoot);
@@ -87,5 +85,14 @@ public class ProductCategoryIntegrationTest : NeedsAuthIntegrationTest
     var categories = await GetCategories();
 
     return categories.AllCategories.FirstOrDefault(c => c.Id == addedId);
+  }
+
+  // update category
+  public async Task<HttpResponseMessage?> UpdateCategory_TEST_REQUEST(int categoryId, UpdateCategoryDto dto)
+  {
+    var path = Routes.Categories.CategoryRoot
+      .Replace(Routes.Categories.CategoryId, categoryId.ToString());
+
+    return await TestClient.PatchAsync(path, JsonContent.Create(dto));
   }
 }
