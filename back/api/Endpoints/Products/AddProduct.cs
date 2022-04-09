@@ -1,5 +1,5 @@
 ﻿using api.Exceptions;
-using api.Models.Product;
+using api.Models;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Product.Add;
 using api.Security.Policies;
@@ -48,7 +48,7 @@ public class AddProduct : EndpointBaseAsync
     var category = await _categoryRepo.GetById(request.Dto.DeepestCategoryId);
     if (category is null) throw new ProductCategoryNotFoundException(request.Dto.DeepestCategoryId);
     
-    var newProduct = new Models.Product.Product
+    var newProduct = new Models.Product
     {
       Name = request.Dto.Name,
       Description = request.Dto.Description,

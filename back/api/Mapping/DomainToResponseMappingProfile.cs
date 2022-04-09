@@ -1,6 +1,6 @@
-﻿using api.Models.Product;
-using api.Models.Product.Question;
-using api.Models.Product.Review;
+﻿using api.Models;
+using api.Models.Question;
+using api.Models.Review;
 using api.Models.User;
 using api.RequestsAndResponses.Addresses;
 using api.RequestsAndResponses.Category;

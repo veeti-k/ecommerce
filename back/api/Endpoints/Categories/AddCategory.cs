@@ -1,4 +1,4 @@
-using api.Models.Product;
+using api.Models;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Category;
 using api.Security.Policies;

@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using api.Endpoints;
-using api.Models.Product;
+using api.Models;
 using api.RequestsAndResponses.Category;
 using api.RequestsAndResponses.Product;
 using api.RequestsAndResponses.Product.Add;

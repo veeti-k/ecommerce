@@ -1,5 +1,4 @@
 using api.Exceptions;
-using api.Models.Product;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Category;
 using api.Security.Policies;

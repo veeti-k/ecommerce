@@ -1,5 +1,5 @@
 ﻿using api.Exceptions;
-using api.Models.Product.Review;
+using api.Models.Review;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.ProductReview;
 using api.RequestsAndResponses.ProductReview.Add;

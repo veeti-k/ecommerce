@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using api.Exceptions;
-using api.Models.Product;
+using api.Models;
 using api.RequestsAndResponses.Product;
 using api.Security;
 using Castle.Components.DictionaryAdapter;

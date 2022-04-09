@@ -1,6 +1,6 @@
 ﻿#region
 
-using api.Models.Product.Question;
+using api.Models.Question;
 
 #endregion
 

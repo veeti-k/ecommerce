@@ -1,5 +1,6 @@
 ﻿using api.Exceptions;
 using api.Repositories;
+using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Addresses;
 using api.RequestsAndResponses.Addresses.MeUpdate;
 using api.Services.Interfaces;

@@ -1,7 +1,7 @@
 ﻿#region
 
 using api.Data;
-using api.Models.Product.Question;
+using api.Models.Question;
 using api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

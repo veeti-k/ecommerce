@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using api.Models.Product.Question;
-using api.Models.Product.Review;
+using api.Models.Question;
+using api.Models.Review;
 
-namespace api.Models.Product;
+namespace api.Models;
 
 public class Product
 {

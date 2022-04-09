@@ -1,5 +1,5 @@
 ﻿using api.Exceptions;
-using api.Models.Product;
+using api.Models;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Product;
 using api.RequestsAndResponses.Product.Update;

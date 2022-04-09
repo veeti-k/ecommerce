@@ -1,7 +1,6 @@
 ﻿using api.Models.User;
-using api.Repositories.Interfaces;
 
-namespace api.Repositories;
+namespace api.Repositories.Interfaces;
 
 public interface IAddressRepo : IGenericRepo<Address>
 {

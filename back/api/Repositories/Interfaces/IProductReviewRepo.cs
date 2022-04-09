@@ -1,4 +1,4 @@
-﻿using api.Models.Product.Review;
+﻿using api.Models.Review;
 
 namespace api.Repositories.Interfaces;
 

@@ -1,5 +1,5 @@
 ﻿using api.Data;
-using api.Models.Product.Review;
+using api.Models.Review;
 using api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

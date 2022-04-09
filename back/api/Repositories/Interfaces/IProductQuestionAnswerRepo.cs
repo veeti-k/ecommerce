@@ -1,4 +1,4 @@
-﻿using api.Models.Product.Question;
+﻿using api.Models.Question;
 
 namespace api.Repositories.Interfaces;
 

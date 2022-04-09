@@ -1,4 +1,4 @@
-﻿using api.Models.Product;
+﻿using api.Models;
 
 namespace api.Utils;
 

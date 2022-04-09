@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace api.Models.Product.Question;
+namespace api.Models.Question;
 
 public class ProductQuestion
 {
