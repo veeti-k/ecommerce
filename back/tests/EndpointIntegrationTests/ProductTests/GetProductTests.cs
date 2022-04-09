@@ -24,8 +24,7 @@ public class GetProductTests : ProductIntegrationTest
 
     var json = await response.Content.ReadFromJsonAsync<ProductPageProductResponse>();
 
-    json.Should().BeEquivalentTo(product, options => options
-      .ExcludingMissingMembers());
+    json.Should().BeEquivalentTo(product);
   }
 
   [Fact]
