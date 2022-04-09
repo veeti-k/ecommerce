@@ -14,9 +14,6 @@ namespace tests.EndpointIntegrationTests;
 
 public class ProductIntegrationTest : ProductCategoryIntegrationTest
 {
-  protected readonly int NonExistentIntId = Int32.MaxValue;
-  protected readonly Guid NonExistentGuidId = Guid.NewGuid();
-
   // add product
   public static readonly AddProductDto TestProductDto = new()
   {
@@ -61,7 +58,7 @@ public class ProductIntegrationTest : ProductCategoryIntegrationTest
     response.StatusCode.Should().Be(HttpStatusCode.Created);
 
     var addedId = int.Parse(GetIdFromLocationHeader(response.Headers.Location));
-    ;
+
     var addedProduct = await GetProduct(addedId);
 
     return addedProduct;

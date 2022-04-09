@@ -14,6 +14,9 @@ public class BaseIntegrationTest
 {
   protected readonly HttpClient TestClient;
 
+  protected readonly int NonExistentIntId = Int32.MaxValue;
+  protected readonly Guid NonExistentGuidId = Guid.NewGuid();
+
   protected BaseIntegrationTest()
   {
     var appFactory = new WebApplicationFactory<Program>()
@@ -44,7 +47,7 @@ public class BaseIntegrationTest
 
     TestClient = appFactory.CreateClient();
   }
-  
+
   public static string GetIdFromLocationHeader(Uri locationHeader)
-    => locationHeader.ToString().Split("/").Last(); 
+    => locationHeader.ToString().Split("/").Last();
 }
