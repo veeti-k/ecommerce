@@ -1,19 +1,8 @@
+using api.RequestsAndResponses.Product.Add;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.RequestsAndResponses.Product.Update;
-
-public record UpdateBulletPointDto
-{
-  public Guid? Id { get; init; }
-  public string Text { get; init; }
-}
-
-public record UpdateProductImageDto
-{
-  public Guid? Id { get; init; }
-  public string Link { get; init; }
-}
 
 public record UpdateProductDto
 {
@@ -25,8 +14,8 @@ public record UpdateProductDto
   public double? DiscountAmount { get; init; }
   public bool? IsDiscounted { get; init; }
   public int? DeepestCategoryId { get; init; }
-  public IEnumerable<UpdateBulletPointDto> BulletPoints { get; init; }
-  public IEnumerable<UpdateProductImageDto> ImageLinks { get; init; }
+  public IEnumerable<BulletPointDto> BulletPoints { get; init; }
+  public IEnumerable<ProductImageDto> ImageLinks { get; init; }
 }
 
 public class UpdateProductRequest

@@ -3,13 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.RequestsAndResponses.Product.Add;
 
-public record AddBulletPointDto
+public record BulletPointDto
 {
+  public Guid? Id { get; init; }
   public string Text { get; init; }
 }
 
-public record AddProductImageDto
+public record ProductImageDto
 {
+  public Guid? Id { get; init; }
   public string Link { get; init; }
 }
 
@@ -23,8 +25,8 @@ public record AddProductDto
   public double DiscountAmount { get; init; }
   public bool IsDiscounted { get; init; }
   public int DeepestCategoryId { get; init; }
-  public IEnumerable<AddBulletPointDto> BulletPoints { get; init; }
-  public IEnumerable<AddProductImageDto> ImageLinks { get; init; }
+  public IEnumerable<BulletPointDto> BulletPoints { get; init; }
+  public IEnumerable<ProductImageDto> ImageLinks { get; init; }
 }
 
 public class AddProductRequest
