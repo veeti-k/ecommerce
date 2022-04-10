@@ -22,7 +22,7 @@ public class SessionRepo : GenericRepo<Session>, ISessionRepo
       .FirstOrDefaultAsync();
   }
 
-  public async Task<IEnumerable<Session?>> GetMany(int userId)
+  public async Task<List<Session?>> GetMany(int userId)
   {
     return await _context.Sessions
       .Where(session => session.UserId == userId)

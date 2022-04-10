@@ -24,9 +24,9 @@ public class Product
   [Required] public int QuestionCount { get; set; }
   [Required] public int DeepestCategoryId { get; set; }
 
-  public virtual IEnumerable<ProductImageLink> Images { get; init; }
-  public virtual IEnumerable<ProductBulletPoint> BulletPoints { get; init; }
-  public virtual IEnumerable<ProductReview> Reviews { get; init; }
-  public virtual IEnumerable<ProductQuestion> Questions { get; init; }
-  public virtual IEnumerable<ProductsCategories> ProductsCategories { get; init; }
+  public virtual List<ProductImageLink> Images { get; init; }
+  public virtual List<ProductBulletPoint> BulletPoints { get; init; }
+  public virtual List<ProductReview> Reviews { get; init; }
+  public virtual List<ProductQuestion> Questions { get; init; }
+  public virtual List<ProductsCategories> ProductsCategories { get; init; }
 }

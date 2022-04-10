@@ -17,6 +17,6 @@ public class User
   [Required] public Flags Flags { get; set; }
   [Required] public DateTimeOffset CreatedAt { get; init; }
 
-  public virtual IEnumerable<Session> Sessions { get; init; }
-  public virtual IEnumerable<Address> Addresses { get; init; }
+  public virtual List<Session> Sessions { get; init; }
+  public virtual List<Address> Addresses { get; init; }
 }

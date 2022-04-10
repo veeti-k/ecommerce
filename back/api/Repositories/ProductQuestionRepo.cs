@@ -35,14 +35,14 @@ public class ProductQuestionRepo : GenericRepo<ProductQuestion>, IProductQuestio
       .FirstOrDefaultAsync();
   }
 
-  public async Task<IEnumerable<ProductQuestion?>> GetMany(int productId)
+  public async Task<List<ProductQuestion?>> GetMany(int productId)
   {
     return await _context.ProductQuestions
       .Where(question => question.ProductId == productId)
       .ToListAsync();
   }
 
-  public async Task<IEnumerable<ProductQuestion?>> GetManyApproved(int productId)
+  public async Task<List<ProductQuestion?>> GetManyApproved(int productId)
   {
     return await _context.ProductQuestions
       .Where(question => question.ProductId == productId
@@ -50,7 +50,7 @@ public class ProductQuestionRepo : GenericRepo<ProductQuestion>, IProductQuestio
       .ToListAsync();
   }
 
-  public async Task<IEnumerable<ProductQuestion?>> GetManyWithApprovedAnswers(int productId)
+  public async Task<List<ProductQuestion?>> GetManyWithApprovedAnswers(int productId)
   {
     return await _context.ProductQuestions
       .Include(question => question.Answers.Where(a => a.IsApproved))
@@ -59,7 +59,7 @@ public class ProductQuestionRepo : GenericRepo<ProductQuestion>, IProductQuestio
       .ToListAsync();
   }
 
-  public async Task<IEnumerable<ProductQuestion?>> GetManyApprovedWithApprovedAnswers(int productId)
+  public async Task<List<ProductQuestion?>> GetManyApprovedWithApprovedAnswers(int productId)
   {
     return await _context.ProductQuestions
       .Include(question => question.Answers.Where(answer => answer.IsApproved))

@@ -10,5 +10,5 @@ public class ProductQuestionResponse
   public string Title { get; init; }
   public string Content { get; init; }
   public DateTimeOffset CreatedAt { get; init; }
-  public IEnumerable<ProductQuestionAnswerResponse> Answers { get; init; }
+  public List<ProductQuestionAnswerResponse> Answers { get; init; }
 }

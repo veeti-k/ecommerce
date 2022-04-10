@@ -14,7 +14,7 @@ public class ProductsCategoriesRepo : GenericRepo<ProductsCategories>, IProducts
     _context = context;
   }
 
-  public async Task<IEnumerable<ProductsCategories?>> GetManyByProductId(int productId)
+  public async Task<List<ProductsCategories?>> GetManyByProductId(int productId)
   {
     return await _context.ProductsCategories
       .Where(pc => pc.ProductId == productId)

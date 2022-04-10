@@ -12,7 +12,7 @@ namespace api.Endpoints.Users.User.Addresses;
 
 public class GetAddresses : EndpointBaseAsync
   .WithRequest<UserGetAddressesRequest>
-  .WithActionResult<IEnumerable<AddressResponse>>
+  .WithActionResult<List<AddressResponse>>
 {
   private readonly IMapper _mapper;
   private readonly IAddressRepo _addressRepo;
@@ -25,12 +25,12 @@ public class GetAddresses : EndpointBaseAsync
 
   [Authorize(Policy = Policies.ViewUsers)]
   [HttpGet(Routes.Users.User.AddressesRoot)]
-  public override async Task<ActionResult<IEnumerable<AddressResponse>>> HandleAsync(
+  public override async Task<ActionResult<List<AddressResponse>>> HandleAsync(
     [FromRoute] UserGetAddressesRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
     var addresses = await _addressRepo.GetMany(request.UserId);
 
-    return Ok(_mapper.Map<IEnumerable<AddressResponse>>(addresses));
+    return Ok(_mapper.Map<List<AddressResponse>>(addresses));
   }
 }

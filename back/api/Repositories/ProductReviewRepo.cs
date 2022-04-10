@@ -31,14 +31,14 @@ public class ProductReviewRepo : GenericRepo<ProductReview>, IProductReviewRepo
       .FirstOrDefaultAsync();
   }
 
-  public async Task<IEnumerable<ProductReview?>> GetMany(int productId)
+  public async Task<List<ProductReview?>> GetMany(int productId)
   {
     return await _context.ProductReviews
       .Where(review => review.ProductId == productId)
       .ToListAsync();
   }
 
-  public async Task<IEnumerable<ProductReview?>> GetManyApproved(int productId)
+  public async Task<List<ProductReview?>> GetManyApproved(int productId)
   {
     return await _context.ProductReviews
       .Where(review => review.ProductId == productId
@@ -46,7 +46,7 @@ public class ProductReviewRepo : GenericRepo<ProductReview>, IProductReviewRepo
       .ToListAsync();
   }
 
-  public async Task<IEnumerable<ProductReview?>> GetManyWithApprovedComments(int productId)
+  public async Task<List<ProductReview?>> GetManyWithApprovedComments(int productId)
   {
     return await _context.ProductReviews
       .Include(review => review.Comments.Where(a => a.IsApproved))
@@ -55,7 +55,7 @@ public class ProductReviewRepo : GenericRepo<ProductReview>, IProductReviewRepo
       .ToListAsync();
   }
 
-  public async Task<IEnumerable<ProductReview?>> GetManyApprovedWithApprovedComments(int productId)
+  public async Task<List<ProductReview?>> GetManyApprovedWithApprovedComments(int productId)
   {
     return await _context.ProductReviews
       .Include(review => review.Comments.Where(answer => answer.IsApproved))

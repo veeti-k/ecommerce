@@ -10,7 +10,7 @@ namespace api.Endpoints.Products.Product.Questions;
 
 public class GetProductQuestions : EndpointBaseAsync
   .WithRequest<GetProductQuestionsRequest>
-  .WithActionResult<IEnumerable<ProductQuestionResponse>>
+  .WithActionResult<List<ProductQuestionResponse>>
 {
   private readonly IMapper _mapper;
   private readonly IProductRepo _productRepo;
@@ -27,7 +27,7 @@ public class GetProductQuestions : EndpointBaseAsync
   }
 
   [HttpGet(Routes.Products.Product.QuestionsRoot)]
-  public override async Task<ActionResult<IEnumerable<ProductQuestionResponse>>> HandleAsync(
+  public override async Task<ActionResult<List<ProductQuestionResponse>>> HandleAsync(
     [FromRoute] GetProductQuestionsRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
@@ -37,6 +37,6 @@ public class GetProductQuestions : EndpointBaseAsync
     var questions = await _productQuestionRepo
       .GetManyApprovedWithApprovedAnswers(request.ProductId);
 
-    return Ok(_mapper.Map<IEnumerable<ProductQuestionResponse>>(questions));
+    return Ok(_mapper.Map<List<ProductQuestionResponse>>(questions));
   }
 }

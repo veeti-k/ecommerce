@@ -11,6 +11,6 @@ public record UserResponse
   public string? PhoneNumber { get; init; }
   public long Flags { get; init; }
   public DateTimeOffset CreatedAt { get; init; }
-  public IEnumerable<AddressResponse> Addresses { get; init; }
-  public IEnumerable<SessionResponse> Sessions { get; init; }
+  public List<AddressResponse> Addresses { get; init; }
+  public List<SessionResponse> Sessions { get; init; }
 }

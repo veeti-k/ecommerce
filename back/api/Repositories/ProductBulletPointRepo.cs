@@ -14,6 +14,6 @@ public class ProductBulletPointRepo : GenericRepo<ProductBulletPoint>, IProductB
     _context = context;
   }
 
-  public async Task<IEnumerable<ProductBulletPoint>> GetManyByProductId(int productId)
+  public async Task<List<ProductBulletPoint>> GetManyByProductId(int productId)
     => await _context.ProductBulletPoints.Where(x => x.ProductId == productId).ToListAsync();
 }

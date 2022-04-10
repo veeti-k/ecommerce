@@ -6,8 +6,8 @@ public interface IProductReviewRepo : IGenericRepo<ProductReview>
 {
   public Task<ProductReview?> GetOne(int productId, Guid reviewId);
   public Task<ProductReview?> GetOneApproved(int productId, Guid reviewId);
-  public Task<IEnumerable<ProductReview?>> GetMany(int productId);
-  public Task<IEnumerable<ProductReview?>> GetManyApproved(int productId);
-  public Task<IEnumerable<ProductReview?>> GetManyWithApprovedComments(int productId);
-  public Task<IEnumerable<ProductReview?>> GetManyApprovedWithApprovedComments(int productId);
+  public Task<List<ProductReview?>> GetMany(int productId);
+  public Task<List<ProductReview?>> GetManyApproved(int productId);
+  public Task<List<ProductReview?>> GetManyWithApprovedComments(int productId);
+  public Task<List<ProductReview?>> GetManyApprovedWithApprovedComments(int productId);
 }

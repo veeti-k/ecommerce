@@ -14,7 +14,7 @@ public class CategoryRepo : GenericRepo<ProductCategory>, ICategoryRepo
     _context = context;
   }
 
-  public async Task<IEnumerable<ProductCategory?>> GetByParentId(int parentId)
+  public async Task<List<ProductCategory?>> GetByParentId(int parentId)
   {
     return await _context.ProductCategories
       .Where(c => c.ParentId == parentId)

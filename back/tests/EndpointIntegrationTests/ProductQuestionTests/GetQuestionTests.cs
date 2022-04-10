@@ -51,7 +51,7 @@ public class GetQuestionTests : ProductQuestionIntegrationTest
 
     response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-    var json = await response.Content.ReadFromJsonAsync<IEnumerable<ProductQuestionResponse>>();
+    var json = await response.Content.ReadFromJsonAsync<List<ProductQuestionResponse>>();
 
     json.Should().BeEmpty();
   }

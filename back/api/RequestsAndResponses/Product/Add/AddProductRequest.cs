@@ -25,8 +25,8 @@ public record AddProductDto
   public double DiscountAmount { get; init; }
   public bool IsDiscounted { get; init; }
   public int DeepestCategoryId { get; init; }
-  public IEnumerable<BulletPointDto> BulletPoints { get; init; }
-  public IEnumerable<ProductImageDto> ImageLinks { get; init; }
+  public List<BulletPointDto> BulletPoints { get; init; }
+  public List<ProductImageDto> ImageLinks { get; init; }
 }
 
 public class AddProductRequest

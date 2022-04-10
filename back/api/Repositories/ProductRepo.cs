@@ -44,7 +44,7 @@ public class ProductRepo : GenericRepo<Product>, IProductRepo
       .FirstOrDefaultAsync();
   }
 
-  public async Task<IEnumerable<Product?>> GetManyNotDeleted()
+  public async Task<List<Product?>> GetManyNotDeleted()
   {
     return await _context.Products
       .Include(product => product.BulletPoints)

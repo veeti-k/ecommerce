@@ -10,7 +10,7 @@ namespace api.Endpoints.Categories;
 
 public class GetCategories : EndpointBaseAsync
   .WithoutRequest
-  .WithActionResult<ICollection<ProductCategoryResponse>>
+  .WithActionResult<List<ProductCategoryResponse>>
 {
   private readonly IMapper _mapper;
   private readonly IGenericRepo<ProductCategory> _categoryRepo;
@@ -22,13 +22,13 @@ public class GetCategories : EndpointBaseAsync
   }
 
   [HttpGet(Routes.CategoriesRoot)]
-  public override async Task<ActionResult<ICollection<ProductCategoryResponse>>> HandleAsync(
+  public override async Task<ActionResult<List<ProductCategoryResponse>>> HandleAsync(
     CancellationToken cancellationToken = new CancellationToken())
   {
     var categories = await _categoryRepo.GetAll();
 
-    var resolvedCategories = new Collection<ResolvedCategory>();
-    var mappedCategories = _mapper.Map<ICollection<ResolvedCategory>>(categories);
+    var resolvedCategories = new List<ResolvedCategory>();
+    var mappedCategories = _mapper.Map<List<ResolvedCategory>>(categories);
 
     foreach (var category in mappedCategories)
     {
@@ -37,7 +37,7 @@ public class GetCategories : EndpointBaseAsync
         var parent = mappedCategories.FirstOrDefault(c => c.Id == category.ParentId);
         if (parent == null) continue;
         
-        parent.Children ??= new Collection<ResolvedCategory>();
+        parent.Children ??= new List<ResolvedCategory>();
         parent.Children.Add(category);
       }
       else

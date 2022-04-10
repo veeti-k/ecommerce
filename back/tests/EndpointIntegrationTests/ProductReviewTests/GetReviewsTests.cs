@@ -51,7 +51,7 @@ public class GetReviewsTests : ProductReviewIntegrationTest
 
     response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-    var json = await response.Content.ReadFromJsonAsync<IEnumerable<ProductReviewResponse>>();
+    var json = await response.Content.ReadFromJsonAsync<List<ProductReviewResponse>>();
 
     json.Should().BeEmpty();
   }

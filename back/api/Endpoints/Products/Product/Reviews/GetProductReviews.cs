@@ -10,7 +10,7 @@ namespace api.Endpoints.Products.Product.Reviews;
 
 public class GetProductReviews : EndpointBaseAsync
   .WithRequest<GetProductReviewsForProductRequest>
-  .WithActionResult<IEnumerable<ProductReviewResponse>>
+  .WithActionResult<List<ProductReviewResponse>>
 {
   private readonly IMapper _mapper;
   private readonly IProductReviewRepo _productReviewRepo;
@@ -28,7 +28,7 @@ public class GetProductReviews : EndpointBaseAsync
   }
 
   [HttpGet(Routes.Products.Product.ReviewsRoot)]
-  public override async Task<ActionResult<IEnumerable<ProductReviewResponse>>> HandleAsync(
+  public override async Task<ActionResult<List<ProductReviewResponse>>> HandleAsync(
     [FromRoute] GetProductReviewsForProductRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
@@ -37,6 +37,6 @@ public class GetProductReviews : EndpointBaseAsync
 
     var reviews = await _productReviewRepo.GetManyApprovedWithApprovedComments(request.ProductId);
 
-    return Ok(_mapper.Map<IEnumerable<ProductReviewResponse>>(reviews));
+    return Ok(_mapper.Map<List<ProductReviewResponse>>(reviews));
   }
 }

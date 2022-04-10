@@ -31,14 +31,14 @@ public class ProductQuestionAnswerRepo : GenericRepo<ProductQuestionAnswer>, IPr
       .FirstOrDefaultAsync();
   }
 
-  public async Task<IEnumerable<ProductQuestionAnswer?>> GetMany(Guid questionId)
+  public async Task<List<ProductQuestionAnswer?>> GetMany(Guid questionId)
   {
     return await _context.ProductQuestionAnswers
       .Where(answer => answer.QuestionId == questionId)
       .ToListAsync();
   }
 
-  public async Task<IEnumerable<ProductQuestionAnswer?>> GetManyApproved(Guid questionId)
+  public async Task<List<ProductQuestionAnswer?>> GetManyApproved(Guid questionId)
   {
     return await _context.ProductQuestionAnswers
       .Where(answer => answer.QuestionId == questionId

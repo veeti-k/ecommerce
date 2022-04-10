@@ -81,13 +81,13 @@ public class ProductReviewIntegrationTest : ProductIntegrationTest
     return response;
   }
 
-  public async Task<IEnumerable<ProductReviewResponse>> GetApprovedProductReviews(int productId)
+  public async Task<List<ProductReviewResponse>> GetApprovedProductReviews(int productId)
   {
     var response = await GetApprovedProductReviews_TEST_REQUEST(productId);
 
     response.IsSuccessStatusCode.Should().BeTrue();
 
-    var json = await response.Content.ReadFromJsonAsync<IEnumerable<ProductReviewResponse>>();
+    var json = await response.Content.ReadFromJsonAsync<List<ProductReviewResponse>>();
 
     return json;
   }

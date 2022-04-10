@@ -4,7 +4,7 @@ namespace api.Utils;
 
 public static class Categories
 {
-  public static List<ProductCategory> GetCategoryPath(IEnumerable<ProductCategory> allCategories, int deepestCategoryId)
+  public static List<ProductCategory> GetCategoryPath(List<ProductCategory> allCategories, int deepestCategoryId)
   {
     var result = new List<ProductCategory>();
 

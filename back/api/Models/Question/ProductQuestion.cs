@@ -12,5 +12,5 @@ public class ProductQuestion
   [Required] public DateTimeOffset CreatedAt { get; init; }
   [Required] public bool IsApproved { get; set; }
 
-  public virtual IEnumerable<ProductQuestionAnswer> Answers { get; init; }
+  public virtual List<ProductQuestionAnswer> Answers { get; init; }
 }

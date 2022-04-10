@@ -14,8 +14,8 @@ public static class Users
     int? userId = null,
     string? password = null,
     Flags flags = 0,
-    IEnumerable<Address>? addresses = null,
-    IEnumerable<Session>? sessions = null)
+    List<Address>? addresses = null,
+    List<Session>? sessions = null)
   {
     return new User
     {
@@ -26,8 +26,8 @@ public static class Users
       Password = Hashing.HashToString(password ?? Guid.NewGuid().ToString()),
       CreatedAt = DateTimeOffset.UtcNow,
       Flags = flags,
-      Addresses = addresses ?? new Address[] { },
-      Sessions = sessions ?? new Session[] { },
+      Addresses = addresses ?? new List<Address>() { },
+      Sessions = sessions ?? new List<Session>() { },
     };
   }
 
@@ -41,8 +41,8 @@ public static class Users
       Password = Hashing.HashToString(dto.Password),
       CreatedAt = DateTimeOffset.UtcNow,
       Flags = 0,
-      Addresses = new Address[] { },
-      Sessions = new Session[] { },
+      Addresses = new List<Address>() { },
+      Sessions = new List<Session>() { }
     };
 
   public static User CreateFakeUserFromDto(LoginDto dto) =>
@@ -55,7 +55,7 @@ public static class Users
       Password = Hashing.HashToString(dto.Password),
       CreatedAt = DateTimeOffset.UtcNow,
       Flags = 0,
-      Addresses = new Address[] { },
-      Sessions = new Session[] { },
+      Addresses = new List<Address>() { },
+      Sessions = new List<Session>() { },
     };
 }

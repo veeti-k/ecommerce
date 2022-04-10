@@ -4,5 +4,5 @@ namespace api.Repositories.Interfaces;
 
 public interface IProductBulletPointRepo : IGenericRepo<ProductBulletPoint>
 {
-  public Task<IEnumerable<ProductBulletPoint>> GetManyByProductId(int productId);
+  public Task<List<ProductBulletPoint>> GetManyByProductId(int productId);
 }

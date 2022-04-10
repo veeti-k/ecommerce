@@ -14,5 +14,5 @@ public class ProductReview
   [Required] public DateTimeOffset CreatedAt { get; init; }
   [Required] public bool IsApproved { get; set; }
 
-  public virtual IEnumerable<ProductReviewComment> Comments { get; init; }
+  public virtual List<ProductReviewComment> Comments { get; init; }
 }

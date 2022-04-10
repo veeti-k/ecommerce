@@ -8,7 +8,7 @@ namespace api.Endpoints.Products;
 
 public class GetProducts : EndpointBaseAsync
   .WithoutRequest
-  .WithActionResult<IEnumerable<BaseProductResponse>>
+  .WithActionResult<List<BaseProductResponse>>
 {
   private readonly IMapper _mapper;
   private readonly IProductRepo _repo;
@@ -20,10 +20,10 @@ public class GetProducts : EndpointBaseAsync
   }
 
   [HttpGet(Routes.ProductsRoot)]
-  public override async Task<ActionResult<IEnumerable<BaseProductResponse>>> HandleAsync(
+  public override async Task<ActionResult<List<BaseProductResponse>>> HandleAsync(
     CancellationToken cancellationToken = new CancellationToken())
   {
     var products = await _repo.GetManyNotDeleted();
-    return Ok(_mapper.Map<IEnumerable<BaseProductResponse>>(products));
+    return Ok(_mapper.Map<List<BaseProductResponse>>(products));
   }
 }

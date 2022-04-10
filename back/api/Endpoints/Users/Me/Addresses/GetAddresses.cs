@@ -11,7 +11,7 @@ namespace api.Endpoints.Users.Me.Addresses;
 
 public class GetAddresses : EndpointBaseAsync
   .WithoutRequest
-  .WithActionResult<IEnumerable<AddressResponse>>
+  .WithActionResult<List<AddressResponse>>
 {
   private readonly IMapper _mapper;
   private readonly IContextService _contextService;
@@ -26,13 +26,13 @@ public class GetAddresses : EndpointBaseAsync
 
   [Authorize]
   [HttpGet(Routes.Users.Me.AddressesRoot)]
-  public override async Task<ActionResult<IEnumerable<AddressResponse>>> HandleAsync
+  public override async Task<ActionResult<List<AddressResponse>>> HandleAsync
     (CancellationToken cancellationToken = new CancellationToken())
   {
     var userId = _contextService.GetCurrentUserId();
 
     var addresses = await _addressRepo.GetMany(userId);
 
-    return Ok(_mapper.Map<IEnumerable<AddressResponse>>(addresses));
+    return Ok(_mapper.Map<List<AddressResponse>>(addresses));
   }
 }

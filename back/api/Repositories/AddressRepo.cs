@@ -22,7 +22,7 @@ public class AddressRepo : GenericRepo<Address>, IAddressRepo
       .FirstOrDefaultAsync();
   }
 
-  public async Task<IEnumerable<Address?>> GetMany(int userId)
+  public async Task<List<Address?>> GetMany(int userId)
   {
     return await _context.Addresses
       .Where(address => address.UserId == userId)

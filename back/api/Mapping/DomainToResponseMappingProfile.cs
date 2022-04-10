@@ -15,10 +15,10 @@ using AutoMapper;
 
 namespace api.Mapping;
 
-public class ProductPathResolver<TDest> : IValueResolver<Product, TDest, IEnumerable<ProductCategory>>
+public class ProductPathResolver<TDest> : IValueResolver<Product, TDest, List<ProductCategory>>
 {
-  public IEnumerable<ProductCategory> Resolve(Product source, TDest destination,
-    IEnumerable<ProductCategory> destMember, ResolutionContext context)
+  public List<ProductCategory> Resolve(Product source, TDest destination,
+    List<ProductCategory> destMember, ResolutionContext context)
   {
     var resolvedPath = new List<ProductCategory>();
 

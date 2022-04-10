@@ -29,11 +29,11 @@ public record BaseProductResponse
   public int ReviewCount { get; set; }
   public int QuestionCount { get; set; }
   public int DeepestCategoryId { get; set; }
-  public IEnumerable<ProductBulletPointResponse> BulletPoints { get; set; }
-  public IEnumerable<ProductImageResponse> Images { get; set; }
+  public List<ProductBulletPointResponse> BulletPoints { get; set; }
+  public List<ProductImageResponse> Images { get; set; }
 }
 
 public record ProductPageProductResponse : BaseProductResponse
 {
-  public IEnumerable<ProductCategory> Path { get; set; }
+  public List<ProductCategory> Path { get; set; }
 }

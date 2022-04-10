@@ -31,14 +31,14 @@ public class ProductReviewCommentRepo : GenericRepo<ProductReviewComment>, IProd
       .FirstOrDefaultAsync();
   }
 
-  public async Task<IEnumerable<ProductReviewComment?>> GetMany(Guid reviewId)
+  public async Task<List<ProductReviewComment?>> GetMany(Guid reviewId)
   {
     return await _context.ProductReviewComments
       .Where(comment => comment.ReviewId == reviewId)
       .ToListAsync();
   }
 
-  public async Task<IEnumerable<ProductReviewComment?>> GetManyApproved(Guid reviewId)
+  public async Task<List<ProductReviewComment?>> GetManyApproved(Guid reviewId)
   {
     return await _context.ProductReviewComments
       .Where(comment => comment.ReviewId == reviewId
