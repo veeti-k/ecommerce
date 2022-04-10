@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -24,8 +25,10 @@ public class ProductIntegrationTest : ProductCategoryIntegrationTest
     DiscountedPrice = 123,
     DiscountPercent = 0,
     IsDiscounted = false,
-    BulletPoints = new[] {Guid.NewGuid().ToString(), Guid.NewGuid().ToString()},
-    ImageLinks = new[] {Guid.NewGuid().ToString(), Guid.NewGuid().ToString()},
+    BulletPoints = new List<BulletPointDto>()
+      {new() {Text = Guid.NewGuid().ToString()}, new() {Text = Guid.NewGuid().ToString()}},
+    ImageLinks = new List<ProductImageDto>()
+      {new() {Link = Guid.NewGuid().ToString()}, new() {Link = Guid.NewGuid().ToString()}},
   };
 
   public async Task<HttpResponseMessage?> AddProduct_TEST_REQUEST(int deepestCategoryId)
@@ -96,39 +99,12 @@ public class ProductIntegrationTest : ProductCategoryIntegrationTest
     IsDiscounted = true
   };
 
-  public async Task<HttpResponseMessage?> UpdateProduct_TEST_REQUEST(int productId, int newCategoryId)
+  public async Task<HttpResponseMessage?> UpdateProduct_TEST_REQUEST(int productId, UpdateProductDto dto)
   {
-    var request = new UpdateProductDto()
-    {
-      Name = TestProductDto.Name,
-      Description = TestProductDto.Description,
-      Price = TestProductDto.Price,
-      DiscountAmount = TestProductDto.DiscountAmount,
-      DiscountedPrice = TestProductDto.DiscountedPrice,
-      DiscountPercent = TestProductDto.DiscountPercent,
-      IsDiscounted = TestProductDto.IsDiscounted,
-      DeepestCategoryId = newCategoryId,
-    };
-
     var path = Routes.Products.ProductRoot
       .Replace(Routes.Products.ProductId, productId.ToString());
 
-    return await TestClient.PatchAsync(path, JsonContent.Create(request));
-  }
-
-  public async Task<ProductPageProductResponse> UpdateProduct(int productId, int newCategoryId)
-  {
-    await LoginAs(Flags.ADMINISTRATOR);
-
-    var response = await UpdateProduct_TEST_REQUEST(productId, newCategoryId);
-
-    response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-    await Logout();
-
-    var updatedProduct = await GetProduct(productId);
-
-    return updatedProduct;
+    return await TestClient.PatchAsync(path, JsonContent.Create(dto));
   }
 
   // delete product
