@@ -1,4 +1,12 @@
-import { Button, Drawer, DrawerCloseButton, DrawerContent, DrawerOverlay } from "@chakra-ui/react";
+import {
+  Button,
+  Drawer,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerOverlay,
+  IconButton,
+  Tooltip,
+} from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FC, MouseEvent, useState } from "react";
@@ -89,9 +97,11 @@ export const CategoryMenu: FC<CategoryMenuProps> = ({ categories }) => {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>
-        <HamburgerIcon />
-      </Button>
+      <Tooltip label="Categories">
+        <IconButton aria-label="Category menu" onClick={() => setOpen(true)}>
+          <HamburgerIcon />
+        </IconButton>
+      </Tooltip>
       <Drawer isOpen={open} onClose={() => setOpen(false)} placement="left">
         <DrawerOverlay />
         <DrawerContent>

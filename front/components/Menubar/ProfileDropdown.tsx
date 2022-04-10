@@ -1,6 +1,6 @@
 import { keyframes } from "@stitches/react";
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
-import { Button } from "@chakra-ui/react";
+import { IconButton } from "@chakra-ui/react";
 import { styled } from "../../stitches.config";
 
 import { MdOutlineLogout, MdOutlineSpaceDashboard } from "react-icons/md";
@@ -90,9 +90,9 @@ export const ProfileDropdown = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button>
-          <UserIcon width={14} style={{ transform: "scale(1.6)", paddingTop: 1 }} />
-        </Button>
+        <IconButton aria-label="User menu">
+          <UserIcon width={14} style={{ transform: "scale(1.3)", paddingTop: 1 }} />
+        </IconButton>
       </DropdownMenuTrigger>
       <DropdownMenuContent sideOffset={10}>
         {state.id ? (

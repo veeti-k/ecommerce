@@ -6,6 +6,8 @@ import { Search } from "./Search";
 import { ShoppingCartIcon } from "../Icons";
 import { CategoryMenu } from "./CategoryMenu";
 import { ResolvedCategory } from "../../types";
+import { HomeButton } from "./HomeButton";
+import { BagButton } from "./BagButton";
 
 const Outer = styled("div", {
   position: "fixed",
@@ -47,10 +49,9 @@ export const Menubar: FC<MenubarProps> = ({ categories }) => {
         <Inner>
           <HeaderContent>
             <CategoryMenu categories={categories} />
+            <HomeButton />
             <Search />
-            <Button>
-              <ShoppingCartIcon />
-            </Button>
+            <BagButton />
             <ProfileDropdown />
           </HeaderContent>
         </Inner>

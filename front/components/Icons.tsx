@@ -3,11 +3,12 @@ import { Edit, Lock, LogIn, Plus, Shield, ShoppingBag, Trash2, Truck, User } fro
 import { motion } from "framer-motion";
 import { BsBagCheck, BsGrid, BsPlusSquare } from "react-icons/bs";
 import { BiLinkExternal } from "react-icons/bi";
+import { HiHome } from "react-icons/hi";
 
 export const TrashIcon = () => <Trash2 width={14} transform="scale(1.3)" />;
 export const EditIcon = () => <Edit width={13} transform="scale(1.3)" />;
-export const HamburgerIcon = () => <HamburgerMenuIcon style={{ transform: "scale(1.3)" }} />;
-export const ShoppingCartIcon = () => <ShoppingBag width={14} transform="scale(1.4)" />;
+export const HamburgerIcon = () => <HamburgerMenuIcon style={{ transform: "scale(1.02)" }} />;
+export const ShoppingCartIcon = () => <ShoppingBag width={14} transform="scale(1.2)" />;
 export const UserIcon = User;
 export const LoginIcon = LogIn;
 export const PlusIcon = Plus;
@@ -20,6 +21,7 @@ export const SessionsIcon = () => <Shield size={20} />;
 export const PasswordIcon = () => <Lock size={20} />;
 
 export const ExternalLinkIcon = () => <BiLinkExternal />;
+export const HomeIcon = () => <HiHome size={20} />;
 
 export const Chevron = ({ open }: { open: boolean }) => {
   return open ? (
