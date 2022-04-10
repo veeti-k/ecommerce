@@ -24,6 +24,13 @@ const CollapsibleTrigger = styled(Collapsible.Trigger, {
     border: "none",
     cursor: "pointer",
   },
+
+  "&:focus": {
+    outline: "none",
+    backgroundColor: "#ededed",
+    border: "none",
+    cursor: "pointer",
+  },
 });
 
 const MenuItem = styled(motion.a, {
@@ -33,6 +40,12 @@ const MenuItem = styled(motion.a, {
   padding: "0.8rem 1rem",
 
   "&:hover": {
+    backgroundColor: "#ededed",
+    border: "none",
+    cursor: "pointer",
+  },
+
+  "&:focus": {
     backgroundColor: "#ededed",
     border: "none",
     cursor: "pointer",
@@ -92,7 +105,7 @@ export const CategoryMenu: FC<CategoryMenuProps> = ({ categories }) => {
               <DrawerCloseButton style={{ position: "relative", top: 0, right: 0 }} />
             </FlexDiv>
             {categories.map((category) => (
-              <Category key={Math.random()} category={category} indentation={1} />
+              <Category key={category.id} category={category} indentation={1} />
             ))}
           </FlexDiv>
         </DrawerContent>
