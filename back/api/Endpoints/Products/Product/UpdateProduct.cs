@@ -16,24 +16,27 @@ public class UpdateProduct : EndpointBaseAsync
   .WithRequest<UpdateProductRequest>
   .WithActionResult
 {
-  private readonly IMapper _mapper;
   private readonly IProductRepo _productRepo;
   private readonly IProductsCategoriesRepo _pcRepo;
   private readonly ICategoryRepo _productCategoryRepo;
   private readonly IValidator<UpdateProductDto> _validator;
+  private readonly IGenericRepo<ProductImageLink> _imageRepo;
+  private readonly IGenericRepo<ProductBulletPoint> _bulletPointRepo;
 
   public UpdateProduct(
-    IMapper mapper,
     IProductRepo productRepo,
     IProductsCategoriesRepo pcRepo,
     ICategoryRepo productCategoryRepo,
-    IValidator<UpdateProductDto> validator)
+    IValidator<UpdateProductDto> validator,
+    IGenericRepo<ProductImageLink> imageRepo,
+    IGenericRepo<ProductBulletPoint> bulletPointRepo)
   {
-    _mapper = mapper;
     _productRepo = productRepo;
     _pcRepo = pcRepo;
     _productCategoryRepo = productCategoryRepo;
     _validator = validator;
+    _imageRepo = imageRepo;
+    _bulletPointRepo = bulletPointRepo;
   }
 
   [Authorize(Policy = Policies.ManageProducts)]
@@ -59,6 +62,52 @@ public class UpdateProduct : EndpointBaseAsync
 
     await _productRepo.Update(existingProduct);
 
+    // update/add bullet points
+    if (request.Dto.BulletPoints != null)
+    {
+      foreach (var bulletPoint in request.Dto.BulletPoints)
+      {
+        if (bulletPoint.Id is null)
+        {
+          var newBulletPoint = new ProductBulletPoint
+          {
+            ProductId = existingProduct.Id,
+            Text = bulletPoint.Text
+          };
+          await _bulletPointRepo.Add(newBulletPoint);
+          continue;
+        }
+
+        var existingBulletPoint = await _bulletPointRepo.GetById(bulletPoint.Id.Value);
+        if (existingBulletPoint is null) continue;
+
+        existingBulletPoint.Text = bulletPoint.Text;
+      }
+    }
+
+    // update/add images
+    if (request.Dto.ImageLinks != null)
+    {
+      foreach (var imageLink in request.Dto.ImageLinks)
+      {
+        if (imageLink.Id is null)
+        {
+          var newImageLink = new ProductImageLink()
+          {
+            ProductId = existingProduct.Id,
+            Link = imageLink.Link
+          };
+          await _imageRepo.Add(newImageLink);
+          continue;
+        }
+
+        var existingImageLink = await _imageRepo.GetById(imageLink.Id.Value);
+        if (existingImageLink is null) continue;
+
+        existingImageLink.Link = imageLink.Link;
+      }
+    }
+
     if (request.Dto.DeepestCategoryId == null && request.Dto.DeepestCategoryId == existingProduct.DeepestCategoryId)
       return Ok();
 
@@ -67,7 +116,8 @@ public class UpdateProduct : EndpointBaseAsync
 
     var allCategories = await _productCategoryRepo.GetAll();
 
-    var path = Utils.Categories.GetCategoryPath(allCategories, request.Dto.DeepestCategoryId ?? existingProduct.DeepestCategoryId);
+    var path = Utils.Categories.GetCategoryPath(allCategories,
+      request.Dto.DeepestCategoryId ?? existingProduct.DeepestCategoryId);
 
     foreach (var category in path)
     {

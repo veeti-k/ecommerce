@@ -11,7 +11,14 @@ import {
 import { AnimatePresence, usePresence, motion } from "framer-motion";
 import { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Category, ProductPageProduct } from "../../types";
+import {
+  bulletPoint,
+  bulletPointDefaultValue,
+  Category,
+  imageLink,
+  imageLinkDefaultValue,
+  ProductPageProduct,
+} from "../../types";
 import { FlexDiv, InputLabelContainer, MgmtSettingsPageScrollableContent } from "../Containers";
 
 export type ProductFormValues = {
@@ -24,8 +31,8 @@ export type ProductFormValues = {
   discountPercent: string;
   discountAmount: string;
 
-  bulletPoints: string[];
-  imageLinks: string[];
+  bulletPoints: bulletPoint[];
+  imageLinks: imageLink[];
 
   deepestCategoryId: number;
 };
@@ -53,8 +60,8 @@ export const ProductForm: FC<ProductFormProps> = ({
   const [discountPercent, setDiscountPercent] = useState<string>("");
   const [discountAmount, setDiscountAmount] = useState<string>("");
 
-  const [bulletPoints, setBulletPoints] = useState<string[]>([""]);
-  const [imageLinks, setImageLinks] = useState<string[]>([""]);
+  const [bulletPoints, setBulletPoints] = useState<bulletPoint[]>([{ id: null, text: "" }]);
+  const [imageLinks, setImageLinks] = useState<imageLink[]>([{ id: null, link: "" }]);
 
   const [isDiscounted, setIsDiscounted] = useState<boolean>(false);
 
@@ -107,8 +114,8 @@ export const ProductForm: FC<ProductFormProps> = ({
     setDiscountPercent(initialValues?.discountPercent?.toString() ?? "");
     setDiscountAmount(initialValues?.discountAmount?.toString() ?? "");
 
-    setBulletPoints(initialValues?.bulletPoints?.map((bp) => bp.text) ?? [""]);
-    setImageLinks(initialValues?.images?.map((il) => il.link) ?? [""]);
+    setBulletPoints(initialValues?.bulletPoints ?? [bulletPointDefaultValue]);
+    setImageLinks(initialValues?.images ?? [imageLinkDefaultValue]);
 
     setIsDiscounted(initialValues?.isDiscounted ?? false);
   }, [initialValues]);
@@ -190,10 +197,12 @@ export const ProductForm: FC<ProductFormProps> = ({
                       type="text"
                       onChange={(e) =>
                         setBulletPoints(
-                          bulletPoints.map((bp, i) => (i === index ? e.target.value : bp))
+                          bulletPoints.map((bulletPoint, i) =>
+                            i === index ? { id: bulletPoint.id, text: e.target.value } : bulletPoint
+                          )
                         )
                       }
-                      value={bulletPoint}
+                      value={bulletPoint.text}
                       autoComplete="off"
                     />
                     <InputRightElement width="6rem">
@@ -216,7 +225,7 @@ export const ProductForm: FC<ProductFormProps> = ({
 
           <Button
             style={{ marginBottom: "1rem" }}
-            onClick={() => setBulletPoints([...bulletPoints, ""])}
+            onClick={() => setBulletPoints([...bulletPoints, bulletPointDefaultValue])}
             colorScheme="blue"
             variant="outline"
             size="sm"
@@ -225,7 +234,7 @@ export const ProductForm: FC<ProductFormProps> = ({
           </Button>
 
           <AnimatePresence initial={false}>
-            {imageLinks.map((bulletPoint, index) => (
+            {imageLinks.map((imagelink, index) => (
               <AnimatedListItem key={index}>
                 <InputLabelContainer
                   key={index}
@@ -238,10 +247,12 @@ export const ProductForm: FC<ProductFormProps> = ({
                       type="text"
                       onChange={(e) =>
                         setImageLinks(
-                          imageLinks.map((link, i) => (i === index ? e.target.value : link))
+                          imageLinks.map((imageLink, i) =>
+                            i === index ? { id: imageLink.id, link: e.target.value } : imageLink
+                          )
                         )
                       }
-                      value={bulletPoint}
+                      value={imagelink.link}
                       autoComplete="off"
                     />
                     <InputRightElement width="6rem">
@@ -263,7 +274,7 @@ export const ProductForm: FC<ProductFormProps> = ({
           </AnimatePresence>
 
           <Button
-            onClick={() => setImageLinks([...imageLinks, ""])}
+            onClick={() => setImageLinks([...imageLinks, imageLinkDefaultValue])}
             colorScheme="blue"
             variant="outline"
             size="sm"

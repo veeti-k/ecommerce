@@ -3,6 +3,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.RequestsAndResponses.Product.Add;
 
+public record AddBulletPointDto
+{
+  public string Text { get; init; }
+}
+
+public record AddProductImageDto
+{
+  public string Link { get; init; }
+}
+
 public record AddProductDto
 {
   public string Name { get; init; }
@@ -13,8 +23,8 @@ public record AddProductDto
   public double DiscountAmount { get; init; }
   public bool IsDiscounted { get; init; }
   public int DeepestCategoryId { get; init; }
-  public string[] BulletPoints { get; init; }
-  public string[] ImageLinks { get; init; }
+  public IEnumerable<AddBulletPointDto> BulletPoints { get; init; }
+  public IEnumerable<AddProductImageDto> ImageLinks { get; init; }
 }
 
 public class AddProductRequest
@@ -29,7 +39,7 @@ public class AddProductDtoValidator : AbstractValidator<AddProductDto>
     RuleFor(x => x.Name).NotEmpty();
     RuleFor(x => x.Description).NotEmpty();
     RuleFor(x => x.Price).NotEmpty().GreaterThan(0);
-    
+
     RuleFor(x => x.DeepestCategoryId).NotEmpty();
     RuleFor(x => x.BulletPoints).NotEmpty();
     RuleFor(x => x.ImageLinks).NotEmpty();

@@ -11,15 +11,17 @@ export type ResolvedCategory = {
   children: ResolvedCategory[];
 };
 
-export type BulletPoint = {
-  id: number;
+export type bulletPoint = {
+  id: string | null;
   text: string;
 };
+export const bulletPointDefaultValue = { id: null, text: "" };
 
-export type ImageLink = {
-  id: number;
+export type imageLink = {
+  id: string | null;
   link: string;
 };
+export const imageLinkDefaultValue = { id: null, link: "" };
 
 export type ShowCaseProduct = {
   id: number;
@@ -34,8 +36,8 @@ export type ShowCaseProduct = {
   averageStars: number;
   reviewCount: number;
   questionCount: number;
-  bulletPoints: BulletPoint[];
-  images: ImageLink[];
+  bulletPoints: bulletPoint[];
+  images: imageLink[];
 };
 
 export type ProductPageProduct = {
@@ -52,6 +54,6 @@ export type ProductPageProduct = {
   averageStars: number;
   reviewCount: number;
   questionCount: number;
-  bulletPoints: BulletPoint[];
-  images: ImageLink[];
+  bulletPoints: bulletPoint[];
+  images: imageLink[];
 };

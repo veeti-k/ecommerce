@@ -68,7 +68,7 @@ public class AddProduct : EndpointBaseAsync
       {
         BulletPointId = Guid.NewGuid(),
         ProductId = added.Id,
-        Text = bulletPoint
+        Text = bulletPoint.Text
       });
     }
 
@@ -78,7 +78,7 @@ public class AddProduct : EndpointBaseAsync
       {
         ProductImageLinkId = Guid.NewGuid(),
         ProductId = added.Id,
-        Link = link
+        Link = link.Link
       });
     }
 
