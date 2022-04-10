@@ -1,6 +1,8 @@
 ﻿using api.Data;
 using api.Models;
+using api.Models.User;
 using api.Repositories.Interfaces;
+using api.RequestsAndResponses.Category;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Repositories;
@@ -51,6 +53,18 @@ public class ProductRepo : GenericRepo<Product>, IProductRepo
       .Include(product => product.ProductsCategories)
       .Include(product => product.Images)
       .Where(product => !product.IsDeleted)
+      .ToListAsync();
+  }
+
+  public async Task<List<Product?>> Search(string query)
+  {
+    return await _context.Products
+      .AsNoTracking()
+      .Include(product => product.BulletPoints)
+      .Include(product => product.ProductsCategories)
+      .Include(product => product.Images)
+      .Where(product => !product.IsDeleted
+                        && product.Name.ToLower().Contains(query))
       .ToListAsync();
   }
 }

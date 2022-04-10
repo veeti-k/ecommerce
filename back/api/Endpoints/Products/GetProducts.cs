@@ -1,29 +1,47 @@
 ﻿using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Product;
+using api.Utils;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Endpoints.Products;
 
+public record GetProductsRequest
+{
+  [FromQuery(Name = "query")] public string? Query { get; init; }
+}
+
 public class GetProducts : EndpointBaseAsync
-  .WithoutRequest
+  .WithRequest<GetProductsRequest>
   .WithActionResult<List<BaseProductResponse>>
 {
   private readonly IMapper _mapper;
-  private readonly IProductRepo _repo;
+  private readonly IProductRepo _productRepo;
 
-  public GetProducts(IMapper mapper, IProductRepo repo)
+  public GetProducts(IMapper mapper, IProductRepo productRepo)
   {
     _mapper = mapper;
-    _repo = repo;
+    _productRepo = productRepo;
   }
 
   [HttpGet(Routes.ProductsRoot)]
   public override async Task<ActionResult<List<BaseProductResponse>>> HandleAsync(
+    [FromRoute] GetProductsRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var products = await _repo.GetManyNotDeleted();
+    var products = new List<Models.Product?>();
+
+    if (request.Query is null)
+    {
+      products = await _productRepo.GetManyNotDeleted();
+    }
+    else
+    {
+      var res = await _productRepo.Search(request.Query);
+      if (res.Any()) products = SearchUtils.OrderByNameStartsWith(res, request.Query);
+    }
+
     return Ok(_mapper.Map<List<BaseProductResponse>>(products));
   }
 }
