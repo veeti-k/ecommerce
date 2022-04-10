@@ -29,16 +29,10 @@ public class AddProductTest : ProductIntegrationTest
     addedProduct.Should()
       .BeEquivalentTo(TestProductDto, options => options
         .Excluding(x => x.DeepestCategoryId)
-        .Excluding(x => x.BulletPoints)
-        .Excluding(x => x.ImageLinks));
+        .WithMapping("ImageLinks", "Images")
+      );
 
     addedProduct.DeepestCategoryId.Should().Be(category.Id);
-
-    foreach (var (bulletPoint, index) in addedProduct.BulletPoints.Select((value, i) => (value, i)))
-      bulletPoint.Text.Should().Be(TestProductDto.BulletPoints[index]);
-
-    foreach (var (imageLink, index) in addedProduct.Images.Select((value, i) => (value, i)))
-      imageLink.Link.Should().Be(TestProductDto.ImageLinks[index]);
   }
 
   [Fact]
