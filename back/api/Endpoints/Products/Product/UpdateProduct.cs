@@ -1,11 +1,9 @@
 ﻿using api.Exceptions;
 using api.Models;
 using api.Repositories.Interfaces;
-using api.RequestsAndResponses.Product;
 using api.RequestsAndResponses.Product.Update;
 using api.Security.Policies;
 using Ardalis.ApiEndpoints;
-using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -50,6 +48,12 @@ public class UpdateProduct : EndpointBaseAsync
 
     var existingProduct = await _productRepo.GetOne(request.ProductId);
     if (existingProduct is null) throw new ProductNotFoundException(request.ProductId);
+
+    if (request.Dto.DeepestCategoryId is not null)
+    {
+      var category = await _productCategoryRepo.GetById(request.Dto.DeepestCategoryId.Value);
+      if (category is null) throw new ProductCategoryNotFoundException(request.Dto.DeepestCategoryId.Value);
+    }
 
     existingProduct.Name = request.Dto.Name ?? existingProduct.Name;
     existingProduct.Description = request.Dto.Description ?? existingProduct.Description;
