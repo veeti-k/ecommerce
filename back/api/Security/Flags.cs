@@ -12,4 +12,5 @@ public enum Flags : long
   MANAGE_REVIEWS = 1 << 5,
   MANAGE_QUESTIONS = 1 << 6,
   MANAGE_CATEGORIES = 1 << 7,
+  MANAGE_STORES = 1 << 8,
 }

@@ -9,4 +9,5 @@ public static class Policies
   public const string ViewUsers = "ViewUsers";
   public const string Administrator = "Administrator";
   public const string ManageCategories = "ManageCategories";
+  public const string ManageStores = "ManageStores";
 }

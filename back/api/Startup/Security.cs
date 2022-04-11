@@ -124,6 +124,12 @@ public static class Security
         policy.RequireAuthenticatedUser();
         policy.AddRequirements(new FlagRequirement(Flags.MANAGE_CATEGORIES));
       });
+      
+      options.AddPolicy(Policies.ManageStores, policy =>
+      {
+        policy.RequireAuthenticatedUser();
+        policy.AddRequirements(new FlagRequirement(Flags.MANAGE_STORES));
+      });
     });
   }
 }

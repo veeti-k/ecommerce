@@ -82,6 +82,36 @@ public class DataContext : DbContext, IDataContext
       .WithMany()
       .HasForeignKey(pc => pc.ProductCategoryId)
       .OnDelete(DeleteBehavior.Cascade);
+
+    // many-to-many stores - products
+    aBuilder.Entity<StoreProduct>()
+      .HasKey(linked => new {StoreId = linked.StoreId, ProductId = linked.ProductId});
+
+    aBuilder.Entity<StoreProduct>()
+      .HasOne<Product>()
+      .WithMany()
+      .HasForeignKey(stock => stock.ProductId)
+      .OnDelete(DeleteBehavior.Cascade);
+
+    aBuilder.Entity<StoreProduct>()
+      .HasOne<Store>()
+      .WithMany()
+      .HasForeignKey(stock => stock.StoreId)
+      .OnDelete(DeleteBehavior.Cascade);
+
+    // one-to-many store - store hours
+    aBuilder.Entity<Store>()
+      .HasMany(s => s.StoreHours)
+      .WithOne()
+      .HasForeignKey(s => s.StoreId)
+      .OnDelete(DeleteBehavior.Cascade);
+
+    // one-to-many store - store hour exceptions
+    aBuilder.Entity<Store>()
+      .HasMany(s => s.StoreHoursExceptions)
+      .WithOne()
+      .HasForeignKey(s => s.StoreId)
+      .OnDelete(DeleteBehavior.Cascade);
   }
 
   public DbSet<User> Users { get; set; }
@@ -96,4 +126,9 @@ public class DataContext : DbContext, IDataContext
   public DbSet<ProductCategory> ProductCategories { get; set; }
   public DbSet<ProductBulletPoint> ProductBulletPoints { get; set; }
   public DbSet<ProductsCategories> ProductsCategories { get; set; }
+
+  public DbSet<Store> Stores { get; set; }
+  public DbSet<StoreHours> StoreHours { get; set; }
+  public DbSet<StoreHoursException> StoreHoursExceptions { get; set; }
+  public DbSet<StoreProduct> StoreProducts { get; set; }
 }

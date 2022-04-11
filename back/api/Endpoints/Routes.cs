@@ -119,11 +119,20 @@ public static class Routes
   }
 
   public const string CategoriesRoot = $"{GlobalPrefix}/categories";
-  
+
   public static class Categories
   {
     public const string CategoryId = "{categoryId:int}";
 
     public const string CategoryRoot = $"{CategoriesRoot}/{CategoryId}";
+  }
+
+  public const string StoresRoot = $"{GlobalPrefix}/stores";
+
+  public static class Stores
+  {
+    public const string StoreId = "{storeId:Guid}";
+
+    public const string StoreRoot = $"{StoresRoot}/{StoreId}";
   }
 }

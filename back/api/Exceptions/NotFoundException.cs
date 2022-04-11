@@ -11,7 +11,7 @@ public static class NotFoundExceptionErrorMessages
 {
   public static string ProductNotFoundException(int productId) =>
     $"Product with an id of {productId} was not found";
-  
+
   public static string ProductBulletPointNotFoundException(Guid bulletPointId) =>
     $"Product bullet point with an id of {bulletPointId} was not found";
 
@@ -38,6 +38,9 @@ public static class NotFoundExceptionErrorMessages
 
   public static string ProductCategoryNotFoundException(int categoryId) =>
     $"Product category with an id of {categoryId} was not found";
+
+  public static string StoreNotFoundException(Guid storeId) =>
+    $"Store with an id of {storeId} was not found";
 }
 
 public class ProductNotFoundException : NotFoundException
@@ -120,6 +123,13 @@ public class ProductCategoryNotFoundException : NotFoundException
   public ProductCategoryNotFoundException(int categoryId) : base(
     NotFoundExceptionErrorMessages.ProductCategoryNotFoundException(categoryId)
   )
+  {
+  }
+}
+
+public class StoreNotFoundException : NotFoundException
+{
+  public StoreNotFoundException(Guid storeId) : base(NotFoundExceptionErrorMessages.StoreNotFoundException(storeId))
   {
   }
 }
