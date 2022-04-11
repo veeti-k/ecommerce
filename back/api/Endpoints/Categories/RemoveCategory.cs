@@ -31,7 +31,7 @@ public class RemoveCategory : EndpointBaseAsync
 
     await _categoryRepo.Delete(categoryToDelete);
 
-    var children = await _categoryRepo.GetByParentId(categoryToDelete.Id);
+    var children = await _categoryRepo.GetByParentId(categoryToDelete.ProductCategoryId);
     foreach (var child in children)
     {
       child.ParentId = null;

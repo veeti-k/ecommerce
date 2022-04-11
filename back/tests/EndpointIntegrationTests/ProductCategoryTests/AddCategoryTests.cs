@@ -25,7 +25,7 @@ public class AddCategoryTests : ProductCategoryIntegrationTest
     var addedId = int.Parse(GetIdFromLocationHeader(response.Headers.Location));
     var categories = await GetCategories();
 
-    var addedCategory = categories.AllCategories.FirstOrDefault(c => c.Id == addedId);
+    var addedCategory = categories.AllCategories.FirstOrDefault(c => c.ProductCategoryId == addedId);
 
     addedCategory.Should().BeEquivalentTo(TestAddCategoryDto);
   }

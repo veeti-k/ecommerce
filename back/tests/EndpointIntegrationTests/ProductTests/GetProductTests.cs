@@ -18,7 +18,7 @@ public class GetProductTests : ProductIntegrationTest
   public async Task GetProduct_WithExistingProduct_ReturnsProduct()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.Id);
+    var product = await AddProduct(category.ProductCategoryId);
 
     var response = await GetProduct_TEST_REQUEST(product.Id);
 
@@ -46,9 +46,9 @@ public class GetProductTests : ProductIntegrationTest
   public async Task GetProduct_WithExistingProduct_ReturnsProduct_WithCorrectPath()
   {
     var parentCategory = await AddCategory();
-    var childCategory = await AddChildCategory(parentCategory.Id);
+    var childCategory = await AddChildCategory(parentCategory.ProductCategoryId);
 
-    var product = await AddProduct(childCategory.Id);
+    var product = await AddProduct(childCategory.ProductCategoryId);
 
     var expectedPath = new List<ProductCategory>()
     {

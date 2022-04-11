@@ -9,7 +9,7 @@ public static class Sessions
   {
     return new()
     {
-      Id = Guid.NewGuid(),
+      SessionId = Guid.NewGuid(),
       UserId = userId,
       CreatedAt = DateTimeOffset.UtcNow,
       LastUsedAt = DateTimeOffset.UtcNow,

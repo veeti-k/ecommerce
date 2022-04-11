@@ -43,7 +43,7 @@ public class Login : EndpointBaseAsync
 
     Session newSession = new()
     {
-      Id = Guid.NewGuid(),
+      SessionId = Guid.NewGuid(),
       UserId = existingUser.Id,
       CreatedAt = DateTimeOffset.UtcNow,
       LastUsedAt = DateTimeOffset.UtcNow,
@@ -52,9 +52,9 @@ public class Login : EndpointBaseAsync
     var addedSession = await _sessionRepo.Add(newSession);
 
     var accessToken = _tokenUtils
-      .CreateAccessToken(existingUser.Id, addedSession.Id, existingUser.Flags);
+      .CreateAccessToken(existingUser.Id, addedSession.SessionId, existingUser.Flags);
     var refreshToken = _tokenUtils
-      .CreateRefreshToken(existingUser.Id, addedSession.Id, existingUser.Flags);
+      .CreateRefreshToken(existingUser.Id, addedSession.SessionId, existingUser.Flags);
 
     _authUtils.SendTokens(accessToken, refreshToken);
 

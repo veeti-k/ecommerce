@@ -18,7 +18,7 @@ public class ProductReviewCommentRepo : GenericRepo<ProductReviewComment>, IProd
   {
     return await _context.ProductReviewComments
       .Where(comment => comment.ReviewId == reviewId
-                         && comment.Id == commentId)
+                         && comment.ProductReviewCommentId == commentId)
       .FirstOrDefaultAsync();
   }
 
@@ -26,7 +26,7 @@ public class ProductReviewCommentRepo : GenericRepo<ProductReviewComment>, IProd
   {
     return await _context.ProductReviewComments
       .Where(comment => comment.ReviewId == reviewId
-                         && comment.Id == commentId
+                         && comment.ProductReviewCommentId == commentId
                          && comment.IsApproved)
       .FirstOrDefaultAsync();
   }

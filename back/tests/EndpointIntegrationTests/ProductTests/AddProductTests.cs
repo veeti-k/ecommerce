@@ -17,7 +17,7 @@ public class AddProductTest : ProductIntegrationTest
 
     await LoginAs(Flags.ADMINISTRATOR);
 
-    var response = await AddProduct_TEST_REQUEST(category.Id);
+    var response = await AddProduct_TEST_REQUEST(category.ProductCategoryId);
 
     await Logout();
 
@@ -33,7 +33,7 @@ public class AddProductTest : ProductIntegrationTest
         .Excluding(x => x.BulletPoints)
       );
 
-    addedProduct.DeepestCategoryId.Should().Be(category.Id);
+    addedProduct.DeepestCategoryId.Should().Be(category.ProductCategoryId);
 
     foreach (var (bulletPoint, i) in addedProduct.BulletPoints.Select((value, i) => (value, i)))
       bulletPoint.Text.Should().Be(TestProductDto.BulletPoints[i].Text);
@@ -48,7 +48,7 @@ public class AddProductTest : ProductIntegrationTest
   {
     var category = await AddCategory();
 
-    await TestPermissions(() => AddProduct_TEST_REQUEST(category.Id),
+    await TestPermissions(() => AddProduct_TEST_REQUEST(category.ProductCategoryId),
       new List<Flags> {Flags.MANAGE_PRODUCTS});
   }
 }

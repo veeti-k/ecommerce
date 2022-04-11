@@ -57,7 +57,7 @@ public class ValidSessionAndUserHandler : AuthorizationHandler<ValidSessionAndUs
     if (user.Flags != flags)
       throw new UnauthorizedException("Provided token's data did not match with database");
 
-    var currentSession = user.Sessions.FirstOrDefault(session => session.Id == tokenVersion);
+    var currentSession = user.Sessions.FirstOrDefault(session => session.SessionId == tokenVersion);
     if (currentSession is null)
       throw new UnauthorizedException("Session does not exist");
 

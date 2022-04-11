@@ -56,7 +56,7 @@ public class CreateProductQuestionAnswer : EndpointBaseAsync
 
     ProductQuestionAnswer newAnswer = new()
     {
-      QuestionId = question.Id,
+      QuestionId = question.ProductQuestionId,
       AnswerersNickname = request.Dto.AnswerersNickname,
       Title = request.Dto.Title,
       Content = request.Dto.Content,

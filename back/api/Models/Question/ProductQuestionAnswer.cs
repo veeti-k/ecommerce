@@ -4,7 +4,7 @@ namespace api.Models.Question;
 
 public class ProductQuestionAnswer
 {
-  [Key] public Guid Id { get; init; }
+  [Key] public Guid ProductQuestionAnswerId { get; init; }
   [Required] public Guid QuestionId { get; init; }
   [Required] public string AnswerersNickname { get; init; }
   [Required] public bool ByEmployee { get; init; }

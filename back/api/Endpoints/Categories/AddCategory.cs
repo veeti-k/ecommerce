@@ -35,7 +35,7 @@ public class AddCategory : EndpointBaseAsync
 
     var added = await _repo.Add(newCategory);
     
-    var locationUri = Routes.Categories.CategoryRoot.Replace(Routes.Categories.CategoryId, added.Id.ToString());
+    var locationUri = Routes.Categories.CategoryRoot.Replace(Routes.Categories.CategoryId, added.ProductCategoryId.ToString());
 
     return Created(locationUri, null);
   }

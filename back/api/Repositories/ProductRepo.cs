@@ -21,7 +21,7 @@ public class ProductRepo : GenericRepo<Product>, IProductRepo
     return await _context.Products
       .Include(product => product.BulletPoints)
       .Include(product => product.Images)
-      .Where(p => p.Id == productId)
+      .Where(p => p.ProductId == productId)
       .FirstOrDefaultAsync();
   }
 
@@ -30,7 +30,7 @@ public class ProductRepo : GenericRepo<Product>, IProductRepo
     return await _context.Products
       .Include(product => product.BulletPoints)
       .Include(product => product.Images)
-      .Where(p => p.Id == productId
+      .Where(p => p.ProductId == productId
                   && !p.IsDeleted)
       .FirstOrDefaultAsync();
   }
@@ -42,7 +42,7 @@ public class ProductRepo : GenericRepo<Product>, IProductRepo
       .Include(product => product.Images)
       .Include(product => product.ProductsCategories)
       .ThenInclude(pc => pc.Category)
-      .Where(product => product.Id == productId)
+      .Where(product => product.ProductId == productId)
       .FirstOrDefaultAsync();
   }
 

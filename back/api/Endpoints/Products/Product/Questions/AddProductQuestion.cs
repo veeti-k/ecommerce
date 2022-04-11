@@ -42,7 +42,7 @@ public class AddProductQuestion : EndpointBaseAsync
       Title = request.Dto.Title,
       Content = request.Dto.Content,
       CreatedAt = DateTimeOffset.UtcNow,
-      ProductId = product.Id,
+      ProductId = product.ProductId,
       IsApproved = false
     };
 

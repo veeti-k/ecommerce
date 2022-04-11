@@ -9,7 +9,7 @@ public class Product
 {
   [Key]
   [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-  public int Id { get; init; }
+  public int ProductId { get; init; }
 
   [Required] public string Name { get; set; }
   [Required] public string Description { get; set; }

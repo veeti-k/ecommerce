@@ -57,7 +57,7 @@ public class AddProduct : EndpointBaseAsync
       DiscountedPrice = request.Dto.DiscountedPrice,
       DiscountPercent = request.Dto.DiscountPercent,
       IsDiscounted = request.Dto.IsDiscounted,
-      DeepestCategoryId = category.Id
+      DeepestCategoryId = category.ProductCategoryId
     };
 
     var added = await _repo.Add(newProduct);
@@ -66,8 +66,8 @@ public class AddProduct : EndpointBaseAsync
     {
       await _bulletPointRepo.Add(new ProductBulletPoint()
       {
-        BulletPointId = Guid.NewGuid(),
-        ProductId = added.Id,
+        ProductBulletPointId = Guid.NewGuid(),
+        ProductId = added.ProductId,
         Text = bulletPoint.Text
       });
     }
@@ -77,7 +77,7 @@ public class AddProduct : EndpointBaseAsync
       await _imageRepo.Add(new ProductImageLink()
       {
         ProductImageLinkId = Guid.NewGuid(),
-        ProductId = added.Id,
+        ProductId = added.ProductId,
         Link = link.Link
       });
     }
@@ -90,12 +90,12 @@ public class AddProduct : EndpointBaseAsync
     {
       await _pcRepo.Add(new ProductsCategories()
       {
-        ProductId = added.Id,
-        CategoryId = pathCategory.Id
+        ProductId = added.ProductId,
+        ProductCategoryId = pathCategory.ProductCategoryId
       });
     }
 
-    var locationUri = Routes.Products.ProductRoot.Replace(Routes.Products.ProductId, added.Id.ToString());
+    var locationUri = Routes.Products.ProductRoot.Replace(Routes.Products.ProductId, added.ProductId.ToString());
 
     return Created(locationUri, null);
   }

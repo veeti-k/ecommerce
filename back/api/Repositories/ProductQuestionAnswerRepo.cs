@@ -18,7 +18,7 @@ public class ProductQuestionAnswerRepo : GenericRepo<ProductQuestionAnswer>, IPr
   {
     return await _context.ProductQuestionAnswers
       .Where(answer => answer.QuestionId == questionId
-                  && answer.Id == answerId)
+                  && answer.ProductQuestionAnswerId == answerId)
       .FirstOrDefaultAsync();
   }
 
@@ -26,7 +26,7 @@ public class ProductQuestionAnswerRepo : GenericRepo<ProductQuestionAnswer>, IPr
   {
     return await _context.ProductQuestionAnswers
       .Where(answer => answer.QuestionId == questionId
-                  && answer.Id == answerId
+                  && answer.ProductQuestionAnswerId == answerId
                   && answer.IsApproved)
       .FirstOrDefaultAsync();
   }

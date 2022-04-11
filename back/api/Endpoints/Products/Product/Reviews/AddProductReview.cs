@@ -52,7 +52,7 @@ public class AddProductReview : EndpointBaseAsync
 
     ProductReview newReview = new()
     {
-      ProductId = product.Id,
+      ProductId = product.ProductId,
       ReviewersNickname = request.Dto.ReviewersNickname,
       Title = request.Dto.Title,
       Content = request.Dto.Content,

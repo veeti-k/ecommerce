@@ -4,7 +4,7 @@ namespace api.Models.Review;
 
 public class ProductReview
 {
-  [Key] public Guid Id { get; init; }
+  [Key] public Guid ProductReviewId { get; init; }
   [Required] public int ProductId { get; init; }
   [Required] public string ReviewersNickname { get; init; }
   [Required] public bool ByEmployee { get; init; }

@@ -69,7 +69,7 @@ public class DataContext : DbContext, IDataContext
 
     // many-to-many product - categories
     aBuilder.Entity<ProductsCategories>()
-      .HasKey(linked => new {linked.CategoryId, linked.ProductId});
+      .HasKey(linked => new {CategoryId = linked.ProductCategoryId, linked.ProductId});
 
     aBuilder.Entity<ProductsCategories>()
       .HasOne<Product>()
@@ -80,7 +80,7 @@ public class DataContext : DbContext, IDataContext
     aBuilder.Entity<ProductsCategories>()
       .HasOne(linked => linked.Category)
       .WithMany()
-      .HasForeignKey(pc => pc.CategoryId)
+      .HasForeignKey(pc => pc.ProductCategoryId)
       .OnDelete(DeleteBehavior.Cascade);
   }
 

@@ -60,7 +60,7 @@ public class AddProductReviewComment : EndpointBaseAsync
       Title = request.Dto.Title,
       Content = request.Dto.Content,
       CreatedAt = DateTimeOffset.UtcNow,
-      ReviewId = review.Id,
+      ReviewId = review.ProductReviewId,
       ByEmployee = isEmployee
     };
 

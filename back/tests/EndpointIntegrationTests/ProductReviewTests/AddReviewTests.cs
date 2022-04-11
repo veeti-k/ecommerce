@@ -17,7 +17,7 @@ public class AddReviewTests : ProductReviewIntegrationTest
   public async Task AddReview_WithExistingProduct_AddsReview_ReturnsAddedReview()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.Id);
+    var product = await AddProduct(category.ProductCategoryId);
 
     var response = await AddReview_TEST_REQUEST(product.Id);
 
@@ -32,7 +32,7 @@ public class AddReviewTests : ProductReviewIntegrationTest
   public async Task AddReview_AfterAdding_DoesNotExposeReview_UntilApproved()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.Id);
+    var product = await AddProduct(category.ProductCategoryId);
     var review = await AddReview(product.Id);
 
     var reviews1 = await GetApprovedProductReviews(product.Id);

@@ -56,7 +56,7 @@ public class DomainToResponseMappingProfile : Profile
     CreateMap<ProductBulletPoint, ProductBulletPointResponse>()
       .ForMember(dest => dest.Id,
         options => options
-          .MapFrom(src => src.BulletPointId));
+          .MapFrom(src => src.ProductBulletPointId));
 
     CreateMap<ProductImageLink, ProductImageResponse>()
       .ForMember(dest => dest.Id,

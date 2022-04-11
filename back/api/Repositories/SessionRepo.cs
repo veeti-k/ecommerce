@@ -17,7 +17,7 @@ public class SessionRepo : GenericRepo<Session>, ISessionRepo
   public async Task<Session?> GetOne(int userId, Guid sessionId)
   {
     return await _context.Sessions
-      .Where(session => session.Id == sessionId
+      .Where(session => session.SessionId == sessionId
                         && session.UserId == userId)
       .FirstOrDefaultAsync();
   }

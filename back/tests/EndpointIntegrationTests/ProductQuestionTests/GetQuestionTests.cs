@@ -17,7 +17,7 @@ public class GetQuestionTests : ProductQuestionIntegrationTest
   public async Task GetQuestions_WithExistingProduct_WithExistingQuestions_ReturnsOnlyApprovedQuestions()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.Id);
+    var product = await AddProduct(category.ProductCategoryId);
     var question1 = await AddProductQuestion(product.Id);
     var question2 = await AddProductQuestion(product.Id);
 
@@ -45,7 +45,7 @@ public class GetQuestionTests : ProductQuestionIntegrationTest
   public async Task GetQuestions_WithExistingProduct_WithoutExistingQuestions_ReturnsEmptyList()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.Id);
+    var product = await AddProduct(category.ProductCategoryId);
 
     var response = await GetApprovedProductQuestions_TEST_REQUEST(product.Id);
 

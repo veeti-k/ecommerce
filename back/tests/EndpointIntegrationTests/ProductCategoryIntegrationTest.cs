@@ -56,7 +56,7 @@ public class ProductCategoryIntegrationTest : NeedsAuthIntegrationTest
     var addedId = int.Parse(GetIdFromLocationHeader(response.Headers.Location));
     var categories = await GetCategories();
 
-    return categories.AllCategories.FirstOrDefault(c => c.Id == addedId);
+    return categories.AllCategories.FirstOrDefault(c => c.ProductCategoryId == addedId);
   }
 
   // add child category
@@ -84,7 +84,7 @@ public class ProductCategoryIntegrationTest : NeedsAuthIntegrationTest
     var addedId = int.Parse(GetIdFromLocationHeader(response.Headers.Location));
     var categories = await GetCategories();
 
-    return categories.AllCategories.FirstOrDefault(c => c.Id == addedId);
+    return categories.AllCategories.FirstOrDefault(c => c.ProductCategoryId == addedId);
   }
 
   // update category

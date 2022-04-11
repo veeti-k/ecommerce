@@ -17,7 +17,7 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
     DeleteReviewComment_WithExistingProduct_WithApprovedExistingReview_WithApprovedExistingComment_DeletesComment_Returns204()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.Id);
+    var product = await AddProduct(category.ProductCategoryId);
 
     var review = await AddReview(product.Id);
     await ApproveReview(product.Id, review.Id);
@@ -44,7 +44,7 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
     DeleteReviewComment_WithExistingProduct_WithApprovedExistingReview_WithNotApprovedExistingComment_DeletesComment_Returns204()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.Id);
+    var product = await AddProduct(category.ProductCategoryId);
 
     var review = await AddReview(product.Id);
     await ApproveReview(product.Id, review.Id);
@@ -85,7 +85,7 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
   public async Task DeleteReviewComment_WithExistingProduct_WithoutExistingReview_ReturnsReviewNotFound()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.Id);
+    var product = await AddProduct(category.ProductCategoryId);
 
     await LoginAs(Flags.ADMINISTRATOR);
 
@@ -104,7 +104,7 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
   public async Task DeleteReviewComment_WithExistingProduct_WithNotApprovedExistingReview_ReturnsReviewNotFound()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.Id);
+    var product = await AddProduct(category.ProductCategoryId);
     var review = await AddReview(product.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
@@ -125,7 +125,7 @@ public class DeleteReviewCommentTests : ProductReviewCommentIntegrationTest
     DeleteReviewComment_WithExistingProduct_WithApprovedExistingReview_WithoutExistingComment_ReturnsCommentNotFound()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.Id);
+    var product = await AddProduct(category.ProductCategoryId);
 
     var review = await AddReview(product.Id);
     await ApproveReview(product.Id, review.Id);

@@ -8,13 +8,13 @@ public static class Categories
   {
     var result = new List<ProductCategory>();
 
-    var current = allCategories.FirstOrDefault(c => c.Id == deepestCategoryId);
+    var current = allCategories.FirstOrDefault(c => c.ProductCategoryId == deepestCategoryId);
     
     result.Add(current);
 
     while (current.ParentId != null)
     {
-      current = allCategories.FirstOrDefault(c => c.Id == current.ParentId);
+      current = allCategories.FirstOrDefault(c => c.ProductCategoryId == current.ParentId);
       result.Add(current);
     }
 

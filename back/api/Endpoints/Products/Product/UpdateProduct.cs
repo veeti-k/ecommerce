@@ -75,7 +75,7 @@ public class UpdateProduct : EndpointBaseAsync
         {
           var newBulletPoint = new ProductBulletPoint
           {
-            ProductId = existingProduct.Id,
+            ProductId = existingProduct.ProductId,
             Text = bulletPoint.Text
           };
           await _bulletPointRepo.Add(newBulletPoint);
@@ -98,7 +98,7 @@ public class UpdateProduct : EndpointBaseAsync
         {
           var newImageLink = new ProductImageLink()
           {
-            ProductId = existingProduct.Id,
+            ProductId = existingProduct.ProductId,
             Link = imageLink.Link
           };
           await _imageRepo.Add(newImageLink);
@@ -115,7 +115,7 @@ public class UpdateProduct : EndpointBaseAsync
     if (request.Dto.DeepestCategoryId == null && request.Dto.DeepestCategoryId == existingProduct.DeepestCategoryId)
       return Ok();
 
-    var oldCategories = await _pcRepo.GetManyByProductId(existingProduct.Id);
+    var oldCategories = await _pcRepo.GetManyByProductId(existingProduct.ProductId);
     await _pcRepo.DeleteMany(oldCategories);
 
     var allCategories = await _productCategoryRepo.GetAll();
@@ -127,8 +127,8 @@ public class UpdateProduct : EndpointBaseAsync
     {
       await _pcRepo.Add(new ProductsCategories()
       {
-        ProductId = existingProduct.Id,
-        CategoryId = category.Id
+        ProductId = existingProduct.ProductId,
+        ProductCategoryId = category.ProductCategoryId
       });
     }
 

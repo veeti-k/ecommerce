@@ -19,7 +19,7 @@ public class UpdateProductTests : ProductIntegrationTest
   public async Task UpdateProduct_WithExistingProduct_WithExistingCategory_UpdatesProduct_ReturnsUpdatedProduct()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.Id);
+    var product = await AddProduct(category.ProductCategoryId);
 
     var newCategory = await AddCategory();
 
@@ -68,7 +68,7 @@ public class UpdateProductTests : ProductIntegrationTest
       DiscountAmount = TestProductDto.DiscountAmount,
       DiscountedPrice = TestProductDto.DiscountedPrice,
       DiscountPercent = TestProductDto.DiscountPercent,
-      DeepestCategoryId = newCategory.Id,
+      DeepestCategoryId = newCategory.ProductCategoryId,
       BulletPoints = newBulletPoints,
       ImageLinks = newImageLinks,
     };
@@ -89,7 +89,7 @@ public class UpdateProductTests : ProductIntegrationTest
         .Excluding(x => x.BulletPoints)
       );
 
-    updated.DeepestCategoryId.Should().Be(newCategory.Id);
+    updated.DeepestCategoryId.Should().Be(newCategory.ProductCategoryId);
 
     foreach (var (bulletPoint, i) in request.BulletPoints.Select((value, i) => (value, i)))
     {
@@ -128,7 +128,7 @@ public class UpdateProductTests : ProductIntegrationTest
       DiscountAmount = TestProductDto.DiscountAmount,
       DiscountedPrice = TestProductDto.DiscountedPrice,
       DiscountPercent = TestProductDto.DiscountPercent,
-      DeepestCategoryId = category.Id,
+      DeepestCategoryId = category.ProductCategoryId,
       BulletPoints = TestProductDto.BulletPoints,
       ImageLinks = TestProductDto.ImageLinks,
     };
@@ -150,7 +150,7 @@ public class UpdateProductTests : ProductIntegrationTest
   public async Task UpdateProduct_WithExistingProduct_WithoutExistingCategory_ReturnsCategoryNotFound()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.Id);
+    var product = await AddProduct(category.ProductCategoryId);
     
     var request = new UpdateProductDto()
     {

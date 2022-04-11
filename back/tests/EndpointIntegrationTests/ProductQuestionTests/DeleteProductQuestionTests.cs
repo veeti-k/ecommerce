@@ -16,7 +16,7 @@ public class DeleteProductQuestionTests : ProductQuestionIntegrationTest
   public async Task DeleteProductQuestion_WithApprovedExistingQuestion_DeletesQuestion_Returns204()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.Id);
+    var product = await AddProduct(category.ProductCategoryId);
     var question = await AddProductQuestion(product.Id);
     await ApproveProductQuestion(product.Id, question.Id);
 
@@ -53,7 +53,7 @@ public class DeleteProductQuestionTests : ProductQuestionIntegrationTest
   public async Task DeleteProductQuestion_WithExistingProduct_WithNonExistentQuestion_ReturnsQuestionNotFound()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.Id);
+    var product = await AddProduct(category.ProductCategoryId);
 
     await LoginAs(Flags.ADMINISTRATOR);
 
@@ -72,7 +72,7 @@ public class DeleteProductQuestionTests : ProductQuestionIntegrationTest
   public async Task DeleteProductQuestion_WithExistingProduct_WithNotApprovedQuestion_DeletesQuestion_Returns204()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.Id);
+    var product = await AddProduct(category.ProductCategoryId);
     var question = await AddProductQuestion(product.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
