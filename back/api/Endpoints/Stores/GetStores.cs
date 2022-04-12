@@ -16,6 +16,7 @@ public class GetStores : EndpointBaseAsync
     _storeRepository = storeRepository;
   }
 
+  [HttpGet(Routes.StoresRoot)]
   public override async Task<ActionResult<List<StoreResponse>>> HandleAsync(
     CancellationToken cancellationToken = new CancellationToken())
   {
