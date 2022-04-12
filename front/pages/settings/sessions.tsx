@@ -1,4 +1,4 @@
-import { Button, IconButton, Tooltip } from "@chakra-ui/react";
+import { IconButton, Tooltip } from "@chakra-ui/react";
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { useContext } from "react";
 import { Card } from "../../components/Card";
