@@ -12,7 +12,6 @@
     "@chakra-ui/react": "^1.8.6",
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
-    "@radix-ui/react-alert-dialog": "^0.1.7",
     "@radix-ui/react-aspect-ratio": "^0.1.4",
     "@radix-ui/react-collapsible": "^0.1.6",
     "@radix-ui/react-dropdown-menu": "^0.1.6",

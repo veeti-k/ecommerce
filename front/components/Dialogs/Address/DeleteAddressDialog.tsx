@@ -10,7 +10,6 @@ import {
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 import { FormEvent, useContext, useRef } from "react";
 import toast from "react-hot-toast";
 import { Address } from "../../../types";

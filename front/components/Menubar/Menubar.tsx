@@ -1,9 +1,7 @@
 import { FC } from "react";
 import { styled } from "../../stitches.config";
-import { Button } from "@chakra-ui/react";
 import { ProfileDropdown } from "./ProfileDropdown";
 import { Search } from "./Search";
-import { ShoppingCartIcon } from "../Icons";
 import { CategoryMenu } from "./CategoryMenu";
 import { ResolvedCategory } from "../../types";
 import { HomeButton } from "./HomeButton";

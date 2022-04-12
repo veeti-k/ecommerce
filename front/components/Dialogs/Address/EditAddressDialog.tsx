@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { MouseEvent, useContext, useEffect, useState } from "react";
 import { InputLabelContainer } from "../../Containers";
-import { EditIcon, PlusIcon } from "../../Icons";
+import { EditIcon } from "../../Icons";
 
 import { FlexDiv } from "../../Containers";
 import { toast } from "react-hot-toast";

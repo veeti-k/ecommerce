@@ -1,24 +1,18 @@
-import { Button, Tooltip } from "@chakra-ui/react";
+import { Tooltip } from "@chakra-ui/react";
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { useContext } from "react";
 import { Card } from "../../components/Card";
-import { TrashIcon } from "../../components/Icons";
 import { Heading, Text } from "../../components/Text";
 import { UserContext } from "../../UserProvider/provider";
 import { useGetMe } from "../../hooks/useGetMe";
 import { styled } from "../../stitches.config";
 import { EditAddressDialog } from "../../components/Dialogs/Address/EditAddressDialog";
 import { NewAddressDialog } from "../../components/Dialogs/Address/NewAddressDialog";
-import { request } from "../../utils/requests";
-import { apiRoutes } from "../../utils/routes";
-import { toast } from "react-hot-toast";
-import { getMe } from "../../utils/logout";
 import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
 import { ResolvedCategory } from "../../types";
 import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
 import { TitleContainer } from "../../components/layouts/Styles";
 import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../components/Containers";
-import { DeleteAddressRequest } from "../../utils/Requests/Address";
 import { DeleteAddressDialog } from "../../components/Dialogs/Address/DeleteAddressDialog";
 
 const AddressCard = styled(Card, {
@@ -52,7 +46,7 @@ export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsRe
 export const Addresses: NextPage<Result> = ({ categories }) => {
   useGetMe();
 
-  const { state, dispatch } = useContext(UserContext);
+  const { state } = useContext(UserContext);
 
   return (
     <SettingsPageLayout categories={categories}>
