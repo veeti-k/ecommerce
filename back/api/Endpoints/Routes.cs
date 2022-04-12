@@ -132,7 +132,21 @@ public static class Routes
   public static class Stores
   {
     public const string StoreId = "{storeId:Guid}";
+    public const string ExceptionId = "{exceptionId:Guid}";
 
     public const string StoreRoot = $"{StoresRoot}/{StoreId}";
+
+    public static class Store
+    {
+      public const string HoursRoot = $"{StoreRoot}/hours";
+
+      public static class Hours
+      {
+        public const string Default = $"{HoursRoot}/default";
+        
+        public const string ExceptionsRoot = $"{HoursRoot}/exceptions";
+        public const string Exception = $"{HoursRoot}/exceptions/{ExceptionId}";
+      }
+    }
   }
 }

@@ -17,7 +17,8 @@ public class StoreRepo : GenericRepo<Store>, IStoreRepo
   public async Task<List<Store>> GetManyStores()
   {
     return await _context.Stores
-      .Include(store => store.StoreHours)
+      .AsNoTracking()
+      .Include(store => store.DefaultStoreHours)
       .Include(store => store.StoreHoursExceptions)
       .Include(store => store.StoreStocks)
       .ToListAsync();

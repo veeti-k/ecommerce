@@ -9,6 +9,6 @@ public record StoreResponse
   public string City { get; init; }
   public string StreetAddress { get; init; }
   public string Zip { get; init; }
-  public List<StoreHours> StoreHours { get; init; }
-  public List<StoreHoursException> StoreHoursExceptions { get; init; }
+  public List<StoreDefaultHours> StoreHours { get; init; }
+  public List<UpdateHoursExceptionRequest> StoreHoursExceptions { get; init; }
 }

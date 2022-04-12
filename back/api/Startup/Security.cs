@@ -130,6 +130,12 @@ public static class Security
         policy.RequireAuthenticatedUser();
         policy.AddRequirements(new FlagRequirement(Flags.MANAGE_STORES));
       });
+      
+      options.AddPolicy(Policies.ManageStoreHours, policy =>
+      {
+        policy.RequireAuthenticatedUser();
+        policy.AddRequirements(new FlagRequirement(Flags.MANAGE_STORE_HOURS));
+      });
     });
   }
 }

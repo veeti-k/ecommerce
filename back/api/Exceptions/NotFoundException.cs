@@ -41,6 +41,12 @@ public static class NotFoundExceptionErrorMessages
 
   public static string StoreNotFoundException(Guid storeId) =>
     $"Store with an id of {storeId} was not found";
+
+  public static string StoreDefaultHoursNotFoundException(Guid storeId) =>
+    $"Store default hours for store {storeId} was not found";
+
+  public static string StoreHoursExceptionNotFoundException(Guid storeId, Guid exceptionId) =>
+    $"Store hours exception with an id of {exceptionId} was not found (store: {storeId})";
 }
 
 public class ProductNotFoundException : NotFoundException
@@ -130,6 +136,23 @@ public class ProductCategoryNotFoundException : NotFoundException
 public class StoreNotFoundException : NotFoundException
 {
   public StoreNotFoundException(Guid storeId) : base(NotFoundExceptionErrorMessages.StoreNotFoundException(storeId))
+  {
+  }
+}
+
+public class StoreDefaultHoursNotFound : NotFoundException
+{
+  public StoreDefaultHoursNotFound(Guid storeId) : base(
+    NotFoundExceptionErrorMessages.StoreDefaultHoursNotFoundException(storeId))
+  {
+  }
+}
+
+public class StoreHoursExceptionNotFound : NotFoundException
+{
+  public StoreHoursExceptionNotFound(Guid storeId, Guid exceptionId) : base(
+    NotFoundExceptionErrorMessages.StoreHoursExceptionNotFoundException(storeId, exceptionId)
+  )
   {
   }
 }

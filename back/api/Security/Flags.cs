@@ -13,4 +13,5 @@ public enum Flags : long
   MANAGE_QUESTIONS = 1 << 6,
   MANAGE_CATEGORIES = 1 << 7,
   MANAGE_STORES = 1 << 8,
+  MANAGE_STORE_HOURS = 1 << 9,
 }

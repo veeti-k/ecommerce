@@ -10,7 +10,7 @@ public class Store
   [Required] public string StreetAddress { get; set; }
   [Required] public string Zip { get; set; }
 
-  public virtual List<StoreHours> StoreHours { get; set; }
+  public virtual List<StoreDefaultHours> DefaultStoreHours { get; set; }
   public virtual List<StoreHoursException> StoreHoursExceptions { get; set; }
   public virtual List<StoreProduct> StoreStocks { get; set; }
 }

@@ -101,8 +101,8 @@ public class DataContext : DbContext, IDataContext
 
     // one-to-many store - store hours
     aBuilder.Entity<Store>()
-      .HasMany(s => s.StoreHours)
-      .WithOne()
+      .HasMany(s => s.DefaultStoreHours)
+      .WithOne(s => s.Store)
       .HasForeignKey(s => s.StoreId)
       .OnDelete(DeleteBehavior.Cascade);
 
@@ -128,7 +128,7 @@ public class DataContext : DbContext, IDataContext
   public DbSet<ProductsCategories> ProductsCategories { get; set; }
 
   public DbSet<Store> Stores { get; set; }
-  public DbSet<StoreHours> StoreHours { get; set; }
+  public DbSet<StoreDefaultHours> DefaultStoreHours { get; set; }
   public DbSet<StoreHoursException> StoreHoursExceptions { get; set; }
   public DbSet<StoreProduct> StoreProducts { get; set; }
 }

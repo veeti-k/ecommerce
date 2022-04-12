@@ -21,7 +21,7 @@ public class DeleteStore : EndpointBaseAsync
   [Authorize(Policy = Policies.ManageStores)]
   [HttpDelete(Routes.Stores.StoreRoot)]
   public override async Task<ActionResult> HandleAsync(
-    Guid storeId,
+    [FromRoute] Guid storeId,
     CancellationToken cancellationToken = new CancellationToken())
   {
     var existingStore = await _storeRepo.GetById(storeId);

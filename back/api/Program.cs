@@ -64,6 +64,12 @@ builder.Services.AddScoped<IProductQuestionRepo, ProductQuestionRepo>();
 builder.Services.AddScoped<IGenericRepo<ProductQuestionAnswer>, GenericRepo<ProductQuestionAnswer>>();
 builder.Services.AddScoped<IProductQuestionAnswerRepo, ProductQuestionAnswerRepo>();
 
+builder.Services.AddScoped<IGenericRepo<Store>, GenericRepo<Store>>();
+builder.Services.AddScoped<IStoreRepo, StoreRepo>();
+
+builder.Services.AddScoped<IGenericRepo<StoreDefaultHours>, GenericRepo<StoreDefaultHours>>();
+builder.Services.AddScoped<IDefaultStoreHoursRepo, StoreDefaultHoursRepo>();
+
 builder.Services.AddSingleton<ICookieUtils, CookieUtils>();
 builder.Services.AddSingleton<ITokenUtils, TokenUtils>();
 builder.Services.AddScoped<IAuthUtils, AuthUtils>();
