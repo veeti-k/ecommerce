@@ -17,7 +17,7 @@ const errorHandler = (options: ErrorHandlerOptions) => {
 
   const status = error?.response?.status;
 
-  if (status === 401 || status === 403 || status === 400) {
+  if (status >= 400 && status <= 404) {
     if (error?.response?.data?.message) {
       toast.error(error.response.data.message);
     }

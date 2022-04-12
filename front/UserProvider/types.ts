@@ -1,15 +1,5 @@
 import { Dispatch } from "react";
-
-interface Address {
-  id: string;
-  name: string;
-  phoneNumber: string;
-  email: string;
-  streetAddress: string;
-  city: string;
-  state: string;
-  zip: string;
-}
+import { Address } from "../types";
 
 interface Session {
   id: string;

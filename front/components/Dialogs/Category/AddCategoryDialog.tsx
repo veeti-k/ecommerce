@@ -1,7 +1,6 @@
 import {
   useDisclosure,
-  Tooltip,
-  IconButton,
+  Button,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -11,61 +10,55 @@ import {
   Input,
   Select,
   ModalFooter,
-  Button,
 } from "@chakra-ui/react";
+import { PlusIcon } from "@radix-ui/react-icons";
 import { FC, useState, FormEvent } from "react";
 import toast from "react-hot-toast";
 import { Category } from "../../../types";
-import { EditCategoryRequest } from "../../../utils/Requests/Category";
+import { AddCategoryRequest } from "../../../utils/Requests/Category";
 import { FlexDiv, InputLabelContainer } from "../../Containers";
-import { EditIcon } from "../../Icons";
 
 type Props = {
-  category: Category;
   getCategories: () => void;
   categories: Category[];
 };
 
-export const EditCategoryModal: FC<Props> = ({ getCategories, categories, category }) => {
+export const AddCategoryDialog: FC<Props> = ({ getCategories, categories }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [categoryName, setCategoryName] = useState<string>(category.name);
-  const [categoryParentId, setCategoryParentId] = useState<number | null>(category.parentId);
+  const [categoryName, setCategoryName] = useState<string>("");
+  const [categoryParentId, setCategoryParentId] = useState<number | null>(null);
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    const notifId = toast.loading("Saving your edits");
+    const notifId = toast.loading("Creating the category...");
 
-    const res = await EditCategoryRequest(category.id, {
-      name: categoryName,
-      parentId: categoryParentId,
-    });
+    const res = await AddCategoryRequest({ name: categoryName, parentId: categoryParentId });
 
     toast.dismiss(notifId);
 
     if (res) {
       getCategories();
-      toast.success("Category edited");
+      toast.success("Category created");
+      setCategoryName("");
+      setCategoryParentId(null);
       onClose();
     }
   };
 
   return (
     <>
-      <Tooltip label="Edit category">
-        <IconButton
-          aria-label="Edit category"
-          icon={<EditIcon />}
-          colorScheme="blue"
-          onClick={onOpen}
-        />
-      </Tooltip>
+      <Button onClick={onOpen}>
+        <FlexDiv align gap05>
+          <PlusIcon /> Add a category
+        </FlexDiv>
+      </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Edit a category</ModalHeader>
+          <ModalHeader>Add a category</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <form onSubmit={onSubmit}>
@@ -85,16 +78,12 @@ export const EditCategoryModal: FC<Props> = ({ getCategories, categories, catego
                     id="category-parent"
                     value={categoryParentId?.toString()}
                     onChange={(e) => setCategoryParentId(parseInt(e.target.value))}
-                    required
+                    defaultValue=""
                   >
                     <option value="">None</option>
-                    {categories.map((optionCategory) => (
-                      <option
-                        key={optionCategory.id}
-                        value={optionCategory.id}
-                        disabled={optionCategory.id == category.id}
-                      >
-                        {optionCategory.name}
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
                       </option>
                     ))}
                   </Select>
@@ -107,7 +96,7 @@ export const EditCategoryModal: FC<Props> = ({ getCategories, categories, catego
             <FlexDiv gap05>
               <Button onClick={onClose}>Cancel</Button>
               <Button type="submit" onClick={onSubmit} colorScheme="blue">
-                Edit
+                Add
               </Button>
             </FlexDiv>
           </ModalFooter>

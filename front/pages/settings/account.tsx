@@ -15,11 +15,11 @@ import { apiRoutes } from "../../utils/routes";
 
 import { toast } from "react-hot-toast";
 import { Actions } from "../../UserProvider/types";
-import { DeleteAccountDialog } from "../../components/Dialogs/DeleteAccountDialog";
 import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
 import { ResolvedCategory } from "../../types";
 import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
 import { TitleContainer } from "../../components/layouts/Styles";
+import { DeleteAccountDialog } from "../../components/Dialogs/Account/DeleteAccountDialog";
 
 type Result = {
   categories: ResolvedCategory[];

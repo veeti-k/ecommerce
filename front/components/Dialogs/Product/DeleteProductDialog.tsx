@@ -1,7 +1,5 @@
 import {
   useDisclosure,
-  Tooltip,
-  IconButton,
   AlertDialog,
   AlertDialogOverlay,
   AlertDialogContent,
@@ -11,58 +9,58 @@ import {
   AlertDialogFooter,
   Button,
 } from "@chakra-ui/react";
-import { TrashIcon } from "@radix-ui/react-icons";
-import { useRef, FormEvent, FC } from "react";
+import { useRouter } from "next/router";
+import { useRef, FC, MouseEvent } from "react";
 import toast from "react-hot-toast";
-import { Category } from "../../../types";
-import { DeleteCategoryRequest } from "../../../utils/Requests/Category";
+import { ProductPageProduct } from "../../../types";
+import { DeleteProductRequest } from "../../../utils/Requests/Product";
+import { pushUser } from "../../../utils/router";
+import { routes } from "../../../utils/routes";
 import { FlexDiv } from "../../Containers";
+import { TrashIcon } from "../../Icons";
 import { Text } from "../../Text";
 
 type Props = {
-  category: Category;
-  getCategories: () => void;
+  product: ProductPageProduct;
 };
 
-export const DeleteCategoryModal: FC<Props> = ({ category, getCategories }) => {
+export const DeleteProductDialog: FC<Props> = ({ product }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef<HTMLButtonElement>(null);
+  const router = useRouter();
 
-  const onSubmit = async (e: FormEvent) => {
+  const onSubmit = async (e: MouseEvent) => {
     e.preventDefault();
 
-    const notifId = toast.loading("Deleting the category");
+    const notifId = toast.loading("Deleting the product");
 
-    const res = await DeleteCategoryRequest(category.id);
+    const res = await DeleteProductRequest(product.id);
 
     toast.dismiss(notifId);
 
     if (res) {
-      getCategories();
-      toast.success("Category deleted");
+      toast.success("Product deleted");
       onClose();
+      pushUser(router, routes.home, "Product deleted::after submit");
     }
   };
 
   return (
     <>
-      <Tooltip label="Delete category">
-        <IconButton
-          aria-label="Delete category"
-          icon={<TrashIcon />}
-          colorScheme="red"
-          onClick={onOpen}
-        />
-      </Tooltip>
+      <Button colorScheme="red" onClick={onOpen}>
+        <FlexDiv align gap05>
+          <TrashIcon /> Delete
+        </FlexDiv>
+      </Button>
 
       <AlertDialog isOpen={isOpen} onClose={onClose} leastDestructiveRef={cancelRef}>
         <AlertDialogOverlay />
         <AlertDialogContent>
-          <AlertDialogHeader>Delete a category</AlertDialogHeader>
+          <AlertDialogHeader>Delete a product</AlertDialogHeader>
           <AlertDialogCloseButton />
           <AlertDialogBody>
             <Text>
-              Are you sure you want to delete the category <strong>{category.name}</strong>?
+              Are you sure you want to delete the product <strong>{product.name}</strong>?
             </Text>
           </AlertDialogBody>
 

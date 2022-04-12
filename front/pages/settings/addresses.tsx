@@ -7,8 +7,8 @@ import { Heading, Text } from "../../components/Text";
 import { UserContext } from "../../UserProvider/provider";
 import { useGetMe } from "../../hooks/useGetMe";
 import { styled } from "../../stitches.config";
-import { EditAddressDialog } from "../../components/Dialogs/EditAddressDialog";
-import { NewAddressDialog } from "../../components/Dialogs/NewAddressDialog";
+import { EditAddressDialog } from "../../components/Dialogs/Address/EditAddressDialog";
+import { NewAddressDialog } from "../../components/Dialogs/Address/NewAddressDialog";
 import { request } from "../../utils/requests";
 import { apiRoutes } from "../../utils/routes";
 import { toast } from "react-hot-toast";
@@ -18,6 +18,8 @@ import { ResolvedCategory } from "../../types";
 import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
 import { TitleContainer } from "../../components/layouts/Styles";
 import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../components/Containers";
+import { DeleteAddressRequest } from "../../utils/Requests/Address";
+import { DeleteAddressDialog } from "../../components/Dialogs/Address/DeleteAddressDialog";
 
 const AddressCard = styled(Card, {
   display: "flex",
@@ -52,21 +54,6 @@ export const Addresses: NextPage<Result> = ({ categories }) => {
 
   const { state, dispatch } = useContext(UserContext);
 
-  const removeAddress = async (id: string) => {
-    const notifId = toast.loading("Removing the address");
-    const res = await request({
-      method: "DELETE",
-      path: apiRoutes.user.addresses.address("me", id),
-    });
-
-    toast.dismiss(notifId);
-
-    if (res) {
-      toast.success("Address removed");
-      getMe(dispatch);
-    }
-  };
-
   return (
     <SettingsPageLayout categories={categories}>
       <TitleContainer>
@@ -97,12 +84,10 @@ export const Addresses: NextPage<Result> = ({ categories }) => {
                 </FlexDiv>
               </FlexDiv>
               <AddressCardButtons>
-                <EditAddressDialog />
+                <EditAddressDialog address={address} />
 
                 <Tooltip label="Delete address">
-                  <Button colorScheme="red" size="sm" onClick={() => removeAddress(address.id)}>
-                    <TrashIcon />
-                  </Button>
+                  <DeleteAddressDialog address={address} />
                 </Tooltip>
               </AddressCardButtons>
             </AddressCard>

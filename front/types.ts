@@ -57,3 +57,14 @@ export type ProductPageProduct = {
   bulletPoints: bulletPoint[];
   images: imageLink[];
 };
+
+export type Address = {
+  id: string;
+  name: string;
+  phoneNumber: string;
+  email: string;
+  streetAddress: string;
+  city: string;
+  state: string;
+  zip: string;
+};

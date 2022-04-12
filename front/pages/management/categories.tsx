@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Card } from "../../components/Card";
 import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../components/Containers";
-import { AddCategoryModal } from "../../components/Dialogs/Category/AddCategoryModal";
-import { DeleteCategoryModal } from "../../components/Dialogs/Category/DeleteCategoryModal";
-import { EditCategoryModal } from "../../components/Dialogs/Category/EditCategoryModal";
+import { AddCategoryDialog } from "../../components/Dialogs/Category/AddCategoryDialog";
+import { DeleteCategoryDialog } from "../../components/Dialogs/Category/DeleteCategoryDialog";
+import { EditCategoryDialog } from "../../components/Dialogs/Category/EditCategoryDialog";
 import { ManagementPageLayout } from "../../components/layouts/ManagementPageLayout";
 import { TitleContainer } from "../../components/layouts/Styles";
 import { Heading } from "../../components/Text";
@@ -59,7 +59,7 @@ const Categories: NextPage<Result> = (props) => {
       <TitleContainer>
         <Heading>Categories</Heading>
 
-        <AddCategoryModal categories={categories} getCategories={getCategories} />
+        <AddCategoryDialog categories={categories} getCategories={getCategories} />
       </TitleContainer>
 
       <MgmtSettingsPageScrollableContent>
@@ -69,9 +69,9 @@ const Categories: NextPage<Result> = (props) => {
               <FlexDiv spaceBetween fullWidth>
                 <Heading>{category.name}</Heading>
                 <FlexDiv gap05>
-                  <DeleteCategoryModal category={category} getCategories={getCategories} />
+                  <DeleteCategoryDialog category={category} getCategories={getCategories} />
 
-                  <EditCategoryModal
+                  <EditCategoryDialog
                     categories={categories}
                     category={category}
                     getCategories={getCategories}

@@ -29,7 +29,7 @@ import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 import { pushUser } from "../../utils/router";
 import { useRouter } from "next/router";
 import { ShoppingCartIcon } from "../../components/Icons";
-import { DeleteProductModal } from "../../components/Dialogs/Product/DeleteProductModal";
+import { DeleteProductDialog } from "../../components/Dialogs/Product/DeleteProductDialog";
 import { isAdmin } from "../../utils/flagResolve";
 import { useContext } from "react";
 import { UserContext } from "../../UserProvider/provider";
@@ -187,7 +187,7 @@ const ProductPage: NextPage<Result> = ({ product, categories, allCategories }) =
                     >
                       Edit
                     </Button>
-                    <DeleteProductModal product={product} />
+                    <DeleteProductDialog product={product} />
                   </FlexDiv>
                 ) : null}
               </FlexDiv>
