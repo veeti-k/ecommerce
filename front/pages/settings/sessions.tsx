@@ -1,4 +1,4 @@
-import { Button, Tooltip } from "@chakra-ui/react";
+import { Button, IconButton, Tooltip } from "@chakra-ui/react";
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { useContext } from "react";
 import { Card } from "../../components/Card";
@@ -98,9 +98,14 @@ const Sessions: NextPage<Result> = ({ categories }) => {
 
                 <SessionCardButtons>
                   <Tooltip label="Revoke session">
-                    <Button size="sm" colorScheme="red" onClick={() => revokeSession(session.id)}>
+                    <IconButton
+                      aria-label="Revoke session"
+                      size="sm"
+                      colorScheme="red"
+                      onClick={() => revokeSession(session.id)}
+                    >
                       <TrashIcon />
-                    </Button>
+                    </IconButton>
                   </Tooltip>
                 </SessionCardButtons>
               </SessionCard>

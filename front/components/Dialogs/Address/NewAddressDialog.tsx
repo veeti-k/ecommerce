@@ -1,5 +1,6 @@
 import {
   Button,
+  IconButton,
   Input,
   Modal,
   ModalBody,
@@ -75,9 +76,9 @@ export const NewAddressDialog = () => {
   return (
     <>
       <Tooltip label="Add an address">
-        <Button colorScheme="blue" size="sm" onClick={onOpen}>
+        <IconButton aria-label="Add an address" colorScheme="blue" size="sm" onClick={onOpen}>
           <PlusIcon width={14} style={{ transform: "scale(1.6)" }} />
-        </Button>
+        </IconButton>
       </Tooltip>
 
       <Modal isOpen={isOpen} onClose={onClose}>
