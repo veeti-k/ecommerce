@@ -1,8 +1,10 @@
-﻿namespace api.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace api.Models;
 
 public class StoreProduct
 {
-  public Guid StoreId { get; set; }
-  public int ProductId { get; set; }
-  public int Quantity { get; set; }
+  [Required] public Guid StoreId { get; set; }
+  [Required] public int ProductId { get; set; }
+  [Required] public int Quantity { get; set; }
 }

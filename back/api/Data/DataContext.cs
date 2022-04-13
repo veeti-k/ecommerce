@@ -69,7 +69,7 @@ public class DataContext : DbContext, IDataContext
 
     // many-to-many product - categories
     aBuilder.Entity<ProductsCategories>()
-      .HasKey(linked => new {CategoryId = linked.ProductCategoryId, linked.ProductId});
+      .HasKey(linked => new {linked.ProductCategoryId, linked.ProductId});
 
     aBuilder.Entity<ProductsCategories>()
       .HasOne<Product>()
@@ -77,33 +77,14 @@ public class DataContext : DbContext, IDataContext
       .HasForeignKey(pc => pc.ProductId)
       .OnDelete(DeleteBehavior.Cascade);
 
-    aBuilder.Entity<ProductsCategories>()
-      .HasOne(linked => linked.Category)
-      .WithMany()
-      .HasForeignKey(pc => pc.ProductCategoryId)
-      .OnDelete(DeleteBehavior.Cascade);
-
     // many-to-many stores - products
     aBuilder.Entity<StoreProduct>()
-      .HasKey(linked => new {StoreId = linked.StoreId, ProductId = linked.ProductId});
+      .HasKey(linked => new {linked.StoreId, linked.ProductId});
 
     aBuilder.Entity<StoreProduct>()
       .HasOne<Product>()
       .WithMany()
-      .HasForeignKey(stock => stock.ProductId)
-      .OnDelete(DeleteBehavior.Cascade);
-
-    aBuilder.Entity<StoreProduct>()
-      .HasOne<Store>()
-      .WithMany()
-      .HasForeignKey(stock => stock.StoreId)
-      .OnDelete(DeleteBehavior.Cascade);
-
-    // one-to-many store - store hours
-    aBuilder.Entity<Store>()
-      .HasMany(s => s.DefaultStoreHours)
-      .WithOne(s => s.Store)
-      .HasForeignKey(s => s.StoreId)
+      .HasForeignKey(linked => linked.ProductId)
       .OnDelete(DeleteBehavior.Cascade);
 
     // one-to-many store - store hour exceptions
