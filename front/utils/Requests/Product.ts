@@ -20,3 +20,10 @@ export const UpdateProductRequest = (productId: number, updatedProduct: ProductF
     method: "PATCH",
     body: updatedProduct,
   });
+
+export const AddProductRequest = (newProduct: ProductFormValues) =>
+  request({
+    path: apiRoutes.productsRoot,
+    method: "POST",
+    body: newProduct,
+  });

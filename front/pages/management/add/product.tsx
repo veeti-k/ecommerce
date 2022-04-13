@@ -7,8 +7,7 @@ import { Heading } from "../../../components/Text";
 import { useGetCategories } from "../../../hooks/useGetCategories";
 import { ResolvedCategory } from "../../../types";
 import { getCategories_STATIC_PROPS } from "../../../utils/getStaticProps";
-import { request } from "../../../utils/requests";
-import { apiRoutes } from "../../../utils/routes";
+import { AddProductRequest } from "../../../utils/Requests/Product";
 
 type Result = {
   categories: ResolvedCategory[];
@@ -28,24 +27,9 @@ const AddProduct: NextPage<Result> = ({ categories }) => {
   const { allCategories } = useGetCategories();
 
   const onSubmit = async (values: ProductFormValues) => {
-    const notifId = toast.loading("Adding the product");
+    const notifId = toast.loading("Adding product");
 
-    const res = await request({
-      method: "POST",
-      path: apiRoutes.productsRoot,
-      body: {
-        name: values.name,
-        price: values.price,
-        description: values.description,
-        discountedPrice: values.discountedPrice,
-        discountPercent: values.discountPercent,
-        discountAmount: values.discountAmount,
-        isDiscounted: values.isDiscounted,
-        bulletPoints: values.bulletPoints,
-        imageLinks: values.imageLinks,
-        deepestCategoryId: values.deepestCategoryId,
-      },
-    });
+    const res = await AddProductRequest(values);
 
     toast.dismiss(notifId);
 

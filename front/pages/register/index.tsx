@@ -1,7 +1,6 @@
 import { NextPage } from "next";
 import { AuthPageLayout } from "../../components/layouts/AuthPageLayout";
 import { FormEvent, useContext, useRef, useState } from "react";
-import { tokenRequest } from "../../utils/requests";
 import { FormWrapper, InputLabelContainer } from "../../components/Containers";
 import { BigHeading, Paragraph } from "../../components/Text";
 import { Input, Button } from "@chakra-ui/react";
@@ -9,11 +8,12 @@ import { Tab, TabsContent, TabsList } from "../../components/pages/Auth";
 import { useRouter } from "next/router";
 import { AuthPageCard } from "../../components/Card";
 import { pushUser } from "../../utils/router";
-import { apiRoutes, routes } from "../../utils/routes";
+import { routes } from "../../utils/routes";
 import { useAuthPageRedirector } from "../../hooks/useAuthPageRedirector";
 import { getMe } from "../../utils/logout";
 import { UserContext } from "../../UserProvider/provider";
 import { PasswordInputWithLabel } from "../../components/Inputs";
+import { RegisterRequest } from "../../utils/Requests/Auth";
 
 const Register: NextPage = () => {
   useAuthPageRedirector();
@@ -32,11 +32,9 @@ const Register: NextPage = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await tokenRequest({
-      method: "POST",
-      path: apiRoutes.register,
-      body: { name, email, password: pw },
-    });
+
+    const res = await RegisterRequest({ name, email, password: pw });
+
     if (res) {
       getMe(dispatch);
       pushUser(router, routes.home, "register success");

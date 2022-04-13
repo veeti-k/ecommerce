@@ -9,14 +9,13 @@ import { Heading, Text } from "../../components/Text";
 import { UserContext } from "../../UserProvider/provider";
 import { useGetMe } from "../../hooks/useGetMe";
 import { styled } from "../../stitches.config";
-import { request } from "../../utils/requests";
-import { apiRoutes } from "../../utils/routes";
 import toast from "react-hot-toast";
 import { getMe } from "../../utils/logout";
 import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
 import { ResolvedCategory } from "../../types";
 import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
 import { TitleContainer } from "../../components/layouts/Styles";
+import { RevokeSessionRequest } from "../../utils/Requests/Session";
 
 const SessionCard = styled(Card, {
   display: "flex",
@@ -51,10 +50,7 @@ const Sessions: NextPage<Result> = ({ categories }) => {
 
   const revokeSession = async (sessionId: string) => {
     const notifId = toast.loading("Revoking the session");
-    const res = await request({
-      method: "DELETE",
-      path: apiRoutes.user.sessions.session("me", sessionId),
-    });
+    const res = await RevokeSessionRequest(sessionId);
 
     toast.dismiss(notifId);
 

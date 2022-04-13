@@ -10,9 +10,6 @@ import { useGetMe } from "../../hooks/useGetMe";
 import { Separator } from "../../components/Separator";
 import { Heading, Text } from "../../components/Text";
 import { UserContext } from "../../UserProvider/provider";
-import { request } from "../../utils/requests";
-import { apiRoutes } from "../../utils/routes";
-
 import { toast } from "react-hot-toast";
 import { Actions } from "../../UserProvider/types";
 import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
@@ -20,6 +17,7 @@ import { ResolvedCategory } from "../../types";
 import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
 import { TitleContainer } from "../../components/layouts/Styles";
 import { DeleteAccountDialog } from "../../components/Dialogs/Account/DeleteAccountDialog";
+import { UpdateAccountRequest } from "../../utils/Requests/Account";
 
 type Result = {
   categories: ResolvedCategory[];
@@ -72,15 +70,7 @@ const Account: NextPage<Result> = ({ categories }) => {
 
     const notifId = toast.loading("Saving your edits");
 
-    const res = await request({
-      method: "PATCH",
-      path: apiRoutes.userRoot("me"),
-      body: {
-        name,
-        email,
-        phoneNumber,
-      },
-    });
+    const res = await UpdateAccountRequest({ name, email, phoneNumber });
 
     toast.dismiss(notifId);
 
