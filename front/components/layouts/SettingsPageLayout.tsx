@@ -10,7 +10,7 @@ import { routes } from "../../utils/routes";
 import { PageCard } from "../Card";
 import { FlexDiv } from "../Containers";
 import { AddressesIcon, PasswordIcon, SessionsIcon, UserIcon } from "../Icons";
-import { Text, BigHeading, Paragraph } from "../Text";
+import { Text, BigHeading } from "../Text";
 import { Layout } from "./Layout";
 import { PageTitleContainer, PageSelectorButtons, PageSelectorButton, MainContent } from "./Styles";
 
@@ -35,7 +35,6 @@ export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({ children, cate
             <FlexDiv spaceBetween align fullWidth>
               <div>
                 <BigHeading>Account settings</BigHeading>
-                <Paragraph>Edit your account settings</Paragraph>
               </div>
 
               <Button

@@ -65,7 +65,6 @@ const Sessions: NextPage<Result> = ({ categories }) => {
       <TitleContainer>
         <div>
           <Heading>Sessions</Heading>
-          <Text light>Manage your sessions</Text>
         </div>
       </TitleContainer>
       <MgmtSettingsPageScrollableContent>

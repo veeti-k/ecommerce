@@ -85,7 +85,6 @@ const Account: NextPage<Result> = ({ categories }) => {
       <TitleContainer>
         <div>
           <Heading>General Info</Heading>
-          <Text light>Save your changes after editing</Text>
         </div>
       </TitleContainer>
 

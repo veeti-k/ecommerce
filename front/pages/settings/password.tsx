@@ -43,7 +43,6 @@ const Password: NextPage<Result> = ({ categories }) => {
       <TitleContainer>
         <div>
           <Heading>Password</Heading>
-          <Text light>Change or reset your password</Text>
         </div>
       </TitleContainer>
 

@@ -47,7 +47,6 @@ export const Addresses: NextPage<Result> = ({ categories }) => {
       <TitleContainer>
         <div>
           <Heading>Addresses</Heading>
-          <Text light>Add or edit your addresses</Text>
         </div>
 
         <NewAddressDialog />
