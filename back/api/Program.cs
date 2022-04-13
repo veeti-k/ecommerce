@@ -9,6 +9,8 @@ using api.Repositories;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Product.Add;
 using api.RequestsAndResponses.Product.Update;
+using api.RequestsAndResponses.StoreHours;
+using api.RequestsAndResponses.Stores;
 using api.Security.Policies.Handlers;
 using api.Services;
 using api.Services.Interfaces;
@@ -67,9 +69,6 @@ builder.Services.AddScoped<IProductQuestionAnswerRepo, ProductQuestionAnswerRepo
 builder.Services.AddScoped<IGenericRepo<Store>, GenericRepo<Store>>();
 builder.Services.AddScoped<IStoreRepo, StoreRepo>();
 
-builder.Services.AddScoped<IGenericRepo<StoreDefaultHours>, GenericRepo<StoreDefaultHours>>();
-builder.Services.AddScoped<IDefaultStoreHoursRepo, StoreDefaultHoursRepo>();
-
 builder.Services.AddSingleton<ICookieUtils, CookieUtils>();
 builder.Services.AddSingleton<ITokenUtils, TokenUtils>();
 builder.Services.AddScoped<IAuthUtils, AuthUtils>();
@@ -81,6 +80,9 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IValidator<AddProductDto>, AddProductDtoValidator>();
 builder.Services.AddScoped<IValidator<UpdateProductDto>, UpdateProductDtoValidator>();
+builder.Services.AddScoped<IValidator<AddStoreRequest>, AddStoreRequestValidator>();
+builder.Services.AddScoped<IValidator<AddDefaultHoursRequestBody>, AddDefaultHoursRequestBodyValidator>();
+builder.Services.AddScoped<IValidator<UpdateDefaultHoursRequest>, UpdateDefaultHoursRequestValidator>();
 
 builder.Services.Configure<TokenOptions>(
   builder.Configuration.GetSection(TokenOptions.Position));

@@ -10,7 +10,7 @@ import { isAdmin } from "../../utils/flagResolve";
 import { pushUser } from "../../utils/router";
 import { routes } from "../../utils/routes";
 import { FlexDiv } from "../Containers";
-import { ProductsIcon, OrdersIcon, UserIcon } from "../Icons";
+import { ProductsIcon, OrdersIcon, UserIcon, StoreIcon } from "../Icons";
 import { Text, BigHeading } from "../Text";
 import { Layout } from "./Layout";
 import { PageTitleContainer, PageSelectorButtons, PageSelectorButton, MainContent } from "./Styles";
@@ -35,10 +35,11 @@ export const ManagementPageLayout: FC<ManagementPageLayoutProps> = ({ children, 
   const { state } = useContext(UserContext);
 
   if (typeof window == "undefined") return null;
+  if (!isLoggedIn) return null;
 
   return (
     <Layout categories={categories}>
-      {isLoggedIn && isAdmin(state.flags) ? (
+      {isAdmin(state.flags) ? (
         <>
           <PageTitleContainer>
             <BigHeading>Management</BigHeading>
@@ -56,23 +57,33 @@ export const ManagementPageLayout: FC<ManagementPageLayoutProps> = ({ children, 
                     <PlusIcon /> <Text>Add a product</Text>
                   </FlexDiv>
                 </Button>
+
                 <PageSelectorButton
                   route={routes.managementCategories}
                   active={window.location.pathname.includes("categories")}
                 >
                   <ProductsIcon /> <Text>Categories</Text>
                 </PageSelectorButton>
+
                 <PageSelectorButton
                   route={routes.managementOrders}
                   active={window.location.pathname.includes("orders")}
                 >
                   <OrdersIcon /> <Text>Orders</Text>
                 </PageSelectorButton>
+
                 <PageSelectorButton
                   route={routes.managementUsers}
                   active={window.location.pathname.includes("users")}
                 >
                   <UserIcon size={20} /> <Text>Users</Text>
+                </PageSelectorButton>
+
+                <PageSelectorButton
+                  route={routes.managementStores}
+                  active={window.location.pathname.includes("stores")}
+                >
+                  <StoreIcon /> <Text>Stores</Text>
                 </PageSelectorButton>
               </PageSelectorButtons>
 

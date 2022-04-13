@@ -83,6 +83,7 @@ export const MainContent = styled("div", {
 export const TitleContainer = styled("div", {
   display: "flex",
   justifyContent: "space-between",
-  padding: "1.5rem 2rem",
+  padding: "0 2rem",
+  paddingTop: "1.5rem",
   position: "sticky",
 });

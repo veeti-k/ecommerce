@@ -8,6 +8,7 @@ export const routes = {
   managementCategories: "/management/categories",
   managementOrders: "/management/orders",
   managementUsers: "/management/users",
+  managementStores: "/management/stores",
 
   settings: "/settings",
   settingsAccount: "/settings/account",
@@ -49,5 +50,11 @@ export const apiRoutes = {
 
   categories: {
     category: (categoryId: number) => `/categories/${categoryId}`,
+  },
+
+  storesRoot: "/stores",
+
+  stores: {
+    store: (storeId: string) => `/stores/${storeId}`,
   },
 };

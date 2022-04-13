@@ -23,12 +23,6 @@ const AddressCard = styled(Card, {
   width: "100%",
 });
 
-const AddressCardButtons = styled("div", {
-  display: "flex",
-  flexDirection: "column",
-  gap: "0.5rem",
-});
-
 type Result = {
   categories: ResolvedCategory[];
 };
@@ -77,13 +71,13 @@ export const Addresses: NextPage<Result> = ({ categories }) => {
                   <Text bold>{address.phoneNumber}</Text>
                 </FlexDiv>
               </FlexDiv>
-              <AddressCardButtons>
+              <FlexDiv column gap05>
                 <EditAddressDialog address={address} />
 
                 <Tooltip label="Delete address">
                   <DeleteAddressDialog address={address} />
                 </Tooltip>
-              </AddressCardButtons>
+              </FlexDiv>
             </AddressCard>
           ))}
         </FlexDiv>

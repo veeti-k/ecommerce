@@ -1,17 +1,19 @@
 import { ChevronDownIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { Edit, Lock, LogIn, Plus, Shield, ShoppingBag, Trash2, Truck, User } from "react-feather";
+import { Lock, LogIn, Shield, ShoppingBag, Trash2, Truck, User } from "react-feather";
 import { motion } from "framer-motion";
 import { BsBagCheck, BsGrid, BsPlusSquare } from "react-icons/bs";
-import { BiLinkExternal } from "react-icons/bi";
+import { BiLinkExternal, BiStoreAlt } from "react-icons/bi";
 import { HiHome } from "react-icons/hi";
+import { FiEdit } from "react-icons/fi";
+import { PlusIcon as RadixPlus } from "@radix-ui/react-icons";
 
 export const TrashIcon = () => <Trash2 width={14} transform="scale(1.3)" />;
-export const EditIcon = () => <Edit width={13} transform="scale(1.3)" />;
+export const EditIcon = () => <FiEdit size={17} style={{ marginLeft: 2 }} />;
 export const HamburgerIcon = () => <HamburgerMenuIcon style={{ transform: "scale(1.02)" }} />;
 export const ShoppingCartIcon = () => <ShoppingBag width={14} transform="scale(1.2)" />;
 export const UserIcon = User;
 export const LoginIcon = LogIn;
-export const PlusIcon = Plus;
+export const PlusIcon = () => <RadixPlus />;
 export const PlusSquareIcon = () => <BsPlusSquare size={20} />;
 export const ProductsIcon = () => <BsGrid size={20} />;
 export const OrdersIcon = () => <BsBagCheck size={20} />;
@@ -22,6 +24,7 @@ export const PasswordIcon = () => <Lock size={20} />;
 
 export const ExternalLinkIcon = () => <BiLinkExternal />;
 export const HomeIcon = () => <HiHome size={20} />;
+export const StoreIcon = () => <BiStoreAlt size={20} style={{ marginTop: 1 }} />;
 
 export const Chevron = ({ open }: { open: boolean }) => {
   return open ? (

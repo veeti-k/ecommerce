@@ -109,7 +109,6 @@ public class DataContext : DbContext, IDataContext
   public DbSet<ProductsCategories> ProductsCategories { get; set; }
 
   public DbSet<Store> Stores { get; set; }
-  public DbSet<StoreDefaultHours> DefaultStoreHours { get; set; }
   public DbSet<StoreHoursException> StoreHoursExceptions { get; set; }
   public DbSet<StoreProduct> StoreProducts { get; set; }
 }

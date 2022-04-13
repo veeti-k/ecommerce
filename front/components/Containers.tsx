@@ -110,5 +110,6 @@ export const MgmtSettingsPageScrollableContent = styled("div", {
   overflowY: "auto",
   maxHeight: "calc(100vh - 18rem)",
   padding: "0 2rem",
+  paddingTop: "1rem",
   paddingBottom: "1.5rem",
 });

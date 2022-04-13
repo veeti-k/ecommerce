@@ -11,7 +11,7 @@ import {
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
-import { MouseEvent, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { InputLabelContainer } from "../../Containers";
 import { PlusIcon } from "../../Icons";
 
@@ -35,8 +35,7 @@ export const NewAddressDialog = () => {
 
   const { dispatch } = useContext(UserContext);
 
-  const onSubmit = async (e: MouseEvent) => {
-    e.preventDefault();
+  const onSubmit = async (e: any) => {
     const notifId = toast.loading("Adding address");
     const res = await request({
       method: "POST",
@@ -77,7 +76,7 @@ export const NewAddressDialog = () => {
     <>
       <Tooltip label="Add an address">
         <IconButton aria-label="Add an address" colorScheme="blue" size="sm" onClick={onOpen}>
-          <PlusIcon width={14} style={{ transform: "scale(1.6)" }} />
+          <PlusIcon />
         </IconButton>
       </Tooltip>
 

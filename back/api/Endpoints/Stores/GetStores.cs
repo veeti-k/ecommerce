@@ -1,6 +1,7 @@
 ﻿using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Stores;
 using Ardalis.ApiEndpoints;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Endpoints.Stores;
@@ -10,10 +11,12 @@ public class GetStores : EndpointBaseAsync
   .WithActionResult<List<StoreResponse>>
 {
   private readonly IStoreRepo _storeRepository;
+  private readonly IMapper _mapper;
 
-  public GetStores(IStoreRepo storeRepository)
+  public GetStores(IStoreRepo storeRepository, IMapper mapper)
   {
     _storeRepository = storeRepository;
+    _mapper = mapper;
   }
 
   [HttpGet(Routes.StoresRoot)]
@@ -22,6 +25,6 @@ public class GetStores : EndpointBaseAsync
   {
     var stores = await _storeRepository.GetManyStores();
 
-    return Ok(stores);
+    return Ok(_mapper.Map<List<StoreResponse>>(stores));
   }
 }

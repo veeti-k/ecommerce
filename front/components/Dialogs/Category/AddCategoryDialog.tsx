@@ -10,13 +10,15 @@ import {
   Input,
   Select,
   ModalFooter,
+  IconButton,
+  Tooltip,
 } from "@chakra-ui/react";
-import { PlusIcon } from "@radix-ui/react-icons";
 import { FC, useState, FormEvent } from "react";
 import toast from "react-hot-toast";
 import { Category } from "../../../types";
 import { AddCategoryRequest } from "../../../utils/Requests/Category";
 import { FlexDiv, InputLabelContainer } from "../../Containers";
+import { PlusIcon } from "../../Icons";
 
 type Props = {
   getCategories: () => void;
@@ -49,11 +51,11 @@ export const AddCategoryDialog: FC<Props> = ({ getCategories, categories }) => {
 
   return (
     <>
-      <Button onClick={onOpen}>
-        <FlexDiv align gap05>
-          <PlusIcon /> Add a category
-        </FlexDiv>
-      </Button>
+      <Tooltip label="Add a category">
+        <IconButton aria-label="Add a category" size="sm" colorScheme="blue" onClick={onOpen}>
+          <PlusIcon />
+        </IconButton>
+      </Tooltip>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

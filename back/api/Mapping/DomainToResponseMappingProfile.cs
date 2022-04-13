@@ -10,6 +10,7 @@ using api.RequestsAndResponses.ProductQuestionAnswer;
 using api.RequestsAndResponses.ProductReview;
 using api.RequestsAndResponses.ProductReviewComment;
 using api.RequestsAndResponses.Sessions;
+using api.RequestsAndResponses.Stores;
 using api.RequestsAndResponses.User;
 using AutoMapper;
 
@@ -62,5 +63,11 @@ public class DomainToResponseMappingProfile : Profile
       .ForMember(dest => dest.Id,
         options => options
           .MapFrom(src => src.ProductImageLinkId));
+
+
+    CreateMap<Store, StoreResponse>()
+      .ForMember(dest => dest.Id,
+        options => options
+          .MapFrom(src => src.StoreId));
   }
 }

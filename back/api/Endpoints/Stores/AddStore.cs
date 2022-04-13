@@ -1,5 +1,4 @@
 ﻿using api.Exceptions;
-using api.Models;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Stores;
 using api.Security.Policies;
@@ -38,10 +37,19 @@ public class AddStore : EndpointBaseAsync
     var newStore = new Models.Store()
     {
       StoreId = newStoreId,
-      Name = request.Name,
-      City = request.City,
-      Zip = request.Zip,
-      StreetAddress = request.StreetAddress
+      Name = request.Body.Name,
+      City = request.Body.City,
+      Zip = request.Body.Zip,
+      StreetAddress = request.Body.StreetAddress,
+      MondayHours = request.Body.MondayHours,
+      TuesdayHours = request.Body.TuesdayHours,
+      WednesdayHours = request.Body.WednesdayHours,
+      ThursdayHours = request.Body.ThursdayHours,
+      FridayHours = request.Body.FridayHours,
+      SaturdayHours = request.Body.SaturdayHours,
+      SundayHours = request.Body.SundayHours,
+      PhoneNumber = request.Body.PhoneNumber,
+      
     };
 
     await _storeRepo.Add(newStore);

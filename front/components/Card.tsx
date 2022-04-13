@@ -47,3 +47,9 @@ export const PageCard = styled("div", {
 
   boxShadow: "$shadowFar",
 });
+
+export const InfoCard = styled(Card, {
+  boxShadow: "$shadowNearest",
+  padding: "0.7rem",
+  width: "100%",
+});

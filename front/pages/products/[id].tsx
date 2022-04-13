@@ -1,5 +1,5 @@
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
-import { Card } from "../../components/Card";
+import { Card, InfoCard } from "../../components/Card";
 import { Layout } from "../../components/layouts/Layout";
 import { BigBigHeading, BigHeading, Heading, Paragraph, Text } from "../../components/Text";
 import { styled } from "../../stitches.config";
@@ -42,12 +42,6 @@ const ProductPageCard = styled(Card, {
   paddingTop: "1rem",
   height: "100%",
   marginBottom: "1rem",
-});
-
-const PriceCard = styled(Card, {
-  boxShadow: "$shadowNearest",
-  padding: "0.7rem",
-  width: "100%",
 });
 
 const RightDiv = styled("div", {
@@ -131,7 +125,7 @@ const ProductPage: NextPage<Result> = ({ product, categories, allCategories }) =
                 ))}
               </UnorderedList>
 
-              <PriceCard>
+              <InfoCard>
                 <FlexDiv column fullWidth>
                   <BigBigHeading>{product.price} €</BigBigHeading>
                   <Button colorScheme="blue">
@@ -140,7 +134,7 @@ const ProductPage: NextPage<Result> = ({ product, categories, allCategories }) =
                     </FlexDiv>
                   </Button>
                 </FlexDiv>
-              </PriceCard>
+              </InfoCard>
             </FlexDiv>
           </RightDiv>
         </MainDiv>
@@ -167,7 +161,7 @@ const ProductPage: NextPage<Result> = ({ product, categories, allCategories }) =
           </ProductDescription>
 
           <RightDiv style={{ height: "100%" }}>
-            <PriceCard>
+            <InfoCard>
               <FlexDiv column fullWidth>
                 <div>
                   <Text>Product id: </Text>
@@ -191,7 +185,7 @@ const ProductPage: NextPage<Result> = ({ product, categories, allCategories }) =
                   </FlexDiv>
                 ) : null}
               </FlexDiv>
-            </PriceCard>
+            </InfoCard>
           </RightDiv>
         </MainDiv>
       </ProductPageCard>

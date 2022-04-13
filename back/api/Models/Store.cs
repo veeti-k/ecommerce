@@ -9,7 +9,7 @@ public class Store
   [Required] public string City { get; set; }
   [Required] public string StreetAddress { get; set; }
   [Required] public string Zip { get; set; }
-  
+  [Required] public string PhoneNumber { get; set; }
   [Required] public string MondayHours { get; set; }
   [Required] public string TuesdayHours { get; set; }
   [Required] public string WednesdayHours { get; set; }
