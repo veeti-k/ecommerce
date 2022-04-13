@@ -92,6 +92,24 @@ public static class DbSeeding
       Password = Flags.MANAGE_CATEGORIES + "password",
       CreatedAt = DateTimeOffset.UtcNow,
       Flags = Flags.MANAGE_CATEGORIES,
+    },
+    new User
+    {
+      Name = Flags.MANAGE_STORES + "name",
+      Email = Flags.MANAGE_STORES + "@test.test",
+      PhoneNumber = Flags.MANAGE_STORES + "phone",
+      Password = Flags.MANAGE_STORES + "password",
+      CreatedAt = DateTimeOffset.UtcNow,
+      Flags = Flags.MANAGE_STORES,
+    },
+    new User
+    {
+      Name = Flags.MANAGE_STORE_HOURS + "name",
+      Email = Flags.MANAGE_STORE_HOURS + "@test.test",
+      PhoneNumber = Flags.MANAGE_STORE_HOURS + "phone",
+      Password = Flags.MANAGE_STORE_HOURS + "password",
+      CreatedAt = DateTimeOffset.UtcNow,
+      Flags = Flags.MANAGE_STORE_HOURS,
     }
   };
 

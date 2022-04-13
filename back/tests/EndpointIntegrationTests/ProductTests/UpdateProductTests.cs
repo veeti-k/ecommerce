@@ -27,13 +27,13 @@ public class UpdateProductTests : ProductIntegrationTest
     {
       new ProductImageDto()
       {
-        Id = product.Images.ElementAt(0).Id,
-        Link = product.Images.ElementAt(0).Link
+        Id = product.Images[0].Id,
+        Link = product.Images[0].Link
       },
       new ProductImageDto()
       {
-        Id = product.Images.ElementAt(1).Id,
-        Link = product.Images.ElementAt(1).Link + "test"
+        Id = product.Images[1].Id,
+        Link = product.Images[1].Link + "test"
       },
       new ProductImageDto()
       {
@@ -45,13 +45,13 @@ public class UpdateProductTests : ProductIntegrationTest
     {
       new BulletPointDto()
       {
-        Id = product.BulletPoints.ElementAt(0).Id,
-        Text = product.BulletPoints.ElementAt(0).Text
+        Id = product.BulletPoints[0].Id,
+        Text = product.BulletPoints[0].Text
       },
       new BulletPointDto()
       {
-        Id = product.BulletPoints.ElementAt(1).Id,
-        Text = product.BulletPoints.ElementAt(1).Text + "test",
+        Id = product.BulletPoints[1].Id,
+        Text = product.BulletPoints[1].Text + "test",
       },
       new BulletPointDto()
       {
