@@ -38,22 +38,54 @@ public class DomainToResponseMappingProfile : Profile
 {
   public DomainToResponseMappingProfile()
   {
-    CreateMap<User, UserResponse>();
-    CreateMap<Session, SessionResponse>();
-    CreateMap<Address, AddressResponse>();
+    CreateMap<User, UserResponse>().ForMember(dest => dest.Id,
+      options => options
+        .MapFrom(src => src.UserId));
 
-    CreateMap<Product, BaseProductResponse>();
+    CreateMap<Session, SessionResponse>().ForMember(dest => dest.Id,
+      options => options
+        .MapFrom(src => src.SessionId));
+
+    CreateMap<Address, AddressResponse>().ForMember(dest => dest.Id,
+      options => options
+        .MapFrom(src => src.AddressId));
+
+    CreateMap<Product, BaseProductResponse>().ForMember(dest => dest.Id,
+      options => options
+        .MapFrom(src => src.ProductId));
+
     CreateMap<Product, ProductPageProductResponse>()
       .ForMember(dest => dest.Path,
         options => options
-          .MapFrom<ProductPathResolver<ProductPageProductResponse>>());
+          .MapFrom<ProductPathResolver<ProductPageProductResponse>>())
+      .ForMember(dest => dest.Id,
+        options => options
+          .MapFrom(src => src.ProductId));
 
-    CreateMap<ProductReview, ProductReviewResponse>();
-    CreateMap<ProductReviewComment, ProductReviewCommentResponse>();
-    CreateMap<ProductQuestion, ProductQuestionResponse>();
-    CreateMap<ProductQuestionAnswer, ProductQuestionAnswerResponse>();
+    CreateMap<ProductReview, ProductReviewResponse>()
+      .ForMember(dest => dest.Id,
+        options => options
+          .MapFrom(src => src.ProductReviewId));
 
-    CreateMap<ProductCategory, ResolvedCategory>();
+    CreateMap<ProductReviewComment, ProductReviewCommentResponse>()
+      .ForMember(dest => dest.Id,
+        options => options
+          .MapFrom(src => src.ProductReviewCommentId));
+
+    CreateMap<ProductQuestion, ProductQuestionResponse>()
+      .ForMember(dest => dest.Id,
+        options => options
+          .MapFrom(src => src.ProductQuestionId));
+
+    CreateMap<ProductQuestionAnswer, ProductQuestionAnswerResponse>()
+      .ForMember(dest => dest.Id,
+        options => options
+          .MapFrom(src => src.ProductQuestionAnswerId));
+
+    CreateMap<ProductCategory, ResolvedCategory>().ForMember(dest => dest.Id,
+      options => options
+        .MapFrom(src => src.ProductCategoryId));
+    
     CreateMap<ProductBulletPoint, ProductBulletPointResponse>()
       .ForMember(dest => dest.Id,
         options => options
@@ -63,7 +95,6 @@ public class DomainToResponseMappingProfile : Profile
       .ForMember(dest => dest.Id,
         options => options
           .MapFrom(src => src.ProductImageLinkId));
-
 
     CreateMap<Store, StoreResponse>()
       .ForMember(dest => dest.Id,

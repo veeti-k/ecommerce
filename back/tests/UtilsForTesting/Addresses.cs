@@ -11,7 +11,7 @@ public static class Addresses
   {
     return new()
     {
-      Id = Guid.NewGuid(),
+      AddressId = Guid.NewGuid(),
       City = Guid.NewGuid().ToString(),
       Email = Guid.NewGuid().ToString(),
       StreetAddress = Guid.NewGuid().ToString(),
@@ -26,7 +26,7 @@ public static class Addresses
   public static Address CreateFakeAddressFromDto(AddAddressDto dto, int userId) =>
     new Address
     {
-      Id = Guid.NewGuid(),
+      AddressId = Guid.NewGuid(),
       City = dto.City,
       Email = dto.Email,
       StreetAddress = dto.StreetAddress,
@@ -40,7 +40,7 @@ public static class Addresses
   public static Address CreateFakeAddressFromDto(UpdateAddressDto dto, int userId) =>
     new Address
     {
-      Id = Guid.NewGuid(),
+      AddressId = Guid.NewGuid(),
       City = dto.City,
       Email = dto.Email,
       StreetAddress = dto.StreetAddress,

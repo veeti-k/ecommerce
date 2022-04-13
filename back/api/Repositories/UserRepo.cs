@@ -18,7 +18,7 @@ public class UserRepo : GenericRepo<User>, IUserRepo
   {
     return await _context.Users
       .Include(user => user.Sessions)
-      .Where(user => user.Id == userId)
+      .Where(user => user.UserId == userId)
       .FirstOrDefaultAsync();
   }
 
@@ -27,7 +27,7 @@ public class UserRepo : GenericRepo<User>, IUserRepo
     return await _context.Users
       .Include(user => user.Sessions)
       .Include(user => user.Addresses)
-      .Where(user => user.Id == userId)
+      .Where(user => user.UserId == userId)
       .FirstOrDefaultAsync();
   }
 

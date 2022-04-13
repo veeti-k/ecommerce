@@ -58,16 +58,16 @@ public class Register : EndpointBaseAsync
     Session newSession = new()
     {
       SessionId = Guid.NewGuid(),
-      UserId = addedUser.Id,
+      UserId = addedUser.UserId,
       CreatedAt = DateTimeOffset.UtcNow,
       LastUsedAt = DateTimeOffset.UtcNow,
     };
     var addedSession = await _sessionRepo.Add(newSession);
 
     var accessToken = _tokenUtils
-      .CreateAccessToken(addedUser.Id, addedSession.SessionId, addedUser.Flags);
+      .CreateAccessToken(addedUser.UserId, addedSession.SessionId, addedUser.Flags);
     var refreshToken = _tokenUtils
-      .CreateRefreshToken(addedUser.Id, addedSession.SessionId, addedUser.Flags);
+      .CreateRefreshToken(addedUser.UserId, addedSession.SessionId, addedUser.Flags);
 
     _authUtils.SendTokens(accessToken, refreshToken);
 

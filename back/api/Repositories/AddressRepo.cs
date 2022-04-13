@@ -17,7 +17,7 @@ public class AddressRepo : GenericRepo<Address>, IAddressRepo
   public async Task<Address?> GetOne(int userId, Guid addressId)
   {
     return await _context.Addresses
-      .Where(address => address.Id == addressId
+      .Where(address => address.AddressId == addressId
                         && address.UserId == userId)
       .FirstOrDefaultAsync();
   }

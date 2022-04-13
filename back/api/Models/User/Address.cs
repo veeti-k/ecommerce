@@ -4,7 +4,7 @@ namespace api.Models.User;
 
 public class Address
 {
-  [Key] public Guid Id { get; init; }
+  [Key] public Guid AddressId { get; init; }
   [Required] public int UserId { get; init; }
   [Required] public string Name { get; set; }
   [Required] public string PhoneNumber { get; set; }

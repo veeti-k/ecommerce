@@ -35,7 +35,7 @@ public class CreateAddress : EndpointBaseAsync
     
     Address newAddress = new()
     {
-      Id = Guid.NewGuid(),
+      AddressId = Guid.NewGuid(),
       UserId = userId,
       Name = request.Dto.Name,
       PhoneNumber = request.Dto.PhoneNumber,

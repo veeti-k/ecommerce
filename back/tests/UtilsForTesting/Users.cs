@@ -19,7 +19,7 @@ public static class Users
   {
     return new User
     {
-      Id = userId ?? new Random().Next(1, Int32.MaxValue),
+      UserId = userId ?? new Random().Next(1, Int32.MaxValue),
       Name = Guid.NewGuid().ToString(),
       Email = Guid.NewGuid().ToString(),
       PhoneNumber = "12345678",
@@ -34,7 +34,7 @@ public static class Users
   public static User CreateFakeUserFromDto(RegisterDto dto) =>
     new User
     {
-      Id = new Random().Next(1, Int32.MaxValue),
+      UserId = new Random().Next(1, Int32.MaxValue),
       Name = dto.Name,
       Email = dto.Email,
       PhoneNumber = dto.PhoneNumber,
@@ -48,7 +48,7 @@ public static class Users
   public static User CreateFakeUserFromDto(LoginDto dto) =>
     new User
     {
-      Id = new Random().Next(1, Int32.MaxValue),
+      UserId = new Random().Next(1, Int32.MaxValue),
       Name = Guid.NewGuid().ToString(),
       Email = dto.Email,
       PhoneNumber = Guid.NewGuid().ToString(),
