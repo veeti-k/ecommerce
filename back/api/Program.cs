@@ -85,6 +85,7 @@ builder.Services.AddScoped<IValidator<AddStoreRequest>, AddStoreRequestValidator
 builder.Services.AddScoped<IValidator<AddDefaultHoursRequestBody>, AddDefaultHoursRequestBodyValidator>();
 builder.Services.AddScoped<IValidator<UpdateDefaultHoursRequest>, UpdateDefaultHoursRequestValidator>();
 builder.Services.AddScoped<IValidator<UpdateCategoryRequest>, UpdateCategoryRequestValidator>();
+builder.Services.AddScoped<IValidator<AddCategoryRequest>, AddCategoryRequestValidator>();
 
 builder.Services.Configure<TokenOptions>(
   builder.Configuration.GetSection(TokenOptions.Position));
