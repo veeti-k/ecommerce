@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.RequestsAndResponses.Category;
 
-public record AddCategoryDto
+public record AddCategoryBody
 {
   public string Name { get; init; }
   public int? ParentId { get; init; }
@@ -11,13 +11,13 @@ public record AddCategoryDto
 
 public record AddCategoryRequest
 {
-  [FromBody] public AddCategoryDto Dto { get; init; }
+  [FromBody] public AddCategoryBody Body { get; init; }
 }
 
 public class AddCategoryRequestValidator : AbstractValidator<AddCategoryRequest>
 {
   public AddCategoryRequestValidator()
   {
-    RuleFor(x => x.Dto.Name).NotEmpty();
+    RuleFor(x => x.Body.Name).NotEmpty();
   }
 }

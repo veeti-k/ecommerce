@@ -25,7 +25,7 @@ public class AddReviewTests : ProductReviewIntegrationTest
 
     var json = await response.Content.ReadFromJsonAsync<ProductReviewResponse>();
 
-    json.Should().BeEquivalentTo(TestProductReviewDto, options => options.ExcludingMissingMembers());
+    json.Should().BeEquivalentTo(TestProductReviewRequestBody, options => options.ExcludingMissingMembers());
   }
 
   [Fact]

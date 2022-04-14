@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.RequestsAndResponses.Product.Update;
 
-public record UpdateProductDto
+public record UpdateProductRequestBody
 {
   public string? Name { get; init; }
   public string? Description { get; init; }
@@ -21,17 +21,17 @@ public record UpdateProductDto
 public class UpdateProductRequest
 {
   [FromRoute(Name = "productId")] public int ProductId { get; set; }
-  [FromBody] public UpdateProductDto Dto { get; set; }
+  [FromBody] public UpdateProductRequestBody Body { get; set; }
 }
 
-public class UpdateProductDtoValidator : AbstractValidator<UpdateProductDto>
+public class UpdateProductRequestValidator : AbstractValidator<UpdateProductRequest>
 {
-  public UpdateProductDtoValidator()
+  public UpdateProductRequestValidator()
   {
-    RuleFor(x => x.Price).GreaterThan(0);
+    RuleFor(x => x.Body.Price).GreaterThan(0);
 
-    RuleFor(x => x.DiscountedPrice).NotEmpty().When(x => x.IsDiscounted.GetValueOrDefault());
-    RuleFor(x => x.DiscountPercent).NotEmpty().When(x => x.IsDiscounted.GetValueOrDefault());
-    RuleFor(x => x.DiscountAmount).NotEmpty().When(x => x.IsDiscounted.GetValueOrDefault());
+    RuleFor(x => x.Body.DiscountedPrice).NotEmpty().When(x => x.Body.IsDiscounted.GetValueOrDefault());
+    RuleFor(x => x.Body.DiscountPercent).NotEmpty().When(x => x.Body.IsDiscounted.GetValueOrDefault());
+    RuleFor(x => x.Body.DiscountAmount).NotEmpty().When(x => x.Body.IsDiscounted.GetValueOrDefault());
   }
 }

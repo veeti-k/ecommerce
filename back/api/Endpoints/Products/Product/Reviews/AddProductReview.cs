@@ -7,6 +7,7 @@ using api.Security;
 using api.Services.Interfaces;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Endpoints.Products.Product.Reviews;
@@ -20,20 +21,22 @@ public class AddProductReview : EndpointBaseAsync
   private readonly IContextService _contextService;
   private readonly IProductRepo _productRepo;
   private readonly IProductReviewRepo _reviewRepo;
-
+  private readonly IValidator<AddProductReviewRequest> _validator;
 
   public AddProductReview(
     IMapper mapper,
     IUserRepo userRepo,
     IContextService contextService,
     IProductRepo productRepo,
-    IProductReviewRepo reviewRepo)
+    IProductReviewRepo reviewRepo,
+    IValidator<AddProductReviewRequest> validator)
   {
     _mapper = mapper;
     _userRepo = userRepo;
     _contextService = contextService;
     _productRepo = productRepo;
     _reviewRepo = reviewRepo;
+    _validator = validator;
   }
 
   [HttpPost(Routes.Products.Product.ReviewsRoot)]
@@ -41,6 +44,9 @@ public class AddProductReview : EndpointBaseAsync
     [FromRoute] AddProductReviewRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
+    var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+    if (!validationResult.IsValid) throw new BadRequestException(validationResult.ToString());
+
     var product = await _productRepo.GetById(request.ProductId);
     if (product is null)
       throw new ProductNotFoundException(request.ProductId);
@@ -53,12 +59,12 @@ public class AddProductReview : EndpointBaseAsync
     ProductReview newReview = new()
     {
       ProductId = product.ProductId,
-      ReviewersNickname = request.Dto.ReviewersNickname,
-      Title = request.Dto.Title,
-      Content = request.Dto.Content,
+      ReviewersNickname = request.Body.ReviewersNickname,
+      Title = request.Body.Title,
+      Content = request.Body.Content,
       ByEmployee = isEmployee,
       CreatedAt = DateTimeOffset.UtcNow,
-      Stars = request.Dto.Stars,
+      Stars = request.Body.Stars,
     };
 
     var added = await _reviewRepo.Add(newReview);

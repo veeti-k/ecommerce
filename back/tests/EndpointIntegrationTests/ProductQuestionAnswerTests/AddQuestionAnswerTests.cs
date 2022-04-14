@@ -26,7 +26,7 @@ public class AddQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
     response.StatusCode.Should().Be(HttpStatusCode.Created);
 
     var json = await response.Content.ReadFromJsonAsync<ProductQuestionAnswerResponse>();
-    json.Should().BeEquivalentTo(TestAddProductQuestionAnswerDto);
+    json.Should().BeEquivalentTo(TestAddProductQuestionAnswerRequestBody);
   }
   
   [Fact]

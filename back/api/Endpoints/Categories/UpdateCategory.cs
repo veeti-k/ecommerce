@@ -37,20 +37,20 @@ public class UpdateCategory : EndpointBaseAsync
     var existingCategory = await _categoryRepo.GetById(request.CategoryId);
     if (existingCategory is null) throw new ProductCategoryNotFoundException(request.CategoryId);
 
-    if (existingCategory.ProductCategoryId == request.Dto.ParentId)
+    if (existingCategory.ProductCategoryId == request.Body.ParentId)
       throw new BadRequestException("Parent category cannot be the same as the category itself");
 
-    if (request.Dto.ParentId is not null)
+    if (request.Body.ParentId is not null)
     {
-      var newParent = await _categoryRepo.GetById(request.Dto.ParentId.Value);
-      if (newParent is null) throw new ProductCategoryNotFoundException(request.Dto.ParentId.Value);
+      var newParent = await _categoryRepo.GetById(request.Body.ParentId.Value);
+      if (newParent is null) throw new ProductCategoryNotFoundException(request.Body.ParentId.Value);
       
       if (newParent.ParentId == existingCategory.ProductCategoryId)
         throw new BadRequestException($"{newParent.Name} is already a child of {existingCategory.Name}");
     }
 
-    existingCategory.Name = request.Dto.Name;
-    existingCategory.ParentId = request.Dto.ParentId;
+    existingCategory.Name = request.Body.Name;
+    existingCategory.ParentId = request.Body.ParentId;
 
     var updated = await _categoryRepo.Update(existingCategory);
 

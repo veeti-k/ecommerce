@@ -27,7 +27,7 @@ public class AddProductTest : ProductIntegrationTest
     var addedProduct = await GetProduct(addedId);
 
     addedProduct.Should()
-      .BeEquivalentTo(TestProductDto, options => options
+      .BeEquivalentTo(TestProductRequestBody, options => options
         .Excluding(x => x.DeepestCategoryId)
         .Excluding(x => x.ImageLinks)
         .Excluding(x => x.BulletPoints)
@@ -36,10 +36,10 @@ public class AddProductTest : ProductIntegrationTest
     addedProduct.DeepestCategoryId.Should().Be(category.Id);
 
     foreach (var (bulletPoint, i) in addedProduct.BulletPoints.Select((value, i) => (value, i)))
-      bulletPoint.Text.Should().Be(TestProductDto.BulletPoints[i].Text);
+      bulletPoint.Text.Should().Be(TestProductRequestBody.BulletPoints[i].Text);
 
     foreach (var (imageLink, i) in addedProduct.Images.Select((value, i) => (value, i)))
-      imageLink.Link.Should().Be(TestProductDto.ImageLinks[i].Link);
+      imageLink.Link.Should().Be(TestProductRequestBody.ImageLinks[i].Link);
 
   }
 

@@ -27,7 +27,7 @@ public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
 
     var json = await response.Content.ReadFromJsonAsync<ProductReviewCommentResponse>();
 
-    json.Should().BeEquivalentTo(TestProductReviewCommentDto);
+    json.Should().BeEquivalentTo(TestProductReviewCommentRequestBody);
   }
 
   [Fact]

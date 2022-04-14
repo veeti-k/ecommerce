@@ -13,7 +13,7 @@ namespace tests.EndpointIntegrationTests;
 public class ProductReviewCommentIntegrationTest : ProductReviewIntegrationTest
 {
   // add review comment
-  public static readonly CreateProductReviewCommentDto TestProductReviewCommentDto = new()
+  public static readonly AddProductReviewCommentRequestBody TestProductReviewCommentRequestBody = new()
   {
     CommentersNickname = Guid.NewGuid().ToString(),
     Content = Guid.NewGuid().ToString(),
@@ -26,7 +26,7 @@ public class ProductReviewCommentIntegrationTest : ProductReviewIntegrationTest
       .Replace(Routes.Products.ProductId, productId.ToString())
       .Replace(Routes.Products.ReviewId, reviewId.ToString());
 
-    var response = await TestClient.PostAsync(path, JsonContent.Create(TestProductReviewCommentDto));
+    var response = await TestClient.PostAsync(path, JsonContent.Create(TestProductReviewCommentRequestBody));
 
     return response;
   }

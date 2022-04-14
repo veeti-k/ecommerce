@@ -19,14 +19,14 @@ public class AddProduct : EndpointBaseAsync
   private readonly IGenericRepo<ProductBulletPoint> _bulletPointRepo;
   private readonly IGenericRepo<ProductsCategories> _pcRepo;
   private readonly ICategoryRepo _categoryRepo;
-  private readonly IValidator<AddProductDto> _validator;
+  private readonly IValidator<AddProductRequest> _validator;
 
   public AddProduct(
     IProductRepo repo,
     IGenericRepo<ProductImageLink> imageRepo,
     IGenericRepo<ProductBulletPoint> bulletPointRepo,
     IGenericRepo<ProductsCategories> pcRepo,
-    ICategoryRepo categoryRepo, IValidator<AddProductDto> validator)
+    ICategoryRepo categoryRepo, IValidator<AddProductRequest> validator)
   {
     _repo = repo;
     _imageRepo = imageRepo;
@@ -42,27 +42,27 @@ public class AddProduct : EndpointBaseAsync
     [FromRoute] AddProductRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var validationResult = await _validator.ValidateAsync(request.Dto, cancellationToken);
+    var validationResult = await _validator.ValidateAsync(request, cancellationToken);
     if (!validationResult.IsValid) throw new BadRequestException(validationResult.ToString());
 
-    var category = await _categoryRepo.GetById(request.Dto.DeepestCategoryId);
-    if (category is null) throw new ProductCategoryNotFoundException(request.Dto.DeepestCategoryId);
+    var category = await _categoryRepo.GetById(request.Body.DeepestCategoryId);
+    if (category is null) throw new ProductCategoryNotFoundException(request.Body.DeepestCategoryId);
     
     var newProduct = new Models.Product
     {
-      Name = request.Dto.Name,
-      Description = request.Dto.Description,
-      Price = request.Dto.Price,
-      DiscountAmount = request.Dto.DiscountAmount,
-      DiscountedPrice = request.Dto.DiscountedPrice,
-      DiscountPercent = request.Dto.DiscountPercent,
-      IsDiscounted = request.Dto.IsDiscounted,
+      Name = request.Body.Name,
+      Description = request.Body.Description,
+      Price = request.Body.Price,
+      DiscountAmount = request.Body.DiscountAmount,
+      DiscountedPrice = request.Body.DiscountedPrice,
+      DiscountPercent = request.Body.DiscountPercent,
+      IsDiscounted = request.Body.IsDiscounted,
       DeepestCategoryId = category.ProductCategoryId
     };
 
     var added = await _repo.Add(newProduct);
 
-    foreach (var bulletPoint in request.Dto.BulletPoints)
+    foreach (var bulletPoint in request.Body.BulletPoints)
     {
       await _bulletPointRepo.Add(new ProductBulletPoint()
       {
@@ -72,7 +72,7 @@ public class AddProduct : EndpointBaseAsync
       });
     }
 
-    foreach (var link in request.Dto.ImageLinks)
+    foreach (var link in request.Body.ImageLinks)
     {
       await _imageRepo.Add(new ProductImageLink()
       {
@@ -84,7 +84,7 @@ public class AddProduct : EndpointBaseAsync
 
     var allCategories = await _categoryRepo.GetAll();
 
-    var path = Utils.Categories.GetCategoryPath(allCategories, request.Dto.DeepestCategoryId);
+    var path = Utils.Categories.GetCategoryPath(allCategories, request.Body.DeepestCategoryId);
 
     foreach (var pathCategory in path)
     {

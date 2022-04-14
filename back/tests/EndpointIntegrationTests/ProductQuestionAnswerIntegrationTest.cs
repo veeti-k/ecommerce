@@ -13,7 +13,7 @@ namespace tests.EndpointIntegrationTests;
 public class ProductQuestionAnswerIntegrationTest : ProductQuestionIntegrationTest
 {
   // add question answer
-  public static readonly AddProductQuestionAnswerDto TestAddProductQuestionAnswerDto = new()
+  public static readonly AddProductQuestionAnswerRequestBody TestAddProductQuestionAnswerRequestBody = new()
   {
     AnswerersNickname = Guid.NewGuid().ToString(),
     Content = Guid.NewGuid().ToString(),
@@ -26,7 +26,7 @@ public class ProductQuestionAnswerIntegrationTest : ProductQuestionIntegrationTe
       .Replace(Routes.Products.ProductId, productId.ToString())
       .Replace(Routes.Products.QuestionId, questionId.ToString());
 
-    var response = await TestClient.PostAsync(path, JsonContent.Create(TestAddProductQuestionAnswerDto));
+    var response = await TestClient.PostAsync(path, JsonContent.Create(TestAddProductQuestionAnswerRequestBody));
 
     return response;
   }

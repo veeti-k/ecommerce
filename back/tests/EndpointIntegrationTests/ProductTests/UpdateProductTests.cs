@@ -59,15 +59,15 @@ public class UpdateProductTests : ProductIntegrationTest
       }
     };
 
-    var request = new UpdateProductDto()
+    var request = new UpdateProductRequestBody()
     {
-      Name = TestProductDto.Name,
-      Description = TestProductDto.Description,
-      Price = TestProductDto.Price,
-      IsDiscounted = TestProductDto.IsDiscounted,
-      DiscountAmount = TestProductDto.DiscountAmount,
-      DiscountedPrice = TestProductDto.DiscountedPrice,
-      DiscountPercent = TestProductDto.DiscountPercent,
+      Name = TestProductRequestBody.Name,
+      Description = TestProductRequestBody.Description,
+      Price = TestProductRequestBody.Price,
+      IsDiscounted = TestProductRequestBody.IsDiscounted,
+      DiscountAmount = TestProductRequestBody.DiscountAmount,
+      DiscountedPrice = TestProductRequestBody.DiscountedPrice,
+      DiscountPercent = TestProductRequestBody.DiscountPercent,
       DeepestCategoryId = newCategory.Id,
       BulletPoints = newBulletPoints,
       ImageLinks = newImageLinks,
@@ -119,18 +119,18 @@ public class UpdateProductTests : ProductIntegrationTest
   {
     var category = await AddCategory();
     
-    var request = new UpdateProductDto()
+    var request = new UpdateProductRequestBody()
     {
-      Name = TestProductDto.Name,
-      Description = TestProductDto.Description,
-      Price = TestProductDto.Price,
-      IsDiscounted = TestProductDto.IsDiscounted,
-      DiscountAmount = TestProductDto.DiscountAmount,
-      DiscountedPrice = TestProductDto.DiscountedPrice,
-      DiscountPercent = TestProductDto.DiscountPercent,
+      Name = TestProductRequestBody.Name,
+      Description = TestProductRequestBody.Description,
+      Price = TestProductRequestBody.Price,
+      IsDiscounted = TestProductRequestBody.IsDiscounted,
+      DiscountAmount = TestProductRequestBody.DiscountAmount,
+      DiscountedPrice = TestProductRequestBody.DiscountedPrice,
+      DiscountPercent = TestProductRequestBody.DiscountPercent,
       DeepestCategoryId = category.Id,
-      BulletPoints = TestProductDto.BulletPoints,
-      ImageLinks = TestProductDto.ImageLinks,
+      BulletPoints = TestProductRequestBody.BulletPoints,
+      ImageLinks = TestProductRequestBody.ImageLinks,
     };
 
     await LoginAs(Flags.ADMINISTRATOR);
@@ -152,18 +152,18 @@ public class UpdateProductTests : ProductIntegrationTest
     var category = await AddCategory();
     var product = await AddProduct(category.Id);
     
-    var request = new UpdateProductDto()
+    var request = new UpdateProductRequestBody()
     {
-      Name = TestProductDto.Name,
-      Description = TestProductDto.Description,
-      Price = TestProductDto.Price,
-      IsDiscounted = TestProductDto.IsDiscounted,
-      DiscountAmount = TestProductDto.DiscountAmount,
-      DiscountedPrice = TestProductDto.DiscountedPrice,
-      DiscountPercent = TestProductDto.DiscountPercent,
+      Name = TestProductRequestBody.Name,
+      Description = TestProductRequestBody.Description,
+      Price = TestProductRequestBody.Price,
+      IsDiscounted = TestProductRequestBody.IsDiscounted,
+      DiscountAmount = TestProductRequestBody.DiscountAmount,
+      DiscountedPrice = TestProductRequestBody.DiscountedPrice,
+      DiscountPercent = TestProductRequestBody.DiscountPercent,
       DeepestCategoryId = NonExistentIntId,
-      BulletPoints = TestProductDto.BulletPoints,
-      ImageLinks = TestProductDto.ImageLinks,
+      BulletPoints = TestProductRequestBody.BulletPoints,
+      ImageLinks = TestProductRequestBody.ImageLinks,
     };
 
     await LoginAs(Flags.ADMINISTRATOR);
@@ -183,7 +183,7 @@ public class UpdateProductTests : ProductIntegrationTest
   public async Task UpdateProduct_TestPerms()
   {
     await TestPermissions(
-      () => UpdateProduct_TEST_REQUEST(NonExistentIntId, new UpdateProductDto() { }),
+      () => UpdateProduct_TEST_REQUEST(NonExistentIntId, new UpdateProductRequestBody() { }),
       new List<Flags> {Flags.MANAGE_PRODUCTS});
   }
 }

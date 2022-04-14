@@ -11,8 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Endpoints.Products.Product.Questions.Answers;
 
-public class CreateProductQuestionAnswer : EndpointBaseAsync
-  .WithRequest<CreateProductQuestionAnswerRequest>
+public class AddProductQuestionAnswer : EndpointBaseAsync
+  .WithRequest<AddProductQuestionAnswerRequest>
   .WithActionResult<ProductQuestionAnswerResponse>
 {
   private readonly IMapper _mapper;
@@ -22,7 +22,7 @@ public class CreateProductQuestionAnswer : EndpointBaseAsync
   private readonly IProductQuestionRepo _productQuestionRepo;
   private readonly IProductQuestionAnswerRepo _productQuestionAnswerRepo;
 
-  public CreateProductQuestionAnswer(
+  public AddProductQuestionAnswer(
     IMapper mapper,
     IUserRepo userRepo,
     IProductRepo productRepo,
@@ -40,7 +40,7 @@ public class CreateProductQuestionAnswer : EndpointBaseAsync
 
   [HttpPost(Routes.Products.Product.Questions.Quesion.AnswersRoot)]
   public override async Task<ActionResult<ProductQuestionAnswerResponse>> HandleAsync(
-    [FromRoute] CreateProductQuestionAnswerRequest request,
+    [FromRoute] AddProductQuestionAnswerRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
     var userId = _contextService.GetCurrentUserId();
@@ -57,9 +57,9 @@ public class CreateProductQuestionAnswer : EndpointBaseAsync
     ProductQuestionAnswer newAnswer = new()
     {
       QuestionId = question.ProductQuestionId,
-      AnswerersNickname = request.Dto.AnswerersNickname,
-      Title = request.Dto.Title,
-      Content = request.Dto.Content,
+      AnswerersNickname = request.Body.AnswerersNickname,
+      Title = request.Body.Title,
+      Content = request.Body.Content,
       CreatedAt = DateTimeOffset.UtcNow,
       ByEmployee = isEmployee,
       IsApproved = false

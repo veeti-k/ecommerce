@@ -29,8 +29,8 @@ public class AddCategory : EndpointBaseAsync
   {
     ProductCategory newCategory = new()
     {
-      Name = request.Dto.Name,
-      ParentId = request.Dto.ParentId
+      Name = request.Body.Name,
+      ParentId = request.Body.ParentId
     };
 
     var added = await _repo.Add(newCategory);

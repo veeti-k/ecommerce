@@ -16,7 +16,7 @@ namespace tests.EndpointIntegrationTests;
 public class ProductIntegrationTest : ProductCategoryIntegrationTest
 {
   // add product
-  public static readonly AddProductDto TestProductDto = new()
+  public static readonly AddProductRequestBody TestProductRequestBody = new()
   {
     Name = Guid.NewGuid().ToString(),
     Description = Guid.NewGuid().ToString(),
@@ -33,17 +33,17 @@ public class ProductIntegrationTest : ProductCategoryIntegrationTest
 
   public async Task<HttpResponseMessage?> AddProduct_TEST_REQUEST(int deepestCategoryId)
   {
-    var request = new AddProductDto()
+    var request = new AddProductRequestBody()
     {
-      Name = TestProductDto.Name,
-      Description = TestProductDto.Description,
-      Price = TestProductDto.Price,
-      DiscountAmount = TestProductDto.DiscountAmount,
-      DiscountedPrice = TestProductDto.DiscountedPrice,
-      DiscountPercent = TestProductDto.DiscountPercent,
-      IsDiscounted = TestProductDto.IsDiscounted,
-      BulletPoints = TestProductDto.BulletPoints,
-      ImageLinks = TestProductDto.ImageLinks,
+      Name = TestProductRequestBody.Name,
+      Description = TestProductRequestBody.Description,
+      Price = TestProductRequestBody.Price,
+      DiscountAmount = TestProductRequestBody.DiscountAmount,
+      DiscountedPrice = TestProductRequestBody.DiscountedPrice,
+      DiscountPercent = TestProductRequestBody.DiscountPercent,
+      IsDiscounted = TestProductRequestBody.IsDiscounted,
+      BulletPoints = TestProductRequestBody.BulletPoints,
+      ImageLinks = TestProductRequestBody.ImageLinks,
       DeepestCategoryId = deepestCategoryId,
     };
 
@@ -88,7 +88,7 @@ public class ProductIntegrationTest : ProductCategoryIntegrationTest
   }
 
   // update product
-  public static readonly UpdateProductDto TestUpdateProductDto = new()
+  public static readonly UpdateProductRequestBody TestUpdateProductRequestBody = new()
   {
     Name = Guid.NewGuid().ToString(),
     Description = Guid.NewGuid().ToString(),
@@ -99,12 +99,12 @@ public class ProductIntegrationTest : ProductCategoryIntegrationTest
     IsDiscounted = true
   };
 
-  public async Task<HttpResponseMessage?> UpdateProduct_TEST_REQUEST(int productId, UpdateProductDto dto)
+  public async Task<HttpResponseMessage?> UpdateProduct_TEST_REQUEST(int productId, UpdateProductRequestBody requestBody)
   {
     var path = Routes.Products.ProductRoot
       .Replace(Routes.Products.ProductId, productId.ToString());
 
-    return await TestClient.PatchAsync(path, JsonContent.Create(dto));
+    return await TestClient.PatchAsync(path, JsonContent.Create(requestBody));
   }
 
   // delete product

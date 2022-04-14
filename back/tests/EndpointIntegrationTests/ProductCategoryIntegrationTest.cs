@@ -30,7 +30,7 @@ public class ProductCategoryIntegrationTest : NeedsAuthIntegrationTest
   }
 
   // add category
-  public static readonly AddCategoryDto TestAddCategoryDto = new()
+  public static readonly AddCategoryBody TestAddCategoryBody = new()
   {
     Name = Guid.NewGuid().ToString(),
     ParentId = null
@@ -38,7 +38,7 @@ public class ProductCategoryIntegrationTest : NeedsAuthIntegrationTest
 
   public async Task<HttpResponseMessage?> AddCategory_TEST_REQUEST()
   {
-    var request = TestAddCategoryDto;
+    var request = TestAddCategoryBody;
 
     return await TestClient.PostAsJsonAsync(Routes.CategoriesRoot, request);
   }
@@ -62,7 +62,7 @@ public class ProductCategoryIntegrationTest : NeedsAuthIntegrationTest
   // add child category
   public async Task<HttpResponseMessage?> AddChildCategory_TEST_REQUEST(int parentId)
   {
-    var request = new AddCategoryDto()
+    var request = new AddCategoryBody()
     {
       Name = Guid.NewGuid().ToString(),
       ParentId = parentId
@@ -88,12 +88,12 @@ public class ProductCategoryIntegrationTest : NeedsAuthIntegrationTest
   }
 
   // update category
-  public async Task<HttpResponseMessage?> UpdateCategory_TEST_REQUEST(int categoryId, UpdateCategoryDto dto)
+  public async Task<HttpResponseMessage?> UpdateCategory_TEST_REQUEST(int categoryId, UpdateCategoryBody body)
   {
     var path = Routes.Categories.CategoryRoot
       .Replace(Routes.Categories.CategoryId, categoryId.ToString());
 
-    return await TestClient.PatchAsync(path, JsonContent.Create(dto));
+    return await TestClient.PatchAsync(path, JsonContent.Create(body));
   }
 
   // delete category 

@@ -30,7 +30,7 @@ public class ApproveProductQuestionTests : ProductQuestionIntegrationTest
 
     var json = await response.Content.ReadFromJsonAsync<ProductQuestionResponse>();
 
-    json.Should().BeEquivalentTo(TestAddProductQuestionDto);
+    json.Should().BeEquivalentTo(TestAddProductQuestionRequestBody);
 
     var questions = await GetApprovedProductQuestions(product.Id);
     questions.Any(q => q.Id == question.Id).Should().BeTrue();

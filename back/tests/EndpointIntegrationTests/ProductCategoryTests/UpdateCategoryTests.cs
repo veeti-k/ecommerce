@@ -20,7 +20,7 @@ public class UpdateCategoryTests : ProductCategoryIntegrationTest
     var category = await AddCategory();
     var newParent = await AddCategory();
 
-    var dto = new UpdateCategoryDto()
+    var dto = new UpdateCategoryBody()
     {
       Name = Guid.NewGuid().ToString(),
       ParentId = newParent.Id
@@ -46,7 +46,7 @@ public class UpdateCategoryTests : ProductCategoryIntegrationTest
   {
     var category = await AddCategory();
 
-    var dto = new UpdateCategoryDto()
+    var dto = new UpdateCategoryBody()
     {
       Name = Guid.NewGuid().ToString(),
       ParentId = category.Id
@@ -75,7 +75,7 @@ public class UpdateCategoryTests : ProductCategoryIntegrationTest
     var category = await AddCategory();
     var newParentId = NonExistentIntId;
 
-    var dto = new UpdateCategoryDto()
+    var dto = new UpdateCategoryBody()
     {
       Name = Guid.NewGuid().ToString(),
       ParentId = newParentId
@@ -101,7 +101,7 @@ public class UpdateCategoryTests : ProductCategoryIntegrationTest
   [Fact]
   public async Task UpdateCategory_TestPerms()
   {
-    await TestPermissions(() => UpdateCategory_TEST_REQUEST(NonExistentIntId, new UpdateCategoryDto() { }),
+    await TestPermissions(() => UpdateCategory_TEST_REQUEST(NonExistentIntId, new UpdateCategoryBody() { }),
       new List<Flags>() {Flags.MANAGE_CATEGORIES});
   }
 }

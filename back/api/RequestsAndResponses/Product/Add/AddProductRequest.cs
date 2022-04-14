@@ -15,7 +15,7 @@ public record ProductImageDto
   public string Link { get; init; }
 }
 
-public record AddProductDto
+public record AddProductRequestBody
 {
   public string Name { get; init; }
   public string Description { get; init; }
@@ -31,27 +31,27 @@ public record AddProductDto
 
 public class AddProductRequest
 {
-  [FromBody] public AddProductDto Dto { get; set; }
+  [FromBody] public AddProductRequestBody Body { get; set; }
 }
 
-public class AddProductDtoValidator : AbstractValidator<AddProductDto>
+public class AddProductRequestValidator : AbstractValidator<AddProductRequest>
 {
-  public AddProductDtoValidator()
+  public AddProductRequestValidator()
   {
-    RuleFor(x => x.Name).NotEmpty();
-    RuleFor(x => x.Description).NotEmpty();
-    RuleFor(x => x.Price).NotEmpty().GreaterThan(0);
+    RuleFor(x => x.Body.Name).NotEmpty();
+    RuleFor(x => x.Body.Description).NotEmpty();
+    RuleFor(x => x.Body.Price).NotEmpty().GreaterThan(0);
 
-    RuleFor(x => x.DeepestCategoryId).NotEmpty();
-    RuleFor(x => x.BulletPoints).NotEmpty();
-    RuleFor(x => x.ImageLinks).NotEmpty();
+    RuleFor(x => x.Body.DeepestCategoryId).NotEmpty();
+    RuleFor(x => x.Body.BulletPoints).NotEmpty();
+    RuleFor(x => x.Body.ImageLinks).NotEmpty();
 
-    RuleFor(x => x.IsDiscounted).NotNull();
-    When(x => x.IsDiscounted, () =>
+    RuleFor(x => x.Body.IsDiscounted).NotNull();
+    When(x => x.Body.IsDiscounted, () =>
     {
-      RuleFor(x => x.DiscountedPrice).NotEmpty().GreaterThan(0);
-      RuleFor(x => x.DiscountPercent).NotEmpty().GreaterThan(0);
-      RuleFor(x => x.DiscountAmount).NotEmpty().GreaterThan(0);
+      RuleFor(x => x.Body.DiscountedPrice).NotEmpty().GreaterThan(0);
+      RuleFor(x => x.Body.DiscountPercent).NotEmpty().GreaterThan(0);
+      RuleFor(x => x.Body.DiscountAmount).NotEmpty().GreaterThan(0);
     });
   }
 }

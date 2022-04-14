@@ -27,7 +27,7 @@ public class AddCategoryTests : ProductCategoryIntegrationTest
 
     var addedCategory = categories.AllCategories.FirstOrDefault(c => c.Id == addedId);
 
-    addedCategory.Should().BeEquivalentTo(TestAddCategoryDto);
+    addedCategory.Should().BeEquivalentTo(TestAddCategoryBody);
   }
 
   [Fact]

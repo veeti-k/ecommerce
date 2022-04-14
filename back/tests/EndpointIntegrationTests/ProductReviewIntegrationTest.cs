@@ -14,7 +14,7 @@ namespace tests.EndpointIntegrationTests;
 public class ProductReviewIntegrationTest : ProductIntegrationTest
 {
   // add review
-  public static readonly AddProductReviewDto TestProductReviewDto = new()
+  public static readonly AddProductReviewRequestBody TestProductReviewRequestBody = new()
   {
     Content = Guid.NewGuid().ToString(),
     Title = Guid.NewGuid().ToString(),
@@ -27,7 +27,7 @@ public class ProductReviewIntegrationTest : ProductIntegrationTest
     var path = Routes.Products.Product.ReviewsRoot
       .Replace(Routes.Products.ProductId, productId.ToString());
 
-    var response = await TestClient.PostAsJsonAsync(path, TestProductReviewDto);
+    var response = await TestClient.PostAsJsonAsync(path, TestProductReviewRequestBody);
 
     return response;
   }

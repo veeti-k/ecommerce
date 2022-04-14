@@ -1,17 +1,29 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.RequestsAndResponses.ProductQuestionAnswer.Add;
 
-public record AddProductQuestionAnswerDto
+public record AddProductQuestionAnswerRequestBody
 {
   public string AnswerersNickname { get; init; }
   public string Title { get; init; }
   public string Content { get; init; }
 }
 
-public class CreateProductQuestionAnswerRequest
+public class AddProductQuestionAnswerRequest
 {
   [FromRoute(Name = "productId")] public int ProductId { get; set; }
   [FromRoute(Name = "questionId")] public Guid QuestionId { get; set; }
-  [FromBody] public AddProductQuestionAnswerDto Dto { get; set; }
+  [FromBody] public AddProductQuestionAnswerRequestBody Body { get; set; }
+}
+
+public class AddProductQuestionAnswerRequestValidator : AbstractValidator<AddProductQuestionAnswerRequest>
+{
+  public AddProductQuestionAnswerRequestValidator()
+  {
+    RuleFor(r => r.Body).NotNull();
+    RuleFor(r => r.Body.AnswerersNickname).NotEmpty();
+    RuleFor(r => r.Body.Title).NotEmpty();
+    RuleFor(r => r.Body.Content).NotEmpty();
+  }
 }
