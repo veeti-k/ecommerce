@@ -7,8 +7,8 @@ type RegisterRequestProps = {
   password: string;
 };
 
-export const RegisterRequest = async (props: RegisterRequestProps) =>
-  await tokenRequest({
+export const RegisterRequest = (props: RegisterRequestProps) =>
+  tokenRequest({
     method: "POST",
     path: apiRoutes.register,
     body: props,
@@ -19,8 +19,8 @@ type LoginRequestProps = {
   password: string;
 };
 
-export const LoginRequest = async (props: LoginRequestProps) =>
-  await tokenRequest({
+export const LoginRequest = (props: LoginRequestProps) =>
+  tokenRequest({
     method: "POST",
     path: apiRoutes.login,
     body: props,

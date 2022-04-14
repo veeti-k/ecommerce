@@ -1,8 +1,8 @@
 import { request } from "../requests";
 import { apiRoutes } from "../routes";
 
-export const DeleteAccountRequest = async () =>
-  await request({
+export const DeleteAccountRequest = () =>
+  request({
     path: apiRoutes.userRoot("me"),
     method: "DELETE",
   });
@@ -12,8 +12,8 @@ type UpdateAccountRequestProps = {
   email: string;
   phoneNumber: string | null;
 };
-export const UpdateAccountRequest = async (account: UpdateAccountRequestProps) =>
-  await request({
+export const UpdateAccountRequest = (account: UpdateAccountRequestProps) =>
+  request({
     path: apiRoutes.userRoot("me"),
     method: "PATCH",
     body: account,
