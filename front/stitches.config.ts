@@ -12,7 +12,7 @@ export const { styled, css, getCssText } = createStitches({
     shadows: {
       shadowFar: "rgba(17, 12, 46, 0.15) 0px 48px 100px 0px",
       shadowNear: "2px 4px 16px rgb(0 0 0 / 16%)",
-      shadowNearest: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+      shadowNearest: "rgba(99, 99, 99, 0.1) 0px 2px 8px 0px",
     },
   },
 });
