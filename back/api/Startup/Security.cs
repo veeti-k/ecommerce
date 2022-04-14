@@ -2,6 +2,7 @@
 using api.Configs;
 using api.Security;
 using api.Security.Policies;
+using api.Security.Policies.Handlers;
 using api.Security.Policies.Requirements;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -74,6 +75,9 @@ public static class Security
 
   public static void AddAuthorization(WebApplicationBuilder builder)
   {
+    builder.Services.AddScoped<IAuthorizationHandler, ValidSessionAndUserHandler>();
+    builder.Services.AddScoped<IAuthorizationHandler, FlagHandler>();
+    
     builder.Services.AddAuthorization(options =>
     {
       options.DefaultPolicy = new AuthorizationPolicyBuilder()
