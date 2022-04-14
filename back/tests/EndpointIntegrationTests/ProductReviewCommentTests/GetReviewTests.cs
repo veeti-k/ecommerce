@@ -11,7 +11,7 @@ public class GetReviewTests : ProductReviewCommentIntegrationTest
   public async Task GetReviews_WithApprovedReviews_WithApprovedAndNotApprovedComments_ReturnsOnlyApprovedComments()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.ProductCategoryId);
+    var product = await AddProduct(category.Id);
     var review = await AddReview(product.Id);
     await ApproveReview(product.Id, review.Id);
 

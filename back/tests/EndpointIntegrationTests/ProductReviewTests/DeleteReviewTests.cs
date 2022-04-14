@@ -16,7 +16,7 @@ public class DeleteReviewTests : ProductReviewIntegrationTest
   public async Task DeleteReview_WithExistingProduct_WithApprovedExistingReview_DeletesReview_ReturnsNoContent()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.ProductCategoryId);
+    var product = await AddProduct(category.Id);
     var review = await AddReview(product.Id);
     await ApproveReview(product.Id, review.Id);
 
@@ -52,7 +52,7 @@ public class DeleteReviewTests : ProductReviewIntegrationTest
   public async Task DeleteReview_WithExistingProduct_WithNonExistentReview_ReturnsReviewNotFound()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.ProductCategoryId);
+    var product = await AddProduct(category.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
 
@@ -71,7 +71,7 @@ public class DeleteReviewTests : ProductReviewIntegrationTest
   public async Task DeleteReview_WithExistingProduct_WithNotApprovedExistingReview_DeletesReview_ReturnsNoContent()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.ProductCategoryId);
+    var product = await AddProduct(category.Id);
     var review = await AddReview(product.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);

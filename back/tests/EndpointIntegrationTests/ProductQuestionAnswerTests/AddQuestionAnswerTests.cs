@@ -17,7 +17,7 @@ public class AddQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
   public async Task AddQuestionAnswer_WithExistingProduct_WithApprovedExistingQuestion_ReturnsAddedQuestion()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.ProductCategoryId);
+    var product = await AddProduct(category.Id);
     var question = await AddProductQuestion(product.Id);
 
     await ApproveProductQuestion(product.Id, question.Id);
@@ -33,7 +33,7 @@ public class AddQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
   public async Task AddQuestionAnswer_WithExistingProduct_WithNotApprovedExistingQuestion_ReturnsQuestionNotFound()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.ProductCategoryId);
+    var product = await AddProduct(category.Id);
     var question = await AddProductQuestion(product.Id);
 
     var response = await AddQuestionAnswer_TEST_REQUEST(product.Id, question.Id);
@@ -47,7 +47,7 @@ public class AddQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
   public async Task AddQuestionAnswer_AfterAdding_DoesNotExposeQuestion_UntilApproved()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.ProductCategoryId);
+    var product = await AddProduct(category.Id);
     var question = await AddProductQuestion(product.Id);
     await ApproveProductQuestion(product.Id, question.Id);
     var answer = await AddQuestionAnswer(product.Id, question.Id);
@@ -81,7 +81,7 @@ public class AddQuestionAnswerTests : ProductQuestionAnswerIntegrationTest
   public async Task AddQuestionAnswer_WithExistingProduct_WithNonExistentReview_ReturnsQuestionNotFound()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.ProductCategoryId);
+    var product = await AddProduct(category.Id);
 
     var response = await AddQuestionAnswer_TEST_REQUEST(product.Id, NonExistentGuidId);
 

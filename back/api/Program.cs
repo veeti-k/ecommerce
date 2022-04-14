@@ -7,6 +7,7 @@ using api.Models.Review;
 using api.Models.User;
 using api.Repositories;
 using api.Repositories.Interfaces;
+using api.RequestsAndResponses.Category;
 using api.RequestsAndResponses.Product.Add;
 using api.RequestsAndResponses.Product.Update;
 using api.RequestsAndResponses.StoreHours;
@@ -83,6 +84,7 @@ builder.Services.AddScoped<IValidator<UpdateProductDto>, UpdateProductDtoValidat
 builder.Services.AddScoped<IValidator<AddStoreRequest>, AddStoreRequestValidator>();
 builder.Services.AddScoped<IValidator<AddDefaultHoursRequestBody>, AddDefaultHoursRequestBodyValidator>();
 builder.Services.AddScoped<IValidator<UpdateDefaultHoursRequest>, UpdateDefaultHoursRequestValidator>();
+builder.Services.AddScoped<IValidator<UpdateCategoryRequest>, UpdateCategoryRequestValidator>();
 
 builder.Services.Configure<TokenOptions>(
   builder.Configuration.GetSection(TokenOptions.Position));

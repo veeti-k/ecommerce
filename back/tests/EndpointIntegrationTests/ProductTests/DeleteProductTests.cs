@@ -15,7 +15,7 @@ public class DeleteProductTests : ProductIntegrationTest
   public async Task DeleteProduct_WithExistingProduct_DeletesProduct_Returns204()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.ProductCategoryId);
+    var product = await AddProduct(category.Id);
 
     await LoginAs(Flags.ADMINISTRATOR);
 

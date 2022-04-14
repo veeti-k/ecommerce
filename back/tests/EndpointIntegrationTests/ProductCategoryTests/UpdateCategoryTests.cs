@@ -23,12 +23,12 @@ public class UpdateCategoryTests : ProductCategoryIntegrationTest
     var dto = new UpdateCategoryDto()
     {
       Name = Guid.NewGuid().ToString(),
-      ParentId = newParent.ProductCategoryId
+      ParentId = newParent.Id
     };
 
     await LoginAs(Flags.ADMINISTRATOR);
 
-    var response = await UpdateCategory_TEST_REQUEST(category.ProductCategoryId, dto);
+    var response = await UpdateCategory_TEST_REQUEST(category.Id, dto);
 
     await Logout();
 
@@ -36,7 +36,7 @@ public class UpdateCategoryTests : ProductCategoryIntegrationTest
 
     var categories = await GetCategories();
 
-    var updatedCategory = categories.AllCategories.FirstOrDefault(c => c.ProductCategoryId == category.ProductCategoryId);
+    var updatedCategory = categories.AllCategories.FirstOrDefault(c => c.Id == category.Id);
 
     updatedCategory.Should().BeEquivalentTo(dto);
   }
@@ -49,12 +49,12 @@ public class UpdateCategoryTests : ProductCategoryIntegrationTest
     var dto = new UpdateCategoryDto()
     {
       Name = Guid.NewGuid().ToString(),
-      ParentId = category.ProductCategoryId
+      ParentId = category.Id
     };
 
     await LoginAs(Flags.ADMINISTRATOR);
 
-    var response = await UpdateCategory_TEST_REQUEST(category.ProductCategoryId, dto);
+    var response = await UpdateCategory_TEST_REQUEST(category.Id, dto);
 
     await Logout();
 
@@ -64,7 +64,7 @@ public class UpdateCategoryTests : ProductCategoryIntegrationTest
     json.Message.Should().Be("Parent category cannot be the same as the category itself");
 
     var categories = await GetCategories();
-    var categoryEq = categories.AllCategories.FirstOrDefault(c => c.ProductCategoryId == category.ProductCategoryId);
+    var categoryEq = categories.AllCategories.FirstOrDefault(c => c.Id == category.Id);
 
     categoryEq.Should().BeEquivalentTo(category);
   }
@@ -83,7 +83,7 @@ public class UpdateCategoryTests : ProductCategoryIntegrationTest
 
     await LoginAs(Flags.ADMINISTRATOR);
 
-    var response = await UpdateCategory_TEST_REQUEST(category.ProductCategoryId, dto);
+    var response = await UpdateCategory_TEST_REQUEST(category.Id, dto);
 
     await Logout();
 
@@ -93,7 +93,7 @@ public class UpdateCategoryTests : ProductCategoryIntegrationTest
     json.Message.Should().Be(NotFoundExceptionErrorMessages.ProductCategoryNotFoundException(newParentId));
 
     var categories = await GetCategories();
-    var categoryEq = categories.AllCategories.FirstOrDefault(c => c.ProductCategoryId == category.ProductCategoryId);
+    var categoryEq = categories.AllCategories.FirstOrDefault(c => c.Id == category.Id);
 
     categoryEq.Should().BeEquivalentTo(category);
   }

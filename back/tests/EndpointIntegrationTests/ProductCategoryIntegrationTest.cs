@@ -43,7 +43,7 @@ public class ProductCategoryIntegrationTest : NeedsAuthIntegrationTest
     return await TestClient.PostAsJsonAsync(Routes.CategoriesRoot, request);
   }
 
-  public async Task<ProductCategory> AddCategory()
+  public async Task<CategoryResponse> AddCategory()
   {
     await LoginAs(Flags.ADMINISTRATOR);
 
@@ -56,7 +56,7 @@ public class ProductCategoryIntegrationTest : NeedsAuthIntegrationTest
     var addedId = int.Parse(GetIdFromLocationHeader(response.Headers.Location));
     var categories = await GetCategories();
 
-    return categories.AllCategories.FirstOrDefault(c => c.ProductCategoryId == addedId);
+    return categories.AllCategories.FirstOrDefault(c => c.Id == addedId);
   }
 
   // add child category
@@ -71,7 +71,7 @@ public class ProductCategoryIntegrationTest : NeedsAuthIntegrationTest
     return await TestClient.PostAsJsonAsync(Routes.CategoriesRoot, request);
   }
 
-  public async Task<ProductCategory> AddChildCategory(int parentId)
+  public async Task<CategoryResponse> AddChildCategory(int parentId)
   {
     await LoginAs(Flags.ADMINISTRATOR);
 
@@ -84,7 +84,7 @@ public class ProductCategoryIntegrationTest : NeedsAuthIntegrationTest
     var addedId = int.Parse(GetIdFromLocationHeader(response.Headers.Location));
     var categories = await GetCategories();
 
-    return categories.AllCategories.FirstOrDefault(c => c.ProductCategoryId == addedId);
+    return categories.AllCategories.FirstOrDefault(c => c.Id == addedId);
   }
 
   // update category

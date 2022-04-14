@@ -1,4 +1,4 @@
-using api.Models;
+using api.RequestsAndResponses.Category;
 
 namespace api.RequestsAndResponses.Product;
 
@@ -35,5 +35,5 @@ public record BaseProductResponse
 
 public record ProductPageProductResponse : BaseProductResponse
 {
-  public List<ProductCategory> Path { get; set; }
+  public List<CategoryResponse> Path { get; set; }
 }

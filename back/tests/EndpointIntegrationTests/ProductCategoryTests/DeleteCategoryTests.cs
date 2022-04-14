@@ -20,7 +20,7 @@ public class DeleteCategoryTests : ProductCategoryIntegrationTest
 
     await LoginAs(Flags.ADMINISTRATOR);
 
-    var response = await DeleteCategory_TEST_REQUEST(category.ProductCategoryId);
+    var response = await DeleteCategory_TEST_REQUEST(category.Id);
 
     await Logout();
 
@@ -28,7 +28,7 @@ public class DeleteCategoryTests : ProductCategoryIntegrationTest
 
     var categories = await GetCategories();
 
-    categories.AllCategories.Any(c => c.ProductCategoryId == category.ProductCategoryId).Should().BeFalse();
+    categories.AllCategories.Any(c => c.Id == category.Id).Should().BeFalse();
   }
 
   [Fact]

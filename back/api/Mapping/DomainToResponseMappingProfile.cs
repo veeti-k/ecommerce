@@ -12,25 +12,23 @@ using api.RequestsAndResponses.ProductReviewComment;
 using api.RequestsAndResponses.Sessions;
 using api.RequestsAndResponses.Stores;
 using api.RequestsAndResponses.User;
+using api.Utils;
 using AutoMapper;
 
 namespace api.Mapping;
 
-public class ProductPathResolver<TDest> : IValueResolver<Product, TDest, List<ProductCategory>>
+public class ProductPathResolver<TDest> : IValueResolver<Product, TDest, List<CategoryResponse>>
 {
-  public List<ProductCategory> Resolve(Product source, TDest destination,
-    List<ProductCategory> destMember, ResolutionContext context)
+  public List<CategoryResponse> Resolve(Product source, TDest destination,
+    List<CategoryResponse> destMember, ResolutionContext context)
   {
-    var resolvedPath = new List<ProductCategory>();
-
-    foreach (var pc in source.ProductsCategories)
-    {
-      resolvedPath.Add(pc.Category);
-
-      if (pc.Category.ParentId == null) continue;
-    }
-
-    return resolvedPath;
+    return Categories.GetCategoryPath(source.ProductsCategories, source.DeepestCategoryId).Select(x =>
+      new CategoryResponse()
+      {
+        Id = x.ProductCategoryId,
+        Name = x.Name,
+        ParentId = x.ParentId
+      }).ToList();
   }
 }
 
@@ -85,7 +83,11 @@ public class DomainToResponseMappingProfile : Profile
     CreateMap<ProductCategory, ResolvedCategory>().ForMember(dest => dest.Id,
       options => options
         .MapFrom(src => src.ProductCategoryId));
-    
+
+    CreateMap<ProductCategory, CategoryResponse>().ForMember(dest => dest.Id,
+      options => options
+        .MapFrom(src => src.ProductCategoryId));
+
     CreateMap<ProductBulletPoint, ProductBulletPointResponse>()
       .ForMember(dest => dest.Id,
         options => options

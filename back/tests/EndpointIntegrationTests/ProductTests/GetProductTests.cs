@@ -4,6 +4,7 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using api.Exceptions;
 using api.Models;
+using api.RequestsAndResponses.Category;
 using api.RequestsAndResponses.Product;
 using api.Security;
 using Castle.Components.DictionaryAdapter;
@@ -18,7 +19,7 @@ public class GetProductTests : ProductIntegrationTest
   public async Task GetProduct_WithExistingProduct_ReturnsProduct()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.ProductCategoryId);
+    var product = await AddProduct(category.Id);
 
     var response = await GetProduct_TEST_REQUEST(product.Id);
 
@@ -46,11 +47,11 @@ public class GetProductTests : ProductIntegrationTest
   public async Task GetProduct_WithExistingProduct_ReturnsProduct_WithCorrectPath()
   {
     var parentCategory = await AddCategory();
-    var childCategory = await AddChildCategory(parentCategory.ProductCategoryId);
+    var childCategory = await AddChildCategory(parentCategory.Id);
 
-    var product = await AddProduct(childCategory.ProductCategoryId);
+    var product = await AddProduct(childCategory.Id);
 
-    var expectedPath = new List<ProductCategory>()
+    var expectedPath = new List<CategoryResponse>()
     {
       parentCategory,
       childCategory

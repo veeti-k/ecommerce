@@ -17,7 +17,7 @@ public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
   public async Task AddReviewComment_WithExistingProduct_WithExistingReview_ReturnsAddedComment()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.ProductCategoryId);
+    var product = await AddProduct(category.Id);
     var review = await AddReview(product.Id);
     await ApproveReview(product.Id, review.Id);
 
@@ -34,7 +34,7 @@ public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
   public async Task AddReviewComment_WithExistingProduct_WithExistingReviewButNotApproved_ReturnsReviewNotFound()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.ProductCategoryId);
+    var product = await AddProduct(category.Id);
     var review = await AddReview(product.Id);
 
     var response = await AddReviewComment_TEST_REQUEST(product.Id, review.Id);
@@ -50,7 +50,7 @@ public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
   public async Task AddReviewComment_AfterAdding_DoesNotExposeReview_UntilApproved()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.ProductCategoryId);
+    var product = await AddProduct(category.Id);
     var review = await AddReview(product.Id);
     await ApproveReview(product.Id, review.Id);
     var comment = await AddReviewComment(product.Id, review.Id);
@@ -84,7 +84,7 @@ public class AddReviewCommentTests : ProductReviewCommentIntegrationTest
   public async Task AddReviewComment_WithExistingProduct_WithNonExistentReview_ReturnsReviewNotFound()
   {
     var category = await AddCategory();
-    var product = await AddProduct(category.ProductCategoryId);
+    var product = await AddProduct(category.Id);
 
     var response = await AddReviewComment_TEST_REQUEST(product.Id, NonExistentGuidId);
 

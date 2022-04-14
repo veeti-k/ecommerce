@@ -36,7 +36,7 @@ public class GetCategories : EndpointBaseAsync
       {
         var parent = mappedCategories.FirstOrDefault(c => c.Id == category.ParentId);
         if (parent == null) continue;
-        
+
         parent.Children ??= new List<ResolvedCategory>();
         parent.Children.Add(category);
       }
@@ -46,6 +46,7 @@ public class GetCategories : EndpointBaseAsync
       }
     }
 
-    return Ok(new ProductCategoryResponse() {AllCategories = categories, ResolvedCategories = resolvedCategories});
+    return Ok(new ProductCategoryResponse()
+      {AllCategories = _mapper.Map<List<CategoryResponse>>(categories), ResolvedCategories = resolvedCategories});
   }
 }
