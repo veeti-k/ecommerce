@@ -11,12 +11,12 @@ import {
   AlertDialogFooter,
   Button,
 } from "@chakra-ui/react";
-import { TrashIcon } from "@radix-ui/react-icons";
 import { useRef, FormEvent, FC } from "react";
 import toast from "react-hot-toast";
 import { Category } from "../../../types";
 import { DeleteCategoryRequest } from "../../../utils/Requests/Category";
 import { FlexDiv } from "../../Containers";
+import { TrashIcon } from "../../Icons";
 import { Text } from "../../Text";
 
 type Props = {
@@ -51,6 +51,7 @@ export const DeleteCategoryDialog: FC<Props> = ({ category, getCategories }) => 
           aria-label="Delete category"
           icon={<TrashIcon />}
           colorScheme="red"
+          size="sm"
           onClick={onOpen}
         />
       </Tooltip>

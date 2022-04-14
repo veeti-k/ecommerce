@@ -54,12 +54,7 @@ export const EditCategoryDialog: FC<Props> = ({ getCategories, categories, categ
   return (
     <>
       <Tooltip label="Edit category">
-        <IconButton
-          aria-label="Edit category"
-          icon={<EditIcon />}
-          colorScheme="blue"
-          onClick={onOpen}
-        />
+        <IconButton aria-label="Edit category" icon={<EditIcon />} size="sm" onClick={onOpen} />
       </Tooltip>
 
       <Modal isOpen={isOpen} onClose={onClose}>
