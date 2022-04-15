@@ -21,6 +21,7 @@ export const routes = {
   productRoot: (productId: number) => `/products/${productId}`,
 
   product: {
+    edit: (productId: number) => `/products/${productId}/edit`,
     reviews: (productId: number) => `/products/${productId}/reviews`,
     reviewsAdd: (productId: number) => `/products/${productId}/reviews/add`,
   },
