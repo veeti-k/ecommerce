@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const ProductPath: FC<Props> = ({ product }) => {
-  if (typeof window == null) return null;
+  if (typeof window == "undefined") return null;
 
   const onReviewsPage = window.location.pathname.includes("reviews");
   const onReviewsAddPage = window.location.pathname.includes("add");
