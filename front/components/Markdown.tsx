@@ -14,10 +14,10 @@ export const Markdown: FC<Props> = ({ children }) => (
       ul: ({ node, ...props }) => <UnorderedList {...props} />,
       li: ({ node, ...props }) => (
         <ListItem {...props}>
-          <Text>{props.children}</Text>
+          <Text style={{ fontSize: "1rem" }}>{props.children}</Text>
         </ListItem>
       ),
-      p: ({ node, ...props }) => <Paragraph {...props} />,
+      p: ({ node, ...props }) => <Paragraph {...props} style={{ fontSize: "1rem" }} />,
     }}
   >
     {children}

@@ -1,7 +1,6 @@
 import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FC, useContext } from "react";
-import { LogOut } from "react-feather";
 import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 import { ResolvedCategory } from "../../types/Category";
 import { UserContext } from "../../UserProvider/provider";
@@ -10,7 +9,7 @@ import { pushUser } from "../../utils/router";
 import { routes } from "../../utils/routes";
 import { PageCard } from "../Card";
 import { FlexDiv } from "../Containers";
-import { AddressesIcon, PasswordIcon, SessionsIcon, UserIcon } from "../Icons";
+import { AddressesIcon, LogoutIcon, PasswordIcon, SessionsIcon, UserIcon } from "../Icons";
 import { Text, PageTitle } from "../Text";
 import { Layout } from "./Layout";
 import { PageTitleContainer, PageSelectorButtons, PageSelectorButton, MainContent } from "./Styles";
@@ -45,7 +44,7 @@ export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({ children, cate
                 onClick={() => logout(router, dispatch, routes.home)}
               >
                 <FlexDiv gap05 align>
-                  <LogOut /> Log out
+                  <LogoutIcon /> Log out
                 </FlexDiv>
               </Button>
             </FlexDiv>
@@ -58,7 +57,7 @@ export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({ children, cate
                   route={routes.settingsAccount}
                   active={window.location.pathname.includes("account")}
                 >
-                  <UserIcon size={20} /> <Text>Account</Text>
+                  <UserIcon /> <Text>Account</Text>
                 </PageSelectorButton>
                 <PageSelectorButton
                   route={routes.settingsPassword}

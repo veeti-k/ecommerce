@@ -15,6 +15,7 @@ const Main = styled("main", {
 
   "@mobileAndUp": {
     padding: "0 25px",
+    paddingTop: "6rem",
   },
 
   variants: {

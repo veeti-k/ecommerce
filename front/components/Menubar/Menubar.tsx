@@ -1,11 +1,11 @@
 import { FC } from "react";
 import { styled } from "../../stitches.config";
-import { ProfileDropdown } from "./ProfileDropdown";
 import { Search } from "./Search";
 import { CategoryMenu } from "./CategoryMenu";
 import { HomeButton } from "./HomeButton";
 import { BagButton } from "./BagButton";
 import { ResolvedCategory } from "../../types/Category";
+import { ProfileMenu } from "./ProfileMenu";
 
 const Outer = styled("div", {
   position: "fixed",
@@ -15,10 +15,6 @@ const Outer = styled("div", {
   right: 0,
   backgroundColor: "White",
   zIndex: 2,
-});
-
-const Header = styled("header", {
-  boxSizing: "border-box",
 });
 
 const Inner = styled("div", {
@@ -43,17 +39,15 @@ type MenubarProps = {
 export const Menubar: FC<MenubarProps> = ({ categories }) => {
   return (
     <Outer>
-      <Header className="width-before-scroll-bar">
-        <Inner>
-          <HeaderContent>
-            <CategoryMenu categories={categories} />
-            <HomeButton />
-            <Search />
-            <BagButton />
-            <ProfileDropdown />
-          </HeaderContent>
-        </Inner>
-      </Header>
+      <Inner>
+        <HeaderContent>
+          <CategoryMenu categories={categories} />
+          <HomeButton />
+          <Search />
+          <BagButton />
+          <ProfileMenu />
+        </HeaderContent>
+      </Inner>
     </Outer>
   );
 };
