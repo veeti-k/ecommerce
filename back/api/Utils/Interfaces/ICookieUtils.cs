@@ -4,6 +4,6 @@ namespace api.Utils.Interfaces;
 
 public interface ICookieUtils
 {
-  public Cookie CreateRefreshTokenCookie(string aCookieValue);
-  public Cookie CreateExpiredRefreshTokenCookie();
+  public string CreateRefreshTokenCookie(string aCookieValue);
+  public string CreateExpiredRefreshTokenCookie();
 }

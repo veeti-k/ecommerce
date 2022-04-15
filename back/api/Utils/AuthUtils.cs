@@ -27,7 +27,7 @@ public class AuthUtils : IAuthUtils
     if (context is null) return;
 
     context.Response.Headers.SetCookie =
-      _cookieUtils.CreateRefreshTokenCookie(aRefreshToken).ToString();
+      _cookieUtils.CreateRefreshTokenCookie(aRefreshToken);
 
     context.Response
       .Headers[_tokenOptions.AccessTokenHeaderName] = aAccessToken;
@@ -39,7 +39,7 @@ public class AuthUtils : IAuthUtils
     if (context is null) return;
 
     context.Response.Headers
-      .SetCookie = _cookieUtils.CreateExpiredRefreshTokenCookie().ToString();
+      .SetCookie = _cookieUtils.CreateExpiredRefreshTokenCookie();
 
     context.Response
       .Headers[_tokenOptions.AccessTokenHeaderName] = "";

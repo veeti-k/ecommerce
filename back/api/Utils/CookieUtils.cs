@@ -1,5 +1,4 @@
-﻿using System.Net;
-using api.Configs;
+﻿using api.Configs;
 using api.Utils.Interfaces;
 using Microsoft.Extensions.Options;
 
@@ -14,27 +13,18 @@ public class CookieUtils : ICookieUtils
     _tokenOptions = aTokenOptions.Value;
   }
 
-  public Cookie CreateRefreshTokenCookie(string aCookieValue) =>
+  public string CreateRefreshTokenCookie(string aCookieValue) =>
     BuildRefreshTokenCookie(aCookieValue);
 
-  public Cookie CreateExpiredRefreshTokenCookie() =>
+  public string CreateExpiredRefreshTokenCookie() =>
     BuildRefreshTokenCookie("", true);
 
-  private Cookie BuildRefreshTokenCookie(string aCookieValue, bool expired = false)
+  private string BuildRefreshTokenCookie(string aCookieValue, bool expired = false)
   {
-    var cookie = new Cookie
-    {
-      Name = _tokenOptions.RefreshTokenCookieName,
-      Value = aCookieValue,
-      Path = _tokenOptions.RefreshTokenCookiePath,
-      HttpOnly = true,
-      Secure = _tokenOptions.IsRefreshTokenCookieSecure,
-      Expired = expired
-    };
+    if (expired)
+      return $"{_tokenOptions.RefreshTokenCookieName}={aCookieValue}; SameSite=Strict; Secure; HttpOnly; Path={_tokenOptions.RefreshTokenCookiePath}; Max-Age=0;";
 
-    if (!expired)
-      cookie.Expires = DateTime.Now.AddSeconds(_tokenOptions.RefreshTokenCookieExpSeconds);
-
-    return cookie;
+    return
+      $"{_tokenOptions.RefreshTokenCookieName}={aCookieValue}; SameSite=Strict; Secure; HttpOnly; Path={_tokenOptions.RefreshTokenCookiePath}; Max-Age={_tokenOptions.RefreshTokenCookieExpSeconds};";
   }
 }
