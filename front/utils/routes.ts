@@ -17,6 +17,13 @@ export const routes = {
   settingsSessions: "/settings/sessions",
 
   category: (categoryId: number) => `/category/${categoryId}`,
+
+  productRoot: (productId: number) => `/products/${productId}`,
+
+  product: {
+    reviews: (productId: number) => `/products/${productId}/reviews`,
+    reviewsAdd: (productId: number) => `/products/${productId}/reviews/add`,
+  },
 };
 
 export const apiRoutes = {
