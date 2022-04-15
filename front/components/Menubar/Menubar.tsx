@@ -21,15 +21,24 @@ const Inner = styled("div", {
   boxSizing: "border-box",
   flexShrink: 0,
   margin: "0 auto",
-  padding: "0 25px",
+  padding: "0 1rem",
   maxWidth: "1200px",
+
+  "@mobileAndUp": {
+    padding: "0 25px",
+  },
 });
 
 const HeaderContent = styled("div", {
-  height: "5rem",
+  height: "3.5rem",
   display: "flex",
   alignItems: "center",
-  gap: "1rem",
+  gap: "0.5rem",
+
+  "@mobileAndUp": {
+    height: "5rem",
+    gap: "1rem",
+  },
 });
 
 type MenubarProps = {
