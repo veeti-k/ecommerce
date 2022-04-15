@@ -1,14 +1,24 @@
-export type Category = {
-  id: number;
-  name: string;
-  parentId: number | null;
+import { Category } from "./Category";
+
+export type ProductReview = {
+  id: string;
+  productId: number;
+  reviewersNickname: string;
+  byEmployee: boolean;
+  title: string;
+  content: string;
+  stars: string;
+  createdAt: string;
 };
 
-export type ResolvedCategory = {
-  id: number;
-  name: string;
-  parentId: number | null;
-  children: ResolvedCategory[];
+export type ProductReviewComment = {
+  id: string;
+  reviewId: string;
+  commentersNickname: string;
+  byEmployee: string;
+  title: string;
+  content: string;
+  createdAt: string;
 };
 
 export type bulletPoint = {
@@ -56,15 +66,4 @@ export type ProductPageProduct = {
   questionCount: number;
   bulletPoints: bulletPoint[];
   images: imageLink[];
-};
-
-export type Address = {
-  id: string;
-  name: string;
-  phoneNumber: string;
-  email: string;
-  streetAddress: string;
-  city: string;
-  state: string;
-  zip: string;
 };
