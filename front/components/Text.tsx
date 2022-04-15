@@ -10,10 +10,6 @@ export const Label = styled(RadixLabel.Root, {
 export const Paragraph = styled("p", {
   fontSize: "1rem",
 
-  "@mobileAndUp": {
-    fontSize: "0.875rem",
-  },
-
   color: "Black",
 
   variants: {
@@ -33,10 +29,6 @@ export const Paragraph = styled("p", {
 
 export const Text = styled("span", {
   fontSize: "1rem",
-
-  "@mobileAndUp": {
-    fontSize: "0.875rem",
-  },
 
   color: "Black",
 
