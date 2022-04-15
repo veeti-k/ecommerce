@@ -181,8 +181,14 @@ const Category = ({ category, indentation }: CategoryProps) => {
   }
 
   return (
-    <MenuItem style={{ paddingLeft: indentWith }} onClick={onCategoryClick} variants={itemVariants}>
-      {category.name}
-    </MenuItem>
+    <Link href={`/category/${category.id}`} passHref>
+      <MenuItem
+        style={{ paddingLeft: indentWith }}
+        onClick={onCategoryClick}
+        variants={itemVariants}
+      >
+        {category.name}
+      </MenuItem>
+    </Link>
   );
 };
