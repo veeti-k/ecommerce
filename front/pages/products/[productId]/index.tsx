@@ -1,7 +1,7 @@
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { Card, InfoCard } from "../../../components/Card";
 import { Layout } from "../../../components/layouts/Layout";
-import { BiggerHeading, Heading, HugeHeading, PageTitle, Text } from "../../../components/Text";
+import { BiggerHeading, HugeHeading, Text } from "../../../components/Text";
 import { styled } from "../../../stitches.config";
 import { Button, Divider, ListItem, UnorderedList } from "@chakra-ui/react";
 import { FlexDiv } from "../../../components/Containers";
@@ -10,33 +10,47 @@ import {
   getCategories_STATIC_PROPS,
   getProduct_STATIC_PROPS,
 } from "../../../utils/getStaticProps";
-import { pushUser } from "../../../utils/router";
-import { useRouter } from "next/router";
 import { ShoppingCartIcon } from "../../../components/Icons";
 import { DeleteProductDialog } from "../../../components/Dialogs/Product/DeleteProductDialog";
 import { isAdmin } from "../../../utils/flagResolve";
 import { useContext } from "react";
 import { UserContext } from "../../../UserProvider/provider";
-import { ReviewsLink } from "../../../components/Product/ReviewsLink";
-import { QuestionsLink } from "../../../components/Product/QuestionsLink";
 import { ResolvedCategory } from "../../../types/Category";
 import { ProductPageProduct } from "../../../types/Product";
 import { ProductPath } from "../../../components/Product/ProductPath";
 import { Markdown } from "../../../components/Markdown";
+import { Link } from "../../../components/Link";
+import { routes } from "../../../utils/routes";
+import { StarsReviewsQuestions } from "../../../components/Product/StarsReviewsQuestions";
 
 const ProductPageCard = styled(Card, {
   display: "flex",
   flexDirection: "column",
   boxShadow: "$shadowFar",
-  padding: "1.5rem",
+  padding: "0.8rem",
   paddingTop: "1rem",
   height: "100%",
   marginBottom: "1rem",
+
+  "@mobileAndUp": {
+    padding: "1.5rem",
+  },
 });
 
 const RightDiv = styled("div", {
   display: "flex",
-  width: "400px",
+  flexDirection: "column",
+  width: "100%",
+  gap: "1rem",
+
+  "@mobileAndUp": {
+    flexDirection: "row",
+  },
+
+  "@tabletAndUp": {
+    flexDirection: "column",
+    maxWidth: "400px",
+  },
 });
 
 const ImageContainer = styled("div", {
@@ -52,13 +66,13 @@ const ImageContainer = styled("div", {
 const MainDiv = styled("div", {
   display: "flex",
   flexDirection: "column",
-  gap: "2rem",
+  gap: "1rem",
   height: "100%",
-  alignItems: "center",
 
   "@tabletAndUp": {
     flexDirection: "row",
     alignItems: "flex-start",
+    gap: "2rem",
   },
 });
 
@@ -73,8 +87,6 @@ type Props = {
 };
 
 const ProductPage: NextPage<Props> = ({ product, categories }) => {
-  const router = useRouter();
-
   const { state } = useContext(UserContext);
 
   return (
@@ -83,43 +95,37 @@ const ProductPage: NextPage<Props> = ({ product, categories }) => {
 
       <ProductPageCard>
         <FlexDiv column fullWidth align>
-          <FlexDiv align spaceBetween fullWidth>
-            <BiggerHeading paddingB04>{product.name}</BiggerHeading>
+          <FlexDiv align spaceBetween fullWidth style={{ paddingBottom: "0.5rem" }}>
+            <BiggerHeading>{product.name}</BiggerHeading>
             <Text>{product.id}</Text>
           </FlexDiv>
         </FlexDiv>
 
-        <FlexDiv align style={{ height: "calc(1rem + 5px)", marginTop: "0.3rem" }}>
-          <ReviewsLink product={product} />
-          <Divider orientation="vertical" />
-          <QuestionsLink product={product} />
-        </FlexDiv>
+        <StarsReviewsQuestions product={product} />
 
         <MainDiv style={{ paddingTop: "2rem" }}>
           <ImageContainer>
             <img src={product.images[0].link} alt={product.name} />
           </ImageContainer>
           <RightDiv>
-            <FlexDiv column fullWidth>
-              <UnorderedList>
-                {product.bulletPoints.map((bulletPoint) => (
-                  <ListItem key={bulletPoint.id}>
-                    <Text>{bulletPoint.text}</Text>
-                  </ListItem>
-                ))}
-              </UnorderedList>
+            <UnorderedList style={{ width: "100%" }}>
+              {product.bulletPoints.map((bulletPoint) => (
+                <ListItem key={bulletPoint.id}>
+                  <Text>{bulletPoint.text}</Text>
+                </ListItem>
+              ))}
+            </UnorderedList>
 
-              <InfoCard>
-                <FlexDiv column fullWidth>
-                  <HugeHeading>{product.price} €</HugeHeading>
-                  <Button colorScheme="blue">
-                    <FlexDiv align gap05>
-                      <ShoppingCartIcon /> Add to bag
-                    </FlexDiv>
-                  </Button>
-                </FlexDiv>
-              </InfoCard>
-            </FlexDiv>
+            <InfoCard>
+              <FlexDiv column>
+                <HugeHeading>{product.price} €</HugeHeading>
+                <Button colorScheme="blue">
+                  <FlexDiv align gap05>
+                    <ShoppingCartIcon /> Add to bag
+                  </FlexDiv>
+                </Button>
+              </FlexDiv>
+            </InfoCard>
           </RightDiv>
         </MainDiv>
 
@@ -131,7 +137,7 @@ const ProductPage: NextPage<Props> = ({ product, categories }) => {
           </ProductDescription>
 
           <RightDiv style={{ height: "100%" }}>
-            <InfoCard>
+            <InfoCard style={{ width: "100%" }}>
               <FlexDiv column fullWidth>
                 <div>
                   <Text>Product id: </Text>
@@ -139,18 +145,10 @@ const ProductPage: NextPage<Props> = ({ product, categories }) => {
                 </div>
 
                 {isAdmin(state.flags) ? (
-                  <FlexDiv column fullWidth gap05>
-                    <Button
-                      onClick={() =>
-                        pushUser(
-                          router,
-                          `/products/edit/${product.id}`,
-                          "Product page::Edit button"
-                        )
-                      }
-                    >
-                      Edit
-                    </Button>
+                  <FlexDiv column gap05>
+                    <Link href={routes.product.edit(product.id)}>
+                      <Button isFullWidth>Edit</Button>
+                    </Link>
                     <DeleteProductDialog product={product} />
                   </FlexDiv>
                 ) : null}

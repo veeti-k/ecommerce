@@ -1,12 +1,23 @@
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
-import Link from "next/link";
+import { Breadcrumb as ChakraBreadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 import { FC } from "react";
+import { styled } from "../../stitches.config";
 import { ProductPageProduct } from "../../types/Product";
 import { routes } from "../../utils/routes";
+import { Link } from "../Link";
+import { Text } from "../Text";
 
 interface Props {
   product: ProductPageProduct;
 }
+
+const Breadcrumb = styled(ChakraBreadcrumb, {
+  padding: "0.2rem 0.5rem",
+
+  "@mobileAndUp": {
+    padding: "0.3rem 0",
+    paddingTop: "0.5rem",
+  },
+});
 
 export const ProductPath: FC<Props> = ({ product }) => {
   if (typeof window == "undefined") return null;
@@ -15,41 +26,47 @@ export const ProductPath: FC<Props> = ({ product }) => {
   const onReviewsAddPage = window.location.pathname.includes("add");
 
   return (
-    <Breadcrumb style={{ padding: "0.3rem 0", paddingTop: "0.5rem" }}>
+    <Breadcrumb separator={<Text>/</Text>}>
       <BreadcrumbItem>
-        <Link href={routes.home} passHref>
-          <BreadcrumbLink>Home</BreadcrumbLink>
+        <Link href={routes.home}>
+          <BreadcrumbLink>
+            <Text>Home</Text>
+          </BreadcrumbLink>
         </Link>
       </BreadcrumbItem>
 
       {product.path?.length &&
         product.path.map((category) => (
           <BreadcrumbItem key={category.id}>
-            <Link href={routes.category(category.id)} passHref>
-              <BreadcrumbLink>{category.name}</BreadcrumbLink>
+            <Link href={routes.category(category.id)}>
+              <BreadcrumbLink>
+                <Text>{category.name}</Text>
+              </BreadcrumbLink>
             </Link>
           </BreadcrumbItem>
         ))}
 
       <BreadcrumbItem>
-        <Link href={routes.productRoot(product.id)} passHref>
-          <BreadcrumbLink>{product.id}</BreadcrumbLink>
-        </Link>
+        <BreadcrumbLink isCurrentPage>
+          <Text>
+            Product: <strong>{product.id}</strong>
+          </Text>
+        </BreadcrumbLink>
       </BreadcrumbItem>
 
       {onReviewsPage && !onReviewsAddPage && (
         <BreadcrumbItem>
-          <Link href={routes.product.reviews(product.id)} passHref>
-            <BreadcrumbLink>Reviews</BreadcrumbLink>
-          </Link>
+          <BreadcrumbLink isCurrentPage>
+            <Text>Reviews</Text>
+          </BreadcrumbLink>
         </BreadcrumbItem>
       )}
 
       {onReviewsAddPage && (
         <BreadcrumbItem>
-          <Link href={routes.product.reviewsAdd(product.id)} passHref>
-            <BreadcrumbLink>Add a review</BreadcrumbLink>
-          </Link>
+          <BreadcrumbLink isCurrentPage>
+            <Text>Add a review</Text>
+          </BreadcrumbLink>
         </BreadcrumbItem>
       )}
     </Breadcrumb>

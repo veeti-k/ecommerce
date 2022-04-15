@@ -8,7 +8,12 @@ export const Label = styled(RadixLabel.Root, {
 });
 
 export const Paragraph = styled("p", {
-  fontSize: "0.875rem",
+  fontSize: "1rem",
+
+  "@mobileAndUp": {
+    fontSize: "0.875rem",
+  },
+
   color: "Black",
 
   variants: {
@@ -27,7 +32,12 @@ export const Paragraph = styled("p", {
 });
 
 export const Text = styled("span", {
-  fontSize: "0.875rem",
+  fontSize: "1rem",
+
+  "@mobileAndUp": {
+    fontSize: "0.875rem",
+  },
+
   color: "Black",
 
   variants: {
@@ -72,7 +82,15 @@ export const Heading = styled(BaseHeading, {
 });
 
 export const BiggerHeading = styled(BaseHeading, {
-  fontSize: "1.4rem",
+  fontSize: "1rem",
+
+  "@mobileAndUp": {
+    fontSize: "1.2rem",
+  },
+
+  "@tabletAndUp": {
+    fontSize: "1.4rem",
+  },
 });
 
 export const PageTitle = styled(BaseHeading, {

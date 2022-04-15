@@ -4,7 +4,7 @@ import { Card } from "../Card";
 import { FlexDiv } from "../Containers";
 import { Markdown } from "../Markdown";
 import { Heading, Text } from "../Text";
-import { Stars } from "./ReviewsLink";
+import { Stars } from "./Stars";
 
 type Props = {
   review: Omit<ProductReview, "id" | "productId" | "createdAt">;

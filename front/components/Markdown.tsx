@@ -18,7 +18,6 @@ export const Markdown: FC<Props> = ({ children }) => (
         </ListItem>
       ),
       p: ({ node, ...props }) => <Paragraph {...props} />,
-      b: ({ node, ...props }) => <Paragraph bold {...props} />,
     }}
   >
     {children}

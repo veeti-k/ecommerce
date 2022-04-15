@@ -4,7 +4,7 @@ import { FlexDiv } from "../../../../components/Containers";
 import { Layout } from "../../../../components/layouts/Layout";
 import { PageTitleContainer } from "../../../../components/layouts/Styles";
 import { TextLink } from "../../../../components/Link";
-import { Stars } from "../../../../components/Product/ReviewsLink";
+import { Stars } from "../../../../components/Product/Stars";
 import { PageTitle, BiggerHeading } from "../../../../components/Text";
 import { ResolvedCategory } from "../../../../types/Category";
 import { ProductPageProduct, ProductReview } from "../../../../types/Product";

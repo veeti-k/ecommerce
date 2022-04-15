@@ -8,11 +8,14 @@ import { Menubar } from "../Menubar/Menubar";
 const Main = styled("main", {
   maxWidth: "1200px",
   margin: "0 auto",
-  padding: "0 25px",
   position: "relative",
   paddingTop: "6rem",
   paddingBottom: "1rem",
   zIndex: 1,
+
+  "@mobileAndUp": {
+    padding: "0 25px",
+  },
 
   variants: {
     noPadding: {
