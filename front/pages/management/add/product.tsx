@@ -5,7 +5,7 @@ import { ManagementPageLayout } from "../../../components/layouts/ManagementPage
 import { TitleContainer } from "../../../components/layouts/Styles";
 import { Heading } from "../../../components/Text";
 import { useGetCategories } from "../../../hooks/useGetCategories";
-import { ResolvedCategory } from "../../../types";
+import { ResolvedCategory } from "../../../types/Category";
 import { getCategories_STATIC_PROPS } from "../../../utils/getStaticProps";
 import { AddProductRequest } from "../../../utils/Requests/Product";
 

@@ -1,7 +1,7 @@
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 
 import { ManagementPageLayout } from "../../components/layouts/ManagementPageLayout";
-import { ResolvedCategory } from "../../types";
+import { ResolvedCategory } from "../../types/Category";
 import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
 
 type Result = {

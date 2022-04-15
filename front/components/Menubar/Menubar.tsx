@@ -3,9 +3,9 @@ import { styled } from "../../stitches.config";
 import { ProfileDropdown } from "./ProfileDropdown";
 import { Search } from "./Search";
 import { CategoryMenu } from "./CategoryMenu";
-import { ResolvedCategory } from "../../types";
 import { HomeButton } from "./HomeButton";
 import { BagButton } from "./BagButton";
+import { ResolvedCategory } from "../../types/Category";
 
 const Outer = styled("div", {
   position: "fixed",

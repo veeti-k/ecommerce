@@ -1,7 +1,7 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 import Link from "next/link";
 import { FC } from "react";
-import { ProductPageProduct } from "../../types";
+import { ProductPageProduct } from "../../types/Product";
 import { routes } from "../../utils/routes";
 
 interface Props {

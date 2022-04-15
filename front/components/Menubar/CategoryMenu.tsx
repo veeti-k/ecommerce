@@ -16,7 +16,7 @@ import { styled } from "../../stitches.config";
 import { AnimatePresence, motion } from "framer-motion";
 import { Heading } from "../Text";
 import { pushUser } from "../../utils/router";
-import { ResolvedCategory } from "../../types";
+import { ResolvedCategory } from "../../types/Category";
 
 const CollapsibleTrigger = styled(Collapsible.Trigger, {
   transition: "$buttonHover",

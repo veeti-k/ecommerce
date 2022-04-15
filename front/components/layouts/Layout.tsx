@@ -2,7 +2,7 @@ import Head from "next/head";
 import { FC } from "react";
 import { useGetMe } from "../../hooks/useGetMe";
 import { styled } from "../../stitches.config";
-import { ResolvedCategory } from "../../types";
+import { ResolvedCategory } from "../../types/Category";
 import { Menubar } from "../Menubar/Menubar";
 
 const Main = styled("main", {

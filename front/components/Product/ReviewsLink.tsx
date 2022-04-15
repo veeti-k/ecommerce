@@ -1,9 +1,9 @@
 import { Tooltip, Link } from "@chakra-ui/react";
 import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
-import { ProductPageProduct } from "../../types";
 import { FlexDiv } from "../Containers";
 import { Text } from "../Text";
 import NextLink from "next/link";
+import { ProductPageProduct } from "../../types/Product";
 
 export const ReviewsLink = ({ product }: { product: ProductPageProduct }) => {
   let fullStars = Math.floor(product.averageStars);

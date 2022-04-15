@@ -2,7 +2,7 @@ import { Button, ListItem, UnorderedList } from "@chakra-ui/react";
 import Link from "next/link";
 import { FC } from "react";
 import { styled } from "../../stitches.config";
-import { ShowCaseProduct } from "../../types";
+import { ShowCaseProduct } from "../../types/Product";
 import { ProductCard } from "../Card";
 import { FlexDiv } from "../Containers";
 import { ShoppingCartIcon } from "../Icons";

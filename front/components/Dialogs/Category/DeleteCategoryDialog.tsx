@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useRef, FormEvent, FC } from "react";
 import toast from "react-hot-toast";
-import { Category } from "../../../types";
+import { Category } from "../../../types/Category";
 import { DeleteCategoryRequest } from "../../../utils/Requests/Category";
 import { FlexDiv } from "../../Containers";
 import { TrashIcon } from "../../Icons";

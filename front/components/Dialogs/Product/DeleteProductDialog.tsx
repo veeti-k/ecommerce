@@ -12,7 +12,7 @@ import {
 import { useRouter } from "next/router";
 import { useRef, FC, MouseEvent } from "react";
 import toast from "react-hot-toast";
-import { ProductPageProduct } from "../../../types";
+import { ProductPageProduct } from "../../../types/Product";
 import { DeleteProductRequest } from "../../../utils/Requests/Product";
 import { pushUser } from "../../../utils/router";
 import { routes } from "../../../utils/routes";

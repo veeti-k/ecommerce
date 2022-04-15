@@ -11,14 +11,15 @@ import {
 import { AnimatePresence, usePresence, motion } from "framer-motion";
 import { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { Category } from "../../types/Category";
 import {
   bulletPoint,
-  bulletPointDefaultValue,
-  Category,
   imageLink,
-  imageLinkDefaultValue,
   ProductPageProduct,
-} from "../../types";
+  bulletPointDefaultValue,
+  imageLinkDefaultValue,
+} from "../../types/Product";
+
 import { FlexDiv, InputLabelContainer, MgmtSettingsPageScrollableContent } from "../Containers";
 
 export type ProductFormValues = {

@@ -8,7 +8,7 @@ import { NewStoreDialog } from "../../../components/Dialogs/Store/NewStoreDialog
 import { ManagementPageLayout } from "../../../components/layouts/ManagementPageLayout";
 import { TitleContainer } from "../../../components/layouts/Styles";
 import { Heading, Text } from "../../../components/Text";
-import { ResolvedCategory } from "../../../types";
+import { ResolvedCategory } from "../../../types/Category";
 import { Store } from "../../../types/Store";
 import { getCategories_STATIC_PROPS } from "../../../utils/getStaticProps";
 import { GetStoresRequest } from "../../../utils/Requests/Store";

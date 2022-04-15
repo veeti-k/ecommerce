@@ -8,7 +8,7 @@ import { EditCategoryDialog } from "../../components/Dialogs/Category/EditCatego
 import { ManagementPageLayout } from "../../components/layouts/ManagementPageLayout";
 import { TitleContainer } from "../../components/layouts/Styles";
 import { Heading } from "../../components/Text";
-import { Category, ResolvedCategory } from "../../types";
+import { Category, ResolvedCategory } from "../../types/Category";
 import { GetCategoriesRequest } from "../../utils/Requests/Category";
 
 const Categories: NextPage = () => {

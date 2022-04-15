@@ -1,7 +1,7 @@
 import { Link } from "@chakra-ui/react";
-import { ProductPageProduct } from "../../types";
 import { Text } from "../Text";
 import NextLink from "next/link";
+import { ProductPageProduct } from "../../types/Product";
 
 export const QuestionsLink = ({ product }: { product: ProductPageProduct }) => {
   return (

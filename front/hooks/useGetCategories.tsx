@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ResolvedCategory, Category } from "../types";
+import { ResolvedCategory, Category } from "../types/Category";
 import { logger } from "../utils/logger";
 import { GetCategoriesRequest } from "../utils/Requests/Category";
 

@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { FC, useState, FormEvent } from "react";
 import toast from "react-hot-toast";
-import { Category } from "../../../types";
+import { Category } from "../../../types/Category";
 import { AddCategoryRequest } from "../../../utils/Requests/Category";
 import { FlexDiv, InputLabelContainer } from "../../Containers";
 import { PlusIcon } from "../../Icons";
