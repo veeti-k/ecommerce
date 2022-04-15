@@ -1,38 +1,28 @@
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
-import { Card, InfoCard } from "../../components/Card";
-import { Layout } from "../../components/layouts/Layout";
-import { BigBigHeading, BigHeading, Heading, Paragraph, Text } from "../../components/Text";
-import { styled } from "../../stitches.config";
-import { Category, ProductPageProduct, ResolvedCategory } from "../../types";
+import { Card, InfoCard } from "../../../components/Card";
+import { Layout } from "../../../components/layouts/Layout";
+import { BigBigHeading, BigHeading, Heading, Paragraph, Text } from "../../../components/Text";
+import { styled } from "../../../stitches.config";
+import { Button, Divider, ListItem, UnorderedList } from "@chakra-ui/react";
+import { FlexDiv } from "../../../components/Containers";
 import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  Button,
-  Divider,
-  Link,
-  ListItem,
-  Tooltip,
-  UnorderedList,
-} from "@chakra-ui/react";
-import { FlexDiv } from "../../components/Containers";
-import { routes } from "../../utils/routes";
-import {
-  getAllCategories_STATIC_PROPS,
   getAllProducts_STATIC_PROPS,
   getCategories_STATIC_PROPS,
   getProduct_STATIC_PROPS,
-} from "../../utils/getStaticProps";
+} from "../../../utils/getStaticProps";
 import Markdown from "react-markdown";
-import NextLink from "next/link";
-import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
-import { pushUser } from "../../utils/router";
+import { pushUser } from "../../../utils/router";
 import { useRouter } from "next/router";
-import { ShoppingCartIcon } from "../../components/Icons";
-import { DeleteProductDialog } from "../../components/Dialogs/Product/DeleteProductDialog";
-import { isAdmin } from "../../utils/flagResolve";
+import { ShoppingCartIcon } from "../../../components/Icons";
+import { DeleteProductDialog } from "../../../components/Dialogs/Product/DeleteProductDialog";
+import { isAdmin } from "../../../utils/flagResolve";
 import { useContext } from "react";
-import { UserContext } from "../../UserProvider/provider";
+import { UserContext } from "../../../UserProvider/provider";
+import { ReviewsLink } from "../../../components/Product/ReviewsLink";
+import { QuestionsLink } from "../../../components/Product/QuestionsLink";
+import { ResolvedCategory } from "../../../types/Category";
+import { ProductPageProduct } from "../../../types/Product";
+import { ProductPath } from "../../../components/Product/ProductPath";
 
 const ProductPageCard = styled(Card, {
   display: "flex",
@@ -79,24 +69,20 @@ const ProductDescription = styled("div", {
   flexDirection: "column",
 });
 
-const ProductPage: NextPage<Result> = ({ product, categories, allCategories }) => {
+type Props = {
+  product: ProductPageProduct;
+  categories: ResolvedCategory[];
+};
+
+const ProductPage: NextPage<Props> = ({ product, categories }) => {
   const router = useRouter();
 
   const { state } = useContext(UserContext);
 
   return (
     <Layout categories={categories} noPadding>
-      <Breadcrumb style={{ padding: "0.3rem 0", paddingTop: "0.5rem" }}>
-        <BreadcrumbItem>
-          <BreadcrumbLink href={routes.home}>Home</BreadcrumbLink>
-        </BreadcrumbItem>
-        {product.path?.length &&
-          product.path.map((category) => (
-            <BreadcrumbItem key={category.id}>
-              <BreadcrumbLink href={routes.category(category.id)}>{category.name}</BreadcrumbLink>
-            </BreadcrumbItem>
-          ))}
-      </Breadcrumb>
+      <ProductPath product={product} />
+
       <ProductPageCard>
         <FlexDiv column fullWidth align>
           <FlexDiv align spaceBetween fullWidth>
@@ -106,9 +92,9 @@ const ProductPage: NextPage<Result> = ({ product, categories, allCategories }) =
         </FlexDiv>
 
         <FlexDiv align style={{ height: "calc(1rem + 5px)", marginTop: "0.3rem" }}>
-          <Reviews product={product} />
+          <ReviewsLink product={product} />
           <Divider orientation="vertical" />
-          <Questions product={product} />
+          <QuestionsLink product={product} />
         </FlexDiv>
 
         <MainDiv style={{ paddingTop: "2rem" }}>
@@ -193,83 +179,18 @@ const ProductPage: NextPage<Result> = ({ product, categories, allCategories }) =
   );
 };
 
-const Reviews = ({ product }: { product: ProductPageProduct }) => {
-  let fullStars = Math.floor(product.averageStars);
-
-  if (product.averageStars - fullStars >= 0.78) fullStars++;
-
-  const halfStars = product.averageStars - fullStars >= 0.28 ? 1 : 0;
-  const emptyStars = 5 - fullStars - halfStars;
-
-  const label = product.reviewCount
-    ? `${product.averageStars}/5 based on ${product.reviewCount} reviews`
-    : "No reviews yet";
-
-  // prettier-ignore
-  return (
-    <FlexDiv align>
-      <Tooltip label={label}>
-        <FlexDiv gap0 style={{ gap: "0.3rem" }}>
-          {[...Array(fullStars)].map((_, i) => (
-            <BsStarFill key={i} />
-          ))}
-          {[...Array(halfStars)].map((_, i) => (
-            <BsStarHalf key={i} />
-          ))}
-          {[...Array(emptyStars)].map((_, i) => (
-            <BsStar key={i} />
-          ))}
-        </FlexDiv>
-      </Tooltip>
-
-      <NextLink href={`/products/${product.id}/reviews${!product.reviewCount ? "/add" : ""}`} passHref>
-        <Link>
-          <Text>
-            {product.reviewCount 
-              ? `Read ${product.reviewCount} reviews` 
-              : "Write a review"}
-          </Text>
-        </Link>
-      </NextLink>
-    </FlexDiv>
-  );
-};
-
-const Questions = ({ product }: { product: ProductPageProduct }) => {
-  return (
-    <NextLink
-      href={`/products/${product.id}/questions${!product.questionCount ? "/add" : ""}`}
-      passHref
-    >
-      <Link>
-        <Text>
-          {product.questionCount ? `${product.questionCount} questions` : "Ask the first question"}
-        </Text>
-      </Link>
-    </NextLink>
-  );
-};
-
-type Result = {
-  product: ProductPageProduct;
-  categories: ResolvedCategory[];
-  allCategories: Category[];
-};
-
 export const getStaticProps: GetStaticProps = async (
   context
-): Promise<GetStaticPropsResult<Result>> => {
-  const id = context.params!.id! as string;
+): Promise<GetStaticPropsResult<Props>> => {
+  const id = context.params!.productId! as string;
 
   const product = await getProduct_STATIC_PROPS(id);
   const categories = await getCategories_STATIC_PROPS();
-  const allCategories = await getAllCategories_STATIC_PROPS();
 
   return {
     props: {
       product,
       categories,
-      allCategories,
     },
   };
 };
@@ -281,7 +202,7 @@ export const getStaticPaths = async () => {
     paths: products.map((product) => {
       return {
         params: {
-          id: product.id.toString(),
+          productId: product.id.toString(),
         },
       };
     }),
