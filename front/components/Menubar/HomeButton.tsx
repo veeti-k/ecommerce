@@ -1,18 +1,14 @@
 import { IconButton, Tooltip } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import { pushUser } from "../../utils/router";
+import { routes } from "../../utils/routes";
 import { HomeIcon } from "../Icons";
+import { Link } from "../Link";
 
-export const HomeButton = () => {
-  const router = useRouter();
-
-  const onClick = () => pushUser(router, "/", "Menubar::home button");
-
-  return (
-    <Tooltip label="Go to homepage">
-      <IconButton aria-label="Go to homepage" onClick={onClick}>
+export const HomeButton = () => (
+  <Tooltip label="Go to homepage">
+    <Link href={routes.home}>
+      <IconButton aria-label="Go to homepage">
         <HomeIcon />
       </IconButton>
-    </Tooltip>
-  );
-};
+    </Link>
+  </Tooltip>
+);

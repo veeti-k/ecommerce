@@ -108,7 +108,7 @@ export const InputLabelContainer: FC<InputLabelContainerProps> = ({
 
 export const MgmtSettingsPageScrollableContent = styled("div", {
   overflowY: "auto",
-  maxHeight: "calc(100vh - 18rem)",
+  maxHeight: "calc(100vh - 14rem)",
   padding: "0 2rem",
   paddingTop: "1rem",
   paddingBottom: "1.5rem",

@@ -7,7 +7,7 @@ export type ProductReview = {
   byEmployee: boolean;
   title: string;
   content: string;
-  stars: string;
+  stars: number;
   createdAt: string;
 };
 

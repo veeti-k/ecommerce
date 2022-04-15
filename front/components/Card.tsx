@@ -18,6 +18,16 @@ export const Card = styled("div", {
         padding: "0",
       },
     },
+    shadowFar: {
+      true: {
+        boxShadow: "$shadowFar",
+      },
+    },
+    shadowNear: {
+      true: {
+        boxShadow: "$shadowNearest",
+      },
+    },
   },
 });
 

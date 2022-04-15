@@ -8,7 +8,7 @@ import { Layout } from "../../../components/layouts/Layout";
 import { TitleContainer } from "../../../components/layouts/Styles";
 import { Heading } from "../../../components/Text";
 import { useGetCategories } from "../../../hooks/useGetCategories";
-import { ProductPageProduct } from "../../../types";
+import { ProductPageProduct } from "../../../types/Product";
 import { GetProductRequest, UpdateProductRequest } from "../../../utils/Requests/Product";
 
 const ProductEdit: NextPage = () => {

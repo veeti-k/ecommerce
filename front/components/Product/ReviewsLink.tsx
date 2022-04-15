@@ -1,48 +1,51 @@
-import { Tooltip, Link } from "@chakra-ui/react";
+import { Tooltip } from "@chakra-ui/react";
 import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
 import { FlexDiv } from "../Containers";
 import { Text } from "../Text";
-import NextLink from "next/link";
 import { ProductPageProduct } from "../../types/Product";
+import { TextLink } from "../Link";
 
-export const ReviewsLink = ({ product }: { product: ProductPageProduct }) => {
-  let fullStars = Math.floor(product.averageStars);
+export const Stars = ({ rating, bigger }: { rating: number; bigger?: boolean }) => {
+  let fullStars = Math.floor(rating);
 
-  if (product.averageStars - fullStars >= 0.78) fullStars++;
+  if (rating - fullStars >= 0.78) fullStars++;
 
-  const halfStars = product.averageStars - fullStars >= 0.28 ? 1 : 0;
+  const halfStars = rating - fullStars >= 0.28 ? 1 : 0;
   const emptyStars = 5 - fullStars - halfStars;
 
+  const starSize = bigger ? 30 : 0;
+
+  return (
+    <FlexDiv gap0 style={{ gap: "0.3rem" }}>
+      {[...Array(fullStars)].map((_, i) => (
+        <BsStarFill key={i} size={starSize} />
+      ))}
+      {[...Array(halfStars)].map((_, i) => (
+        <BsStarHalf key={i} size={starSize} />
+      ))}
+      {[...Array(emptyStars)].map((_, i) => (
+        <BsStar key={i} size={starSize} />
+      ))}
+    </FlexDiv>
+  );
+};
+
+export const ReviewsLink = ({ product }: { product: ProductPageProduct }) => {
   const label = product.reviewCount
     ? `${product.averageStars}/5 based on ${product.reviewCount} reviews`
     : "No reviews yet";
 
-  // prettier-ignore
   return (
     <FlexDiv align>
       <Tooltip label={label}>
-        <FlexDiv gap0 style={{ gap: "0.3rem" }}>
-          {[...Array(fullStars)].map((_, i) => (
-            <BsStarFill key={i} />
-          ))}
-          {[...Array(halfStars)].map((_, i) => (
-            <BsStarHalf key={i} />
-          ))}
-          {[...Array(emptyStars)].map((_, i) => (
-            <BsStar key={i} />
-          ))}
-        </FlexDiv>
+        <Stars rating={product.averageStars} />
       </Tooltip>
 
-      <NextLink href={`/products/${product.id}/reviews${!product.reviewCount ? "/add" : ""}`} passHref>
-        <Link>
-          <Text>
-            {product.reviewCount 
-              ? `Read ${product.reviewCount} reviews` 
-              : "Write a review"}
-          </Text>
-        </Link>
-      </NextLink>
+      <TextLink href={`/products/${product.id}/reviews${!product.reviewCount ? "/add" : ""}`}>
+        <Text>
+          {product.reviewCount ? `Read ${product.reviewCount} reviews` : "Write a review"}
+        </Text>
+      </TextLink>
     </FlexDiv>
   );
 };

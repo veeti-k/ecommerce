@@ -6,11 +6,12 @@ import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 import { ResolvedCategory } from "../../types/Category";
 import { UserContext } from "../../UserProvider/provider";
 import { logout } from "../../utils/logout";
+import { pushUser } from "../../utils/router";
 import { routes } from "../../utils/routes";
 import { PageCard } from "../Card";
 import { FlexDiv } from "../Containers";
 import { AddressesIcon, PasswordIcon, SessionsIcon, UserIcon } from "../Icons";
-import { Text, BigHeading } from "../Text";
+import { Text, PageTitle } from "../Text";
 import { Layout } from "./Layout";
 import { PageTitleContainer, PageSelectorButtons, PageSelectorButton, MainContent } from "./Styles";
 
@@ -26,6 +27,7 @@ export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({ children, cate
   const { dispatch } = useContext(UserContext);
 
   if (typeof window == "undefined") return null;
+  if (!isLoggedIn) pushUser(router, "/", "settingsPageLayout::isLoggedIn false");
 
   return (
     <Layout categories={categories}>
@@ -34,7 +36,7 @@ export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({ children, cate
           <PageTitleContainer>
             <FlexDiv spaceBetween align fullWidth>
               <div>
-                <BigHeading>Account settings</BigHeading>
+                <PageTitle>Account settings</PageTitle>
               </div>
 
               <Button

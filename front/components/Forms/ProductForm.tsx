@@ -21,6 +21,7 @@ import {
 } from "../../types/Product";
 
 import { FlexDiv, InputLabelContainer, MgmtSettingsPageScrollableContent } from "../Containers";
+import { Markdown } from "../Markdown";
 
 export type ProductFormValues = {
   name: string;
@@ -183,6 +184,8 @@ export const ProductForm: FC<ProductFormProps> = ({
               required
             />
           </InputLabelContainer>
+
+          <Markdown>{description}</Markdown>
 
           <AnimatePresence>
             {bulletPoints.map((bulletPoint, index) => (

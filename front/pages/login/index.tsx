@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import { AuthPageLayout } from "../../components/layouts/AuthPageLayout";
 import { FormEvent, useContext, useRef, useState } from "react";
 import { FormWrapper, InputLabelContainer } from "../../components/Containers";
-import { BigHeading, Paragraph } from "../../components/Text";
+import { PageTitle, Paragraph } from "../../components/Text";
 import { Input, Button } from "@chakra-ui/react";
 import { Tab, TabsContent, TabsList } from "../../components/pages/Auth";
 import { AuthPageCard } from "../../components/Card";
@@ -50,7 +50,7 @@ const Login: NextPage = () => {
           <Tab onClick={() => pushUser(router, routes.register, "login tab")}>Sign Up</Tab>
         </TabsList>
         <TabsContent>
-          <BigHeading>Login</BigHeading>
+          <PageTitle>Login</PageTitle>
           <Paragraph style={{ paddingTop: "0.5rem" }}>
             Login or get a temporary test account
           </Paragraph>

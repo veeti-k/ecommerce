@@ -35,3 +35,10 @@ export const getProduct_STATIC_PROPS = async (id: string) => {
 
   return product;
 };
+
+export const getReviews_STATIC_PROPS = async (productId: string) => {
+  const reviewRes = await fetch(`${apiBase}/products/${productId}/reviews`);
+  const reviews = (await reviewRes.json()) as any[];
+
+  return reviews;
+};

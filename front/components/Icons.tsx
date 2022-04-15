@@ -1,7 +1,7 @@
 import { ChevronDownIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Lock, LogIn, Shield, ShoppingBag, Trash2, Truck, User } from "react-feather";
 import { motion } from "framer-motion";
-import { BsBagCheck, BsGrid, BsPlusSquare } from "react-icons/bs";
+import { BsArrowLeft, BsArrowRight, BsBagCheck, BsGrid, BsPlusSquare } from "react-icons/bs";
 import { BiLinkExternal, BiStoreAlt } from "react-icons/bi";
 import { HiHome } from "react-icons/hi";
 import { FiEdit } from "react-icons/fi";
@@ -25,6 +25,9 @@ export const PasswordIcon = () => <Lock size={20} />;
 export const ExternalLinkIcon = () => <BiLinkExternal />;
 export const HomeIcon = () => <HiHome size={20} />;
 export const StoreIcon = () => <BiStoreAlt size={20} style={{ marginTop: 1 }} />;
+
+export const ArrowLeftIcon = () => <BsArrowLeft size={20} />;
+export const ArrowRightIcon = () => <BsArrowRight size={20} />;
 
 export const Chevron = ({ open }: { open: boolean }) => {
   return open ? (

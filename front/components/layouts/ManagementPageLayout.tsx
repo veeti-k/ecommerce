@@ -11,7 +11,7 @@ import { pushUser } from "../../utils/router";
 import { routes } from "../../utils/routes";
 import { FlexDiv } from "../Containers";
 import { ProductsIcon, OrdersIcon, UserIcon, StoreIcon } from "../Icons";
-import { Text, BigHeading } from "../Text";
+import { Text, PageTitle } from "../Text";
 import { Layout } from "./Layout";
 import { PageTitleContainer, PageSelectorButtons, PageSelectorButton, MainContent } from "./Styles";
 
@@ -42,7 +42,7 @@ export const ManagementPageLayout: FC<ManagementPageLayoutProps> = ({ children, 
       {isAdmin(state.flags) ? (
         <>
           <PageTitleContainer>
-            <BigHeading>Management</BigHeading>
+            <PageTitle>Management</PageTitle>
           </PageTitleContainer>
 
           <ManagementPageCard>

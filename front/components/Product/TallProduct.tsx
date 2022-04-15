@@ -1,30 +1,23 @@
 import { Button, ListItem, UnorderedList } from "@chakra-ui/react";
-import Link from "next/link";
 import { FC } from "react";
-import { styled } from "../../stitches.config";
 import { ShowCaseProduct } from "../../types/Product";
+import { routes } from "../../utils/routes";
 import { ProductCard } from "../Card";
 import { FlexDiv } from "../Containers";
 import { ShoppingCartIcon } from "../Icons";
-import { BigHeading, Text } from "../Text";
+import { Link } from "../Link";
+import { PageTitle, Text } from "../Text";
 
 type TallProductProps = {
   product: ShowCaseProduct;
 };
 
-const ATag = styled("a", {
-  position: "absolute",
-  width: "100%",
-  height: "100%",
-  top: 0,
-  left: 0,
-});
-
 export const TallProduct: FC<TallProductProps> = ({ product }) => (
   <ProductCard>
-    <Link href={`https://dev.veetik.fi/products/${product.id}`} passHref>
-      <ATag></ATag>
-    </Link>
+    <Link
+      href={routes.productRoot(product.id)}
+      style={{ position: "absolute", width: "100%", height: "100%", top: 0, left: 0 }}
+    ></Link>
 
     <FlexDiv flexEnd fullWidth>
       <Text style={{ zIndex: 5 }}>{product.id}</Text>
@@ -46,7 +39,7 @@ export const TallProduct: FC<TallProductProps> = ({ product }) => (
       </UnorderedList>
 
       <FlexDiv column gap05>
-        <BigHeading>{product.price} €</BigHeading>
+        <PageTitle>{product.price} €</PageTitle>
 
         <Button>
           <FlexDiv align gap05>

@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import { AuthPageLayout } from "../../components/layouts/AuthPageLayout";
 import { FormEvent, useContext, useRef, useState } from "react";
 import { FormWrapper, InputLabelContainer } from "../../components/Containers";
-import { BigHeading, Paragraph } from "../../components/Text";
+import { PageTitle, Paragraph } from "../../components/Text";
 import { Input, Button } from "@chakra-ui/react";
 import { Tab, TabsContent, TabsList } from "../../components/pages/Auth";
 import { useRouter } from "next/router";
@@ -55,7 +55,7 @@ const Register: NextPage = () => {
           <Tab active>Register</Tab>
         </TabsList>
         <TabsContent>
-          <BigHeading>Register</BigHeading>
+          <PageTitle>Register</PageTitle>
           <Paragraph style={{ paddingTop: "0.5rem" }}>Create an account</Paragraph>
           <form onSubmit={handleSubmit}>
             <FormWrapper>

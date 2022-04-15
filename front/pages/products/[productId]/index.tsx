@@ -1,7 +1,7 @@
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { Card, InfoCard } from "../../../components/Card";
 import { Layout } from "../../../components/layouts/Layout";
-import { BigBigHeading, BigHeading, Heading, Paragraph, Text } from "../../../components/Text";
+import { BiggerHeading, Heading, HugeHeading, PageTitle, Text } from "../../../components/Text";
 import { styled } from "../../../stitches.config";
 import { Button, Divider, ListItem, UnorderedList } from "@chakra-ui/react";
 import { FlexDiv } from "../../../components/Containers";
@@ -10,7 +10,6 @@ import {
   getCategories_STATIC_PROPS,
   getProduct_STATIC_PROPS,
 } from "../../../utils/getStaticProps";
-import Markdown from "react-markdown";
 import { pushUser } from "../../../utils/router";
 import { useRouter } from "next/router";
 import { ShoppingCartIcon } from "../../../components/Icons";
@@ -23,6 +22,7 @@ import { QuestionsLink } from "../../../components/Product/QuestionsLink";
 import { ResolvedCategory } from "../../../types/Category";
 import { ProductPageProduct } from "../../../types/Product";
 import { ProductPath } from "../../../components/Product/ProductPath";
+import { Markdown } from "../../../components/Markdown";
 
 const ProductPageCard = styled(Card, {
   display: "flex",
@@ -63,10 +63,8 @@ const MainDiv = styled("div", {
 });
 
 const ProductDescription = styled("div", {
-  display: "flex",
   maxWidth: "800px",
   width: "100%",
-  flexDirection: "column",
 });
 
 type Props = {
@@ -86,7 +84,7 @@ const ProductPage: NextPage<Props> = ({ product, categories }) => {
       <ProductPageCard>
         <FlexDiv column fullWidth align>
           <FlexDiv align spaceBetween fullWidth>
-            <BigHeading>{product.name}</BigHeading>
+            <BiggerHeading paddingB04>{product.name}</BiggerHeading>
             <Text>{product.id}</Text>
           </FlexDiv>
         </FlexDiv>
@@ -113,7 +111,7 @@ const ProductPage: NextPage<Props> = ({ product, categories }) => {
 
               <InfoCard>
                 <FlexDiv column fullWidth>
-                  <BigBigHeading>{product.price} €</BigBigHeading>
+                  <HugeHeading>{product.price} €</HugeHeading>
                   <Button colorScheme="blue">
                     <FlexDiv align gap05>
                       <ShoppingCartIcon /> Add to bag
@@ -129,21 +127,7 @@ const ProductPage: NextPage<Props> = ({ product, categories }) => {
 
         <MainDiv>
           <ProductDescription>
-            <Markdown
-              components={{
-                h2: ({ node, ...props }) => <Heading {...props} />,
-                ul: ({ node, ...props }) => <UnorderedList {...props} />,
-                li: ({ node, ...props }) => (
-                  <ListItem {...props}>
-                    <Text>{props.children}</Text>
-                  </ListItem>
-                ),
-                p: ({ node, ...props }) => <Paragraph {...props} />,
-                b: ({ node, ...props }) => <Paragraph bold {...props} />,
-              }}
-            >
-              {product.description}
-            </Markdown>
+            <Markdown>{product.description}</Markdown>
           </ProductDescription>
 
           <RightDiv style={{ height: "100%" }}>

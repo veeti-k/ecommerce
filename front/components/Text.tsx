@@ -11,10 +11,6 @@ export const Paragraph = styled("p", {
   fontSize: "0.875rem",
   color: "Black",
 
-  "&:not(:first-child)": {
-    marginTop: "1rem",
-  },
-
   variants: {
     light: {
       true: {
@@ -49,19 +45,40 @@ export const Text = styled("span", {
   },
 });
 
-export const BiggerParagraph = styled(Paragraph, {
-  fontSize: "0.95rem",
-  color: "Black",
-});
-
-export const Heading = styled("h1", {
+const BaseHeading = styled("h1", {
+  marginBlockStart: 0,
+  marginBlockEnd: 0,
+  lineHeight: 1,
   fontWeight: 700,
+
+  variants: {
+    paddingB04: {
+      true: {
+        paddingBottom: "0.4rem",
+      },
+    },
+    paddingT04: {
+      true: {
+        paddingTop: "0.4rem",
+      },
+    },
+  },
 });
 
-export const BigHeading = styled(Heading, {
+export const Heading = styled(BaseHeading, {
+  marginBlockStart: 0,
+  marginBlockEnd: 0,
+  lineHeight: 1,
+});
+
+export const BiggerHeading = styled(BaseHeading, {
+  fontSize: "1.4rem",
+});
+
+export const PageTitle = styled(BaseHeading, {
   fontSize: "1.6rem",
 });
 
-export const BigBigHeading = styled("h1", {
+export const HugeHeading = styled("h1", {
   fontSize: "2.4rem",
 });
