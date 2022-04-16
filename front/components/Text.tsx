@@ -32,7 +32,7 @@ export const Paragraph = styled("p", {
 });
 
 export const Text = styled("span", {
-  fontSize: "0.85rem",
+  fontSize: "0.8rem",
 
   "@mobileAndUp": {
     fontSize: "0.875rem",
