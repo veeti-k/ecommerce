@@ -1,5 +1,6 @@
 import { Button, ListItem, UnorderedList } from "@chakra-ui/react";
 import { FC } from "react";
+import { styled } from "../../stitches.config";
 import { ShowCaseProduct } from "../../types/Product";
 import { routes } from "../../utils/routes";
 import { ProductCard } from "../Card";
@@ -12,6 +13,16 @@ type TallProductProps = {
   product: ShowCaseProduct;
 };
 
+const StyledImage = styled("img", {
+  width: 200,
+  height: "auto",
+
+  "@mobileAndUp": {
+    width: "100%",
+    height: "auto",
+  },
+});
+
 export const TallProduct: FC<TallProductProps> = ({ product }) => (
   <ProductCard>
     <Link
@@ -23,11 +34,13 @@ export const TallProduct: FC<TallProductProps> = ({ product }) => (
       <Text style={{ zIndex: 5 }}>{product.id}</Text>
     </FlexDiv>
 
-    <FlexDiv style={{ paddingTop: "1rem", paddingBottom: "1.5rem" }}>
-      <img src={product.images[0]?.link} alt={product.name} />
+    <FlexDiv style={{ padding: "0.5rem 0" }} fullHeight align>
+      <div>
+        <StyledImage src={product.images[0]?.link} alt={product.name} />
+      </div>
     </FlexDiv>
 
-    <FlexDiv column fullWidth fullHeight spaceBetween>
+    <FlexDiv column fullWidth fullHeight flexEnd>
       <Text bold>{product.name}</Text>
 
       <UnorderedList>
