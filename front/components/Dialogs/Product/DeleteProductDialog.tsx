@@ -1,24 +1,13 @@
-import {
-  useDisclosure,
-  AlertDialog,
-  AlertDialogOverlay,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogCloseButton,
-  AlertDialogBody,
-  AlertDialogFooter,
-  Button,
-} from "@chakra-ui/react";
+import { useDisclosure, Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useRef, FC, MouseEvent } from "react";
+import { FC } from "react";
 import toast from "react-hot-toast";
 import { ProductPageProduct } from "../../../types/Product";
 import { DeleteProductRequest } from "../../../utils/Requests/Product";
 import { pushUser } from "../../../utils/router";
 import { routes } from "../../../utils/routes";
-import { FlexDiv } from "../../Containers";
 import { TrashIcon } from "../../Icons";
-import { Text } from "../../Text";
+import { AlertDialog } from "../AlertDialog";
 
 type Props = {
   product: ProductPageProduct;
@@ -26,12 +15,9 @@ type Props = {
 
 export const DeleteProductDialog: FC<Props> = ({ product }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
 
-  const onSubmit = async (e: MouseEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async () => {
     const notifId = toast.loading("Deleting the product");
 
     const res = await DeleteProductRequest(product.id);
@@ -47,35 +33,18 @@ export const DeleteProductDialog: FC<Props> = ({ product }) => {
 
   return (
     <>
-      <Button colorScheme="red" onClick={onOpen}>
-        <FlexDiv align gap05>
-          <TrashIcon /> Delete
-        </FlexDiv>
+      <Button colorScheme="red" onClick={onOpen} leftIcon={<TrashIcon />}>
+        Delete
       </Button>
 
-      <AlertDialog isOpen={isOpen} onClose={onClose} leastDestructiveRef={cancelRef}>
-        <AlertDialogOverlay />
-        <AlertDialogContent>
-          <AlertDialogHeader>Delete a product</AlertDialogHeader>
-          <AlertDialogCloseButton />
-          <AlertDialogBody>
-            <Text>
-              Are you sure you want to delete the product <strong>{product.name}</strong>?
-            </Text>
-          </AlertDialogBody>
-
-          <AlertDialogFooter>
-            <FlexDiv gap05>
-              <Button onClick={onClose} ref={cancelRef}>
-                Cancel
-              </Button>
-              <Button type="submit" onClick={onSubmit} colorScheme="red">
-                Delete
-              </Button>
-            </FlexDiv>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <AlertDialog
+        header="Delete product"
+        bodyText={`Are you sure you want to delete the product ${product.name}?`}
+        submitLabel="Yes, delete product"
+        onSubmit={onSubmit}
+        isOpen={isOpen}
+        onClose={onClose}
+      />
     </>
   );
 };

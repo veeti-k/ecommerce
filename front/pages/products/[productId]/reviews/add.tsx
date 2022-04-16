@@ -34,11 +34,7 @@ const AddReview: NextPage<Result> = ({ categories, product }) => {
         <PageTitle>Write a review</PageTitle>
 
         <Link href={routes.productRoot(product.id)}>
-          <Button>
-            <FlexDiv align gap05>
-              <ArrowLeftIcon /> Back to product page
-            </FlexDiv>
-          </Button>
+          <Button leftIcon={<ArrowLeftIcon />}>Back to product page</Button>
         </Link>
       </PageTitleContainer>
 

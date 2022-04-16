@@ -33,6 +33,7 @@ const Div = styled("div", {
     flexDirection: "row",
     alignItems: "center",
     marginTop: "0.3rem",
+    gap: "1rem",
   },
 });
 

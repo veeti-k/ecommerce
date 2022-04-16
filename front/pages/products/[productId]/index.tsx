@@ -10,7 +10,7 @@ import {
   getCategories_STATIC_PROPS,
   getProduct_STATIC_PROPS,
 } from "../../../utils/getStaticProps";
-import { ShoppingCartIcon } from "../../../components/Icons";
+import { EditIcon, ShoppingCartIcon } from "../../../components/Icons";
 import { DeleteProductDialog } from "../../../components/Dialogs/Product/DeleteProductDialog";
 import { isAdmin } from "../../../utils/flagResolve";
 import { useContext } from "react";
@@ -119,10 +119,8 @@ const ProductPage: NextPage<Props> = ({ product, categories }) => {
             <InfoCard>
               <FlexDiv column>
                 <HugeHeading>{product.price} €</HugeHeading>
-                <Button colorScheme="blue">
-                  <FlexDiv align gap05>
-                    <ShoppingCartIcon /> Add to bag
-                  </FlexDiv>
+                <Button colorScheme="blue" leftIcon={<ShoppingCartIcon />}>
+                  Add to bag
                 </Button>
               </FlexDiv>
             </InfoCard>
@@ -147,7 +145,9 @@ const ProductPage: NextPage<Props> = ({ product, categories }) => {
                 {isAdmin(state.flags) ? (
                   <FlexDiv column gap05>
                     <Link href={routes.product.edit(product.id)}>
-                      <Button isFullWidth>Edit</Button>
+                      <Button isFullWidth leftIcon={<EditIcon />}>
+                        Edit
+                      </Button>
                     </Link>
                     <DeleteProductDialog product={product} />
                   </FlexDiv>
