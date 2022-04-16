@@ -54,7 +54,43 @@ export const apiRoutes = {
   productsRoot: "/products",
 
   products: {
-    product: (productId: number) => `/products/${productId}`,
+    productRoot: (productId: number) => `/products/${productId}`,
+
+    product: {
+      reviewsRoot: (productId: number) => `/products/${productId}/reviews`,
+
+      reviews: {
+        reviewRoot: (productId: number, reviewId: number) =>
+          `/products/${productId}/reviews/${reviewId}`,
+
+        review: {
+          commentsRoot: (productId: number, reviewId: number) =>
+            `/products/${productId}/reviews/${reviewId}/comments`,
+
+          comments: {
+            comment: (productId: number, reviewId: number, commentId: number) =>
+              `/products/${productId}/reviews/${reviewId}/comments/${commentId}`,
+          },
+        },
+      },
+
+      questionsRoot: (productId: number) => `/products/${productId}/questions`,
+
+      questions: {
+        questionRoot: (productId: number, questionId: number) =>
+          `/products/${productId}/questions/${questionId}`,
+
+        question: {
+          answersRoot: (productId: number, questionId: number) =>
+            `/products/${productId}/questions/${questionId}/answers`,
+
+          answers: {
+            answer: (productId: number, questionId: number, answerId: number) =>
+              `/products/${productId}/questions/${questionId}/answers/${answerId}`,
+          },
+        },
+      },
+    },
   },
 
   categoriesRoot: "/categories",

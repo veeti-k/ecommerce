@@ -1,26 +1,5 @@
 import { Category } from "./Category";
 
-export type ProductReview = {
-  id: string;
-  productId: number;
-  reviewersNickname: string;
-  byEmployee: boolean;
-  title: string;
-  content: string;
-  stars: number;
-  createdAt: string;
-};
-
-export type ProductReviewComment = {
-  id: string;
-  reviewId: string;
-  commentersNickname: string;
-  byEmployee: string;
-  title: string;
-  content: string;
-  createdAt: string;
-};
-
 export type bulletPoint = {
   id: string | null;
   text: string;

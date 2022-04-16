@@ -5,10 +5,21 @@ import { styled } from "../../stitches.config";
 import { pushUser } from "../../utils/router";
 import { FlexDiv } from "../Containers";
 
+const PageTitleContainerStyles = styled("div", {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+
+  padding: "1rem",
+
+  "@mobileAndUp": {
+    padding: 0,
+    paddingBottom: "1rem",
+  },
+});
+
 export const PageTitleContainer: FC = ({ children }) => (
-  <FlexDiv spaceBetween align style={{ paddingBottom: "1rem" }}>
-    {children}
-  </FlexDiv>
+  <PageTitleContainerStyles>{children}</PageTitleContainerStyles>
 );
 
 export const PageSelectorButtons = styled("div", {

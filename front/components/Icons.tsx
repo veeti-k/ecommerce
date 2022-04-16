@@ -5,6 +5,7 @@ import { HiChevronDown, HiHome, HiOutlineMenu, HiPlus } from "react-icons/hi";
 import { FiEdit, FiLock, FiLogIn, FiLogOut, FiShield, FiShoppingBag, FiUser } from "react-icons/fi";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { FaRegAddressBook } from "react-icons/fa";
+import { FcInfo } from "react-icons/fc";
 
 export const TrashIcon = () => <BiTrash size={20} transform="scale(1.1)" />;
 export const EditIcon = () => <FiEdit size={17} transform="scale(1.05)" />;
@@ -33,6 +34,8 @@ export const ArrowLeftIcon = () => <BsArrowLeft size={20} />;
 export const ArrowRightIcon = () => <BsArrowRight size={20} />;
 
 export const DashboardIcon = () => <MdOutlineSpaceDashboard size={20} />;
+
+export const InfoIcon = () => <FcInfo size={20} />;
 
 export const Chevron = ({ open }: { open: boolean }) => {
   return open ? (
