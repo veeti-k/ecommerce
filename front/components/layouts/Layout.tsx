@@ -10,7 +10,7 @@ const Main = styled("main", {
   margin: "0 auto",
   position: "relative",
   padding: "0 1rem",
-  paddingTop: "3.5rem",
+  paddingTop: "4.5rem",
   paddingBottom: "1rem",
   zIndex: 1,
 
