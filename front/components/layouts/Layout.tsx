@@ -32,15 +32,30 @@ const Main = styled("main", {
     lessPaddingOnMobile: {
       true: {
         padding: 0,
-        paddingTop: "3.5rem",
 
         "@mobileAndUp": {
           padding: "0 25px",
-          paddingTop: "6rem",
+          paddingTop: "5rem",
         },
       },
     },
   },
+
+  compoundVariants: [
+    {
+      noPadding: true,
+      lessPaddingOnMobile: true,
+
+      css: {
+        paddingTop: "3.5rem",
+
+        "@mobileAndUp": {
+          padding: "0 25px",
+          paddingTop: "5rem",
+        },
+      },
+    },
+  ],
 });
 
 type LayoutProps = {

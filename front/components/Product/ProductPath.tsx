@@ -15,7 +15,6 @@ const Breadcrumb = styled(ChakraBreadcrumb, {
 
   "@mobileAndUp": {
     padding: "0.3rem 0",
-    paddingTop: "0.5rem",
   },
 });
 
