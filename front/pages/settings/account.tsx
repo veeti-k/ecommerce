@@ -1,23 +1,22 @@
 import { FormEvent, useContext, useEffect, useState } from "react";
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
-import { Button, Input } from "@chakra-ui/react";
+import { Button, Divider, Input } from "@chakra-ui/react";
 import {
   FlexDiv,
   InputLabelContainer,
   MgmtSettingsPageScrollableContent,
 } from "../../components/Containers";
 import { useGetMe } from "../../hooks/useGetMe";
-import { Separator } from "../../components/Separator";
 import { Heading, Text } from "../../components/Text";
 import { UserContext } from "../../UserProvider/provider";
 import { toast } from "react-hot-toast";
 import { Actions } from "../../UserProvider/types";
 import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
-import { ResolvedCategory } from "../../types";
 import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
 import { TitleContainer } from "../../components/layouts/Styles";
 import { DeleteAccountDialog } from "../../components/Dialogs/Account/DeleteAccountDialog";
 import { UpdateAccountRequest } from "../../utils/Requests/Account";
+import { ResolvedCategory } from "../../types/Category";
 
 type Result = {
   categories: ResolvedCategory[];
@@ -89,53 +88,57 @@ const Account: NextPage<Result> = ({ categories }) => {
       </TitleContainer>
 
       <MgmtSettingsPageScrollableContent>
-        <form onSubmit={onFormSubmit}>
-          <InputLabelContainer id="name" label="Name">
-            <Input
-              id="name"
-              autoComplete="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </InputLabelContainer>
+        <FlexDiv column>
+          <form onSubmit={onFormSubmit}>
+            <FlexDiv column>
+              <InputLabelContainer id="name" label="Name">
+                <Input
+                  id="name"
+                  autoComplete="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </InputLabelContainer>
 
-          <FlexDiv style={{ paddingTop: "1rem" }}>
-            <InputLabelContainer id="email" label="Email">
-              <Input
-                id="email"
-                type="email"
-                autoComplete="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </InputLabelContainer>
+              <FlexDiv>
+                <InputLabelContainer id="email" label="Email">
+                  <Input
+                    id="email"
+                    type="email"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </InputLabelContainer>
 
-            <InputLabelContainer id="phone-number" label="Phone number">
-              <Input
-                id="phone-number"
-                type="tel"
-                autoComplete="tel"
-                value={phoneNumber ?? ""}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-              />
-            </InputLabelContainer>
+                <InputLabelContainer id="phone-number" label="Phone number">
+                  <Input
+                    id="phone-number"
+                    type="tel"
+                    autoComplete="tel"
+                    value={phoneNumber ?? ""}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                  />
+                </InputLabelContainer>
+              </FlexDiv>
+            </FlexDiv>
+
+            <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: "1rem" }}>
+              <Button colorScheme="blue" disabled={saveDisabled} type="submit">
+                Save
+              </Button>
+            </div>
+          </form>
+
+          <Divider orientation="horizontal" />
+
+          <FlexDiv spaceBetween align>
+            <div>
+              <Heading>Delete account</Heading>
+              <Text light>Your account will be permanently deleted</Text>
+            </div>
+            <DeleteAccountDialog />
           </FlexDiv>
-
-          <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: "1rem" }}>
-            <Button colorScheme="blue" disabled={saveDisabled} type="submit">
-              Save
-            </Button>
-          </div>
-        </form>
-
-        <Separator orientation="horizontal" />
-
-        <FlexDiv spaceBetween align>
-          <div>
-            <Heading>Delete account</Heading>
-            <Text light>Your account will be permanently deleted</Text>
-          </div>
-          <DeleteAccountDialog />
         </FlexDiv>
       </MgmtSettingsPageScrollableContent>
     </SettingsPageLayout>

@@ -72,9 +72,13 @@ export const EditAddressDialog = ({ address }: { address: Address }) => {
   return (
     <>
       <Tooltip label="Edit address">
-        <IconButton aria-label="Edit address" colorScheme="blue" size="sm" onClick={onOpen}>
-          <EditIcon />
-        </IconButton>
+        <IconButton
+          aria-label="Edit address"
+          colorScheme="blue"
+          size="sm"
+          icon={<EditIcon />}
+          onClick={onOpen}
+        />
       </Tooltip>
 
       <Dialog

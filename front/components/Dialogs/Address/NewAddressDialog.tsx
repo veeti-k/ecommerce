@@ -63,9 +63,13 @@ export const NewAddressDialog = () => {
   return (
     <>
       <Tooltip label="Add an address">
-        <IconButton aria-label="Add an address" colorScheme="blue" size="sm" onClick={onOpen}>
-          <PlusIcon />
-        </IconButton>
+        <IconButton
+          aria-label="Add an address"
+          colorScheme="blue"
+          size="sm"
+          icon={<PlusIcon />}
+          onClick={onOpen}
+        />
       </Tooltip>
 
       <Dialog

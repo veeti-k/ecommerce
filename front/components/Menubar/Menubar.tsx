@@ -1,11 +1,11 @@
 import { FC } from "react";
 import { styled } from "../../stitches.config";
 import { Search } from "./Search";
-import { CategoryMenu } from "./CategoryMenu";
 import { HomeButton } from "./HomeButton";
 import { BagButton } from "./BagButton";
 import { ResolvedCategory } from "../../types/Category";
 import { ProfileMenu } from "./ProfileMenu";
+import { CategoryDrawer } from "../CategoryDrawer/CategoryDrawer";
 
 const Outer = styled("div", {
   position: "fixed",
@@ -57,7 +57,7 @@ export const Menubar: FC<MenubarProps> = ({ categories, lessPaddingOnMobile }) =
     <Outer>
       <Inner lessPaddingOnMobile={lessPaddingOnMobile}>
         <HeaderContent>
-          <CategoryMenu categories={categories} />
+          <CategoryDrawer categories={categories} />
           <HomeButton />
           <Search />
           <BagButton />
