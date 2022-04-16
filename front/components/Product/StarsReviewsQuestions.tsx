@@ -1,6 +1,7 @@
 import { Divider, Tooltip } from "@chakra-ui/react";
 import { styled } from "../../stitches.config";
 import { ProductPageProduct } from "../../types/Product";
+import { routes } from "../../utils/routes";
 import { FlexDiv } from "../Containers";
 import { TextLink } from "../Link";
 import { Text } from "../Text";
@@ -8,15 +9,27 @@ import { Stars } from "./Stars";
 
 const ReviewsLink = ({ product }: { product: ProductPageProduct }) => (
   <FlexDiv align>
-    <TextLink href={`/products/${product.id}/reviews${!product.reviewCount ? "/add" : ""}`}>
-      <Text>{product.reviewCount ? `Read ${product.reviewCount} reviews` : "Write a review"}</Text>
+    <TextLink
+      href={
+        product.reviewCount
+          ? routes.product.reviews(product.id)
+          : routes.product.reviewsAdd(product.id)
+      }
+    >
+      <Text>{product.reviewCount ? `${product.reviewCount} reviews` : "Write a review"}</Text>
     </TextLink>
   </FlexDiv>
 );
 
 const QuestionsLink = ({ product }: { product: ProductPageProduct }) => {
   return (
-    <TextLink href={`/products/${product.id}/questions${!product.questionCount ? "/add" : ""}`}>
+    <TextLink
+      href={
+        product.questionCount
+          ? routes.product.questions(product.id)
+          : routes.product.questionsAdd(product.id)
+      }
+    >
       <Text>
         {product.questionCount ? `${product.questionCount} questions` : "Ask the first question"}
       </Text>

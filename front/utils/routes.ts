@@ -24,6 +24,9 @@ export const routes = {
     edit: (productId: number) => `/products/${productId}/edit`,
     reviews: (productId: number) => `/products/${productId}/reviews`,
     reviewsAdd: (productId: number) => `/products/${productId}/reviews/write`,
+
+    questions: (productId: number) => `/products/${productId}/questions`,
+    questionsAdd: (productId: number) => `/products/${productId}/questions/ask`,
   },
 };
 
