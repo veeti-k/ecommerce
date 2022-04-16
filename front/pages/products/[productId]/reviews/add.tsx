@@ -2,7 +2,11 @@ import { Button, Input, Select, Textarea } from "@chakra-ui/react";
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { useState } from "react";
 import { Card } from "../../../../components/Card";
-import { FlexDiv, InputLabelContainer } from "../../../../components/Containers";
+import {
+  FlexDiv,
+  InputLabelContainer,
+  MgmtSettingsPageScrollableContent,
+} from "../../../../components/Containers";
 import { ArrowLeftIcon } from "../../../../components/Icons";
 import { Layout } from "../../../../components/layouts/Layout";
 import { PageTitleContainer } from "../../../../components/layouts/Styles";
@@ -38,70 +42,72 @@ const AddReview: NextPage<Result> = ({ categories, product }) => {
         </Link>
       </PageTitleContainer>
 
-      <Card shadowFar>
-        <FlexDiv column fullWidth>
-          <FlexDiv align spaceBetween fullWidth>
-            <Heading>
-              Reviewing: <TextLink href={routes.productRoot(product.id)}>{product.name}</TextLink>
-            </Heading>
-          </FlexDiv>
+      <Card shadowFar padding0>
+        <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 11rem)" }}>
+          <FlexDiv column fullWidth>
+            <FlexDiv align spaceBetween fullWidth>
+              <Heading style={{ paddingTop: "1rem" }}>
+                Reviewing: <TextLink href={routes.productRoot(product.id)}>{product.name}</TextLink>
+              </Heading>
+            </FlexDiv>
 
-          <FlexDiv align>
-            <InputLabelContainer label="Nickname" id="nickname">
+            <FlexDiv align>
+              <InputLabelContainer label="Nickname" id="nickname">
+                <Input
+                  id="nickname"
+                  autoComplete="name"
+                  value={nickname}
+                  onChange={(e) => setNickname(e.target.value)}
+                  required
+                />
+              </InputLabelContainer>
+
+              <InputLabelContainer label="Stars" id="stars">
+                <Select
+                  id="stars"
+                  placeholder="Stars"
+                  value={stars}
+                  onChange={(e) => setStars(Number(e.target.value))}
+                  required
+                >
+                  <option value={1}>1 star</option>
+                  <option value={2}>2 stars</option>
+                  <option value={3}>3 stars</option>
+                  <option value={4}>4 stars</option>
+                  <option value={5}>5 stars</option>
+                </Select>
+              </InputLabelContainer>
+            </FlexDiv>
+
+            <InputLabelContainer label="Title" id="title">
               <Input
-                id="nickname"
-                autoComplete="name"
-                value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
+                id="title"
+                autoComplete="off"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 required
               />
             </InputLabelContainer>
 
-            <InputLabelContainer label="Stars" id="stars">
-              <Select
-                id="stars"
-                placeholder="Stars"
-                value={stars}
-                onChange={(e) => setStars(Number(e.target.value))}
+            <InputLabelContainer label="Review" id="review">
+              <Textarea
+                rows={10}
+                id="review"
+                autoComplete="off"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
                 required
-              >
-                <option value={1}>1 star</option>
-                <option value={2}>2 stars</option>
-                <option value={3}>3 stars</option>
-                <option value={4}>4 stars</option>
-                <option value={5}>5 stars</option>
-              </Select>
+              />
             </InputLabelContainer>
+
+            <FlexDiv column gap05>
+              <Heading>Preview:</Heading>
+              <Review
+                review={{ stars, title, content, reviewersNickname: nickname, byEmployee: false }}
+              />
+            </FlexDiv>
           </FlexDiv>
-
-          <InputLabelContainer label="Title" id="title">
-            <Input
-              id="title"
-              autoComplete="off"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
-          </InputLabelContainer>
-
-          <InputLabelContainer label="Review" id="review">
-            <Textarea
-              rows={10}
-              id="review"
-              autoComplete="off"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              required
-            />
-          </InputLabelContainer>
-
-          <FlexDiv column gap05>
-            <Heading>Preview:</Heading>
-            <Review
-              review={{ stars, title, content, reviewersNickname: nickname, byEmployee: false }}
-            />
-          </FlexDiv>
-        </FlexDiv>
+        </MgmtSettingsPageScrollableContent>
       </Card>
     </Layout>
   );

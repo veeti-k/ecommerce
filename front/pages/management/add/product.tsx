@@ -1,5 +1,6 @@
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import toast from "react-hot-toast";
+import { MgmtSettingsPageScrollableContent } from "../../../components/Containers";
 import { ProductForm, ProductFormValues } from "../../../components/Forms/ProductForm";
 import { ManagementPageLayout } from "../../../components/layouts/ManagementPageLayout";
 import { TitleContainer } from "../../../components/layouts/Styles";
@@ -42,7 +43,9 @@ const AddProduct: NextPage<Result> = ({ categories }) => {
         <Heading>Add a product</Heading>
       </TitleContainer>
 
-      <ProductForm onSubmit={onSubmit} categories={allCategories} submitButtonText="Add" />
+      <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 14rem)" }}>
+        <ProductForm onSubmit={onSubmit} categories={allCategories} submitButtonText="Add" />
+      </MgmtSettingsPageScrollableContent>
     </ManagementPageLayout>
   );
 };

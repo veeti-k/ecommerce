@@ -1,8 +1,9 @@
 import { createContext, FC, useReducer } from "react";
+import { User } from "../types/User";
 import { logger } from "../utils/logger";
-import { Action, Actions, IUserState, MyDispatch } from "./types";
+import { Action, Actions, MyDispatch } from "./types";
 
-export const initState: IUserState = {
+export const initState: User = {
   id: "",
   name: "",
   email: "",
@@ -13,7 +14,7 @@ export const initState: IUserState = {
   sessions: [],
 };
 
-const userReducer = (state: IUserState, action: Action) => {
+const userReducer = (state: User, action: Action) => {
   switch (action.type) {
     case Actions.SetUser:
       logger.log(`[REDUCER] - setting user: `, action.payload);
@@ -39,7 +40,7 @@ export const UserProvider: FC = ({ children }) => {
 };
 
 export const UserContext = createContext<{
-  state: IUserState;
+  state: User;
   dispatch: MyDispatch;
 }>({
   state: initState,

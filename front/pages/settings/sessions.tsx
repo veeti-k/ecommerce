@@ -12,10 +12,10 @@ import { styled } from "../../stitches.config";
 import toast from "react-hot-toast";
 import { getMe } from "../../utils/logout";
 import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
-import { ResolvedCategory } from "../../types";
 import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
 import { TitleContainer } from "../../components/layouts/Styles";
 import { RevokeSessionRequest } from "../../utils/Requests/Session";
+import { ResolvedCategory } from "../../types/Category";
 
 const SessionCard = styled(Card, {
   display: "flex",
@@ -63,12 +63,11 @@ const Sessions: NextPage<Result> = ({ categories }) => {
   return (
     <SettingsPageLayout categories={categories}>
       <TitleContainer>
-        <div>
-          <Heading>Sessions</Heading>
-        </div>
+        <Heading>Sessions</Heading>
       </TitleContainer>
-      <MgmtSettingsPageScrollableContent>
-        <FlexDiv column>
+
+      <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 15rem)" }}>
+        <FlexDiv column gap05>
           {state.sessions.map((session) => {
             const lastUsedAt = new Date(session.lastUsedAt);
 

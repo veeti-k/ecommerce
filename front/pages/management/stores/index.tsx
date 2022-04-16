@@ -48,7 +48,7 @@ const Stores: NextPage<Result> = ({ categories }) => {
         <NewStoreDialog getStores={getStores} />
       </TitleContainer>
 
-      <MgmtSettingsPageScrollableContent>
+      <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 16rem)" }}>
         <FlexDiv column gap05>
           {stores.map((store) => (
             <InfoCard key={store.id}>

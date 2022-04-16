@@ -85,5 +85,6 @@ export const TitleContainer = styled("div", {
   justifyContent: "space-between",
   padding: "0 2rem",
   paddingTop: "1.5rem",
+  paddingBottom: "0.75rem",
   position: "sticky",
 });

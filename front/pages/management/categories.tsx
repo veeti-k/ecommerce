@@ -36,7 +36,7 @@ const Categories: NextPage = () => {
         <AddCategoryDialog categories={categories} getCategories={getCategories} />
       </TitleContainer>
 
-      <MgmtSettingsPageScrollableContent>
+      <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 15rem)" }}>
         <FlexDiv column gap05>
           {categories.map((category) => (
             <InfoCard key={category.id}>

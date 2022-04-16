@@ -122,202 +122,196 @@ export const ProductForm: FC<ProductFormProps> = ({
     setIsDiscounted(initialValues?.isDiscounted ?? false);
   }, [initialValues]);
 
-  console.log(categoryId);
-
   return (
     <form onSubmit={onSubmit}>
-      <MgmtSettingsPageScrollableContent>
-        <FlexDiv column gap0>
-          <FlexDiv fullWidth>
-            <InputLabelContainer label="Name" id="name">
-              <Input
-                id="name"
-                type="text"
-                onChange={(e) => setName(e.target.value)}
-                value={name}
-                autoComplete="off"
-                required
-              />
-            </InputLabelContainer>
-            <InputLabelContainer label="Price" id="price">
-              <InputGroup>
-                <Input
-                  id="price"
-                  type="number"
-                  onChange={onPriceChange}
-                  value={price}
-                  autoComplete="off"
-                  required
-                />
-                <InputRightAddon>€</InputRightAddon>
-              </InputGroup>
-            </InputLabelContainer>
-          </FlexDiv>
-
-          <InputLabelContainer label="Category" id="category" style={{ paddingTop: "1rem" }}>
-            <Select
-              id="category"
-              onChange={(e) => setCategoryId(e.target.value)}
-              value={categoryId ?? ""}
-              required
-            >
-              <option value="">None</option>
-              {categories.map((category) => (
-                <option
-                  key={category.id}
-                  value={category.id}
-                  selected={categoryId?.toString() === category.id.toString()}
-                >
-                  {category.name}
-                </option>
-              ))}
-            </Select>
-          </InputLabelContainer>
-
-          <InputLabelContainer id="description" label="Description" style={{ padding: "1rem 0" }}>
-            <Textarea
-              rows={10}
-              id="description"
-              onChange={(e) => setDescription(e.target.value)}
-              value={description}
+      <FlexDiv column gap0>
+        <FlexDiv fullWidth>
+          <InputLabelContainer label="Name" id="name">
+            <Input
+              id="name"
+              type="text"
+              onChange={(e) => setName(e.target.value)}
+              value={name}
               autoComplete="off"
               required
             />
           </InputLabelContainer>
-
-          <Markdown>{description}</Markdown>
-
-          <AnimatePresence>
-            {bulletPoints.map((bulletPoint, index) => (
-              <AnimatedListItem key={index}>
-                <InputLabelContainer
-                  key={index}
-                  id={`bulletpoint-${index + 1}`}
-                  label={`Bullet point ${index + 1}`}
-                >
-                  <InputGroup>
-                    <Input
-                      id={`bulletpoint-${index + 1}`}
-                      type="text"
-                      onChange={(e) =>
-                        setBulletPoints(
-                          bulletPoints.map((bulletPoint, i) =>
-                            i === index ? { id: bulletPoint.id, text: e.target.value } : bulletPoint
-                          )
-                        )
-                      }
-                      value={bulletPoint.text}
-                      autoComplete="off"
-                    />
-                    <InputRightElement width="6rem">
-                      <Button
-                        size="sm"
-                        height="1.75rem"
-                        colorScheme="red"
-                        onClick={() => {
-                          setBulletPoints(bulletPoints.filter((_, i) => i !== index));
-                        }}
-                      >
-                        Remove
-                      </Button>
-                    </InputRightElement>
-                  </InputGroup>
-                </InputLabelContainer>
-              </AnimatedListItem>
-            ))}
-          </AnimatePresence>
-
-          <Button
-            style={{ marginBottom: "1rem" }}
-            onClick={() => setBulletPoints([...bulletPoints, bulletPointDefaultValue])}
-            colorScheme="blue"
-            variant="outline"
-            size="sm"
-          >
-            {bulletPoints.length ? "Add another bullet point" : "Add a bullet point"}
-          </Button>
-
-          <AnimatePresence initial={false}>
-            {imageLinks.map((imagelink, index) => (
-              <AnimatedListItem key={index}>
-                <InputLabelContainer
-                  key={index}
-                  id={`image-link-${index + 1}`}
-                  label={`Image link ${index + 1}`}
-                >
-                  <InputGroup>
-                    <Input
-                      id={`image-link-${index + 1}`}
-                      type="text"
-                      onChange={(e) =>
-                        setImageLinks(
-                          imageLinks.map((imageLink, i) =>
-                            i === index ? { id: imageLink.id, link: e.target.value } : imageLink
-                          )
-                        )
-                      }
-                      value={imagelink.link}
-                      autoComplete="off"
-                    />
-                    <InputRightElement width="6rem">
-                      <Button
-                        size="sm"
-                        height="1.75rem"
-                        colorScheme="red"
-                        onClick={() => {
-                          setImageLinks(imageLinks.filter((_, i) => i !== index));
-                        }}
-                      >
-                        Remove
-                      </Button>
-                    </InputRightElement>
-                  </InputGroup>
-                </InputLabelContainer>
-              </AnimatedListItem>
-            ))}
-          </AnimatePresence>
-
-          <Button
-            onClick={() => setImageLinks([...imageLinks, imageLinkDefaultValue])}
-            colorScheme="blue"
-            variant="outline"
-            size="sm"
-          >
-            {imageLinks.length ? "Add another image link" : "Add an image link"}
-          </Button>
-
-          <InputLabelContainer
-            id="is-on-sale"
-            label="Is the product on sale?"
-            row
-            style={{ paddingTop: "1rem" }}
-          >
-            <Switch
-              id="is-on-sale"
-              onChange={(e) => setIsDiscounted(!isDiscounted)}
-              isChecked={isDiscounted}
-            />
-          </InputLabelContainer>
-
-          <AnimatePresence initial={false}>
-            {isDiscounted && (
-              <DiscountThings
-                price={Number(price)}
-                discountedPrice={discountedPrice}
-                discountPercentage={discountPercent}
-                discountAmount={discountAmount}
-                setDiscountedPrice={setDiscountedPrice}
-                setDiscountPercentage={setDiscountPercent}
-                setDiscountAmount={setDiscountAmount}
+          <InputLabelContainer label="Price" id="price">
+            <InputGroup>
+              <Input
+                id="price"
+                type="number"
+                onChange={onPriceChange}
+                value={price}
+                autoComplete="off"
+                required
               />
-            )}
-          </AnimatePresence>
-
-          <Button colorScheme="blue" type="submit" style={{ marginTop: "1rem" }}>
-            {submitButtonText}
-          </Button>
+              <InputRightAddon>€</InputRightAddon>
+            </InputGroup>
+          </InputLabelContainer>
         </FlexDiv>
-      </MgmtSettingsPageScrollableContent>
+
+        <InputLabelContainer label="Category" id="category" style={{ paddingTop: "1rem" }}>
+          <Select
+            id="category"
+            onChange={(e) => setCategoryId(e.target.value)}
+            value={categoryId ?? ""}
+            required
+          >
+            <option value="">None</option>
+            {categories.map((category) => (
+              <option
+                key={category.id}
+                value={category.id}
+                selected={categoryId?.toString() === category.id.toString()}
+              >
+                {category.name}
+              </option>
+            ))}
+          </Select>
+        </InputLabelContainer>
+
+        <InputLabelContainer id="description" label="Description" style={{ padding: "1rem 0" }}>
+          <Textarea
+            rows={10}
+            id="description"
+            onChange={(e) => setDescription(e.target.value)}
+            value={description}
+            autoComplete="off"
+            required
+          />
+        </InputLabelContainer>
+
+        <AnimatePresence>
+          {bulletPoints.map((bulletPoint, index) => (
+            <AnimatedListItem key={index}>
+              <InputLabelContainer
+                key={index}
+                id={`bulletpoint-${index + 1}`}
+                label={`Bullet point ${index + 1}`}
+              >
+                <InputGroup>
+                  <Input
+                    id={`bulletpoint-${index + 1}`}
+                    type="text"
+                    onChange={(e) =>
+                      setBulletPoints(
+                        bulletPoints.map((bulletPoint, i) =>
+                          i === index ? { id: bulletPoint.id, text: e.target.value } : bulletPoint
+                        )
+                      )
+                    }
+                    value={bulletPoint.text}
+                    autoComplete="off"
+                  />
+                  <InputRightElement width="6rem">
+                    <Button
+                      size="sm"
+                      height="1.75rem"
+                      colorScheme="red"
+                      onClick={() => {
+                        setBulletPoints(bulletPoints.filter((_, i) => i !== index));
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+              </InputLabelContainer>
+            </AnimatedListItem>
+          ))}
+        </AnimatePresence>
+
+        <Button
+          style={{ marginBottom: "1rem" }}
+          onClick={() => setBulletPoints([...bulletPoints, bulletPointDefaultValue])}
+          colorScheme="blue"
+          variant="outline"
+          size="sm"
+        >
+          {bulletPoints.length ? "Add another bullet point" : "Add a bullet point"}
+        </Button>
+
+        <AnimatePresence initial={false}>
+          {imageLinks.map((imagelink, index) => (
+            <AnimatedListItem key={index}>
+              <InputLabelContainer
+                key={index}
+                id={`image-link-${index + 1}`}
+                label={`Image link ${index + 1}`}
+              >
+                <InputGroup>
+                  <Input
+                    id={`image-link-${index + 1}`}
+                    type="text"
+                    onChange={(e) =>
+                      setImageLinks(
+                        imageLinks.map((imageLink, i) =>
+                          i === index ? { id: imageLink.id, link: e.target.value } : imageLink
+                        )
+                      )
+                    }
+                    value={imagelink.link}
+                    autoComplete="off"
+                  />
+                  <InputRightElement width="6rem">
+                    <Button
+                      size="sm"
+                      height="1.75rem"
+                      colorScheme="red"
+                      onClick={() => {
+                        setImageLinks(imageLinks.filter((_, i) => i !== index));
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+              </InputLabelContainer>
+            </AnimatedListItem>
+          ))}
+        </AnimatePresence>
+
+        <Button
+          onClick={() => setImageLinks([...imageLinks, imageLinkDefaultValue])}
+          colorScheme="blue"
+          variant="outline"
+          size="sm"
+        >
+          {imageLinks.length ? "Add another image link" : "Add an image link"}
+        </Button>
+
+        <InputLabelContainer
+          id="is-on-sale"
+          label="Is the product on sale?"
+          row
+          style={{ paddingTop: "1rem" }}
+        >
+          <Switch
+            id="is-on-sale"
+            onChange={(e) => setIsDiscounted(!isDiscounted)}
+            isChecked={isDiscounted}
+          />
+        </InputLabelContainer>
+
+        <AnimatePresence initial={false}>
+          {isDiscounted && (
+            <DiscountThings
+              price={Number(price)}
+              discountedPrice={discountedPrice}
+              discountPercentage={discountPercent}
+              discountAmount={discountAmount}
+              setDiscountedPrice={setDiscountedPrice}
+              setDiscountPercentage={setDiscountPercent}
+              setDiscountAmount={setDiscountAmount}
+            />
+          )}
+        </AnimatePresence>
+
+        <Button colorScheme="blue" type="submit" style={{ marginTop: "1rem" }}>
+          {submitButtonText}
+        </Button>
+      </FlexDiv>
     </form>
   );
 };

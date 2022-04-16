@@ -9,11 +9,11 @@ import { styled } from "../../stitches.config";
 import { EditAddressDialog } from "../../components/Dialogs/Address/EditAddressDialog";
 import { NewAddressDialog } from "../../components/Dialogs/Address/NewAddressDialog";
 import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
-import { ResolvedCategory } from "../../types";
 import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
 import { TitleContainer } from "../../components/layouts/Styles";
 import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../components/Containers";
 import { DeleteAddressDialog } from "../../components/Dialogs/Address/DeleteAddressDialog";
+import { ResolvedCategory } from "../../types/Category";
 
 const AddressCard = styled(Card, {
   display: "flex",
@@ -51,8 +51,8 @@ export const Addresses: NextPage<Result> = ({ categories }) => {
 
         <NewAddressDialog />
       </TitleContainer>
-      <MgmtSettingsPageScrollableContent>
-        <FlexDiv fullWidth column>
+      <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 16rem)" }}>
+        <FlexDiv fullWidth column gap05>
           {state.addresses.map((address) => (
             <AddressCard key={address.id}>
               <FlexDiv column>
