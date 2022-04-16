@@ -1,4 +1,5 @@
-import { Category, ProductPageProduct, ResolvedCategory, ShowCaseProduct } from "../types";
+import { ResolvedCategory, Category } from "../types/Category";
+import { ShowCaseProduct, ProductPageProduct } from "../types/Product";
 import { apiBase } from "./consts";
 
 export const getCategories_STATIC_PROPS = async () => {

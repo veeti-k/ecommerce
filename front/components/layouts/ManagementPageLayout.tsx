@@ -2,7 +2,6 @@ import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FC, useContext } from "react";
 import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
-import { styled } from "../../stitches.config";
 import { ResolvedCategory } from "../../types/Category";
 import { UserContext } from "../../UserProvider/provider";
 import { isAdmin } from "../../utils/flagResolve";

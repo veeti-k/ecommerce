@@ -20,8 +20,7 @@ import {
   imageLinkDefaultValue,
 } from "../../types/Product";
 
-import { FlexDiv, InputLabelContainer, MgmtSettingsPageScrollableContent } from "../Containers";
-import { Markdown } from "../Markdown";
+import { FlexDiv, InputLabelContainer } from "../Containers";
 
 export type ProductFormValues = {
   name: string;

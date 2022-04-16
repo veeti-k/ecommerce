@@ -1,4 +1,4 @@
-import { Category } from "../../types";
+import { Category } from "../../types/Category";
 import { request } from "../requests";
 import { apiRoutes } from "../routes";
 

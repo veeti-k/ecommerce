@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { ProductReview } from "../../types/Product";
+import { ProductReview } from "../../types/ProductReview";
 import { Card } from "../Card";
 import { FlexDiv } from "../Containers";
 import { Markdown } from "../Markdown";

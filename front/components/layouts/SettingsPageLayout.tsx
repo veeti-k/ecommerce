@@ -7,7 +7,7 @@ import { UserContext } from "../../UserProvider/provider";
 import { logout } from "../../utils/logout";
 import { pushUser } from "../../utils/router";
 import { routes } from "../../utils/routes";
-import { Card, CardContent, PageCard } from "../Card";
+import { Card } from "../Card";
 import { FlexDiv } from "../Containers";
 import { AddressesIcon, LogoutIcon, PasswordIcon, SessionsIcon, UserIcon } from "../Icons";
 import { Text, PageTitle } from "../Text";

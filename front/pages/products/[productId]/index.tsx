@@ -23,20 +23,6 @@ import { Link } from "../../../components/Link";
 import { routes } from "../../../utils/routes";
 import { StarsReviewsQuestions } from "../../../components/Product/StarsReviewsQuestions";
 
-const ProductPageCard = styled(Card, {
-  display: "flex",
-  flexDirection: "column",
-  boxShadow: "$shadowFar",
-  padding: "0.8rem",
-  height: "100%",
-  marginBottom: "1rem",
-  width: "100%",
-
-  "@mobileAndUp": {
-    padding: "1.5rem",
-  },
-});
-
 const RightDiv = styled("div", {
   display: "flex",
   flexDirection: "column",

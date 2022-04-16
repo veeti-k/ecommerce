@@ -1,4 +1,4 @@
-import { Address } from "../../types";
+import { Address } from "../../types/User";
 import { request } from "../requests";
 import { apiRoutes } from "../routes";
 
