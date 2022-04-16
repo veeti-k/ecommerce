@@ -26,6 +26,18 @@ export const CardContent = styled("div", {
   "@mobileAndUp": {
     padding: "1.5rem",
   },
+
+  variants: {
+    lessPadding: {
+      true: {
+        padding: "0.8rem",
+
+        "@mobileAndUp": {
+          padding: "1rem",
+        },
+      },
+    },
+  },
 });
 
 export const AuthPageCard = styled(Card, {

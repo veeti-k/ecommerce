@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { ProductReview } from "../../types/ProductReview";
-import { Card } from "../Card";
+import { Card, CardContent } from "../Card";
 import { FlexDiv } from "../Containers";
 import { Markdown } from "../Markdown";
 import { Heading, Text } from "../Text";
@@ -12,18 +12,20 @@ type Props = {
 
 export const Review: FC<Props> = ({ review }) => (
   <Card shadowNear>
-    <FlexDiv>
+    <CardContent lessPadding>
       <FlexDiv>
-        <Stars rating={review.stars} />
+        <FlexDiv>
+          <Stars rating={review.stars} />
+        </FlexDiv>
+
+        <FlexDiv column>
+          <Heading>{review.title ? review.title : "Title"}</Heading>
+
+          <Markdown>{review.content ? review.content : "Review"}</Markdown>
+
+          <Text light>{review.reviewersNickname ? review.reviewersNickname : "Nickname"}</Text>
+        </FlexDiv>
       </FlexDiv>
-
-      <FlexDiv column>
-        <Heading>{review.title ? review.title : "Title"}</Heading>
-
-        <Markdown>{review.content ? review.content : "Review"}</Markdown>
-
-        <Text light>{review.reviewersNickname ? review.reviewersNickname : "Nickname"}</Text>
-      </FlexDiv>
-    </FlexDiv>
+    </CardContent>
   </Card>
 );
