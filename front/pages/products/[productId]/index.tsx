@@ -49,7 +49,7 @@ const RightDiv = styled("div", {
 
   "@tabletAndUp": {
     flexDirection: "column",
-    maxWidth: "400px",
+    maxWidth: "350px",
   },
 });
 
