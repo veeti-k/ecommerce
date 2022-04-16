@@ -11,7 +11,7 @@ interface Props {
 }
 
 const Breadcrumb = styled(ChakraBreadcrumb, {
-  padding: "0.2rem 0.5rem",
+  padding: "0.2rem 0.8rem",
 
   "@mobileAndUp": {
     padding: "0.3rem 0",

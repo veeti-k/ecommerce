@@ -28,9 +28,9 @@ const ProductPageCard = styled(Card, {
   flexDirection: "column",
   boxShadow: "$shadowFar",
   padding: "0.8rem",
-  paddingTop: "1rem",
   height: "100%",
   marginBottom: "1rem",
+  width: "100%",
 
   "@mobileAndUp": {
     padding: "1.5rem",
@@ -90,15 +90,13 @@ const ProductPage: NextPage<Props> = ({ product, categories }) => {
   const { state } = useContext(UserContext);
 
   return (
-    <Layout categories={categories} noPadding>
+    <Layout categories={categories} noPadding lessPaddingOnMobile>
       <ProductPath product={product} />
 
       <ProductPageCard>
-        <FlexDiv column fullWidth align>
-          <FlexDiv align spaceBetween fullWidth style={{ paddingBottom: "0.5rem" }}>
-            <BiggerHeading>{product.name}</BiggerHeading>
-            <Text>{product.id}</Text>
-          </FlexDiv>
+        <FlexDiv fullWidth align spaceBetween style={{ paddingBottom: "0.5rem" }}>
+          <BiggerHeading>{product.name}</BiggerHeading>
+          <Text>{product.id}</Text>
         </FlexDiv>
 
         <StarsReviewsQuestions product={product} />
@@ -108,13 +106,15 @@ const ProductPage: NextPage<Props> = ({ product, categories }) => {
             <img src={product.images[0].link} alt={product.name} />
           </ImageContainer>
           <RightDiv>
-            <UnorderedList style={{ width: "100%" }}>
-              {product.bulletPoints.map((bulletPoint) => (
-                <ListItem key={bulletPoint.id}>
-                  <Text>{bulletPoint.text}</Text>
-                </ListItem>
-              ))}
-            </UnorderedList>
+            <FlexDiv fullWidth>
+              <UnorderedList width={"100%"}>
+                {product.bulletPoints.map((bulletPoint) => (
+                  <ListItem key={bulletPoint.id}>
+                    <Text>{bulletPoint.text}</Text>
+                  </ListItem>
+                ))}
+              </UnorderedList>
+            </FlexDiv>
 
             <InfoCard>
               <FlexDiv column>

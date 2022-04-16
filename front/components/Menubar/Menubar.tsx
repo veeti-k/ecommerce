@@ -21,11 +21,17 @@ const Inner = styled("div", {
   boxSizing: "border-box",
   flexShrink: 0,
   margin: "0 auto",
-  padding: "0 1rem",
+  padding: "0 0.8rem",
   maxWidth: "1200px",
 
   "@mobileAndUp": {
     padding: "0 25px",
+  },
+
+  variants: {
+    lessPaddingOnMobile: {
+      true: {},
+    },
   },
 });
 
@@ -43,12 +49,13 @@ const HeaderContent = styled("div", {
 
 type MenubarProps = {
   categories: ResolvedCategory[];
+  lessPaddingOnMobile?: boolean;
 };
 
-export const Menubar: FC<MenubarProps> = ({ categories }) => {
+export const Menubar: FC<MenubarProps> = ({ categories, lessPaddingOnMobile }) => {
   return (
     <Outer>
-      <Inner>
+      <Inner lessPaddingOnMobile={lessPaddingOnMobile}>
         <HeaderContent>
           <CategoryMenu categories={categories} />
           <HomeButton />

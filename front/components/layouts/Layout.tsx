@@ -29,10 +29,13 @@ const Main = styled("main", {
         },
       },
     },
-    noPaddingOnMobile: {
+    lessPaddingOnMobile: {
       true: {
+        padding: 0,
+        paddingTop: "3.5rem",
+
         "@mobileAndUp": {
-          padding: 0,
+          padding: "0 25px",
           paddingTop: "6rem",
         },
       },
@@ -44,7 +47,7 @@ type LayoutProps = {
   title?: string;
   categories: ResolvedCategory[];
   noPadding?: boolean;
-  noPaddingOnMobile?: boolean;
+  lessPaddingOnMobile?: boolean;
 };
 
 export const Layout: FC<LayoutProps> = ({
@@ -52,7 +55,7 @@ export const Layout: FC<LayoutProps> = ({
   title,
   categories,
   noPadding,
-  noPaddingOnMobile,
+  lessPaddingOnMobile,
 }) => {
   useGetMe();
 
@@ -61,8 +64,8 @@ export const Layout: FC<LayoutProps> = ({
       <Head>
         <title>{title ?? "DEMO"}</title>
       </Head>
-      <Menubar categories={categories} />
-      <Main noPadding={noPadding} noPaddingOnMobile={noPaddingOnMobile}>
+      <Menubar categories={categories} lessPaddingOnMobile={lessPaddingOnMobile} />
+      <Main noPadding={noPadding} lessPaddingOnMobile={lessPaddingOnMobile}>
         {children}
       </Main>
     </>
