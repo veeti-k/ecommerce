@@ -12,9 +12,11 @@ public static class Categories
     
     result.Add(current);
 
-    while (current.ParentId != null)
+    while (current?.ParentId is not null)
     {
       current = allCategories.FirstOrDefault(c => c.ProductCategoryId == current.ParentId);
+      if (current is null) continue;
+
       result.Add(current);
     }
 
@@ -31,9 +33,11 @@ public static class Categories
     
     result.Add(current.Category);
 
-    while (current.Category.ParentId != null)
+    while (current?.Category?.ParentId is not null)
     {
       current = allCategories.FirstOrDefault(c => c.ProductCategoryId == current.Category.ParentId);
+      if (current is null) continue;
+      
       result.Add(current.Category);
     }
 
