@@ -23,7 +23,7 @@ export const routes = {
   product: {
     edit: (productId: number) => `/products/${productId}/edit`,
     reviews: (productId: number) => `/products/${productId}/reviews`,
-    reviewsAdd: (productId: number) => `/products/${productId}/reviews/add`,
+    reviewsAdd: (productId: number) => `/products/${productId}/reviews/write`,
   },
 };
 

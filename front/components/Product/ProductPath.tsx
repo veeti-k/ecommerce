@@ -23,7 +23,7 @@ export const ProductPath: FC<Props> = ({ product }) => {
   if (typeof window == "undefined") return null;
 
   const onReviewsPage = window.location.pathname.includes("reviews");
-  const onReviewsAddPage = window.location.pathname.includes("add");
+  const onReviewsAddPage = window.location.pathname.includes("reviews/write");
 
   return (
     <Breadcrumb separator={<Text>/</Text>}>
@@ -47,26 +47,20 @@ export const ProductPath: FC<Props> = ({ product }) => {
         ))}
 
       <BreadcrumbItem>
-        <BreadcrumbLink isCurrentPage>
-          <Text>
-            Product: <strong>{product.id}</strong>
-          </Text>
-        </BreadcrumbLink>
+        <Text aria-current>
+          Product: <strong>{product.id}</strong>
+        </Text>
       </BreadcrumbItem>
 
       {onReviewsPage && !onReviewsAddPage && (
         <BreadcrumbItem>
-          <BreadcrumbLink isCurrentPage>
-            <Text>Reviews</Text>
-          </BreadcrumbLink>
+          <Text aria-current>Reviews</Text>
         </BreadcrumbItem>
       )}
 
       {onReviewsAddPage && (
         <BreadcrumbItem>
-          <BreadcrumbLink isCurrentPage>
-            <Text>Add a review</Text>
-          </BreadcrumbLink>
+          <Text aria-current>Write a review</Text>
         </BreadcrumbItem>
       )}
     </Breadcrumb>
