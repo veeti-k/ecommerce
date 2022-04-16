@@ -1,23 +1,10 @@
-import {
-  useDisclosure,
-  Tooltip,
-  IconButton,
-  AlertDialog,
-  AlertDialogOverlay,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogCloseButton,
-  AlertDialogBody,
-  AlertDialogFooter,
-  Button,
-} from "@chakra-ui/react";
-import { useRef, FormEvent, FC } from "react";
+import { useDisclosure, Tooltip, IconButton } from "@chakra-ui/react";
+import { FC } from "react";
 import toast from "react-hot-toast";
 import { Category } from "../../../types/Category";
 import { DeleteCategoryRequest } from "../../../utils/Requests/Category";
-import { FlexDiv } from "../../Containers";
 import { TrashIcon } from "../../Icons";
-import { Text } from "../../Text";
+import { AlertDialog } from "../AlertDialog";
 
 type Props = {
   category: Category;
@@ -26,11 +13,8 @@ type Props = {
 
 export const DeleteCategoryDialog: FC<Props> = ({ category, getCategories }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef<HTMLButtonElement>(null);
 
-  const onSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async () => {
     const notifId = toast.loading("Deleting the category");
 
     const res = await DeleteCategoryRequest(category.id);
@@ -56,29 +40,14 @@ export const DeleteCategoryDialog: FC<Props> = ({ category, getCategories }) => 
         />
       </Tooltip>
 
-      <AlertDialog isOpen={isOpen} onClose={onClose} leastDestructiveRef={cancelRef}>
-        <AlertDialogOverlay />
-        <AlertDialogContent>
-          <AlertDialogHeader>Delete a category</AlertDialogHeader>
-          <AlertDialogCloseButton />
-          <AlertDialogBody>
-            <Text>
-              Are you sure you want to delete the category <strong>{category.name}</strong>?
-            </Text>
-          </AlertDialogBody>
-
-          <AlertDialogFooter>
-            <FlexDiv gap05>
-              <Button onClick={onClose} ref={cancelRef}>
-                Cancel
-              </Button>
-              <Button type="submit" onClick={onSubmit} colorScheme="red">
-                Delete
-              </Button>
-            </FlexDiv>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <AlertDialog
+        header="Delete category"
+        bodyText={`Are you sure you want to delete the category ${category.name}?`}
+        submitLabel="Delete"
+        onSubmit={onSubmit}
+        isOpen={isOpen}
+        onClose={onClose}
+      />
     </>
   );
 };

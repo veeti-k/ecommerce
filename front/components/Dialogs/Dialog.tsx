@@ -20,7 +20,7 @@ type DialogProps = {
   header: string;
 
   submitLabel: string;
-  submitDisabled: boolean;
+  submitDisabled?: boolean;
   onSubmit: () => void;
 };
 

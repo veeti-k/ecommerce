@@ -1,26 +1,14 @@
-import {
-  Button,
-  IconButton,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Tooltip,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { MouseEvent, useContext, useEffect, useState } from "react";
+import { IconButton, Input, Tooltip, useDisclosure } from "@chakra-ui/react";
+import { useContext, useEffect, useState } from "react";
 import { InputLabelContainer } from "../../Containers";
 import { EditIcon } from "../../Icons";
-
 import { FlexDiv } from "../../Containers";
 import { toast } from "react-hot-toast";
 import { getMe } from "../../../utils/logout";
 import { UserContext } from "../../../UserProvider/provider";
-import { Address } from "../../../types";
 import { EditAddressRequest } from "../../../utils/Requests/Address";
+import { Address } from "../../../types/User";
+import { Dialog } from "../Dialog";
 
 export const EditAddressDialog = ({ address }: { address: Address }) => {
   const [name, setName] = useState<string>("");
@@ -35,8 +23,7 @@ export const EditAddressDialog = ({ address }: { address: Address }) => {
 
   const { dispatch } = useContext(UserContext);
 
-  const onSubmit = async (e: MouseEvent) => {
-    e.preventDefault();
+  const onSubmit = async () => {
     const notifId = toast.loading("Editing address");
 
     const res = await EditAddressRequest(address.id, {
@@ -90,97 +77,89 @@ export const EditAddressDialog = ({ address }: { address: Address }) => {
         </IconButton>
       </Tooltip>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader style={{ paddingBottom: "0" }}>Add an address</ModalHeader>
-
-          <ModalBody>
-            <FlexDiv column>
-              <InputLabelContainer id="name" label="Name">
-                <Input
-                  id="name"
-                  type="name"
-                  autoComplete="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
-              </InputLabelContainer>
-              <InputLabelContainer id="phone-number" label="Phone number">
-                <Input
-                  id="phone-number"
-                  type="tel"
-                  autoComplete="tel"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  required
-                />
-              </InputLabelContainer>
-              <InputLabelContainer id="email" label="Email">
-                <Input
-                  id="email"
-                  type="email"
-                  autoComplete="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </InputLabelContainer>
-              <InputLabelContainer id="street-address" label="Street address">
-                <Input
-                  id="street-address"
-                  type="text"
-                  autoComplete="street-address"
-                  value={streetAddress}
-                  onChange={(e) => setStreetAddress(e.target.value)}
-                  required
-                />
-              </InputLabelContainer>
-              <InputLabelContainer id="city" label="City">
-                <Input
-                  id="city"
-                  type="text"
-                  autoComplete="address-level2"
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  required
-                />
-              </InputLabelContainer>
-              <InputLabelContainer id="zip" label="Zip code">
-                <Input
-                  id="zip"
-                  type="text"
-                  autoComplete="postal-code"
-                  value={zip}
-                  onChange={(e) => setZip(e.target.value)}
-                  required
-                />
-              </InputLabelContainer>
-              <InputLabelContainer id="state" label="State">
-                <Input
-                  id="state"
-                  type="text"
-                  autoComplete="address-level1"
-                  value={state}
-                  onChange={(e) => setState(e.target.value)}
-                  required
-                />
-              </InputLabelContainer>
-            </FlexDiv>
-          </ModalBody>
-
-          <ModalFooter>
-            <FlexDiv flexEnd gap05>
-              <Button onClick={onClose}>Cancel</Button>
-
-              <Button colorScheme="blue" onClick={onSubmit} type="submit" disabled={submitDisabled}>
-                Save changes
-              </Button>
-            </FlexDiv>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <Dialog
+        header="Edit address"
+        submitLabel="Update"
+        submitDisabled={submitDisabled}
+        onSubmit={onSubmit}
+        isOpen={isOpen}
+        onClose={onClose}
+        onOpen={onOpen}
+      >
+        {" "}
+        <FlexDiv column>
+          <InputLabelContainer id="name" label="Name">
+            <Input
+              id="name"
+              type="name"
+              autoComplete="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </InputLabelContainer>
+          <InputLabelContainer id="phone-number" label="Phone number">
+            <Input
+              id="phone-number"
+              type="tel"
+              autoComplete="tel"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              required
+            />
+          </InputLabelContainer>
+          <InputLabelContainer id="email" label="Email">
+            <Input
+              id="email"
+              type="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </InputLabelContainer>
+          <InputLabelContainer id="street-address" label="Street address">
+            <Input
+              id="street-address"
+              type="text"
+              autoComplete="street-address"
+              value={streetAddress}
+              onChange={(e) => setStreetAddress(e.target.value)}
+              required
+            />
+          </InputLabelContainer>
+          <InputLabelContainer id="city" label="City">
+            <Input
+              id="city"
+              type="text"
+              autoComplete="address-level2"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              required
+            />
+          </InputLabelContainer>
+          <InputLabelContainer id="zip" label="Zip code">
+            <Input
+              id="zip"
+              type="text"
+              autoComplete="postal-code"
+              value={zip}
+              onChange={(e) => setZip(e.target.value)}
+              required
+            />
+          </InputLabelContainer>
+          <InputLabelContainer id="state" label="State">
+            <Input
+              id="state"
+              type="text"
+              autoComplete="address-level1"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+              required
+            />
+          </InputLabelContainer>
+        </FlexDiv>
+      </Dialog>
     </>
   );
 };
