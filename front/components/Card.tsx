@@ -40,6 +40,7 @@ export const ProductCard = styled(Card, {
   position: "relative",
   boxShadow: "2px 4px 12px rgb(0 0 0 / 8%)",
   display: "flex",
+  padding: "0.8rem",
   flexDirection: "column",
   alignItems: "center",
   maxWidth: "300px",
