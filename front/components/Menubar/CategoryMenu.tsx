@@ -1,5 +1,6 @@
 import {
   Drawer,
+  DrawerBody,
   DrawerCloseButton,
   DrawerContent,
   DrawerOverlay,
@@ -101,22 +102,27 @@ export const CategoryMenu: FC<CategoryMenuProps> = ({ categories }) => {
           <HamburgerIcon />
         </IconButton>
       </Tooltip>
+
       <Drawer isOpen={open} onClose={() => setOpen(false)} placement="left">
         <DrawerOverlay />
+
         <DrawerContent>
-          <FlexDiv gap0 column>
-            <FlexDiv
-              align
-              spaceBetween
-              style={{ padding: "1rem", borderBottom: "1px solid #ededed" }}
-            >
-              <Heading>Categories</Heading>
-              <DrawerCloseButton style={{ position: "relative", top: 0, right: 0 }} />
-            </FlexDiv>
-            {categories.map((category) => (
-              <Category key={category.id} category={category} indentation={1} />
-            ))}
+          <FlexDiv
+            align
+            spaceBetween
+            style={{ padding: "1rem", borderBottom: "1px solid #ededed" }}
+          >
+            <Heading>Categories</Heading>
+            <DrawerCloseButton style={{ position: "relative", top: 0, right: 0 }} />
           </FlexDiv>
+
+          <DrawerBody style={{ padding: 0 }}>
+            <FlexDiv gap0 column>
+              {categories.map((category, i) => (
+                <Category key={category.id} category={category} indentation={1} />
+              ))}
+            </FlexDiv>
+          </DrawerBody>
         </DrawerContent>
       </Drawer>
     </>
