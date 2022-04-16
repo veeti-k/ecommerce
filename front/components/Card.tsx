@@ -5,19 +5,8 @@ export const Card = styled("div", {
   borderRadius: "8px",
 
   transition: "all .3s cubic-bezier(0,0,.5,1)",
-  padding: "1rem",
 
   variants: {
-    padding08: {
-      true: {
-        padding: "0.8rem",
-      },
-    },
-    padding0: {
-      true: {
-        padding: "0",
-      },
-    },
     shadowFar: {
       true: {
         boxShadow: "$shadowFar",

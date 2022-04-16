@@ -1,7 +1,7 @@
 import { IconButton, Tooltip } from "@chakra-ui/react";
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { useContext } from "react";
-import { Card } from "../../components/Card";
+import { Card, CardContent } from "../../components/Card";
 import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../components/Containers";
 import { TrashIcon } from "../../components/Icons";
 import { PulsingCircle } from "../../components/pulsingCircle";
@@ -67,45 +67,47 @@ const Sessions: NextPage<Result> = ({ categories }) => {
       </TitleContainer>
 
       <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 15rem)" }}>
-        <FlexDiv column gap05>
-          {state.sessions.map((session) => {
-            const lastUsedAt = new Date(session.lastUsedAt);
+        <CardContent>
+          <FlexDiv column gap05>
+            {state.sessions.map((session) => {
+              const lastUsedAt = new Date(session.lastUsedAt);
 
-            return (
-              <SessionCard key={session.id}>
-                <div>
-                  <FlexDiv gap05 align>
-                    {session.isCurrentSession ? (
-                      <Tooltip label="Current session">
-                        <PulsingCircle />
-                      </Tooltip>
-                    ) : null}
-                    <Text bold>123.321.123.321</Text>
-                  </FlexDiv>
+              return (
+                <SessionCard key={session.id}>
+                  <div>
+                    <FlexDiv gap05 align>
+                      {session.isCurrentSession ? (
+                        <Tooltip label="Current session">
+                          <PulsingCircle />
+                        </Tooltip>
+                      ) : null}
+                      <Text bold>123.321.123.321</Text>
+                    </FlexDiv>
 
-                  <Tooltip label="Last used at">
-                    <Text light>
-                      {lastUsedAt.toLocaleDateString()} - {lastUsedAt.toLocaleTimeString()}
-                    </Text>
-                  </Tooltip>
-                </div>
+                    <Tooltip label="Last used at">
+                      <Text light>
+                        {lastUsedAt.toLocaleDateString()} - {lastUsedAt.toLocaleTimeString()}
+                      </Text>
+                    </Tooltip>
+                  </div>
 
-                <SessionCardButtons>
-                  <Tooltip label="Revoke session">
-                    <IconButton
-                      aria-label="Revoke session"
-                      size="sm"
-                      colorScheme="red"
-                      onClick={() => revokeSession(session.id)}
-                    >
-                      <TrashIcon />
-                    </IconButton>
-                  </Tooltip>
-                </SessionCardButtons>
-              </SessionCard>
-            );
-          })}
-        </FlexDiv>
+                  <SessionCardButtons>
+                    <Tooltip label="Revoke session">
+                      <IconButton
+                        aria-label="Revoke session"
+                        size="sm"
+                        colorScheme="red"
+                        onClick={() => revokeSession(session.id)}
+                      >
+                        <TrashIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </SessionCardButtons>
+                </SessionCard>
+              );
+            })}
+          </FlexDiv>
+        </CardContent>
       </MgmtSettingsPageScrollableContent>
     </SettingsPageLayout>
   );

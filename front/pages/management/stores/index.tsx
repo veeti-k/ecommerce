@@ -1,6 +1,6 @@
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { useEffect, useState } from "react";
-import { InfoCard } from "../../../components/Card";
+import { CardContent, InfoCard } from "../../../components/Card";
 import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../../components/Containers";
 import { DeleteStoreDialog } from "../../../components/Dialogs/Store/DeleteStoreDialog";
 import { EditStoreDialog } from "../../../components/Dialogs/Store/EditStoreDialog";
@@ -49,28 +49,30 @@ const Stores: NextPage<Result> = ({ categories }) => {
       </TitleContainer>
 
       <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 16rem)" }}>
-        <FlexDiv column gap05>
-          {stores.map((store) => (
-            <InfoCard key={store.id}>
-              <FlexDiv spaceBetween>
-                <FlexDiv column gap05>
-                  <Text>{store.name}</Text>
-                  <FlexDiv column gap0>
-                    <Text>{store.streetAddress}</Text>
-                    <Text>
-                      {store.zip} {store.city}
-                    </Text>
+        <CardContent>
+          <FlexDiv column gap05>
+            {stores.map((store) => (
+              <InfoCard key={store.id}>
+                <FlexDiv spaceBetween>
+                  <FlexDiv column gap05>
+                    <Text>{store.name}</Text>
+                    <FlexDiv column gap0>
+                      <Text>{store.streetAddress}</Text>
+                      <Text>
+                        {store.zip} {store.city}
+                      </Text>
+                    </FlexDiv>
+                  </FlexDiv>
+
+                  <FlexDiv column gap05>
+                    <EditStoreDialog getStores={getStores} initialValues={store} />
+                    <DeleteStoreDialog getStores={getStores} store={store} />
                   </FlexDiv>
                 </FlexDiv>
-
-                <FlexDiv column gap05>
-                  <EditStoreDialog getStores={getStores} initialValues={store} />
-                  <DeleteStoreDialog getStores={getStores} store={store} />
-                </FlexDiv>
-              </FlexDiv>
-            </InfoCard>
-          ))}
-        </FlexDiv>
+              </InfoCard>
+            ))}
+          </FlexDiv>
+        </CardContent>
       </MgmtSettingsPageScrollableContent>
     </ManagementPageLayout>
   );

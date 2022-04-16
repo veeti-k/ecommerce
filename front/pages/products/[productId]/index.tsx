@@ -1,5 +1,5 @@
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
-import { Card, InfoCard } from "../../../components/Card";
+import { Card, CardContent, InfoCard } from "../../../components/Card";
 import { Layout } from "../../../components/layouts/Layout";
 import { BiggerHeading, HugeHeading, Text } from "../../../components/Text";
 import { styled } from "../../../stitches.config";
@@ -93,70 +93,72 @@ const ProductPage: NextPage<Props> = ({ product, categories }) => {
     <Layout categories={categories} noPadding lessPaddingOnMobile>
       <ProductPath product={product} />
 
-      <ProductPageCard>
-        <FlexDiv fullWidth align spaceBetween style={{ paddingBottom: "0.5rem" }}>
-          <BiggerHeading>{product.name}</BiggerHeading>
-          <Text>{product.id}</Text>
-        </FlexDiv>
+      <Card shadowFar>
+        <CardContent>
+          <FlexDiv fullWidth align spaceBetween style={{ paddingBottom: "0.5rem" }}>
+            <BiggerHeading>{product.name}</BiggerHeading>
+            <Text>{product.id}</Text>
+          </FlexDiv>
 
-        <StarsReviewsQuestions product={product} />
+          <StarsReviewsQuestions product={product} />
 
-        <MainDiv style={{ paddingTop: "2rem" }}>
-          <ImageContainer>
-            <img src={product.images[0].link} alt={product.name} />
-          </ImageContainer>
-          <RightDiv>
-            <FlexDiv fullWidth>
-              <UnorderedList width={"100%"}>
-                {product.bulletPoints.map((bulletPoint) => (
-                  <ListItem key={bulletPoint.id}>
-                    <Text>{bulletPoint.text}</Text>
-                  </ListItem>
-                ))}
-              </UnorderedList>
-            </FlexDiv>
-
-            <InfoCard>
-              <FlexDiv column>
-                <HugeHeading>{product.price} €</HugeHeading>
-                <Button colorScheme="blue" leftIcon={<ShoppingCartIcon />}>
-                  Add to bag
-                </Button>
+          <MainDiv style={{ paddingTop: "2rem" }}>
+            <ImageContainer>
+              <img src={product.images[0].link} alt={product.name} />
+            </ImageContainer>
+            <RightDiv>
+              <FlexDiv fullWidth>
+                <UnorderedList width={"100%"}>
+                  {product.bulletPoints.map((bulletPoint) => (
+                    <ListItem key={bulletPoint.id}>
+                      <Text>{bulletPoint.text}</Text>
+                    </ListItem>
+                  ))}
+                </UnorderedList>
               </FlexDiv>
-            </InfoCard>
-          </RightDiv>
-        </MainDiv>
 
-        <Divider style={{ marginTop: "1.5rem", marginBottom: "1.5rem" }} />
+              <InfoCard>
+                <FlexDiv column>
+                  <HugeHeading>{product.price} €</HugeHeading>
+                  <Button colorScheme="blue" leftIcon={<ShoppingCartIcon />}>
+                    Add to bag
+                  </Button>
+                </FlexDiv>
+              </InfoCard>
+            </RightDiv>
+          </MainDiv>
 
-        <MainDiv>
-          <ProductDescription>
-            <Markdown>{product.description}</Markdown>
-          </ProductDescription>
+          <Divider style={{ marginTop: "1.5rem", marginBottom: "1.5rem" }} />
 
-          <RightDiv style={{ height: "100%" }}>
-            <InfoCard style={{ width: "100%" }}>
-              <FlexDiv column fullWidth>
-                <div>
-                  <Text>Product id: </Text>
-                  <Text bold>{product.id}</Text>
-                </div>
+          <MainDiv>
+            <ProductDescription>
+              <Markdown>{product.description}</Markdown>
+            </ProductDescription>
 
-                {isAdmin(state.flags) ? (
-                  <FlexDiv column gap05>
-                    <Link href={routes.product.edit(product.id)}>
-                      <Button isFullWidth leftIcon={<EditIcon />}>
-                        Edit
-                      </Button>
-                    </Link>
-                    <DeleteProductDialog product={product} />
-                  </FlexDiv>
-                ) : null}
-              </FlexDiv>
-            </InfoCard>
-          </RightDiv>
-        </MainDiv>
-      </ProductPageCard>
+            <RightDiv style={{ height: "100%" }}>
+              <InfoCard style={{ width: "100%" }}>
+                <FlexDiv column fullWidth>
+                  <div>
+                    <Text>Product id: </Text>
+                    <Text bold>{product.id}</Text>
+                  </div>
+
+                  {isAdmin(state.flags) ? (
+                    <FlexDiv column gap05>
+                      <Link href={routes.product.edit(product.id)}>
+                        <Button isFullWidth leftIcon={<EditIcon />}>
+                          Edit
+                        </Button>
+                      </Link>
+                      <DeleteProductDialog product={product} />
+                    </FlexDiv>
+                  ) : null}
+                </FlexDiv>
+              </InfoCard>
+            </RightDiv>
+          </MainDiv>
+        </CardContent>
+      </Card>
     </Layout>
   );
 };

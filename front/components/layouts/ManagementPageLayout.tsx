@@ -1,5 +1,4 @@
 import { Button } from "@chakra-ui/react";
-import { PlusIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/router";
 import { FC, useContext } from "react";
 import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
@@ -9,19 +8,12 @@ import { UserContext } from "../../UserProvider/provider";
 import { isAdmin } from "../../utils/flagResolve";
 import { pushUser } from "../../utils/router";
 import { routes } from "../../utils/routes";
+import { Card } from "../Card";
 import { FlexDiv } from "../Containers";
-import { ProductsIcon, OrdersIcon, UserIcon, StoreIcon } from "../Icons";
+import { ProductsIcon, OrdersIcon, UserIcon, StoreIcon, PlusIcon } from "../Icons";
 import { Text, PageTitle } from "../Text";
 import { Layout } from "./Layout";
 import { PageTitleContainer, PageSelectorButtons, PageSelectorButton, MainContent } from "./Styles";
-
-const ManagementPageCard = styled("div", {
-  display: "flex",
-  flexDirection: "column",
-  borderRadius: "8px",
-
-  boxShadow: "$shadowFar",
-});
 
 type ManagementPageLayoutProps = {
   categories: ResolvedCategory[];
@@ -45,7 +37,7 @@ export const ManagementPageLayout: FC<ManagementPageLayoutProps> = ({ children, 
             <PageTitle>Management</PageTitle>
           </PageTitleContainer>
 
-          <ManagementPageCard>
+          <Card shadowFar>
             <FlexDiv gap0>
               <PageSelectorButtons>
                 <Button
@@ -76,7 +68,7 @@ export const ManagementPageLayout: FC<ManagementPageLayoutProps> = ({ children, 
                   route={routes.managementUsers}
                   active={window.location.pathname.includes("users")}
                 >
-                  <UserIcon size={20} /> <Text>Users</Text>
+                  <UserIcon /> <Text>Users</Text>
                 </PageSelectorButton>
 
                 <PageSelectorButton
@@ -89,7 +81,7 @@ export const ManagementPageLayout: FC<ManagementPageLayoutProps> = ({ children, 
 
               <MainContent>{children}</MainContent>
             </FlexDiv>
-          </ManagementPageCard>
+          </Card>
         </>
       ) : null}
     </Layout>

@@ -41,7 +41,7 @@ export const ProfileMenu = () => {
         </Link>
 
         {isAdmin(state.flags) && (
-          <Link href={routes.management}>
+          <Link href={routes.managementCategories}>
             <MenuItem icon={<DashboardIcon />}>
               <Text>Management</Text>
             </MenuItem>

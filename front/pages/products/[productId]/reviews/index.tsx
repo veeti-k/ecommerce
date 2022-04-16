@@ -1,13 +1,14 @@
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
-import { Card } from "../../../../components/Card";
-import { FlexDiv } from "../../../../components/Containers";
+import { Card, CardContent } from "../../../../components/Card";
+import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../../../components/Containers";
 import { Layout } from "../../../../components/layouts/Layout";
 import { PageTitleContainer } from "../../../../components/layouts/Styles";
 import { TextLink } from "../../../../components/Link";
 import { Stars } from "../../../../components/Product/Stars";
 import { PageTitle, BiggerHeading } from "../../../../components/Text";
 import { ResolvedCategory } from "../../../../types/Category";
-import { ProductPageProduct, ProductReview } from "../../../../types/Product";
+import { ProductPageProduct } from "../../../../types/Product";
+import { ProductReview } from "../../../../types/ProductReview";
 import {
   getProduct_STATIC_PROPS,
   getCategories_STATIC_PROPS,
@@ -24,19 +25,23 @@ const Reviews: NextPage<Result> = ({ categories, product, reviews }) => {
       </PageTitleContainer>
 
       <Card shadowFar>
-        <FlexDiv spaceBetween align>
-          <TextLink href={routes.productRoot(product.id)}>
-            <BiggerHeading>{product.name}</BiggerHeading>
-          </TextLink>
+        <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 11rem)" }}>
+          <CardContent>
+            <FlexDiv spaceBetween align>
+              <TextLink href={routes.productRoot(product.id)}>
+                <BiggerHeading>{product.name}</BiggerHeading>
+              </TextLink>
 
-          <Stars rating={product.averageStars} bigger />
-        </FlexDiv>
+              <Stars rating={product.averageStars} bigger />
+            </FlexDiv>
 
-        {reviews.map((review) => (
-          <Card key={review.id}>
-            <FlexDiv spaceBetween align></FlexDiv>
-          </Card>
-        ))}
+            {reviews.map((review) => (
+              <Card key={review.id}>
+                <FlexDiv spaceBetween align></FlexDiv>
+              </Card>
+            ))}
+          </CardContent>
+        </MgmtSettingsPageScrollableContent>
       </Card>
     </Layout>
   );

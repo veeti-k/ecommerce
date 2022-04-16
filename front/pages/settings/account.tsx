@@ -17,6 +17,7 @@ import { TitleContainer } from "../../components/layouts/Styles";
 import { DeleteAccountDialog } from "../../components/Dialogs/Account/DeleteAccountDialog";
 import { UpdateAccountRequest } from "../../utils/Requests/Account";
 import { ResolvedCategory } from "../../types/Category";
+import { CardContent } from "../../components/Card";
 
 type Result = {
   categories: ResolvedCategory[];
@@ -88,58 +89,60 @@ const Account: NextPage<Result> = ({ categories }) => {
       </TitleContainer>
 
       <MgmtSettingsPageScrollableContent>
-        <FlexDiv column>
-          <form onSubmit={onFormSubmit}>
-            <FlexDiv column>
-              <InputLabelContainer id="name" label="Name">
-                <Input
-                  id="name"
-                  autoComplete="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </InputLabelContainer>
-
-              <FlexDiv>
-                <InputLabelContainer id="email" label="Email">
+        <CardContent>
+          <FlexDiv column>
+            <form onSubmit={onFormSubmit}>
+              <FlexDiv column>
+                <InputLabelContainer id="name" label="Name">
                   <Input
-                    id="email"
-                    type="email"
-                    autoComplete="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    id="name"
+                    autoComplete="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </InputLabelContainer>
 
-                <InputLabelContainer id="phone-number" label="Phone number">
-                  <Input
-                    id="phone-number"
-                    type="tel"
-                    autoComplete="tel"
-                    value={phoneNumber ?? ""}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                  />
-                </InputLabelContainer>
+                <FlexDiv>
+                  <InputLabelContainer id="email" label="Email">
+                    <Input
+                      id="email"
+                      type="email"
+                      autoComplete="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </InputLabelContainer>
+
+                  <InputLabelContainer id="phone-number" label="Phone number">
+                    <Input
+                      id="phone-number"
+                      type="tel"
+                      autoComplete="tel"
+                      value={phoneNumber ?? ""}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                    />
+                  </InputLabelContainer>
+                </FlexDiv>
               </FlexDiv>
+
+              <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: "1rem" }}>
+                <Button colorScheme="blue" disabled={saveDisabled} type="submit">
+                  Save
+                </Button>
+              </div>
+            </form>
+
+            <Divider orientation="horizontal" />
+
+            <FlexDiv spaceBetween align>
+              <div>
+                <Heading>Delete account</Heading>
+                <Text light>Your account will be permanently deleted</Text>
+              </div>
+              <DeleteAccountDialog />
             </FlexDiv>
-
-            <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: "1rem" }}>
-              <Button colorScheme="blue" disabled={saveDisabled} type="submit">
-                Save
-              </Button>
-            </div>
-          </form>
-
-          <Divider orientation="horizontal" />
-
-          <FlexDiv spaceBetween align>
-            <div>
-              <Heading>Delete account</Heading>
-              <Text light>Your account will be permanently deleted</Text>
-            </div>
-            <DeleteAccountDialog />
           </FlexDiv>
-        </FlexDiv>
+        </CardContent>
       </MgmtSettingsPageScrollableContent>
     </SettingsPageLayout>
   );

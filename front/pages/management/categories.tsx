@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
-import { InfoCard } from "../../components/Card";
+import { CardContent, InfoCard } from "../../components/Card";
 import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../components/Containers";
 import { AddCategoryDialog } from "../../components/Dialogs/Category/AddCategoryDialog";
 import { DeleteCategoryDialog } from "../../components/Dialogs/Category/DeleteCategoryDialog";
@@ -37,24 +37,26 @@ const Categories: NextPage = () => {
       </TitleContainer>
 
       <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 15rem)" }}>
-        <FlexDiv column gap05>
-          {categories.map((category) => (
-            <InfoCard key={category.id}>
-              <FlexDiv spaceBetween fullWidth>
-                <Heading>{category.name}</Heading>
-                <FlexDiv gap05>
-                  <DeleteCategoryDialog category={category} getCategories={getCategories} />
+        <CardContent>
+          <FlexDiv column gap05>
+            {categories.map((category) => (
+              <InfoCard key={category.id}>
+                <FlexDiv spaceBetween fullWidth>
+                  <Heading>{category.name}</Heading>
+                  <FlexDiv gap05>
+                    <DeleteCategoryDialog category={category} getCategories={getCategories} />
 
-                  <EditCategoryDialog
-                    categories={categories}
-                    category={category}
-                    getCategories={getCategories}
-                  />
+                    <EditCategoryDialog
+                      categories={categories}
+                      category={category}
+                      getCategories={getCategories}
+                    />
+                  </FlexDiv>
                 </FlexDiv>
-              </FlexDiv>
-            </InfoCard>
-          ))}
-        </FlexDiv>
+              </InfoCard>
+            ))}
+          </FlexDiv>
+        </CardContent>
       </MgmtSettingsPageScrollableContent>
     </ManagementPageLayout>
   );

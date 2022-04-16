@@ -1,5 +1,6 @@
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import toast from "react-hot-toast";
+import { CardContent } from "../../../components/Card";
 import { MgmtSettingsPageScrollableContent } from "../../../components/Containers";
 import { ProductForm, ProductFormValues } from "../../../components/Forms/ProductForm";
 import { ManagementPageLayout } from "../../../components/layouts/ManagementPageLayout";
@@ -44,7 +45,9 @@ const AddProduct: NextPage<Result> = ({ categories }) => {
       </TitleContainer>
 
       <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 14rem)" }}>
-        <ProductForm onSubmit={onSubmit} categories={allCategories} submitButtonText="Add" />
+        <CardContent>
+          <ProductForm onSubmit={onSubmit} categories={allCategories} submitButtonText="Add" />
+        </CardContent>
       </MgmtSettingsPageScrollableContent>
     </ManagementPageLayout>
   );

@@ -108,15 +108,4 @@ export const InputLabelContainer: FC<InputLabelContainerProps> = ({
 
 export const MgmtSettingsPageScrollableContent = styled("div", {
   overflowY: "auto",
-  padding: "0 2rem",
-  paddingTop: "0.75rem",
-  paddingBottom: "1.5rem",
-
-  variants: {
-    noPadding: {
-      true: {
-        padding: 0,
-      },
-    },
-  },
 });

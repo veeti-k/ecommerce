@@ -66,8 +66,8 @@ const AddReview: NextPage<Result> = ({ categories, product }) => {
         </Link>
       </PageTitleContainer>
 
-      <Card shadowFar padding0>
-        <MgmtSettingsPageScrollableContent noPadding style={{ maxHeight: "calc(100vh - 11rem)" }}>
+      <Card shadowFar>
+        <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 11rem)" }}>
           <form onSubmit={onSubmit}>
             <CardContent>
               <FlexDiv column fullWidth>

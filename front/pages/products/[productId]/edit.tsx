@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Card } from "../../../components/Card";
+import { Card, CardContent } from "../../../components/Card";
 import { MgmtSettingsPageScrollableContent } from "../../../components/Containers";
 import { ProductForm, ProductFormValues } from "../../../components/Forms/ProductForm";
 import { ArrowLeftIcon } from "../../../components/Icons";
@@ -55,14 +55,16 @@ const ProductEdit: NextPage = () => {
           <Button leftIcon={<ArrowLeftIcon />}>Back to product page</Button>
         </Link>
       </PageTitleContainer>
-      <Card shadowFar padding0>
+      <Card shadowFar>
         <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 12rem)" }}>
-          <ProductForm
-            categories={allCategories}
-            initialValues={product}
-            onSubmit={onSubmit}
-            submitButtonText="Update"
-          />
+          <CardContent>
+            <ProductForm
+              categories={allCategories}
+              initialValues={product}
+              onSubmit={onSubmit}
+              submitButtonText="Update"
+            />
+          </CardContent>
         </MgmtSettingsPageScrollableContent>
       </Card>
     </Layout>

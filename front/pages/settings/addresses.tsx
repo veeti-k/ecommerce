@@ -1,7 +1,7 @@
 import { Tooltip } from "@chakra-ui/react";
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { useContext } from "react";
-import { Card } from "../../components/Card";
+import { Card, CardContent } from "../../components/Card";
 import { Heading, Text } from "../../components/Text";
 import { UserContext } from "../../UserProvider/provider";
 import { useGetMe } from "../../hooks/useGetMe";
@@ -52,34 +52,36 @@ export const Addresses: NextPage<Result> = ({ categories }) => {
         <NewAddressDialog />
       </TitleContainer>
       <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 16rem)" }}>
-        <FlexDiv fullWidth column gap05>
-          {state.addresses.map((address) => (
-            <AddressCard key={address.id}>
-              <FlexDiv column>
-                <FlexDiv column gap0>
-                  <Text bold>{address.name}</Text>
-                  <Text>{address.streetAddress}</Text>
-                  <Text>
-                    {address.zip} {address.city}
-                  </Text>
-                  <Text>{address.state}</Text>
-                </FlexDiv>
+        <CardContent>
+          <FlexDiv fullWidth column gap05>
+            {state.addresses.map((address) => (
+              <AddressCard key={address.id}>
+                <FlexDiv column>
+                  <FlexDiv column gap0>
+                    <Text bold>{address.name}</Text>
+                    <Text>{address.streetAddress}</Text>
+                    <Text>
+                      {address.zip} {address.city}
+                    </Text>
+                    <Text>{address.state}</Text>
+                  </FlexDiv>
 
-                <FlexDiv column gap0>
-                  <Text bold>{address.email}</Text>
-                  <Text bold>{address.phoneNumber}</Text>
+                  <FlexDiv column gap0>
+                    <Text bold>{address.email}</Text>
+                    <Text bold>{address.phoneNumber}</Text>
+                  </FlexDiv>
                 </FlexDiv>
-              </FlexDiv>
-              <FlexDiv column gap05>
-                <EditAddressDialog address={address} />
+                <FlexDiv column gap05>
+                  <EditAddressDialog address={address} />
 
-                <Tooltip label="Delete address">
-                  <DeleteAddressDialog address={address} />
-                </Tooltip>
-              </FlexDiv>
-            </AddressCard>
-          ))}
-        </FlexDiv>
+                  <Tooltip label="Delete address">
+                    <DeleteAddressDialog address={address} />
+                  </Tooltip>
+                </FlexDiv>
+              </AddressCard>
+            ))}
+          </FlexDiv>
+        </CardContent>
       </MgmtSettingsPageScrollableContent>
     </SettingsPageLayout>
   );

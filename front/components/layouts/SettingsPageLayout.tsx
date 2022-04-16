@@ -7,7 +7,7 @@ import { UserContext } from "../../UserProvider/provider";
 import { logout } from "../../utils/logout";
 import { pushUser } from "../../utils/router";
 import { routes } from "../../utils/routes";
-import { PageCard } from "../Card";
+import { Card, CardContent, PageCard } from "../Card";
 import { FlexDiv } from "../Containers";
 import { AddressesIcon, LogoutIcon, PasswordIcon, SessionsIcon, UserIcon } from "../Icons";
 import { Text, PageTitle } from "../Text";
@@ -50,7 +50,7 @@ export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({ children, cate
             </FlexDiv>
           </PageTitleContainer>
 
-          <PageCard>
+          <Card shadowFar>
             <FlexDiv gap0>
               <PageSelectorButtons>
                 <PageSelectorButton
@@ -81,7 +81,7 @@ export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({ children, cate
 
               <MainContent>{children}</MainContent>
             </FlexDiv>
-          </PageCard>
+          </Card>
         </>
       ) : null}
     </Layout>
