@@ -72,6 +72,11 @@ const BaseHeading = styled("h1", {
         paddingTop: "0.4rem",
       },
     },
+    light: {
+      true: {
+        fontWeight: 300,
+      },
+    },
   },
 });
 

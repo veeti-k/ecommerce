@@ -8,3 +8,21 @@ export const AddProductReviewRequest = (productId: number, review: AddProductRev
     method: "POST",
     body: review,
   });
+
+export const GetNotApprovedProductReviewsRequest = () =>
+  request({
+    path: apiRoutes.products.reviewsRoot,
+    method: "GET",
+  });
+
+export const ApproveProductReviewRequest = (productId: number, reviewId: string) =>
+  request({
+    path: apiRoutes.products.product.reviews.reviewRoot(productId, reviewId),
+    method: "PATCH",
+  });
+
+export const DeclineProductReviewRequest = (productId: number, reviewId: string) =>
+  request({
+    path: apiRoutes.products.product.reviews.reviewRoot(productId, reviewId),
+    method: "DELETE",
+  });

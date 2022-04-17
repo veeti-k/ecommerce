@@ -3,11 +3,11 @@ import { MainGrid } from "../components/Containers";
 import { Layout } from "../components/layouts/Layout";
 import { TallProduct } from "../components/Product/TallProduct";
 import { ResolvedCategory } from "../types/Category";
-import { ShowCaseProduct } from "../types/Product";
+import { Product } from "../types/Product";
 import { getCategories_STATIC_PROPS, getIndexProducts_STATIC_PROPS } from "../utils/getStaticProps";
 
 type Result = {
-  products: ShowCaseProduct[];
+  products: Product[];
   categories: ResolvedCategory[];
 };
 

@@ -1,3 +1,4 @@
+using api.RequestsAndResponses.Product;
 using api.RequestsAndResponses.ProductReviewComment;
 
 namespace api.RequestsAndResponses.ProductReview;
@@ -13,4 +14,9 @@ public record ProductReviewResponse
   public int Stars { get; init; }
   public DateTimeOffset CreatedAt { get; init; }
   public List<ProductReviewCommentResponse> Comments { get; init; }
+}
+
+public record NotApprovedProductReviewResponse : ProductReviewResponse
+{
+  public BaseProductResponse Product { get; init; }
 }

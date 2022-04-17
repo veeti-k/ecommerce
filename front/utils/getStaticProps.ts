@@ -1,5 +1,5 @@
 import { ResolvedCategory, Category } from "../types/Category";
-import { ShowCaseProduct, ProductPageProduct } from "../types/Product";
+import { Product, ProductPageProduct } from "../types/Product";
 import { apiBase } from "./consts";
 
 export const getCategories_STATIC_PROPS = async () => {
@@ -18,14 +18,14 @@ export const getAllCategories_STATIC_PROPS = async () => {
 
 export const getIndexProducts_STATIC_PROPS = async () => {
   const productRes = await fetch(`${apiBase}/products`);
-  const products = (await productRes.json()) as ShowCaseProduct[];
+  const products = (await productRes.json()) as Product[];
 
   return products;
 };
 
 export const getAllProducts_STATIC_PROPS = async () => {
   const productRes = await fetch(`${apiBase}/products`);
-  const products = (await productRes.json()) as ShowCaseProduct[];
+  const products = (await productRes.json()) as Product[];
 
   return products;
 };

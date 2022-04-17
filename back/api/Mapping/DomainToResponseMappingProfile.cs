@@ -48,6 +48,11 @@ public class DomainToResponseMappingProfile : Profile
       options => options
         .MapFrom(src => src.AddressId));
 
+    CreateMap<Product, ProductResponse>()
+      .ForMember(dest => dest.Id,
+        options => options
+          .MapFrom(src => src.ProductId));
+
     CreateMap<Product, BaseProductResponse>().ForMember(dest => dest.Id,
       options => options
         .MapFrom(src => src.ProductId));
@@ -61,6 +66,11 @@ public class DomainToResponseMappingProfile : Profile
           .MapFrom(src => src.ProductId));
 
     CreateMap<ProductReview, ProductReviewResponse>()
+      .ForMember(dest => dest.Id,
+        options => options
+          .MapFrom(src => src.ProductReviewId));
+
+    CreateMap<ProductReview, NotApprovedProductReviewResponse>()
       .ForMember(dest => dest.Id,
         options => options
           .MapFrom(src => src.ProductReviewId));

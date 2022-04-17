@@ -15,4 +15,5 @@ public class ProductReview
   [Required] public bool IsApproved { get; set; }
 
   public virtual List<ProductReviewComment> Comments { get; init; }
+  public virtual Product Product { get; init; }
 }

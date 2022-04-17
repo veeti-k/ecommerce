@@ -67,4 +67,11 @@ public class ProductQuestionRepo : GenericRepo<ProductQuestion>, IProductQuestio
                          && question.IsApproved)
       .ToListAsync();
   }
+
+  public async Task<List<ProductQuestion?>> GetNotApproved()
+  {
+    return await _context.ProductQuestions
+      .Where(question => !question.IsApproved)
+      .ToListAsync();
+  }
 }

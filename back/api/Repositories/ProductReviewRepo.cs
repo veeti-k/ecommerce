@@ -63,4 +63,13 @@ public class ProductReviewRepo : GenericRepo<ProductReview>, IProductReviewRepo
                        && review.IsApproved)
       .ToListAsync();
   }
+
+  public async Task<List<ProductReview?>> GetNotApproved()
+  {
+    return await _context.ProductReviews
+      .AsNoTracking()
+      .Include(review => review.Product)
+      .Where(review => !review.IsApproved)
+      .ToListAsync();
+  }
 }

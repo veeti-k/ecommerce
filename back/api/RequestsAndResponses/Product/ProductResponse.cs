@@ -29,11 +29,15 @@ public record BaseProductResponse
   public int ReviewCount { get; set; }
   public int QuestionCount { get; set; }
   public int DeepestCategoryId { get; set; }
+}
+
+public record ProductResponse : BaseProductResponse
+{
   public List<ProductBulletPointResponse> BulletPoints { get; set; }
   public List<ProductImageResponse> Images { get; set; }
 }
 
-public record ProductPageProductResponse : BaseProductResponse
+public record ProductPageProductResponse : ProductResponse
 {
   public List<CategoryResponse> Path { get; set; }
 }

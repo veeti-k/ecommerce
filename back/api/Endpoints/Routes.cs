@@ -71,6 +71,9 @@ public static class Routes
 
     public const string BulletPointId = "{bulletPointId:Guid}";
 
+    public const string ReviewsRoot = $"{ProductsRoot}/reviews";
+    public const string QuestionsRoot = $"{ProductsRoot}/questions";
+
     public const string ProductRoot = $"{ProductsRoot}/{ProductId}";
 
     public static class Product
@@ -143,7 +146,7 @@ public static class Routes
       public static class Hours
       {
         public const string Default = $"{HoursRoot}/default";
-        
+
         public const string ExceptionsRoot = $"{HoursRoot}/exceptions";
         public const string Exception = $"{HoursRoot}/exceptions/{ExceptionId}";
       }

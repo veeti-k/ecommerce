@@ -315,14 +315,23 @@ export const ProductForm: FC<ProductFormProps> = ({
   );
 };
 
-const AnimatedListItem: FC = ({ children }) => {
+export const AnimatedListItem: FC = ({ children }) => {
   const [isPresent, safeToRemove] = usePresence();
 
   const props = {
     layout: true,
     initial: "initial",
     animate: isPresent ? "animate" : "initial",
-    variants: variants,
+    variants: {
+      initial: { opacity: 0, height: 0 },
+      animate: {
+        opacity: 1,
+        height: "auto",
+        transition: {
+          staggerChildren: 0.007,
+        },
+      },
+    },
     onAnimationComplete: () => !isPresent && safeToRemove(),
   };
 

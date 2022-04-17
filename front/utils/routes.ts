@@ -8,6 +8,8 @@ export const routes = {
   managementOrders: "/management/orders",
   managementUsers: "/management/users",
   managementStores: "/management/stores",
+  managementReviewingReviews: "/management/reviewing/reviews",
+  managementReviewingQuestions: "/management/reviewing/questions",
 
   settings: "/settings",
   settingsAccount: "/settings/account",
@@ -55,19 +57,22 @@ export const apiRoutes = {
   products: {
     productRoot: (productId: number) => `/products/${productId}`,
 
+    reviewsRoot: `/products/reviews`,
+    questionsRoot: `/products/questions`,
+
     product: {
       reviewsRoot: (productId: number) => `/products/${productId}/reviews`,
 
       reviews: {
-        reviewRoot: (productId: number, reviewId: number) =>
+        reviewRoot: (productId: number, reviewId: string) =>
           `/products/${productId}/reviews/${reviewId}`,
 
         review: {
-          commentsRoot: (productId: number, reviewId: number) =>
+          commentsRoot: (productId: number, reviewId: string) =>
             `/products/${productId}/reviews/${reviewId}/comments`,
 
           comments: {
-            comment: (productId: number, reviewId: number, commentId: number) =>
+            comment: (productId: number, reviewId: string, commentId: number) =>
               `/products/${productId}/reviews/${reviewId}/comments/${commentId}`,
           },
         },

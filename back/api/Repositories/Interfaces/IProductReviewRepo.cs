@@ -10,4 +10,5 @@ public interface IProductReviewRepo : IGenericRepo<ProductReview>
   public Task<List<ProductReview?>> GetManyApproved(int productId);
   public Task<List<ProductReview?>> GetManyWithApprovedComments(int productId);
   public Task<List<ProductReview?>> GetManyApprovedWithApprovedComments(int productId);
+  public Task<List<ProductReview?>> GetNotApproved();
 }

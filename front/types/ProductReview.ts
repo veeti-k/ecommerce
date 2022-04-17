@@ -1,3 +1,5 @@
+import { Product } from "./Product";
+
 export type ProductReview = {
   id: string;
   productId: number;
@@ -7,6 +9,10 @@ export type ProductReview = {
   content: string;
   stars: number;
   createdAt: string;
+};
+
+export type NotApprovedProductReview = ProductReview & {
+  product: Product;
 };
 
 export type AddProductReviewRequestBody = Omit<

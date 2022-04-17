@@ -1,7 +1,7 @@
 import { Button, ListItem, UnorderedList } from "@chakra-ui/react";
 import { FC } from "react";
 import { styled } from "../../stitches.config";
-import { ShowCaseProduct } from "../../types/Product";
+import { Product } from "../../types/Product";
 import { routes } from "../../utils/routes";
 import { ProductCard } from "../Card";
 import { FlexDiv } from "../Containers";
@@ -11,7 +11,7 @@ import { PageTitle, Text } from "../Text";
 import { Stars } from "./Stars";
 
 type TallProductProps = {
-  product: ShowCaseProduct;
+  product: Product;
 };
 
 const StyledImage = styled("img", {

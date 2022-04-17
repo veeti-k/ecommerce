@@ -19,6 +19,7 @@ type Props = {
   header: string;
   bodyText: string;
   submitLabel: string;
+  submitColor?: string;
 };
 
 export const AlertDialog: FC<Props> = (props) => {
@@ -45,7 +46,11 @@ export const AlertDialog: FC<Props> = (props) => {
               Cancel
             </Button>
 
-            <Button colorScheme="red" type="submit" onClick={props.onSubmit}>
+            <Button
+              colorScheme={props.submitColor ? props.submitColor : "red"}
+              type="submit"
+              onClick={props.onSubmit}
+            >
               {props.submitLabel}
             </Button>
           </FlexDiv>

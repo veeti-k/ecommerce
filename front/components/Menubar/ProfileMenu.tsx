@@ -2,10 +2,10 @@ import { IconButton, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/rea
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { UserContext } from "../../UserProvider/provider";
-import { isAdmin } from "../../utils/flagResolve";
+import { hasManageQuestions, hasManageReviews, isAdmin } from "../../utils/flagResolve";
 import { logout } from "../../utils/logout";
 import { routes } from "../../utils/routes";
-import { DashboardIcon, LoginIcon, LogoutIcon, UserIcon } from "../Icons";
+import { DashboardIcon, LoginIcon, LogoutIcon, ReviewingIcon, UserIcon } from "../Icons";
 import { Link } from "../Link";
 import { Text } from "../Text";
 
@@ -13,6 +13,8 @@ export const ProfileMenu = () => {
   const router = useRouter();
 
   const { state, dispatch } = useContext(UserContext);
+
+  const isAllowedToReview = hasManageReviews(state.flags) || hasManageQuestions(state.flags);
 
   if (!state.id)
     return (
@@ -44,6 +46,14 @@ export const ProfileMenu = () => {
           <Link href={routes.managementCategories}>
             <MenuItem icon={<DashboardIcon />}>
               <Text>Management</Text>
+            </MenuItem>
+          </Link>
+        )}
+
+        {isAllowedToReview && (
+          <Link href={routes.managementReviewingReviews}>
+            <MenuItem icon={<ReviewingIcon />}>
+              <Text>Reviewing</Text>
             </MenuItem>
           </Link>
         )}

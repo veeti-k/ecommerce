@@ -56,7 +56,7 @@ public class DataContext : DbContext, IDataContext
     // one-to-many product - reviews
     aBuilder.Entity<Product>()
       .HasMany(product => product.Reviews)
-      .WithOne()
+      .WithOne(review => review.Product)
       .HasForeignKey(review => review.ProductId)
       .OnDelete(DeleteBehavior.Cascade);
 

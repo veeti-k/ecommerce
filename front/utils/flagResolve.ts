@@ -11,3 +11,9 @@ export const flags = {
 
 export const isAdmin = (userFlags: number) =>
   (userFlags & flags.ADMINISTRATOR) == flags.ADMINISTRATOR;
+
+export const hasManageReviews = (userFlags: number) =>
+  isAdmin(userFlags) || (userFlags & flags.MANAGE_REVIEWS) == flags.MANAGE_REVIEWS;
+
+export const hasManageQuestions = (userFlags: number) =>
+  isAdmin(userFlags) || (userFlags & flags.MANAGE_QUESTIONS) == flags.MANAGE_QUESTIONS;

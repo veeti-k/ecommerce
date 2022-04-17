@@ -3,9 +3,10 @@ import { BsArrowLeft, BsArrowRight, BsBagCheck, BsGrid, BsPlusSquare } from "rea
 import { BiLinkExternal, BiStoreAlt, BiTrash } from "react-icons/bi";
 import { HiChevronDown, HiHome, HiOutlineMenu, HiPlus } from "react-icons/hi";
 import { FiEdit, FiLock, FiLogIn, FiLogOut, FiShield, FiShoppingBag, FiUser } from "react-icons/fi";
-import { MdOutlineSpaceDashboard } from "react-icons/md";
+import { MdOutlinePreview, MdOutlineReviews, MdOutlineSpaceDashboard } from "react-icons/md";
 import { FaRegAddressBook } from "react-icons/fa";
 import { FcInfo } from "react-icons/fc";
+import { RiQuestionnaireLine } from "react-icons/ri";
 
 export const TrashIcon = () => <BiTrash size={20} transform="scale(1.1)" />;
 export const EditIcon = () => <FiEdit size={17} transform="scale(1.05)" />;
@@ -29,6 +30,9 @@ export const PasswordIcon = () => <FiLock size={20} />;
 export const ExternalLinkIcon = () => <BiLinkExternal />;
 export const HomeIcon = () => <HiHome size={20} />;
 export const StoreIcon = () => <BiStoreAlt size={20} style={{ marginTop: 1 }} />;
+export const ReviewIcon = () => <MdOutlineReviews size={20} style={{ marginTop: 2 }} />;
+export const QuestionIcon = () => <RiQuestionnaireLine size={20} style={{ marginTop: 2 }} />;
+export const ReviewingIcon = () => <MdOutlinePreview size={20} />;
 
 export const ArrowLeftIcon = () => <BsArrowLeft size={20} />;
 export const ArrowRightIcon = () => <BsArrowRight size={20} />;

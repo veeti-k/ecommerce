@@ -14,7 +14,7 @@ public record GetProductsRequest
 
 public class GetProducts : EndpointBaseAsync
   .WithRequest<GetProductsRequest>
-  .WithActionResult<List<BaseProductResponse>>
+  .WithActionResult<List<ProductResponse>>
 {
   private readonly IMapper _mapper;
   private readonly IProductRepo _productRepo;
@@ -26,7 +26,7 @@ public class GetProducts : EndpointBaseAsync
   }
 
   [HttpGet(Routes.ProductsRoot)]
-  public override async Task<ActionResult<List<BaseProductResponse>>> HandleAsync(
+  public override async Task<ActionResult<List<ProductResponse>>> HandleAsync(
     [FromRoute] GetProductsRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
@@ -42,6 +42,6 @@ public class GetProducts : EndpointBaseAsync
       if (res.Any()) products = SearchUtils.OrderByNameStartsWith(res, request.Query);
     }
 
-    return Ok(_mapper.Map<List<BaseProductResponse>>(products));
+    return Ok(_mapper.Map<List<ProductResponse>>(products));
   }
 }

@@ -12,7 +12,7 @@ export type imageLink = {
 };
 export const imageLinkDefaultValue = { id: null, link: "" };
 
-export type ShowCaseProduct = {
+export type BaseProduct = {
   id: number;
   name: string;
   description: string;
@@ -25,24 +25,13 @@ export type ShowCaseProduct = {
   averageStars: number;
   reviewCount: number;
   questionCount: number;
+};
+
+export type Product = BaseProduct & {
   bulletPoints: bulletPoint[];
   images: imageLink[];
 };
 
-export type ProductPageProduct = {
+export type ProductPageProduct = Product & {
   path: Category[];
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  discountedPrice: number;
-  discountPercent: number;
-  discountAmount: number;
-  isDiscounted: boolean;
-  isDeleted: boolean;
-  averageStars: number;
-  reviewCount: number;
-  questionCount: number;
-  bulletPoints: bulletPoint[];
-  images: imageLink[];
 };
