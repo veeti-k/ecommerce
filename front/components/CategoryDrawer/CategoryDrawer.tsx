@@ -4,7 +4,6 @@ import {
   Drawer,
   DrawerOverlay,
   DrawerContent,
-  Heading,
   DrawerCloseButton,
   DrawerBody,
 } from "@chakra-ui/react";
@@ -12,6 +11,7 @@ import { FC, useState } from "react";
 import { ResolvedCategory } from "../../types/Category";
 import { FlexDiv } from "../Containers";
 import { HamburgerIcon } from "../Icons";
+import { Heading } from "../Text";
 import { Category } from "./Category";
 
 type Props = {
