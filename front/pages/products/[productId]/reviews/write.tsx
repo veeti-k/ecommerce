@@ -4,11 +4,7 @@ import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { Card, CardContent } from "../../../../components/Card";
-import {
-  FlexDiv,
-  InputLabelContainer,
-  MgmtSettingsPageScrollableContent,
-} from "../../../../components/Containers";
+import { FlexDiv, InputLabelContainer } from "../../../../components/Containers";
 import { ArrowLeftIcon, InfoIcon } from "../../../../components/Icons";
 import { Layout } from "../../../../components/layouts/Layout";
 import { PageTitleContainer } from "../../../../components/layouts/Styles";
@@ -62,91 +58,96 @@ const AddReview: NextPage<Result> = ({ categories, product }) => {
         <PageTitle>Write a review</PageTitle>
 
         <Link href={routes.productRoot(product.id)}>
-          <Button leftIcon={<ArrowLeftIcon />}>Back to product page</Button>
+          <Button size="sm" leftIcon={<ArrowLeftIcon />}>
+            Back to product page
+          </Button>
         </Link>
       </PageTitleContainer>
 
       <Card shadowFar>
-        <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 11rem)" }}>
-          <form onSubmit={onSubmit}>
-            <CardContent>
-              <FlexDiv column fullWidth>
-                <FlexDiv align spaceBetween fullWidth>
-                  <Heading>
-                    Reviewing:{" "}
-                    <TextLink href={routes.productRoot(product.id)}>{product.name}</TextLink>
-                  </Heading>
-                </FlexDiv>
+        <form onSubmit={onSubmit}>
+          <CardContent>
+            <FlexDiv column fullWidth>
+              <FlexDiv align spaceBetween fullWidth>
+                <Heading>
+                  Reviewing:{" "}
+                  <TextLink href={routes.productRoot(product.id)}>{product.name}</TextLink>
+                </Heading>
+              </FlexDiv>
 
-                <FlexDiv align>
-                  <InputLabelContainer label="Nickname" id="nickname">
-                    <Input
-                      id="nickname"
-                      autoComplete="name"
-                      value={nickname}
-                      onChange={(e) => setNickname(e.target.value)}
-                      required
-                    />
-                  </InputLabelContainer>
-
-                  <InputLabelContainer label="Stars" id="stars">
-                    <Select
-                      id="stars"
-                      placeholder="Stars"
-                      value={stars}
-                      onChange={(e) => setStars(Number(e.target.value))}
-                      required
-                    >
-                      <option value={1}>1 star</option>
-                      <option value={2}>2 stars</option>
-                      <option value={3}>3 stars</option>
-                      <option value={4}>4 stars</option>
-                      <option value={5}>5 stars</option>
-                    </Select>
-                  </InputLabelContainer>
-                </FlexDiv>
-
-                <InputLabelContainer label="Title" id="title">
+              <FlexDiv align>
+                <InputLabelContainer label="Nickname" id="nickname">
                   <Input
-                    id="title"
-                    autoComplete="off"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    id="nickname"
+                    autoComplete="name"
+                    value={nickname}
+                    onChange={(e) => setNickname(e.target.value)}
                     required
                   />
                 </InputLabelContainer>
 
-                <InputLabelContainer label="Review" id="review">
-                  <Textarea
-                    rows={10}
-                    id="review"
-                    autoComplete="off"
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
+                <InputLabelContainer label="Stars" id="stars">
+                  <Select
+                    id="stars"
+                    placeholder="Stars"
+                    value={stars}
+                    onChange={(e) => setStars(Number(e.target.value))}
                     required
-                  />
+                  >
+                    <option value={1}>1 star</option>
+                    <option value={2}>2 stars</option>
+                    <option value={3}>3 stars</option>
+                    <option value={4}>4 stars</option>
+                    <option value={5}>5 stars</option>
+                  </Select>
                 </InputLabelContainer>
+              </FlexDiv>
 
-                <FlexDiv column gap05>
-                  <Heading>Preview:</Heading>
-                  <Review
-                    review={{
-                      stars,
-                      title,
-                      content,
-                      reviewersNickname: nickname,
-                      byEmployee: false,
-                    }}
-                  />
-                </FlexDiv>
+              <InputLabelContainer label="Title" id="title">
+                <Input
+                  id="title"
+                  autoComplete="off"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  required
+                />
+              </InputLabelContainer>
 
+              <InputLabelContainer label="Review" id="review">
+                <Textarea
+                  rows={10}
+                  id="review"
+                  autoComplete="off"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  required
+                />
+              </InputLabelContainer>
+
+              <FlexDiv column gap05>
+                <Heading>Preview:</Heading>
+                <Review
+                  review={{
+                    stars,
+                    title,
+                    content,
+                    reviewersNickname: nickname,
+                    byEmployee: false,
+                  }}
+                />
+              </FlexDiv>
+
+              <FlexDiv gap05>
+                <Link href={routes.productRoot(product.id)}>
+                  <Button isFullWidth>Cancel</Button>
+                </Link>
                 <Button colorScheme="blue" type="submit">
                   Submit
                 </Button>
               </FlexDiv>
-            </CardContent>
-          </form>
-        </MgmtSettingsPageScrollableContent>
+            </FlexDiv>
+          </CardContent>
+        </form>
       </Card>
     </Layout>
   );

@@ -10,6 +10,7 @@ import { Pluralize } from "../../../../components/Pluralize";
 import { Review } from "../../../../components/Product/Review";
 import { Stars } from "../../../../components/Product/Stars";
 import { PageTitle, BiggerHeading, Heading } from "../../../../components/Text";
+import { styled } from "../../../../stitches.config";
 import { ResolvedCategory } from "../../../../types/Category";
 import { ProductPageProduct } from "../../../../types/Product";
 import { ProductReview } from "../../../../types/ProductReview";
@@ -21,9 +22,17 @@ import {
 } from "../../../../utils/getStaticProps";
 import { routes } from "../../../../utils/routes";
 
+const Div = styled(FlexDiv, {
+  flexDirection: "column",
+
+  "@mobileAndUp": {
+    flexDirection: "row",
+  },
+});
+
 const Reviews: NextPage<Result> = ({ categories, product, reviews }) => {
   return (
-    <Layout categories={categories}>
+    <Layout categories={categories} lessPaddingOnMobile>
       <PageTitleContainer>
         <PageTitle>Reviews</PageTitle>
 
@@ -33,54 +42,52 @@ const Reviews: NextPage<Result> = ({ categories, product, reviews }) => {
       </PageTitleContainer>
 
       <Card shadowFar>
-        <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 11rem)" }}>
-          <CardContent>
-            <FlexDiv column gap05>
-              <FlexDiv spaceBetween>
-                <TextLink href={routes.productRoot(product.id)}>
-                  <BiggerHeading>{product.name}</BiggerHeading>
-                </TextLink>
+        <CardContent>
+          <FlexDiv column gap05>
+            <Div spaceBetween gap05>
+              <TextLink href={routes.productRoot(product.id)}>
+                <BiggerHeading>{product.name}</BiggerHeading>
+              </TextLink>
 
-                <FlexDiv align>
-                  <Stars
-                    rating={product.averageStars}
-                    bigger
-                    showReviewsLabel
-                    reviewCount={reviews.length}
-                  />
+              <FlexDiv align>
+                <Stars
+                  rating={product.averageStars}
+                  bigger
+                  showReviewsLabel
+                  reviewCount={reviews.length}
+                />
 
-                  <Heading>
-                    {!!reviews.length ? (
-                      <Pluralize singular="review" count={reviews.length} />
-                    ) : (
-                      "No reviews"
-                    )}
-                  </Heading>
-                </FlexDiv>
+                <Heading>
+                  {!!reviews.length ? (
+                    <Pluralize singular="review" count={reviews.length} />
+                  ) : (
+                    "No reviews"
+                  )}
+                </Heading>
               </FlexDiv>
+            </Div>
 
-              <div style={{ paddingBottom: "1rem" }}>
-                <Link href={routes.product.reviewsAdd(product.id)}>
-                  <Button colorScheme="blue">
-                    {!!reviews.length ? "Write a review" : "Write the first review"}
-                  </Button>
-                </Link>
-              </div>
+            <div style={{ paddingBottom: "1rem" }}>
+              <Link href={routes.product.reviewsAdd(product.id)}>
+                <Button colorScheme="blue">
+                  {!!reviews.length ? "Write a review" : "Write the first review"}
+                </Button>
+              </Link>
+            </div>
 
-              <Heading>
-                {!!reviews.length ? (
-                  <Pluralize singular="review" count={reviews.length} />
-                ) : (
-                  "No reviews"
-                )}
-              </Heading>
+            <Heading>
+              {!!reviews.length ? (
+                <Pluralize singular="review" count={reviews.length} />
+              ) : (
+                "No reviews"
+              )}
+            </Heading>
 
-              {reviews.map((review) => (
-                <Review review={review} key={review.id} />
-              ))}
-            </FlexDiv>
-          </CardContent>
-        </MgmtSettingsPageScrollableContent>
+            {reviews.map((review) => (
+              <Review review={review} key={review.id} />
+            ))}
+          </FlexDiv>
+        </CardContent>
       </Card>
     </Layout>
   );
