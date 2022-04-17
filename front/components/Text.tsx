@@ -99,7 +99,15 @@ export const BiggerHeading = styled(BaseHeading, {
 });
 
 export const PageTitle = styled(BaseHeading, {
-  fontSize: "1.6rem",
+  fontSize: "1.2rem",
+
+  "@mobileAndUp": {
+    fontSize: "1.4rem",
+  },
+
+  "@tabletAndUp": {
+    fontSize: "1.6rem",
+  },
 });
 
 export const HugeHeading = styled("h1", {
