@@ -35,7 +35,7 @@ const Main = styled("main", {
 
         "@mobileAndUp": {
           padding: "0 25px",
-          paddingTop: "5rem",
+          paddingTop: "6rem",
         },
       },
     },
