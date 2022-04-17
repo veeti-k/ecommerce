@@ -47,25 +47,25 @@ const ProductEdit: NextPage = () => {
   };
 
   return (
-    <Layout categories={resolvedCategories}>
+    <Layout categories={resolvedCategories} lessPaddingOnMobile>
       <PageTitleContainer>
         <BiggerHeading>Edit product</BiggerHeading>
 
         <Link href={routes.productRoot(productId)}>
-          <Button leftIcon={<ArrowLeftIcon />}>Back to product page</Button>
+          <Button size="sm" leftIcon={<ArrowLeftIcon />}>
+            Back to product page
+          </Button>
         </Link>
       </PageTitleContainer>
       <Card shadowFar>
-        <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 12rem)" }}>
-          <CardContent>
-            <ProductForm
-              categories={allCategories}
-              initialValues={product}
-              onSubmit={onSubmit}
-              submitButtonText="Update"
-            />
-          </CardContent>
-        </MgmtSettingsPageScrollableContent>
+        <CardContent>
+          <ProductForm
+            categories={allCategories}
+            initialValues={product}
+            onSubmit={onSubmit}
+            submitButtonText="Update"
+          />
+        </CardContent>
       </Card>
     </Layout>
   );
