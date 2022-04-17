@@ -9,7 +9,7 @@ const PageTitleContainerStyles = styled("div", {
   alignItems: "center",
   justifyContent: "space-between",
 
-  padding: "1rem",
+  padding: "0.5rem 0.8rem",
 
   "@mobileAndUp": {
     padding: 0,
