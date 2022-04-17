@@ -8,7 +8,7 @@ import {
   Switch,
   Select,
 } from "@chakra-ui/react";
-import { AnimatePresence, usePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Category } from "../../types/Category";
@@ -19,6 +19,7 @@ import {
   bulletPointDefaultValue,
   imageLinkDefaultValue,
 } from "../../types/Product";
+import { AnimatedListItem } from "../Animate";
 
 import { FlexDiv, InputLabelContainer } from "../Containers";
 
@@ -233,7 +234,7 @@ export const ProductForm: FC<ProductFormProps> = ({
 
         <AnimatePresence initial={false}>
           {imageLinks.map((imagelink, index) => (
-            <AnimatedListItem key={index}>
+            <AnimatedListItem paddingBottom="1rem" key={index}>
               <InputLabelContainer
                 key={index}
                 id={`image-link-${index + 1}`}
@@ -315,32 +316,14 @@ export const ProductForm: FC<ProductFormProps> = ({
   );
 };
 
-export const AnimatedListItem: FC = ({ children }) => {
-  const [isPresent, safeToRemove] = usePresence();
-
-  const props = {
-    layout: true,
-    initial: "initial",
-    animate: isPresent ? "animate" : "initial",
-    variants: {
-      initial: { opacity: 0, height: 0 },
-      animate: {
-        opacity: 1,
-        height: "auto",
-        transition: {
-          staggerChildren: 0.007,
-        },
-      },
-    },
-    onAnimationComplete: () => !isPresent && safeToRemove(),
-  };
-
-  return (
-    <motion.div {...props}>
-      {children}
-      <div style={{ paddingTop: "1rem" }}></div>
-    </motion.div>
-  );
+type DiscountThingsProps = {
+  price: number;
+  discountedPrice: string | undefined;
+  setDiscountedPrice: (discountedPrice: string) => void;
+  discountPercentage: string | undefined;
+  setDiscountPercentage: (discountPercentage: string) => void;
+  discountAmount: string | undefined;
+  setDiscountAmount: (discountAmount: string) => void;
 };
 
 const variants = {
@@ -352,16 +335,6 @@ const variants = {
       staggerChildren: 0.007,
     },
   },
-};
-
-type DiscountThingsProps = {
-  price: number;
-  discountedPrice: string | undefined;
-  setDiscountedPrice: (discountedPrice: string) => void;
-  discountPercentage: string | undefined;
-  setDiscountPercentage: (discountPercentage: string) => void;
-  discountAmount: string | undefined;
-  setDiscountAmount: (discountAmount: string) => void;
 };
 
 const DiscountThings: FC<DiscountThingsProps> = ({
