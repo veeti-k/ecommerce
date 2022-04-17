@@ -88,7 +88,7 @@ const ProductPage: NextPage<Props> = ({ product, categories }) => {
 
           <StarsReviewsQuestions product={product} />
 
-          <MainDiv style={{ paddingTop: "2rem" }}>
+          <MainDiv style={{ paddingTop: "1rem" }}>
             <ImageContainer>
               <img src={product.images[0].link} alt={product.name} />
             </ImageContainer>
