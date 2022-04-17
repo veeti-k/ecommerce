@@ -32,6 +32,8 @@ export const useResizeListener = () => {
       });
     };
 
+    handleResize();
+
     window.addEventListener("resize", handleResize);
 
     return () => {
