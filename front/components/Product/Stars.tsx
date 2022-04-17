@@ -1,7 +1,23 @@
+import { Tooltip } from "@chakra-ui/react";
+import { FC } from "react";
 import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
 import { FlexDiv } from "../Containers";
 
-export const Stars = ({ rating, bigger }: { rating: number; bigger?: boolean }) => {
+type Props =
+  | {
+      rating: number;
+      bigger?: boolean;
+      showReviewsLabel?: never;
+      reviewCount?: never;
+    }
+  | {
+      rating: number;
+      bigger?: boolean;
+      showReviewsLabel: boolean;
+      reviewCount: number;
+    };
+
+export const Stars: FC<Props> = ({ rating, bigger, showReviewsLabel: showLabel, reviewCount }) => {
   let fullStars = Math.floor(rating);
 
   if (rating - fullStars >= 0.78) fullStars++;
@@ -11,7 +27,7 @@ export const Stars = ({ rating, bigger }: { rating: number; bigger?: boolean }) 
 
   const starSize = bigger ? 30 : 0;
 
-  return (
+  const _Stars = (
     <FlexDiv gap0 style={{ gap: "0.3rem" }}>
       {[...Array(fullStars)].map((_, i) => (
         <BsStarFill key={i} size={starSize} />
@@ -24,4 +40,15 @@ export const Stars = ({ rating, bigger }: { rating: number; bigger?: boolean }) 
       ))}
     </FlexDiv>
   );
+
+  if (showLabel && typeof reviewCount === "number")
+    return (
+      <Tooltip
+        label={reviewCount ? `Rating ${rating}/5 based on ${reviewCount} reviews` : "No reviews"}
+      >
+        {_Stars}
+      </Tooltip>
+    );
+
+  return <Tooltip label={`Rating ${rating}/5`}>{_Stars}</Tooltip>;
 };
