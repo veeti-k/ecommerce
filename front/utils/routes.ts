@@ -81,15 +81,15 @@ export const apiRoutes = {
       questionsRoot: (productId: number) => `/products/${productId}/questions`,
 
       questions: {
-        questionRoot: (productId: number, questionId: number) =>
+        questionRoot: (productId: number, questionId: string) =>
           `/products/${productId}/questions/${questionId}`,
 
         question: {
-          answersRoot: (productId: number, questionId: number) =>
+          answersRoot: (productId: number, questionId: string) =>
             `/products/${productId}/questions/${questionId}/answers`,
 
           answers: {
-            answer: (productId: number, questionId: number, answerId: number) =>
+            answer: (productId: number, questionId: string, answerId: number) =>
               `/products/${productId}/questions/${questionId}/answers/${answerId}`,
           },
         },

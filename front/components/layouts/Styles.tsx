@@ -4,7 +4,7 @@ import { FC, MouseEvent } from "react";
 import { styled } from "../../stitches.config";
 import { pushUser } from "../../utils/router";
 
-const PageTitleContainerStyles = styled("div", {
+export const PageTitleContainer = styled("div", {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
@@ -15,11 +15,18 @@ const PageTitleContainerStyles = styled("div", {
     padding: 0,
     paddingBottom: "1rem",
   },
-});
 
-export const PageTitleContainer: FC = ({ children }) => (
-  <PageTitleContainerStyles>{children}</PageTitleContainerStyles>
-);
+  variants: {
+    test: {
+      true: {
+        alignItems: "unset",
+        justifyContent: "unset",
+        flexDirection: "column",
+        gap: "0.5rem",
+      },
+    },
+  },
+});
 
 export const PageSelectorButtons = styled("div", {
   display: "flex",
@@ -80,7 +87,7 @@ export const PageSelectorButton: FC<PageSelectorButtonProps> = ({ children, acti
 };
 
 export const MainContent = styled("div", {
-  backgroundColor: "#fcfcfc",
+  backgroundColor: "white",
   display: "flex",
   width: "100%",
 
@@ -88,12 +95,21 @@ export const MainContent = styled("div", {
   borderBottomRightRadius: "8px",
 
   flexDirection: "column",
+
+  "@mobileAndUp": {
+    backgroundColor: "#fcfcfc",
+  },
 });
 
 export const TitleContainer = styled("div", {
   display: "flex",
   justifyContent: "space-between",
-  padding: "0 1.5rem",
-  paddingTop: "1.5rem",
+  padding: "0.8rem",
+  paddingBottom: "0",
   position: "sticky",
+
+  "@mobileAndUp": {
+    padding: "0 1.5rem",
+    paddingTop: "1.5rem",
+  },
 });

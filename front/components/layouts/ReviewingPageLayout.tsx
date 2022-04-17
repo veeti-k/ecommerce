@@ -1,4 +1,6 @@
+import { Select } from "@chakra-ui/react";
 import { FC, ReactNode, useContext } from "react";
+import { BreakpointContext } from "../../BreakpointProvider/BreakpointProvider";
 import { ResolvedCategory } from "../../types/Category";
 import { UserContext } from "../../UserProvider/provider";
 import { hasManageQuestions, hasManageReviews } from "../../utils/flagResolve";
@@ -8,6 +10,7 @@ import { FlexDiv } from "../Containers";
 import { QuestionIcon, ReviewIcon } from "../Icons";
 import { PageTitle, Text } from "../Text";
 import { Layout } from "./Layout";
+import { ReviewingPageLayoutMobile } from "./ReviewingPageLayout/ReviewingPageLayoutMobile";
 import { MainContent, PageSelectorButton, PageSelectorButtons, PageTitleContainer } from "./Styles";
 
 type Props = {
@@ -16,12 +19,22 @@ type Props = {
 };
 
 export const ReviewingPageLayout: FC<Props> = ({ children, categories }) => {
-  const { state } = useContext(UserContext);
+  const { state: userState } = useContext(UserContext);
+  const { state: bpState } = useContext(BreakpointContext);
 
-  const allowedToManageQuestions = hasManageQuestions(state.flags);
-  const allowedToManageReviews = hasManageReviews(state.flags);
+  const allowedToManageQuestions = hasManageQuestions(userState.flags);
+  const allowedToManageReviews = hasManageReviews(userState.flags);
 
   const allowedToViewSite = allowedToManageQuestions || allowedToManageReviews;
+
+  if (bpState.bp == "mobile")
+    return (
+      <Layout categories={categories} lessPaddingOnMobile>
+        <ReviewingPageLayoutMobile />
+
+        <MainContent>{children}</MainContent>
+      </Layout>
+    );
 
   return (
     <Layout categories={categories}>

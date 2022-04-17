@@ -48,7 +48,7 @@ export const TallProduct: FC<TallProductProps> = ({ product }) => (
 
       <Stars rating={product.averageStars} />
 
-      <UnorderedList style={{ height: "6rem", lineHeight: "1.2rem" }}>
+      <UnorderedList style={{ height: "6.5rem", lineHeight: "1.3rem" }}>
         {product.bulletPoints.map((bulletPoint) => (
           <ListItem key={bulletPoint.id}>
             <Text>{bulletPoint.text}</Text>

@@ -29,6 +29,7 @@ const StyledTab = styled("div", {
       true: {
         boxShadow: "0 4px 2px -2px gray",
         fontWeight: "bold",
+        backgroundColor: "#bbb",
       },
     },
   },

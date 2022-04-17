@@ -5,32 +5,34 @@ import { BreakpointContext } from "../../../BreakpointProvider/BreakpointProvide
 import { AnimatedListItem } from "../../../components/Animate";
 import { CardContent, InfoCard } from "../../../components/Card";
 import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../../components/Containers";
-import { ApproveProductReviewDialog } from "../../../components/Dialogs/Reviewing/ApproveProductReviewDialog";
+import { ApproveProductQuestionDialog } from "../../../components/Dialogs/Reviewing/ApproveProductQuestionDialog";
+import { DeclineProductQuestionDialog } from "../../../components/Dialogs/Reviewing/DeclineProductQuestionDialog";
 import { DeclineProductReviewDialog } from "../../../components/Dialogs/Reviewing/DeclineProductReviewDialog";
 import { ReviewingPageLayout } from "../../../components/layouts/ReviewingPageLayout";
 import { TitleContainer } from "../../../components/layouts/Styles";
 import { TextLink } from "../../../components/Link";
-import { Review } from "../../../components/Product/Review";
+import { Pluralize } from "../../../components/Pluralize";
+import { Question } from "../../../components/Product/Question";
 import { Heading } from "../../../components/Text";
 import { ResolvedCategory } from "../../../types/Category";
-import { NotApprovedProductReview } from "../../../types/ProductReview";
+import { NotApprovedProductQuestion } from "../../../types/ProductQuestion";
 import { getCategories_STATIC_PROPS } from "../../../utils/getStaticProps";
-import { GetNotApprovedProductReviewsRequest } from "../../../utils/Requests/ProductReview";
+import { GetNotApprovedProductQuestionsRequest } from "../../../utils/Requests/ProductQuestion";
 import { routes } from "../../../utils/routes";
 
-export const Reviewing: NextPage<Result> = ({ categories }) => {
-  const [reviews, setReviews] = useState<NotApprovedProductReview[]>([]);
+export const ReviewingQuestions: NextPage<Result> = ({ categories }) => {
+  const [questions, setQuestions] = useState<NotApprovedProductQuestion[]>([]);
 
   const { state } = useContext(BreakpointContext);
 
-  const getReviews = async () => {
-    const res = await GetNotApprovedProductReviewsRequest();
+  const getQuestions = async () => {
+    const res = await GetNotApprovedProductQuestionsRequest();
 
-    if (res) setReviews(res.data);
+    if (res) setQuestions(res.data);
   };
 
   useEffect(() => {
-    getReviews();
+    getQuestions();
   }, []);
 
   if (state.bp == "mobile")
@@ -38,37 +40,37 @@ export const Reviewing: NextPage<Result> = ({ categories }) => {
       <ReviewingPageLayout categories={categories}>
         <TitleContainer>
           <Heading>
-            {reviews.length} review{reviews.length > 1 || reviews.length == 0 ? "s" : ""}
+            <Pluralize singular="question" count={questions.length} />
           </Heading>
         </TitleContainer>
 
         <CardContent>
           <FlexDiv column gap05>
             <AnimatePresence>
-              {reviews.map((review) => (
-                <AnimatedListItem key={review.id}>
+              {questions.map((question) => (
+                <AnimatedListItem key={question.id}>
                   <InfoCard>
                     <FlexDiv column>
                       <FlexDiv spaceBetween>
-                        <TextLink href={routes.productRoot(review.productId)}>
-                          <Heading>{review.product.name}</Heading>
+                        <TextLink href={routes.productRoot(question.productId)}>
+                          <Heading>{question.product.name}</Heading>
                         </TextLink>
 
                         <FlexDiv gap05>
-                          <ApproveProductReviewDialog
-                            reviewId={review.id}
-                            productId={review.productId}
-                            getReviews={getReviews}
+                          <ApproveProductQuestionDialog
+                            questionId={question.id}
+                            productId={question.productId}
+                            getQuestions={getQuestions}
                           />
 
                           <DeclineProductReviewDialog
-                            reviewId={review.id}
-                            productId={review.productId}
-                            getReviews={getReviews}
+                            reviewId={question.id}
+                            productId={question.productId}
+                            getReviews={getQuestions}
                           />
                         </FlexDiv>
                       </FlexDiv>
-                      <Review review={review} />
+                      <Question question={question} />
                     </FlexDiv>
                   </InfoCard>
                 </AnimatedListItem>
@@ -83,7 +85,7 @@ export const Reviewing: NextPage<Result> = ({ categories }) => {
     <ReviewingPageLayout categories={categories}>
       <TitleContainer>
         <Heading>
-          {reviews.length} review{reviews.length > 1 || reviews.length == 0 ? "s" : ""}
+          <Pluralize singular="question" count={questions.length} />
         </Heading>
       </TitleContainer>
 
@@ -91,30 +93,30 @@ export const Reviewing: NextPage<Result> = ({ categories }) => {
         <CardContent>
           <FlexDiv column gap05>
             <AnimatePresence>
-              {reviews.map((review) => (
-                <AnimatedListItem key={review.id}>
+              {questions.map((question) => (
+                <AnimatedListItem key={question.id}>
                   <InfoCard>
                     <FlexDiv column>
                       <FlexDiv spaceBetween>
-                        <TextLink href={routes.productRoot(review.productId)}>
-                          <Heading>{review.product.name}</Heading>
+                        <TextLink href={routes.productRoot(question.productId)}>
+                          <Heading>{question.product.name}</Heading>
                         </TextLink>
 
                         <FlexDiv gap05>
-                          <ApproveProductReviewDialog
-                            reviewId={review.id}
-                            productId={review.productId}
-                            getReviews={getReviews}
+                          <ApproveProductQuestionDialog
+                            questionId={question.id}
+                            productId={question.productId}
+                            getQuestions={getQuestions}
                           />
 
-                          <DeclineProductReviewDialog
-                            reviewId={review.id}
-                            productId={review.productId}
-                            getReviews={getReviews}
+                          <DeclineProductQuestionDialog
+                            questionId={question.id}
+                            productId={question.productId}
+                            getQuestions={getQuestions}
                           />
                         </FlexDiv>
                       </FlexDiv>
-                      <Review review={review} />
+                      <Question question={question} />
                     </FlexDiv>
                   </InfoCard>
                 </AnimatedListItem>
@@ -141,4 +143,4 @@ export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsRe
   };
 };
 
-export default Reviewing;
+export default ReviewingQuestions;

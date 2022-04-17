@@ -1,3 +1,5 @@
+import { Product } from "./Product";
+
 export type ProductQuestionAnswer = {
   id: string;
   questionId: string;
@@ -15,4 +17,8 @@ export type ProductQuestion = {
   content: string;
   createdAt: string;
   answers: ProductQuestionAnswer[];
+};
+
+export type NotApprovedProductQuestion = ProductQuestion & {
+  product: Product;
 };
