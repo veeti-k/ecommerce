@@ -58,7 +58,6 @@ public class AddProductQuestionAnswer : EndpointBaseAsync
     {
       QuestionId = question.ProductQuestionId,
       AnswerersNickname = request.Body.AnswerersNickname,
-      Title = request.Body.Title,
       Content = request.Body.Content,
       CreatedAt = DateTimeOffset.UtcNow,
       ByEmployee = isEmployee,

@@ -6,7 +6,6 @@ namespace api.RequestsAndResponses.ProductQuestionAnswer.Add;
 public record AddProductQuestionAnswerRequestBody
 {
   public string AnswerersNickname { get; init; }
-  public string Title { get; init; }
   public string Content { get; init; }
 }
 
@@ -23,7 +22,6 @@ public class AddProductQuestionAnswerRequestValidator : AbstractValidator<AddPro
   {
     RuleFor(r => r.Body).NotNull();
     RuleFor(r => r.Body.AnswerersNickname).NotEmpty();
-    RuleFor(r => r.Body.Title).NotEmpty();
     RuleFor(r => r.Body.Content).NotEmpty();
   }
 }
