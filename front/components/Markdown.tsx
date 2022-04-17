@@ -17,7 +17,9 @@ export const Markdown: FC<Props> = ({ children }) => (
           <Text style={{ fontSize: "1rem" }}>{props.children}</Text>
         </ListItem>
       ),
-      p: ({ node, ...props }) => <Paragraph {...props} style={{ fontSize: "1rem" }} />,
+      p: ({ node, ...props }) => (
+        <Paragraph {...props} style={{ fontSize: "1rem", paddingTop: "1rem" }} />
+      ),
     }}
   >
     {children}

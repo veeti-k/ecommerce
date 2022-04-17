@@ -21,7 +21,9 @@ export const Review: FC<Props> = ({ review }) => (
         <FlexDiv column>
           <Heading>{review.title ? review.title : "Title"}</Heading>
 
-          <Markdown>{review.content ? review.content : "Review"}</Markdown>
+          <div>
+            <Markdown>{review.content ? review.content : "Review"}</Markdown>
+          </div>
 
           <Text light>{review.reviewersNickname ? review.reviewersNickname : "Nickname"}</Text>
         </FlexDiv>
