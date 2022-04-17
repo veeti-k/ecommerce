@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { FC } from "react";
 import { useGetMe } from "../../hooks/useGetMe";
+import { useResizeListener } from "../../hooks/useResizeListener";
 import { styled } from "../../stitches.config";
 import { ResolvedCategory } from "../../types/Category";
 import { Menubar } from "../Menubar/Menubar";
@@ -82,6 +83,7 @@ export const Layout: FC<LayoutProps> = ({
   lessPaddingOnMobile,
 }) => {
   useGetMe();
+  useResizeListener();
 
   return (
     <>

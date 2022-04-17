@@ -3,6 +3,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import "../globals.css";
 import { UserProvider } from "../UserProvider/provider";
 import { Toaster } from "react-hot-toast";
+import { BreakpointProvider } from "../BreakpointProvider/BreakpointProvider";
 
 function App({ Component, pageProps }: AppProps) {
   return (
@@ -12,11 +13,13 @@ function App({ Component, pageProps }: AppProps) {
           duration: 4000,
         }}
       />
-      <UserProvider>
-        <ChakraProvider>
-          <Component {...pageProps} />
-        </ChakraProvider>
-      </UserProvider>
+      <BreakpointProvider>
+        <UserProvider>
+          <ChakraProvider>
+            <Component {...pageProps} />
+          </ChakraProvider>
+        </UserProvider>
+      </BreakpointProvider>
     </>
   );
 }
