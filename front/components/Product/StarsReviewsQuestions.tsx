@@ -65,6 +65,7 @@ export const StarsReviewsQuestions = ({ product }: { product: ProductPageProduct
         style={{
           height: "calc(1rem + 5px)",
         }}
+        align
       >
         <ReviewsLink product={product} />
         <Divider orientation="vertical" />
