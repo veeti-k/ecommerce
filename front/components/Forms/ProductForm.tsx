@@ -184,7 +184,7 @@ export const ProductForm: FC<ProductFormProps> = ({
 
         <AnimatePresence>
           {bulletPoints.map((bulletPoint, index) => (
-            <AnimatedListItem key={index}>
+            <AnimatedListItem paddingBottom="1rem" key={index}>
               <InputLabelContainer
                 key={index}
                 id={`bulletpoint-${index + 1}`}
