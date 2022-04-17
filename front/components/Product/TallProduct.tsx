@@ -8,6 +8,7 @@ import { FlexDiv } from "../Containers";
 import { ShoppingCartIcon } from "../Icons";
 import { Link } from "../Link";
 import { PageTitle, Text } from "../Text";
+import { Stars } from "./Stars";
 
 type TallProductProps = {
   product: ShowCaseProduct;
@@ -40,10 +41,14 @@ export const TallProduct: FC<TallProductProps> = ({ product }) => (
       </div>
     </FlexDiv>
 
-    <FlexDiv column fullWidth fullHeight flexEnd>
-      <Text bold>{product.name}</Text>
+    <FlexDiv column fullWidth fullHeight flexEnd gap05>
+      <Text bold style={{ height: "2rem", lineHeight: "1rem" }}>
+        {product.name}
+      </Text>
 
-      <UnorderedList>
+      <Stars rating={product.averageStars} />
+
+      <UnorderedList style={{ height: "6rem", lineHeight: "1.2rem" }}>
         {product.bulletPoints.map((bulletPoint) => (
           <ListItem key={bulletPoint.id}>
             <Text>{bulletPoint.text}</Text>
