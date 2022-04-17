@@ -23,9 +23,9 @@ export const Review: FC<Props> = ({ review }) => (
   <Card shadowNear>
     <CardContent lessPadding>
       <Div>
-        <FlexDiv>
+        <div>
           <Stars rating={review.stars} />
-        </FlexDiv>
+        </div>
 
         <FlexDiv column>
           <Heading>{review.title ? review.title : "Title"}</Heading>
