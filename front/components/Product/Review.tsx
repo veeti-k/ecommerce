@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { styled } from "../../stitches.config";
 import { ProductReview } from "../../types/ProductReview";
 import { Card, CardContent } from "../Card";
 import { FlexDiv } from "../Containers";
@@ -10,10 +11,18 @@ type Props = {
   review: Omit<ProductReview, "id" | "productId" | "createdAt">;
 };
 
+const Div = styled(FlexDiv, {
+  flexDirection: "column",
+
+  "@mobileAndUp": {
+    flexDirection: "row",
+  },
+});
+
 export const Review: FC<Props> = ({ review }) => (
   <Card shadowNear>
     <CardContent lessPadding>
-      <FlexDiv>
+      <Div>
         <FlexDiv>
           <Stars rating={review.stars} />
         </FlexDiv>
@@ -27,7 +36,7 @@ export const Review: FC<Props> = ({ review }) => (
 
           <Text light>{review.reviewersNickname ? review.reviewersNickname : "Nickname"}</Text>
         </FlexDiv>
-      </FlexDiv>
+      </Div>
     </CardContent>
   </Card>
 );
