@@ -9,13 +9,15 @@ const Main = styled("main", {
   maxWidth: "1200px",
   margin: "0 auto",
   position: "relative",
-  padding: "0 1rem",
+  paddingRight: "1rem",
+  paddingLeft: "1rem",
   paddingTop: "4.5rem",
   paddingBottom: "1rem",
   zIndex: 1,
 
   "@mobileAndUp": {
-    padding: "0 25px",
+    paddingLeft: "25px",
+    paddingRight: "25px",
     paddingTop: "6rem",
   },
 
@@ -23,18 +25,23 @@ const Main = styled("main", {
     noPadding: {
       true: {
         paddingTop: "3.5rem",
+        paddingBottom: "1rem",
 
         "@mobileAndUp": {
           paddingTop: "5rem",
+          paddingBottom: "1rem",
         },
       },
     },
     lessPaddingOnMobile: {
       true: {
         padding: 0,
+        paddingTop: "3.5rem",
+        paddingBottom: "1rem",
 
         "@mobileAndUp": {
-          padding: "0 25px",
+          paddingLeft: "25px",
+          paddingRight: "25px",
           paddingTop: "6rem",
         },
       },
@@ -48,9 +55,11 @@ const Main = styled("main", {
 
       css: {
         paddingTop: "3.5rem",
+        paddingBottom: "1rem",
 
         "@mobileAndUp": {
-          padding: "0 25px",
+          paddingLeft: "25px",
+          paddingRight: "25px",
           paddingTop: "5rem",
         },
       },
