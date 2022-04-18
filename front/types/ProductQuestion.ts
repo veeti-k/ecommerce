@@ -22,3 +22,8 @@ export type ProductQuestion = {
 export type NotApprovedProductQuestion = ProductQuestion & {
   product: Product;
 };
+
+export type AddProductQuestionRequestBody = Omit<
+  ProductQuestion,
+  "id" | "reviewId" | "byEmployee" | "createdAt" | "answers" | "productId"
+>;
