@@ -16,11 +16,10 @@ type TallProductProps = {
 
 const StyledImage = styled("img", {
   width: 200,
-  height: "auto",
+  maxHeight: "200px",
 
   "@mobileAndUp": {
     width: "100%",
-    height: "auto",
   },
 });
 
@@ -36,9 +35,7 @@ export const TallProduct: FC<TallProductProps> = ({ product }) => (
     </FlexDiv>
 
     <FlexDiv style={{ padding: "0.5rem 0" }} fullHeight align>
-      <div>
-        <StyledImage src={product.images[0]?.link} alt={product.name} />
-      </div>
+      <StyledImage src={product.images[0]?.link} alt={product.name} />
     </FlexDiv>
 
     <FlexDiv column fullWidth fullHeight flexEnd gap05>
@@ -48,7 +45,7 @@ export const TallProduct: FC<TallProductProps> = ({ product }) => (
 
       <Stars rating={product.averageStars} />
 
-      <UnorderedList style={{ height: "6.5rem", lineHeight: "1.3rem" }}>
+      <UnorderedList style={{ height: "6.8rem", lineHeight: "1.3rem" }}>
         {product.bulletPoints.map((bulletPoint) => (
           <ListItem key={bulletPoint.id}>
             <Text>{bulletPoint.text}</Text>
