@@ -1,11 +1,7 @@
-﻿#region
-
-using api.Data;
+﻿using api.Data;
 using api.Models.Question;
 using api.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-
-#endregion
 
 namespace api.Repositories;
 
@@ -68,12 +64,21 @@ public class ProductQuestionRepo : GenericRepo<ProductQuestion>, IProductQuestio
       .ToListAsync();
   }
 
-  public async Task<List<ProductQuestion?>> GetNotApproved()
+  public async Task<List<ProductQuestion?>> GetAllNotApprovedWithProduct()
   {
     return await _context.ProductQuestions
       .AsNoTracking()
       .Include(question => question.Product)
       .Where(question => !question.IsApproved)
+      .ToListAsync();
+  }
+
+  public async Task<List<ProductQuestion?>> GetAllApprovedWithProduct()
+  {
+    return await _context.ProductQuestions
+      .AsNoTracking()
+      .Include(question => question.Product)
+      .Where(question => question.IsApproved)
       .ToListAsync();
   }
 }

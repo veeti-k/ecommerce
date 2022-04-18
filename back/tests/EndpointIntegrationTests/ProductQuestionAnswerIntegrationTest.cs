@@ -17,7 +17,6 @@ public class ProductQuestionAnswerIntegrationTest : ProductQuestionIntegrationTe
   {
     AnswerersNickname = Guid.NewGuid().ToString(),
     Content = Guid.NewGuid().ToString(),
-    Title = Guid.NewGuid().ToString()
   };
 
   public async Task<HttpResponseMessage?> AddQuestionAnswer_TEST_REQUEST(int productId, Guid questionId)

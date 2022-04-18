@@ -13,7 +13,6 @@ import { ProductPageProduct } from "../../../../types/Product";
 import {
   getProduct_STATIC_PROPS,
   getCategories_STATIC_PROPS,
-  getAllProducts_STATIC_PROPS,
 } from "../../../../utils/getStaticProps";
 import { pushUser } from "../../../../utils/router";
 import { routes } from "../../../../utils/routes";
@@ -24,6 +23,8 @@ import { AddProductQuestionRequest } from "../../../../utils/Requests/ProductQue
 
 const AskQuestion: NextPage<Result> = ({ product, categories }) => {
   const router = useRouter();
+
+  if (!product || !categories) return null;
 
   const onSubmit = async (values: AddProductQuestionRequestBody) => {
     const notifId = toast.loading("Adding question");
@@ -36,7 +37,7 @@ const AskQuestion: NextPage<Result> = ({ product, categories }) => {
       toast("Your question will show up after its approved", { icon: <InfoIcon /> });
       toast.success("Question added");
 
-      pushUser(router, routes.productRoot(product.id), "question added");
+      pushUser(router, routes.productRoot(product.id), "question added success");
     }
   };
 
@@ -126,17 +127,17 @@ const AskQuestion: NextPage<Result> = ({ product, categories }) => {
 export default AskQuestion;
 
 type Result = {
-  product: ProductPageProduct;
-  categories: ResolvedCategory[];
+  product: ProductPageProduct | null;
+  categories: ResolvedCategory[] | null;
 };
 
 export const getStaticProps: GetStaticProps = async (
   context
 ): Promise<GetStaticPropsResult<Result>> => {
-  const id = context.params!.productId! as string;
+  const productId = context.params!.productId! as string;
 
-  const product = await getProduct_STATIC_PROPS(id);
-  const categories = await getCategories_STATIC_PROPS();
+  const product = productId == "0" ? null : await getProduct_STATIC_PROPS(productId);
+  const categories = productId == "0" ? null : await getCategories_STATIC_PROPS();
 
   return {
     props: {
@@ -147,16 +148,14 @@ export const getStaticProps: GetStaticProps = async (
 };
 
 export const getStaticPaths = async () => {
-  const products = await getAllProducts_STATIC_PROPS();
-
   return {
-    paths: products.map((product) => {
-      return {
+    paths: [
+      {
         params: {
-          productId: product.id.toString(),
+          productId: "0",
         },
-      };
-    }),
-    fallback: false,
+      },
+    ],
+    fallback: "blocking",
   };
 };

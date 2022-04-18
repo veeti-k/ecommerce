@@ -23,6 +23,8 @@ export const routes = {
 
   product: {
     edit: (productId: number) => `/products/${productId}/edit`,
+    reviewComment: (productId: number, reviewId: string) =>
+      `/products/${productId}/reviews/${reviewId}/comment`,
     reviews: (productId: number) => `/products/${productId}/reviews`,
     reviewsAdd: (productId: number) => `/products/${productId}/reviews/write`,
 

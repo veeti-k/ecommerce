@@ -71,8 +71,12 @@ public static class Routes
 
     public const string BulletPointId = "{bulletPointId:Guid}";
 
-    public const string ReviewsRoot = $"{ProductsRoot}/reviews";
-    public const string QuestionsRoot = $"{ProductsRoot}/questions";
+    public const string NotApprovedReviews = $"{ProductsRoot}/reviews/not-approved";
+    public const string ApprovedReviews = $"{ProductsRoot}/reviews/approved";
+
+    public const string NotApprovedQuestions = $"{ProductsRoot}/questions/not-approved";
+    public const string ApprovedQuestions = $"{ProductsRoot}/questions/approved";
+
 
     public const string ProductRoot = $"{ProductsRoot}/{ProductId}";
 

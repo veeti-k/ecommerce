@@ -13,13 +13,13 @@ import { TextLink } from "../../../components/Link";
 import { Review } from "../../../components/Product/Review";
 import { Heading } from "../../../components/Text";
 import { ResolvedCategory } from "../../../types/Category";
-import { NotApprovedProductReview } from "../../../types/ProductReview";
+import { ProductReviewWithProduct } from "../../../types/ProductReview";
 import { getCategories_STATIC_PROPS } from "../../../utils/getStaticProps";
 import { GetNotApprovedProductReviewsRequest } from "../../../utils/Requests/ProductReview";
 import { routes } from "../../../utils/routes";
 
 export const Reviewing: NextPage<Result> = ({ categories }) => {
-  const [reviews, setReviews] = useState<NotApprovedProductReview[]>([]);
+  const [reviews, setReviews] = useState<ProductReviewWithProduct[]>([]);
 
   const { state } = useContext(BreakpointContext);
 

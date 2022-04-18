@@ -11,7 +11,7 @@ export type ProductReview = {
   createdAt: string;
 };
 
-export type NotApprovedProductReview = ProductReview & {
+export type ProductReviewWithProduct = ProductReview & {
   product: Product;
 };
 

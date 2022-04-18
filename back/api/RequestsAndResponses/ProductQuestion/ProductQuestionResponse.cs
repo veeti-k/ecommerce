@@ -14,7 +14,7 @@ public record ProductQuestionResponse
   public List<ProductQuestionAnswerResponse> Answers { get; init; }
 }
 
-public record NotApprovedProductQuestionResponse : ProductQuestionResponse
+public record ProductQuestionResponseWithProuduct : ProductQuestionResponse
 {
   public BaseProductResponse Product { get; init; }
 }

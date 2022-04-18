@@ -19,7 +19,7 @@ export type ProductQuestion = {
   answers: ProductQuestionAnswer[];
 };
 
-export type NotApprovedProductQuestion = ProductQuestion & {
+export type ProductQuestionWithProduct = ProductQuestion & {
   product: Product;
 };
 

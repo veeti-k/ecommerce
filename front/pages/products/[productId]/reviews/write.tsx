@@ -14,7 +14,6 @@ import { Heading, PageTitle } from "../../../../components/Text";
 import { ResolvedCategory } from "../../../../types/Category";
 import { ProductPageProduct } from "../../../../types/Product";
 import {
-  getAllProducts_STATIC_PROPS,
   getCategories_STATIC_PROPS,
   getProduct_STATIC_PROPS,
 } from "../../../../utils/getStaticProps";
@@ -29,6 +28,8 @@ const AddReview: NextPage<Result> = ({ categories, product }) => {
   const [content, setContent] = useState<string>("");
 
   const router = useRouter();
+
+  if (!product || !categories) return null;
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -154,17 +155,17 @@ const AddReview: NextPage<Result> = ({ categories, product }) => {
 };
 
 type Result = {
-  product: ProductPageProduct;
-  categories: ResolvedCategory[];
+  product: ProductPageProduct | null;
+  categories: ResolvedCategory[] | null;
 };
 
 export const getStaticProps: GetStaticProps = async (
   context
 ): Promise<GetStaticPropsResult<Result>> => {
-  const id = context.params!.productId! as string;
+  const productId = context.params!.productId! as string;
 
-  const product = await getProduct_STATIC_PROPS(id);
-  const categories = await getCategories_STATIC_PROPS();
+  const product = productId == "0" ? null : await getProduct_STATIC_PROPS(productId);
+  const categories = productId == "0" ? null : await getCategories_STATIC_PROPS();
 
   return {
     props: {
@@ -174,19 +175,15 @@ export const getStaticProps: GetStaticProps = async (
   };
 };
 
-export const getStaticPaths = async () => {
-  const products = await getAllProducts_STATIC_PROPS();
-
-  return {
-    paths: products.map((product) => {
-      return {
-        params: {
-          productId: product.id.toString(),
-        },
-      };
-    }),
-    fallback: false,
-  };
-};
+export const getStaticPaths = async () => ({
+  paths: [
+    {
+      params: {
+        productId: "0",
+      },
+    },
+  ],
+  fallback: "blocking",
+});
 
 export default AddReview;

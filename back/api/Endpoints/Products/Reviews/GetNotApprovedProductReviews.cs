@@ -10,7 +10,7 @@ namespace api.Endpoints.Products.Reviews;
 
 public class GetNotApprovedProductReviews : EndpointBaseAsync
   .WithoutRequest
-  .WithActionResult<List<NotApprovedProductReviewResponse>>
+  .WithActionResult<List<ProductReviewResponseWithProduct>>
 {
   private readonly IProductReviewRepo _productReviewRepo;
   private readonly IMapper _mapper;
@@ -22,12 +22,12 @@ public class GetNotApprovedProductReviews : EndpointBaseAsync
   }
 
   [Authorize(Policy = Policies.ManageReviews)]
-  [HttpGet(Routes.Products.ReviewsRoot)]
-  public override async Task<ActionResult<List<NotApprovedProductReviewResponse>>> HandleAsync(
+  [HttpGet(Routes.Products.NotApprovedReviews)]
+  public override async Task<ActionResult<List<ProductReviewResponseWithProduct>>> HandleAsync(
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var notApprovedReviews = await _productReviewRepo.GetNotApproved();
+    var notApprovedReviews = await _productReviewRepo.GetAllNotApprovedWithProduct();
 
-    return Ok(_mapper.Map<List<NotApprovedProductReviewResponse>>(notApprovedReviews));
+    return Ok(_mapper.Map<List<ProductReviewResponseWithProduct>>(notApprovedReviews));
   }
 }

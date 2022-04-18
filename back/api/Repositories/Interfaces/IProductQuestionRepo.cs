@@ -1,8 +1,4 @@
-﻿#region
-
-using api.Models.Question;
-
-#endregion
+﻿using api.Models.Question;
 
 namespace api.Repositories.Interfaces;
 
@@ -14,5 +10,6 @@ public interface IProductQuestionRepo : IGenericRepo<ProductQuestion>
   public Task<List<ProductQuestion?>> GetManyApproved(int productId);
   public Task<List<ProductQuestion?>> GetManyWithApprovedAnswers(int productId);
   public Task<List<ProductQuestion?>> GetManyApprovedWithApprovedAnswers(int productId);
-  public Task<List<ProductQuestion?>> GetNotApproved();
+  public Task<List<ProductQuestion?>> GetAllNotApprovedWithProduct();
+  public Task<List<ProductQuestion?>> GetAllApprovedWithProduct();
 }

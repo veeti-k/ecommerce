@@ -15,13 +15,13 @@ import { Pluralize } from "../../../components/Pluralize";
 import { Question } from "../../../components/Product/Question";
 import { Heading } from "../../../components/Text";
 import { ResolvedCategory } from "../../../types/Category";
-import { NotApprovedProductQuestion } from "../../../types/ProductQuestion";
+import { ProductQuestionWithProduct } from "../../../types/ProductQuestion";
 import { getCategories_STATIC_PROPS } from "../../../utils/getStaticProps";
 import { GetNotApprovedProductQuestionsRequest } from "../../../utils/Requests/ProductQuestion";
 import { routes } from "../../../utils/routes";
 
 export const ReviewingQuestions: NextPage<Result> = ({ categories }) => {
-  const [questions, setQuestions] = useState<NotApprovedProductQuestion[]>([]);
+  const [questions, setQuestions] = useState<ProductQuestionWithProduct[]>([]);
 
   const { state } = useContext(BreakpointContext);
 

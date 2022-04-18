@@ -31,6 +31,8 @@ const Div = styled(FlexDiv, {
 });
 
 const Reviews: NextPage<Result> = ({ categories, product, reviews }) => {
+  if (!product || !categories || !reviews) return null;
+
   return (
     <Layout categories={categories} lessPaddingOnMobile>
       <PageTitleContainer>
@@ -88,7 +90,7 @@ const Reviews: NextPage<Result> = ({ categories, product, reviews }) => {
             </Heading>
 
             {reviews.map((review) => (
-              <Review review={review} key={review.id} />
+              <Review review={review} key={review.id} showCommentButton />
             ))}
           </FlexDiv>
         </CardContent>
@@ -98,19 +100,19 @@ const Reviews: NextPage<Result> = ({ categories, product, reviews }) => {
 };
 
 type Result = {
-  product: ProductPageProduct;
-  categories: ResolvedCategory[];
-  reviews: ProductReview[];
+  product: ProductPageProduct | null;
+  categories: ResolvedCategory[] | null;
+  reviews: ProductReview[] | null;
 };
 
 export const getStaticProps: GetStaticProps = async (
   context
 ): Promise<GetStaticPropsResult<Result>> => {
-  const id = context.params!.productId! as string;
+  const productId = context.params!.productId! as string;
 
-  const product = await getProduct_STATIC_PROPS(id);
-  const categories = await getCategories_STATIC_PROPS();
-  const reviews = await getReviews_STATIC_PROPS(id);
+  const product = productId == "0" ? null : await getProduct_STATIC_PROPS(productId);
+  const categories = productId == "0" ? null : await getCategories_STATIC_PROPS();
+  const reviews = productId == "0" ? null : await getReviews_STATIC_PROPS(productId);
 
   return {
     props: {
@@ -128,11 +130,11 @@ export const getStaticPaths = async () => {
     paths: products.map((product) => {
       return {
         params: {
-          productId: product.id.toString(),
+          productId: "0",
         },
       };
     }),
-    fallback: false,
+    fallback: "blocking",
   };
 };
 

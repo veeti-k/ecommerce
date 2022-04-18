@@ -70,7 +70,7 @@ public class DomainToResponseMappingProfile : Profile
         options => options
           .MapFrom(src => src.ProductReviewId));
 
-    CreateMap<ProductReview, NotApprovedProductReviewResponse>()
+    CreateMap<ProductReview, ProductReviewResponseWithProduct>()
       .ForMember(dest => dest.Id,
         options => options
           .MapFrom(src => src.ProductReviewId));
@@ -85,7 +85,7 @@ public class DomainToResponseMappingProfile : Profile
         options => options
           .MapFrom(src => src.ProductQuestionId));
 
-    CreateMap<ProductQuestion, NotApprovedProductQuestionResponse>()
+    CreateMap<ProductQuestion, ProductQuestionResponseWithProuduct>()
       .ForMember(dest => dest.Id,
         options => options
           .MapFrom(src => src.ProductQuestionId));

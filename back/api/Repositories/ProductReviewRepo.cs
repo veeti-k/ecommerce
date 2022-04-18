@@ -64,12 +64,21 @@ public class ProductReviewRepo : GenericRepo<ProductReview>, IProductReviewRepo
       .ToListAsync();
   }
 
-  public async Task<List<ProductReview?>> GetNotApproved()
+  public async Task<List<ProductReview?>> GetAllNotApprovedWithProduct()
   {
     return await _context.ProductReviews
       .AsNoTracking()
       .Include(review => review.Product)
       .Where(review => !review.IsApproved)
+      .ToListAsync();
+  }
+
+  public async Task<List<ProductReview?>> GetAllApprovedWithProduct()
+  {
+    return await _context.ProductReviews
+      .AsNoTracking()
+      .Include(review => review.Product)
+      .Where(review => review.IsApproved)
       .ToListAsync();
   }
 }

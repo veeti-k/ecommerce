@@ -1,33 +1,30 @@
 ﻿using api.Repositories.Interfaces;
 using api.RequestsAndResponses.ProductQuestion;
-using api.Security.Policies;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Endpoints.Products.Questions;
 
-public class GetNotApprovedProductQuestions : EndpointBaseAsync
+public class GetApprovedProductQuestions : EndpointBaseAsync
   .WithoutRequest
   .WithActionResult<ProductQuestionResponseWithProuduct>
 {
   private readonly IMapper _mapper;
   private readonly IProductQuestionRepo _productQuestionRepo;
 
-  public GetNotApprovedProductQuestions(IMapper mapper, IProductQuestionRepo productQuestionRepo)
+  public GetApprovedProductQuestions(IMapper mapper, IProductQuestionRepo productQuestionRepo)
   {
     _mapper = mapper;
     _productQuestionRepo = productQuestionRepo;
   }
 
-  [Authorize(Policy = Policies.ManageQuestions)]
-  [HttpGet(Routes.Products.NotApprovedQuestions)]
+  [HttpGet(Routes.Products.ApprovedQuestions)]
   public override async Task<ActionResult<ProductQuestionResponseWithProuduct>> HandleAsync(
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var notApprovedQuestions = await _productQuestionRepo.GetAllNotApprovedWithProduct();
+    var questions = await _productQuestionRepo.GetAllApprovedWithProduct();
 
-    return Ok(_mapper.Map<List<ProductQuestionResponseWithProuduct>>(notApprovedQuestions));
+    return _mapper.Map<ProductQuestionResponseWithProuduct>(questions);
   }
 }

@@ -1,15 +1,24 @@
+import { Button } from "@chakra-ui/react";
 import { FC } from "react";
 import { styled } from "../../stitches.config";
 import { ProductReview } from "../../types/ProductReview";
+import { routes } from "../../utils/routes";
 import { Card, CardContent } from "../Card";
 import { FlexDiv } from "../Containers";
+import { Link } from "../Link";
 import { Markdown } from "../Markdown";
 import { Heading, Text } from "../Text";
 import { Stars } from "./Stars";
 
-type Props = {
-  review: Omit<ProductReview, "id" | "productId" | "createdAt">;
-};
+type Props =
+  | {
+      showCommentButton: boolean;
+      review: Omit<ProductReview, "createdAt">;
+    }
+  | {
+      showCommentButton?: never;
+      review: Omit<ProductReview, "id" | "productId" | "createdAt">;
+    };
 
 const Div = styled(FlexDiv, {
   flexDirection: "column",
@@ -19,7 +28,7 @@ const Div = styled(FlexDiv, {
   },
 });
 
-export const Review: FC<Props> = ({ review }) => (
+export const Review: FC<Props> = ({ review, showCommentButton }) => (
   <Card shadowNear>
     <CardContent lessPadding>
       <Div>
@@ -28,13 +37,23 @@ export const Review: FC<Props> = ({ review }) => (
         </div>
 
         <FlexDiv column>
-          <Heading>{review.title ? review.title : "Title"}</Heading>
+          <FlexDiv column>
+            <Heading>{review.title ? review.title : "Title"}</Heading>
 
-          <div>
-            <Markdown>{review.content ? review.content : "Review"}</Markdown>
-          </div>
+            <div>
+              <Markdown>{review.content ? review.content : "Review"}</Markdown>
+            </div>
 
-          <Text light>{review.reviewersNickname ? review.reviewersNickname : "Nickname"}</Text>
+            <Text light>{review.reviewersNickname ? review.reviewersNickname : "Nickname"}</Text>
+          </FlexDiv>
+
+          {showCommentButton && (
+            <div>
+              <Link href={routes.product.reviewComment(review.productId, review.id)}>
+                <Button size="sm">Write a comment</Button>
+              </Link>
+            </div>
+          )}
         </FlexDiv>
       </Div>
     </CardContent>

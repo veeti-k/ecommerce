@@ -16,7 +16,7 @@ public record ProductReviewResponse
   public List<ProductReviewCommentResponse> Comments { get; init; }
 }
 
-public record NotApprovedProductReviewResponse : ProductReviewResponse
+public record ProductReviewResponseWithProduct : ProductReviewResponse
 {
   public BaseProductResponse Product { get; init; }
 }
