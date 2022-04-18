@@ -148,6 +148,11 @@ export const getStaticProps: GetStaticProps = async (
 
   const review = reviews?.find((r) => r.id === reviewId) || null;
 
+  if (!review)
+    return {
+      notFound: true,
+    };
+
   return {
     props: {
       product,
