@@ -31,7 +31,7 @@ export const AddProductReviewCommentRequest = (
 
 export const GetNotApprovedProductReviewsRequest = () =>
   request({
-    path: apiRoutes.products.reviewsRoot,
+    path: apiRoutes.products.notApprovedReviewsRoot,
     method: "GET",
   });
 

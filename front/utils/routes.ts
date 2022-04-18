@@ -59,8 +59,8 @@ export const apiRoutes = {
   products: {
     productRoot: (productId: number) => `/products/${productId}`,
 
-    reviewsRoot: `/products/reviews`,
-    questionsRoot: `/products/questions`,
+    notApprovedReviewsRoot: `/products/reviews/not-approved`,
+    notApprovedQuestionsRoot: `/products/questions/not-approved`,
 
     product: {
       reviewsRoot: (productId: number) => `/products/${productId}/reviews`,

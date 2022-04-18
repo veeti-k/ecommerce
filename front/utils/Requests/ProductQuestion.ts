@@ -4,7 +4,7 @@ import { apiRoutes } from "../routes";
 
 export const GetNotApprovedProductQuestionsRequest = () =>
   request({
-    path: apiRoutes.products.questionsRoot,
+    path: apiRoutes.products.notApprovedQuestionsRoot,
     method: "GET",
   });
 
