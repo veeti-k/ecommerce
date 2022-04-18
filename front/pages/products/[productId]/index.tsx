@@ -169,8 +169,6 @@ export const getStaticProps: GetStaticProps = async (
 export const getStaticPaths = async () => {
   const products = await getAllProducts_STATIC_PROPS();
 
-  console.log(products);
-
   return {
     paths: products.map((product) => {
       return {
