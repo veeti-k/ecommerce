@@ -8,8 +8,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const productId = req.query.productId;
   const questionId = req.query.questionId;
 
-  if (!productId) return res.status(400).json({ error: "Missing productId" });
-  if (!questionId) return res.status(400).json({ error: "Missing questionId" });
+  if (!productId) return res.status(400).json({ message: "Missing productId" });
+  if (!questionId) return res.status(400).json({ message: "Missing questionId" });
 
   try {
     await res.unstable_revalidate(`/products/${productId}/questions/${questionId}/answer`);
@@ -18,6 +18,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   } catch (err) {
     console.log(err);
 
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 }

@@ -29,10 +29,12 @@ builder.Services.AddDbContext<DataContext>(options =>
   options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpClient();
 
 builder.Services.AddScoped<IDataContext, DataContext>();
 
 builder.Services.AddScoped<IContextService, ContextService>();
+builder.Services.AddScoped<IRevalidationService, RevalidationService>();
 
 builder.Services.AddSingleton<ICookieUtils, CookieUtils>();
 builder.Services.AddSingleton<ITokenUtils, TokenUtils>();
@@ -45,6 +47,9 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.Configure<TokenOptions>(
   builder.Configuration.GetSection(TokenOptions.Position));
+
+builder.Services.Configure<Revalidation>(
+  builder.Configuration.GetSection("Urls"));
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 

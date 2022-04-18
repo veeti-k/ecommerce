@@ -2,6 +2,7 @@
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.ProductQuestionAnswer.Delete;
 using api.Security.Policies;
+using api.Services.Interfaces;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,15 +16,18 @@ public class RemoveProductQuestionAnswer : EndpointBaseAsync
   private readonly IProductRepo _productRepo;
   private readonly IProductQuestionRepo _productQuestionRepo;
   private readonly IProductQuestionAnswerRepo _productQuestionAnswerRepo;
+  private readonly IRevalidationService _revalidationService;
 
   public RemoveProductQuestionAnswer(
     IProductRepo productRepo,
     IProductQuestionRepo productQuestionRepo,
-    IProductQuestionAnswerRepo productQuestionAnswerRepo)
+    IProductQuestionAnswerRepo productQuestionAnswerRepo,
+    IRevalidationService revalidationService)
   {
     _productRepo = productRepo;
     _productQuestionRepo = productQuestionRepo;
     _productQuestionAnswerRepo = productQuestionAnswerRepo;
+    _revalidationService = revalidationService;
   }
 
   [Authorize(Policy = Policies.ManageQuestions)]
@@ -42,6 +46,9 @@ public class RemoveProductQuestionAnswer : EndpointBaseAsync
     if (answer is null) throw new ProductQuestionAnswerNotFoundException(request.AnswerId);
 
     await _productQuestionAnswerRepo.Delete(answer);
+
+    _revalidationService.RevalidateProductQuestionAnswer(request.ProductId, request.QuestionId, request.AnswerId);
+
     return NoContent();
   }
 }

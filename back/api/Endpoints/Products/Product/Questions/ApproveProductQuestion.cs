@@ -3,6 +3,7 @@ using api.Repositories.Interfaces;
 using api.RequestsAndResponses.ProductQuestion;
 using api.RequestsAndResponses.ProductQuestion.Approve;
 using api.Security.Policies;
+using api.Services.Interfaces;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -17,15 +18,18 @@ public class ApproveProductQuestion : EndpointBaseAsync
   private readonly IMapper _mapper;
   private readonly IProductRepo _productRepo;
   private readonly IProductQuestionRepo _productQuestionRepo;
+  private readonly IRevalidationService _revalidationService;
 
   public ApproveProductQuestion(
     IMapper mapper,
     IProductRepo productRepo,
-    IProductQuestionRepo productQuestionRepo)
+    IProductQuestionRepo productQuestionRepo, 
+    IRevalidationService revalidationService)
   {
     _mapper = mapper;
     _productRepo = productRepo;
     _productQuestionRepo = productQuestionRepo;
+    _revalidationService = revalidationService;
   }
 
   [Authorize(Policy = Policies.ManageQuestions)]
@@ -48,6 +52,8 @@ public class ApproveProductQuestion : EndpointBaseAsync
 
     var updated = await _productQuestionRepo.Update(question);
     await _productRepo.Update(product);
+    
+    await _revalidationService.RevalidateProduct(request.ProductId);
 
     return _mapper.Map<ProductQuestionResponse>(updated);
   }

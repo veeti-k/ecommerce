@@ -2,6 +2,7 @@
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.ProductReview.Delete;
 using api.Security.Policies;
+using api.Services.Interfaces;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,13 +15,16 @@ public class DeleteProductReview : EndpointBaseAsync
 {
   private readonly IProductReviewRepo _productReviewRepo;
   private readonly IProductRepo _productRepo;
+  private readonly IRevalidationService _revalidationService;
 
   public DeleteProductReview(
     IProductReviewRepo productReviewRepo,
-    IProductRepo productRepo)
+    IProductRepo productRepo,
+    IRevalidationService revalidationService)
   {
     _productReviewRepo = productReviewRepo;
     _productRepo = productRepo;
+    _revalidationService = revalidationService;
   }
 
   [Authorize(Policy = Policies.ManageReviews)]
@@ -38,6 +42,17 @@ public class DeleteProductReview : EndpointBaseAsync
       throw new ProductReviewNotFoundException(request.ReviewId);
 
     await _productReviewRepo.Delete(review);
+
+    var reviews = await _productReviewRepo.GetManyApproved(request.ProductId);
+    product.ReviewCount = reviews.Count;
+
+    var totalStars = reviews.Aggregate(0, (acc, review) => acc + review.Stars);
+    product.AverageStars = (float) totalStars / reviews.Count;
+
+    await _productRepo.Update(product);
+
+    _revalidationService.RevalidateProduct(request.ProductId);
+
     return NoContent();
   }
 }

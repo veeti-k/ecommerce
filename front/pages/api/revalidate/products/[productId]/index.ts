@@ -6,7 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (!secret || secret !== revalidateSecret) return res.status(401).end();
 
   const productId = req.query.productId;
-  if (!productId) return res.status(400).json({ error: "Missing productId" });
+  if (!productId) return res.status(400).json({ message: "Missing productId" });
 
   try {
     await res.unstable_revalidate(`/products/${productId}`);
@@ -17,6 +17,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   } catch (err) {
     console.log(err);
 
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 }

@@ -8,8 +8,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const productId = req.query.productId;
   const reviewId = req.query.reviewId;
 
-  if (!productId) return res.status(400).json({ error: "Missing productId" });
-  if (!reviewId) return res.status(400).json({ error: "Missing reviewId" });
+  if (!productId) return res.status(400).json({ message: "Missing productId" });
+  if (!reviewId) return res.status(400).json({ message: "Missing reviewId" });
 
   try {
     await res.unstable_revalidate(`/products/${productId}/reviews/${reviewId}/comment`);
@@ -18,6 +18,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   } catch (err) {
     console.log(err);
 
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 }
