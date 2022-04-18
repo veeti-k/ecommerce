@@ -37,17 +37,21 @@ const Reviews: NextPage<Result> = ({ categories, product, reviews }) => {
         <PageTitle>Reviews</PageTitle>
 
         <Link href={routes.productRoot(product.id)}>
-          <Button leftIcon={<ArrowLeftIcon />}>Back to product page</Button>
+          <Button size="sm" leftIcon={<ArrowLeftIcon />}>
+            Back to product page
+          </Button>
         </Link>
       </PageTitleContainer>
 
       <Card shadowFar>
         <CardContent>
-          <FlexDiv column gap05>
-            <Div spaceBetween gap05>
-              <TextLink href={routes.productRoot(product.id)}>
-                <BiggerHeading>{product.name}</BiggerHeading>
-              </TextLink>
+          <FlexDiv column>
+            <Div spaceBetween>
+              <FlexDiv>
+                <TextLink href={routes.productRoot(product.id)}>
+                  <BiggerHeading>{product.name}</BiggerHeading>
+                </TextLink>
+              </FlexDiv>
 
               <FlexDiv align>
                 <Stars
@@ -67,7 +71,7 @@ const Reviews: NextPage<Result> = ({ categories, product, reviews }) => {
               </FlexDiv>
             </Div>
 
-            <div style={{ paddingBottom: "1rem" }}>
+            <div>
               <Link href={routes.product.reviewsAdd(product.id)}>
                 <Button colorScheme="blue">
                   {!!reviews.length ? "Write a review" : "Write the first review"}
