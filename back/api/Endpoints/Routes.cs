@@ -2,7 +2,7 @@
 
 public static class Routes
 {
-  public const string GlobalPrefix = "/api";
+  public const string GlobalPrefix = "/back";
 
   public static class Auth
   {
