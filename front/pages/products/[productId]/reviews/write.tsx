@@ -137,11 +137,11 @@ const AddReview: NextPage<Result> = ({ categories, product }) => {
                 />
               </FlexDiv>
 
-              <FlexDiv gap05>
-                <Link href={routes.productRoot(product.id)}>
+              <FlexDiv>
+                <Link href={routes.productRoot(product.id)} style={{ width: "100%" }}>
                   <Button isFullWidth>Cancel</Button>
                 </Link>
-                <Button colorScheme="blue" type="submit">
+                <Button isFullWidth colorScheme="blue" type="submit">
                   Submit
                 </Button>
               </FlexDiv>
