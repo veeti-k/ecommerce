@@ -6,7 +6,6 @@ import {
   InputLabelContainer,
   MgmtSettingsPageScrollableContent,
 } from "../../components/Containers";
-import { useGetMe } from "../../hooks/useGetMe";
 import { Heading, Text } from "../../components/Text";
 import { UserContext } from "../../UserProvider/provider";
 import { toast } from "react-hot-toast";
@@ -34,8 +33,6 @@ export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsRe
 };
 
 const Account: NextPage<Result> = ({ categories }) => {
-  useGetMe();
-
   const { state, dispatch } = useContext(UserContext);
 
   const [name, setName] = useState<string>(state.name);
@@ -48,8 +45,6 @@ const Account: NextPage<Result> = ({ categories }) => {
   const [ogPhoneNumber, setOgPhoneNumber] = useState<string | null>(state.phoneNumber);
 
   useEffect(() => {
-    // state is not populated at first render
-    // so changes to the state needs to be listened for :/
     setName(state.name);
     setEmail(state.email);
     setPhoneNumber(state.phoneNumber);
@@ -58,8 +53,6 @@ const Account: NextPage<Result> = ({ categories }) => {
     setOgPhoneNumber(state.phoneNumber);
   }, [state]);
 
-  // disable save button if nothing has changed or
-  // some of the fields are empty
   const saveDisabled =
     (!name || name.trim() === ogName) &&
     (!email || email.trim() === ogEmail) &&

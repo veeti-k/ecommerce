@@ -7,7 +7,6 @@ import { TrashIcon } from "../../components/Icons";
 import { PulsingCircle } from "../../components/pulsingCircle";
 import { Heading, Text } from "../../components/Text";
 import { UserContext } from "../../UserProvider/provider";
-import { useGetMe } from "../../hooks/useGetMe";
 import { styled } from "../../stitches.config";
 import toast from "react-hot-toast";
 import { getMe } from "../../utils/logout";
@@ -44,8 +43,6 @@ export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsRe
   };
 };
 const Sessions: NextPage<Result> = ({ categories }) => {
-  useGetMe();
-
   const { state, dispatch } = useContext(UserContext);
 
   const revokeSession = async (sessionId: string) => {

@@ -7,7 +7,6 @@ import { PasswordInputWithLabel } from "../../components/Inputs";
 import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
 import { TitleContainer } from "../../components/layouts/Styles";
 import { Heading, Text } from "../../components/Text";
-import { useGetMe } from "../../hooks/useGetMe";
 import { ResolvedCategory } from "../../types/Category";
 import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
 
@@ -26,8 +25,6 @@ export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsRe
 };
 
 const Password: NextPage<Result> = ({ categories }) => {
-  useGetMe();
-
   const [currPw, setCurrPw] = useState<string>("");
   const [newPw, setNewPw] = useState<string>("");
   const [newPw2, setNewPw2] = useState<string>("");

@@ -4,7 +4,6 @@ import { useContext } from "react";
 import { Card, CardContent } from "../../components/Card";
 import { Heading, Text } from "../../components/Text";
 import { UserContext } from "../../UserProvider/provider";
-import { useGetMe } from "../../hooks/useGetMe";
 import { styled } from "../../stitches.config";
 import { EditAddressDialog } from "../../components/Dialogs/Address/EditAddressDialog";
 import { NewAddressDialog } from "../../components/Dialogs/Address/NewAddressDialog";
@@ -38,8 +37,6 @@ export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsRe
 };
 
 export const Addresses: NextPage<Result> = ({ categories }) => {
-  useGetMe();
-
   const { state } = useContext(UserContext);
 
   return (
