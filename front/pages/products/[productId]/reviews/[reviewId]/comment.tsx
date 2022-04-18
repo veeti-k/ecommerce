@@ -83,7 +83,7 @@ export const WriteReviewComment: NextPage<Result> = ({ categories, product, revi
                       <InputLabelContainer label="Nickname" id="nickname">
                         <Input
                           id="nickname"
-                          name="nickname"
+                          name="commentersNickname"
                           value={values.commentersNickname}
                           onChange={handleChange}
                         />
