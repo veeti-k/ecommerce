@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { revalidateSecret } from "../../../../utils/consts";
+import { revalidateSecret } from "../../../../../utils/consts";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const secret = req.body.secret;
