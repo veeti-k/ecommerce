@@ -10,7 +10,7 @@ namespace api.Endpoints.Products.Questions;
 
 public class GetNotApprovedProductQuestions : EndpointBaseAsync
   .WithoutRequest
-  .WithActionResult<ProductQuestionResponse>
+  .WithActionResult<NotApprovedProductQuestionResponse>
 {
   private readonly IMapper _mapper;
   private readonly IProductQuestionRepo _productQuestionRepo;
@@ -23,11 +23,11 @@ public class GetNotApprovedProductQuestions : EndpointBaseAsync
 
   [Authorize(Policy = Policies.ManageQuestions)]
   [HttpGet(Routes.Products.QuestionsRoot)]
-  public override async Task<ActionResult<ProductQuestionResponse>> HandleAsync(
+  public override async Task<ActionResult<NotApprovedProductQuestionResponse>> HandleAsync(
     CancellationToken cancellationToken = new CancellationToken())
   {
     var notApprovedQuestions = await _productQuestionRepo.GetNotApproved();
 
-    return Ok(_mapper.Map<List<ProductQuestionResponse>>(notApprovedQuestions));
+    return Ok(_mapper.Map<List<NotApprovedProductQuestionResponse>>(notApprovedQuestions));
   }
 }

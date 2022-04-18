@@ -13,4 +13,5 @@ public class ProductQuestion
   [Required] public bool IsApproved { get; set; }
 
   public virtual List<ProductQuestionAnswer> Answers { get; init; }
+  public virtual Product Product { get; init; }
 }

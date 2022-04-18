@@ -1,8 +1,9 @@
+using api.RequestsAndResponses.Product;
 using api.RequestsAndResponses.ProductQuestionAnswer;
 
 namespace api.RequestsAndResponses.ProductQuestion;
 
-public class ProductQuestionResponse
+public record ProductQuestionResponse
 {
   public Guid Id { get; init; }
   public int ProductId { get; init; }
@@ -11,4 +12,9 @@ public class ProductQuestionResponse
   public string Content { get; init; }
   public DateTimeOffset CreatedAt { get; init; }
   public List<ProductQuestionAnswerResponse> Answers { get; init; }
+}
+
+public record NotApprovedProductQuestionResponse : ProductQuestionResponse
+{
+  public BaseProductResponse Product { get; init; }
 }

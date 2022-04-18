@@ -71,6 +71,8 @@ public class ProductQuestionRepo : GenericRepo<ProductQuestion>, IProductQuestio
   public async Task<List<ProductQuestion?>> GetNotApproved()
   {
     return await _context.ProductQuestions
+      .AsNoTracking()
+      .Include(question => question.Product)
       .Where(question => !question.IsApproved)
       .ToListAsync();
   }

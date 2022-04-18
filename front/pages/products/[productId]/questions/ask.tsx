@@ -15,34 +15,28 @@ import {
   getCategories_STATIC_PROPS,
   getAllProducts_STATIC_PROPS,
 } from "../../../../utils/getStaticProps";
-import { AddProductReviewRequest } from "../../../../utils/Requests/ProductReview";
 import { pushUser } from "../../../../utils/router";
 import { routes } from "../../../../utils/routes";
 import { Formik } from "formik";
 import { AddProductQuestionRequestBody } from "../../../../types/ProductQuestion";
 import { FlexDiv, InputLabelContainer } from "../../../../components/Containers";
-
-interface FormValues {
-  questionersNickname: string;
-  title: string;
-  content: string;
-}
+import { AddProductQuestionRequest } from "../../../../utils/Requests/ProductQuestion";
 
 const AskQuestion: NextPage<Result> = ({ product, categories }) => {
   const router = useRouter();
 
   const onSubmit = async (values: AddProductQuestionRequestBody) => {
-    const notifId = toast.loading("Adding review");
+    const notifId = toast.loading("Adding question");
 
-    const res = await (product.id, values);
+    const res = await AddProductQuestionRequest(product.id, values);
 
     toast.dismiss(notifId);
 
     if (res) {
-      toast("Your review will show up after its approved", { icon: <InfoIcon /> });
-      toast.success("Review added");
+      toast("Your question will show up after its approved", { icon: <InfoIcon /> });
+      toast.success("Question added");
 
-      pushUser(router, routes.productRoot(product.id), "Review added");
+      pushUser(router, routes.productRoot(product.id), "question added");
     }
   };
 

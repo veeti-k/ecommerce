@@ -85,6 +85,11 @@ public class DomainToResponseMappingProfile : Profile
         options => options
           .MapFrom(src => src.ProductQuestionId));
 
+    CreateMap<ProductQuestion, NotApprovedProductQuestionResponse>()
+      .ForMember(dest => dest.Id,
+        options => options
+          .MapFrom(src => src.ProductQuestionId));
+
     CreateMap<ProductQuestionAnswer, ProductQuestionAnswerResponse>()
       .ForMember(dest => dest.Id,
         options => options

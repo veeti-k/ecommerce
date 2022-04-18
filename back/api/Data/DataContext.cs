@@ -35,7 +35,7 @@ public class DataContext : DbContext, IDataContext
     // one-to-many product - questions
     aBuilder.Entity<Product>()
       .HasMany(product => product.Questions)
-      .WithOne()
+      .WithOne(question => question.Product)
       .HasForeignKey(question => question.ProductId)
       .OnDelete(DeleteBehavior.Cascade);
 
