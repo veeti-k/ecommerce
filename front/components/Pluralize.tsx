@@ -20,3 +20,15 @@ export const Pluralize: FC<Props> = ({ singular, plural, count, ...rest }) => {
     </>
   );
 };
+
+export const pluralize = (props: Props) => {
+  const { singular, plural, count } = props;
+
+  const pluralized = plural || `${singular}s`;
+
+  const text = count === 1 ? singular : pluralized;
+
+  let showCount = typeof props.showCount === "undefined" ? true : props.showCount;
+
+  return `${showCount && count} ${text}`;
+};

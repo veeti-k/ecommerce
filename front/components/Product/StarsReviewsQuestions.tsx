@@ -4,6 +4,7 @@ import { ProductPageProduct } from "../../types/Product";
 import { routes } from "../../utils/routes";
 import { FlexDiv } from "../Containers";
 import { TextLink } from "../Link";
+import { pluralize, Pluralize } from "../Pluralize";
 import { Text } from "../Text";
 import { Stars } from "./Stars";
 
@@ -16,7 +17,13 @@ const ReviewsLink = ({ product }: { product: ProductPageProduct }) => (
           : routes.product.reviewsAdd(product.id)
       }
     >
-      <Text>{product.reviewCount ? `${product.reviewCount} reviews` : "Write a review"}</Text>
+      <Text>
+        {product.reviewCount ? (
+          <Pluralize singular="review" count={product.reviewCount} />
+        ) : (
+          "Write a review"
+        )}
+      </Text>
     </TextLink>
   </FlexDiv>
 );
@@ -31,7 +38,11 @@ const QuestionsLink = ({ product }: { product: ProductPageProduct }) => {
       }
     >
       <Text>
-        {product.questionCount ? `${product.questionCount} questions` : "Ask the first question"}
+        {product.questionCount ? (
+          <Pluralize singular="question" count={product.questionCount} />
+        ) : (
+          "Ask the first question"
+        )}
       </Text>
     </TextLink>
   );
@@ -50,27 +61,19 @@ const Div = styled("div", {
   },
 });
 
-export const StarsReviewsQuestions = ({ product }: { product: ProductPageProduct }) => {
-  const reviewLabel = product.reviewCount
-    ? `${product.averageStars}/5 based on ${product.reviewCount} reviews`
-    : "No reviews yet";
+export const StarsReviewsQuestions = ({ product }: { product: ProductPageProduct }) => (
+  <Div>
+    <Stars rating={product.averageStars} reviewCount={product.reviewCount} showReviewsLabel />
 
-  return (
-    <Div>
-      <Tooltip label={reviewLabel}>
-        <Stars rating={product.averageStars} />
-      </Tooltip>
-
-      <FlexDiv
-        style={{
-          height: "calc(1rem + 5px)",
-        }}
-        align
-      >
-        <ReviewsLink product={product} />
-        <Divider orientation="vertical" />
-        <QuestionsLink product={product} />
-      </FlexDiv>
-    </Div>
-  );
-};
+    <FlexDiv
+      style={{
+        height: "calc(1rem + 5px)",
+      }}
+      align
+    >
+      <ReviewsLink product={product} />
+      <Divider orientation="vertical" />
+      <QuestionsLink product={product} />
+    </FlexDiv>
+  </Div>
+);

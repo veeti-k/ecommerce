@@ -2,6 +2,7 @@ import { Tooltip } from "@chakra-ui/react";
 import { FC } from "react";
 import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
 import { FlexDiv } from "../Containers";
+import { pluralize } from "../Pluralize";
 
 type Props =
   | {
@@ -44,7 +45,14 @@ export const Stars: FC<Props> = ({ rating, bigger, showReviewsLabel: showLabel, 
   if (showLabel && typeof reviewCount === "number")
     return (
       <Tooltip
-        label={reviewCount ? `Rating ${rating}/5 based on ${reviewCount} reviews` : "No reviews"}
+        label={
+          reviewCount
+            ? `Rating ${rating}/5 based on ${pluralize({
+                singular: "review",
+                count: reviewCount,
+              })}`
+            : "No reviews"
+        }
       >
         {_Stars}
       </Tooltip>
