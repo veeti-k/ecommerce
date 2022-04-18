@@ -25,6 +25,7 @@ export type BaseProduct = {
   averageStars: number;
   reviewCount: number;
   questionCount: number;
+  deepestCategoryId: number;
 };
 
 export type Product = BaseProduct & {
