@@ -1,7 +1,7 @@
 import { Button } from "@chakra-ui/react";
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { Card, CardContent } from "../../../../components/Card";
-import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../../../components/Containers";
+import { FlexDiv } from "../../../../components/Containers";
 import { ArrowLeftIcon } from "../../../../components/Icons";
 import { Layout } from "../../../../components/layouts/Layout";
 import { PageTitleContainer } from "../../../../components/layouts/Styles";

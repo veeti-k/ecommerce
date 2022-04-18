@@ -1,10 +1,10 @@
-import { Divider, Tooltip } from "@chakra-ui/react";
+import { Divider } from "@chakra-ui/react";
 import { styled } from "../../stitches.config";
 import { ProductPageProduct } from "../../types/Product";
 import { routes } from "../../utils/routes";
 import { FlexDiv } from "../Containers";
 import { TextLink } from "../Link";
-import { pluralize, Pluralize } from "../Pluralize";
+import { Pluralize } from "../Pluralize";
 import { Text } from "../Text";
 import { Stars } from "./Stars";
 

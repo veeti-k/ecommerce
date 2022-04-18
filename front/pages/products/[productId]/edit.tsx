@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Card, CardContent } from "../../../components/Card";
-import { MgmtSettingsPageScrollableContent } from "../../../components/Containers";
 import { ProductForm, ProductFormValues } from "../../../components/Forms/ProductForm";
 import { ArrowLeftIcon } from "../../../components/Icons";
 import { Layout } from "../../../components/layouts/Layout";

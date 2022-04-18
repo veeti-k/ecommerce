@@ -1,4 +1,3 @@
-import { Select } from "@chakra-ui/react";
 import { FC, ReactNode, useContext } from "react";
 import { BreakpointContext } from "../../BreakpointProvider/BreakpointProvider";
 import { ResolvedCategory } from "../../types/Category";
