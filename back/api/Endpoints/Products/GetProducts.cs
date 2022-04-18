@@ -10,6 +10,7 @@ namespace api.Endpoints.Products;
 public record GetProductsRequest
 {
   [FromQuery(Name = "query")] public string? Query { get; init; }
+  [FromQuery(Name = "category")] public int? Category { get; init; }
 }
 
 public class GetProducts : EndpointBaseAsync
@@ -30,17 +31,12 @@ public class GetProducts : EndpointBaseAsync
     [FromRoute] GetProductsRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    var products = new List<Models.Product?>();
+    List<Models.Product> products = new List<Models.Product>() { };
 
-    if (request.Query is null)
-    {
-      products = await _productRepo.GetManyNotDeleted();
-    }
-    else
-    {
-      var res = await _productRepo.Search(request.Query);
-      if (res.Any()) products = SearchUtils.OrderByNameStartsWith(res, request.Query);
-    }
+    products = await _productRepo.Search(request.Query, request.Category);
+
+    if (request.Query is not null)
+      products = SearchUtils.OrderByNameStartsWith(products, request.Query);
 
     return Ok(_mapper.Map<List<ProductResponse>>(products));
   }

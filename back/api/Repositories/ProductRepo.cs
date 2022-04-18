@@ -56,15 +56,28 @@ public class ProductRepo : GenericRepo<Product>, IProductRepo
       .ToListAsync();
   }
 
-  public async Task<List<Product?>> Search(string query)
+  public async Task<List<Product?>> Search(string? query = null, int? categoryId = null)
   {
-    return await _context.Products
-      .AsNoTracking()
+    var dbQuery = _context.Products
       .Include(product => product.BulletPoints)
       .Include(product => product.ProductsCategories)
       .Include(product => product.Images)
-      .Where(product => !product.IsDeleted
-                        && product.Name.ToLower().Contains(query))
-      .ToListAsync();
+      .AsNoTracking();
+
+    if (query is not null)
+    {
+      dbQuery = dbQuery.Where(product => !product.IsDeleted
+                                         && EF.Functions.Like(product.Name.ToLower(), $"%{query}%"));
+    }
+
+    if (categoryId is not null)
+    {
+      dbQuery = dbQuery
+        .Where(product =>
+          product.ProductsCategories.Any(pc =>
+            pc.ProductCategoryId == categoryId));
+    }
+
+    return await dbQuery.ToListAsync();
   }
 }
