@@ -22,10 +22,13 @@ const errorHandler = (options: ErrorHandlerOptions) => {
       toast.error(error.response.data.message);
     }
 
-    if (shouldRedirect401 && status === 401) {
-      logger.log("Redirecting to /login...");
-      window.location.href = "/login";
+    if (status === 401) {
       removeToken();
+
+      if (shouldRedirect401) {
+        logger.log("Redirecting to /login...");
+        window.location.href = "/login";
+      }
     }
   }
   if (error.response?.status === 500) toast.error("Server error, please try again later");
