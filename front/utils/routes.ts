@@ -17,7 +17,7 @@ export const routes = {
   settingsAddresses: "/settings/addresses",
   settingsSessions: "/settings/sessions",
 
-  category: (categoryId: number) => `/category/${categoryId}`,
+  categories: (categoryId: number) => `/categories/${categoryId}`,
 
   productRoot: (productId: number) => `/products/${productId}`,
 
