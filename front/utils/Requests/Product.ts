@@ -1,4 +1,5 @@
 import { ProductFormValues } from "../../components/Forms/ProductForm";
+import { bulletPoint, imageLink } from "../../types/Product";
 import { request } from "../requests";
 import { apiRoutes } from "../routes";
 
@@ -21,7 +22,24 @@ export const UpdateProductRequest = (productId: number, updatedProduct: ProductF
     body: updatedProduct,
   });
 
-export const AddProductRequest = (newProduct: ProductFormValues) =>
+type AddProductRequestBody = {
+  name: string;
+  price: number;
+  description: string;
+  shortDescription: string;
+
+  isDiscounted: boolean;
+  discountedPrice: number;
+  discountPercent: number;
+  discountAmount: number;
+
+  bulletPoints: bulletPoint[];
+  imageLinks: imageLink[];
+
+  deepestCategoryId: number;
+};
+
+export const AddProductRequest = (newProduct: AddProductRequestBody) =>
   request({
     path: apiRoutes.productsRoot,
     method: "POST",
