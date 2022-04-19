@@ -112,6 +112,7 @@ export const ProductForm: FC<ProductFormProps> = ({
     setName(initialValues?.name ?? "");
     setPrice(initialValues?.price?.toString() ?? "");
     setDescription(initialValues?.description ?? "");
+    setShortDescription(initialValues?.shortDescription ?? "");
 
     setCategoryId(initialValues?.path[initialValues?.path.length - 1]?.id?.toString() ?? null);
 
