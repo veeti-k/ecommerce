@@ -16,20 +16,20 @@ public record RevalidationRequestBody
 
 public class RevalidationService : IRevalidationService
 {
-  private HttpClient _client;
-  private Revalidation _revalidation;
+  private readonly HttpClient _client;
+  private readonly RevalidationConfig _revalidationConfig;
   private readonly RevalidationRequestBody _requestBody;
 
-  public RevalidationService(HttpClient client, IOptions<Revalidation> urls)
+  public RevalidationService(HttpClient client, IOptions<RevalidationConfig> urls)
   {
     _client = client;
-    _revalidation = urls.Value;
-    _requestBody = new RevalidationRequestBody {Secret = _revalidation.Secret};
+    _revalidationConfig = urls.Value;
+    _requestBody = new RevalidationRequestBody {Secret = _revalidationConfig.Secret};
   }
 
   public async Task<RevalidationResponse> RevalidateProduct(int productId)
   {
-    var path = $"{_revalidation.FrontendRevalidationBaseUrl}/products/{productId}";
+    var path = $"{_revalidationConfig.FrontendRevalidationBaseUrl}/products/{productId}";
     
     var response = await _client.PostAsJsonAsync(path, _requestBody);
 
@@ -40,7 +40,7 @@ public class RevalidationService : IRevalidationService
     Guid productReviewCommentId)
   {
     var path =
-      $"{_revalidation.FrontendRevalidationBaseUrl}/products/{productId}/reviews/{productReviewId}/comment/{productReviewCommentId}";
+      $"{_revalidationConfig.FrontendRevalidationBaseUrl}/products/{productId}/reviews/{productReviewId}/comment/{productReviewCommentId}";
 
     var response = await _client.PostAsJsonAsync(path, _requestBody);
 
@@ -51,7 +51,7 @@ public class RevalidationService : IRevalidationService
     Guid productQuestionAnswerId)
   {
     var path =
-      $"{_revalidation.FrontendRevalidationBaseUrl}/products/{productId}/questions/{productQuestionId}/answer/{productQuestionAnswerId}";
+      $"{_revalidationConfig.FrontendRevalidationBaseUrl}/products/{productId}/questions/{productQuestionId}/answer/{productQuestionAnswerId}";
 
     var response = await _client.PostAsJsonAsync(path, _requestBody);
 

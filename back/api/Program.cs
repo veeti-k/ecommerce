@@ -48,7 +48,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.Configure<TokenOptions>(
   builder.Configuration.GetSection(TokenOptions.Position));
 
-builder.Services.Configure<Revalidation>(
+builder.Services.Configure<RevalidationConfig>(
   builder.Configuration.GetSection("Urls"));
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
