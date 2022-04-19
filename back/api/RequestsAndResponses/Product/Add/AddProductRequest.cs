@@ -19,6 +19,7 @@ public record AddProductRequestBody
 {
   public string Name { get; init; }
   public string Description { get; init; }
+  public string ShortDescription { get; init; }
   public double Price { get; init; }
   public double DiscountedPrice { get; init; }
   public float DiscountPercent { get; init; }
@@ -40,6 +41,7 @@ public class AddProductRequestValidator : AbstractValidator<AddProductRequest>
   {
     RuleFor(x => x.Body.Name).NotEmpty();
     RuleFor(x => x.Body.Description).NotEmpty();
+    RuleFor(x => x.Body.ShortDescription).NotEmpty();
     RuleFor(x => x.Body.Price).NotEmpty().GreaterThan(0);
 
     RuleFor(x => x.Body.DeepestCategoryId).NotEmpty();

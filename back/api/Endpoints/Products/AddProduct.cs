@@ -52,6 +52,7 @@ public class AddProduct : EndpointBaseAsync
     {
       Name = request.Body.Name,
       Description = request.Body.Description,
+      ShortDescription = request.Body.ShortDescription,
       Price = request.Body.Price,
       DiscountAmount = request.Body.DiscountAmount,
       DiscountedPrice = request.Body.DiscountedPrice,

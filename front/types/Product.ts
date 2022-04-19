@@ -16,6 +16,7 @@ export type BaseProduct = {
   id: number;
   name: string;
   description: string;
+  shortDescription: string;
   price: number;
   discountedPrice: number;
   discountPercent: number;

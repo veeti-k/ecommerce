@@ -13,6 +13,7 @@ public class Product
 
   [Required] public string Name { get; set; }
   [Required] public string Description { get; set; }
+  [Required] public string ShortDescription { get; set; }
   [Required] public double Price { get; set; }
   [Required] public double DiscountedPrice { get; set; }
   [Required] public float DiscountPercent { get; set; }

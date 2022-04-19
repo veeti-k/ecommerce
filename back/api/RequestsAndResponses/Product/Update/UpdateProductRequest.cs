@@ -8,6 +8,7 @@ public record UpdateProductRequestBody
 {
   public string? Name { get; init; }
   public string? Description { get; init; }
+  public string? ShortDescription { get; init; }
   public double? Price { get; init; }
   public double? DiscountedPrice { get; init; }
   public float? DiscountPercent { get; init; }

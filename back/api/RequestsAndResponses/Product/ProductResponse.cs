@@ -19,6 +19,7 @@ public record BaseProductResponse
   public int Id { get; init; }
   public string Name { get; set; }
   public string Description { get; set; }
+  public string ShortDescription { get; set; }
   public double Price { get; set; }
   public double DiscountedPrice { get; set; }
   public float DiscountPercent { get; set; }
