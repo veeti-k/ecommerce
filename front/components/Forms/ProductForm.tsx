@@ -27,6 +27,7 @@ export type ProductFormValues = {
   name: string;
   price: string;
   description: string;
+  shortDescription: string;
 
   isDiscounted: boolean;
   discountedPrice: string;
@@ -55,6 +56,7 @@ export const ProductForm: FC<ProductFormProps> = ({
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [shortDescription, setShortDescription] = useState<string>("");
 
   const [categoryId, setCategoryId] = useState<string | null>(null);
 
@@ -92,6 +94,7 @@ export const ProductForm: FC<ProductFormProps> = ({
       name,
       price,
       description,
+      shortDescription,
 
       isDiscounted,
       discountedPrice,
@@ -171,12 +174,27 @@ export const ProductForm: FC<ProductFormProps> = ({
           </Select>
         </InputLabelContainer>
 
-        <InputLabelContainer id="description" label="Description" style={{ padding: "1rem 0" }}>
+        <InputLabelContainer id="description" label="Description">
           <Textarea
             rows={10}
             id="description"
             onChange={(e) => setDescription(e.target.value)}
             value={description}
+            autoComplete="off"
+            required
+          />
+        </InputLabelContainer>
+
+        <InputLabelContainer
+          id="short-description"
+          label="Short description"
+          style={{ padding: "1rem 0" }}
+        >
+          <Textarea
+            rows={5}
+            id="short-description"
+            onChange={(e) => setShortDescription(e.target.value)}
+            value={shortDescription}
             autoComplete="off"
             required
           />
