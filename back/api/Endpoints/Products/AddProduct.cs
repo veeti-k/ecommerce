@@ -3,10 +3,12 @@ using api.Models;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Product.Add;
 using api.Security.Policies;
+using api.Services.Interfaces;
 using Ardalis.ApiEndpoints;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace api.Endpoints.Products;
 
@@ -17,23 +19,24 @@ public class AddProduct : EndpointBaseAsync
   private readonly IProductRepo _repo;
   private readonly IGenericRepo<ProductImageLink> _imageRepo;
   private readonly IGenericRepo<ProductBulletPoint> _bulletPointRepo;
-  private readonly IGenericRepo<ProductsCategories> _pcRepo;
   private readonly ICategoryRepo _categoryRepo;
   private readonly IValidator<AddProductRequest> _validator;
+  private readonly IZincService _zincService;
 
   public AddProduct(
     IProductRepo repo,
     IGenericRepo<ProductImageLink> imageRepo,
     IGenericRepo<ProductBulletPoint> bulletPointRepo,
-    IGenericRepo<ProductsCategories> pcRepo,
-    ICategoryRepo categoryRepo, IValidator<AddProductRequest> validator)
+    ICategoryRepo categoryRepo,
+    IValidator<AddProductRequest> validator,
+    IZincService zincService)
   {
     _repo = repo;
     _imageRepo = imageRepo;
     _bulletPointRepo = bulletPointRepo;
-    _pcRepo = pcRepo;
     _categoryRepo = categoryRepo;
     _validator = validator;
+    _zincService = zincService;
   }
 
   [Authorize(Policy = Policies.ManageProducts)]
@@ -47,7 +50,7 @@ public class AddProduct : EndpointBaseAsync
 
     var category = await _categoryRepo.GetById(request.Body.DeepestCategoryId);
     if (category is null) throw new ProductCategoryNotFoundException(request.Body.DeepestCategoryId);
-    
+
     var newProduct = new Models.Product
     {
       Name = request.Body.Name,
@@ -83,18 +86,7 @@ public class AddProduct : EndpointBaseAsync
       });
     }
 
-    var allCategories = await _categoryRepo.GetAll();
-
-    var path = Utils.Categories.GetCategoryPath(allCategories, request.Body.DeepestCategoryId);
-
-    foreach (var pathCategory in path)
-    {
-      await _pcRepo.Add(new ProductsCategories()
-      {
-        ProductId = added.ProductId,
-        ProductCategoryId = pathCategory.ProductCategoryId
-      });
-    }
+    await _zincService.UpsertProduct(added, request.Body.BulletPoints, request.Body.ImageLinks[0].Link);
 
     var locationUri = Routes.Products.ProductRoot.Replace(Routes.Products.ProductId, added.ProductId.ToString());
 

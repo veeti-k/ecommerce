@@ -8,5 +8,18 @@ services:
     env_file:
       - .env.postgres
     volumes:
-      - ./DATA:/var/lib/postgresql/data
+      - ./DATA/db:/var/lib/postgresql/data
     restart: unless-stopped
+
+  zinc:
+    image: public.ecr.aws/prabhat/zinc
+    ports:
+      - "8000:4080"
+    depends_on:
+      - db
+    environment:
+      - DATA_PATH=/data
+    env_file:
+      - .env.zinc
+    volumes:
+      - ./DATA/zinc:/data

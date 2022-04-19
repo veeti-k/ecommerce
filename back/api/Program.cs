@@ -1,3 +1,4 @@
+using System.Text;
 using api.Configs;
 using api.Data;
 using api.Exceptions;
@@ -21,6 +22,7 @@ using api.Utils.Interfaces;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -35,6 +37,15 @@ builder.Services.AddScoped<IDataContext, DataContext>();
 
 builder.Services.AddScoped<IContextService, ContextService>();
 builder.Services.AddScoped<IRevalidationService, RevalidationService>();
+builder.Services.AddScoped<IZincService, ZincService>();
+builder.Services.AddHttpClient<IZincService, ZincService>(c =>
+  c.DefaultRequestHeaders
+    .Add(HeaderNames.Authorization, "Basic " +
+                                    Convert.ToBase64String(
+                                      Encoding.ASCII.GetBytes(
+                                        builder.Configuration[$"{ZincConfig.Position}:User"]
+                                        + ":" +
+                                        builder.Configuration[$"{ZincConfig.Position}:Password"]))));
 
 builder.Services.AddSingleton<ICookieUtils, CookieUtils>();
 builder.Services.AddSingleton<ITokenUtils, TokenUtils>();
@@ -49,7 +60,10 @@ builder.Services.Configure<TokenOptions>(
   builder.Configuration.GetSection(TokenOptions.Position));
 
 builder.Services.Configure<RevalidationConfig>(
-  builder.Configuration.GetSection("Urls"));
+  builder.Configuration.GetSection(RevalidationConfig.Position));
+
+builder.Services.Configure<ZincConfig>(
+  builder.Configuration.GetSection(ZincConfig.Position));
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 

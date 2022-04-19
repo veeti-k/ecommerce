@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using api.Models;
+﻿using api.Models;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Category;
 using Ardalis.ApiEndpoints;
@@ -27,24 +26,7 @@ public class GetCategories : EndpointBaseAsync
   {
     var categories = await _categoryRepo.GetAll();
 
-    var resolvedCategories = new List<ResolvedCategory>();
-    var mappedCategories = _mapper.Map<List<ResolvedCategory>>(categories);
-
-    foreach (var category in mappedCategories)
-    {
-      if (category.ParentId is not null)
-      {
-        var parent = mappedCategories.FirstOrDefault(c => c.Id == category.ParentId);
-        if (parent == null) continue;
-
-        parent.Children ??= new List<ResolvedCategory>();
-        parent.Children.Add(category);
-      }
-      else
-      {
-        resolvedCategories.Add(category);
-      }
-    }
+    var resolvedCategories = Utils.Categories.ResolveCategories(categories);
 
     return Ok(new ProductCategoryResponse()
       {AllCategories = _mapper.Map<List<CategoryResponse>>(categories), ResolvedCategories = resolvedCategories});

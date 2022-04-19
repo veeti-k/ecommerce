@@ -12,25 +12,11 @@ using api.RequestsAndResponses.ProductReviewComment;
 using api.RequestsAndResponses.Sessions;
 using api.RequestsAndResponses.Stores;
 using api.RequestsAndResponses.User;
+using api.Services;
 using api.Utils;
 using AutoMapper;
 
 namespace api.Mapping;
-
-public class ProductPathResolver<TDest> : IValueResolver<Product, TDest, List<CategoryResponse>>
-{
-  public List<CategoryResponse> Resolve(Product source, TDest destination,
-    List<CategoryResponse> destMember, ResolutionContext context)
-  {
-    return Categories.GetCategoryPath(source.ProductsCategories, source.DeepestCategoryId).Select(x =>
-      new CategoryResponse()
-      {
-        Id = x.ProductCategoryId,
-        Name = x.Name,
-        ParentId = x.ParentId
-      }).ToList();
-  }
-}
 
 public class DomainToResponseMappingProfile : Profile
 {
@@ -58,9 +44,6 @@ public class DomainToResponseMappingProfile : Profile
         .MapFrom(src => src.ProductId));
 
     CreateMap<Product, ProductPageProductResponse>()
-      .ForMember(dest => dest.Path,
-        options => options
-          .MapFrom<ProductPathResolver<ProductPageProductResponse>>())
       .ForMember(dest => dest.Id,
         options => options
           .MapFrom(src => src.ProductId));
@@ -117,5 +100,13 @@ public class DomainToResponseMappingProfile : Profile
       .ForMember(dest => dest.Id,
         options => options
           .MapFrom(src => src.StoreId));
+
+    CreateMap<Product, ZincProduct>();
+    
+    CreateMap<ZincProductFrom, ZincProduct>()
+      .IncludeMembers(src => src.Product)
+      .ForMember(dest => dest.BulletPoints,
+        options => options
+          .MapFrom(src => string.Join(",", src.BulletPoints)));
   }
 }

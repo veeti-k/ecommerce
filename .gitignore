@@ -40,4 +40,5 @@ appsettings.Development.json
 .vscode/
 /DATA
 .env.postgres
+.env.zinc
 Migrations

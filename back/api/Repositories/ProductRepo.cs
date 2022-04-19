@@ -40,8 +40,6 @@ public class ProductRepo : GenericRepo<Product>, IProductRepo
     return await _context.Products
       .Include(product => product.BulletPoints)
       .Include(product => product.Images)
-      .Include(product => product.ProductsCategories)
-      .ThenInclude(pc => pc.Category)
       .Where(product => product.ProductId == productId)
       .FirstOrDefaultAsync();
   }
@@ -50,17 +48,15 @@ public class ProductRepo : GenericRepo<Product>, IProductRepo
   {
     return await _context.Products
       .Include(product => product.BulletPoints)
-      .Include(product => product.ProductsCategories)
       .Include(product => product.Images)
       .Where(product => !product.IsDeleted)
       .ToListAsync();
   }
 
-  public async Task<List<Product?>> Search(string? query = null, int? categoryId = null)
+  public async Task<List<Product?>> Search(string? query = null, List<int>? categoryIds = null)
   {
     var dbQuery = _context.Products
       .Include(product => product.BulletPoints)
-      .Include(product => product.ProductsCategories)
       .Include(product => product.Images)
       .AsNoTracking();
 
@@ -70,12 +66,10 @@ public class ProductRepo : GenericRepo<Product>, IProductRepo
                                          && EF.Functions.Like(product.Name.ToLower(), $"%{query}%"));
     }
 
-    if (categoryId is not null)
+    if (categoryIds is not null)
     {
       dbQuery = dbQuery
-        .Where(product =>
-          product.ProductsCategories.Any(pc =>
-            pc.ProductCategoryId == categoryId));
+        .Where(product => categoryIds.Contains(product.DeepestCategoryId));
     }
 
     return await dbQuery.ToListAsync();

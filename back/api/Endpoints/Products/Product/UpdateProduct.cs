@@ -3,6 +3,7 @@ using api.Models;
 using api.Repositories.Interfaces;
 using api.RequestsAndResponses.Product.Update;
 using api.Security.Policies;
+using api.Services.Interfaces;
 using Ardalis.ApiEndpoints;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -20,6 +21,7 @@ public class UpdateProduct : EndpointBaseAsync
   private readonly IValidator<UpdateProductRequest> _validator;
   private readonly IGenericRepo<ProductImageLink> _imageRepo;
   private readonly IGenericRepo<ProductBulletPoint> _bulletPointRepo;
+  private readonly IZincService _zincService;
 
   public UpdateProduct(
     IProductRepo productRepo,
@@ -27,7 +29,8 @@ public class UpdateProduct : EndpointBaseAsync
     ICategoryRepo productCategoryRepo,
     IValidator<UpdateProductRequest> validator,
     IGenericRepo<ProductImageLink> imageRepo,
-    IGenericRepo<ProductBulletPoint> bulletPointRepo)
+    IGenericRepo<ProductBulletPoint> bulletPointRepo, 
+    IZincService zincService)
   {
     _productRepo = productRepo;
     _pcRepo = pcRepo;
@@ -35,6 +38,7 @@ public class UpdateProduct : EndpointBaseAsync
     _validator = validator;
     _imageRepo = imageRepo;
     _bulletPointRepo = bulletPointRepo;
+    _zincService = zincService;
   }
 
   [Authorize(Policy = Policies.ManageProducts)]
@@ -57,6 +61,7 @@ public class UpdateProduct : EndpointBaseAsync
 
     existingProduct.Name = request.Body.Name ?? existingProduct.Name;
     existingProduct.Description = request.Body.Description ?? existingProduct.Description;
+    existingProduct.ShortDescription = request.Body.ShortDescription ?? existingProduct.ShortDescription;
     existingProduct.Price = request.Body.Price ?? existingProduct.Price;
     existingProduct.DiscountedPrice = request.Body.DiscountedPrice ?? existingProduct.DiscountedPrice;
     existingProduct.DiscountPercent = request.Body.DiscountPercent ?? existingProduct.DiscountPercent;
@@ -64,7 +69,7 @@ public class UpdateProduct : EndpointBaseAsync
     existingProduct.IsDiscounted = request.Body.IsDiscounted ?? existingProduct.IsDiscounted;
     existingProduct.DeepestCategoryId = request.Body.DeepestCategoryId ?? existingProduct.DeepestCategoryId;
 
-    await _productRepo.Update(existingProduct);
+    var updated = await _productRepo.Update(existingProduct);
 
     // update/add bullet points
     if (request.Body.BulletPoints != null)
@@ -112,25 +117,7 @@ public class UpdateProduct : EndpointBaseAsync
       }
     }
 
-    if (request.Body.DeepestCategoryId == null && request.Body.DeepestCategoryId == existingProduct.DeepestCategoryId)
-      return Ok();
-
-    var oldCategories = await _pcRepo.GetManyByProductId(existingProduct.ProductId);
-    await _pcRepo.DeleteMany(oldCategories);
-
-    var allCategories = await _productCategoryRepo.GetAll();
-
-    var path = Utils.Categories.GetCategoryPath(allCategories,
-      request.Body.DeepestCategoryId ?? existingProduct.DeepestCategoryId);
-
-    foreach (var category in path)
-    {
-      await _pcRepo.Add(new ProductsCategories()
-      {
-        ProductId = existingProduct.ProductId,
-        ProductCategoryId = category.ProductCategoryId
-      });
-    }
+    await _zincService.UpsertProduct(updated, request.Body.BulletPoints, request.Body.ImageLinks[0].Link);
 
     return Ok();
   }

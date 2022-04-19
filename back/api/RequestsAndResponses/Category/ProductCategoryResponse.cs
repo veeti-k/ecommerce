@@ -1,5 +1,3 @@
-using api.Models;
-
 namespace api.RequestsAndResponses.Category;
 
 public record ResolvedCategory
