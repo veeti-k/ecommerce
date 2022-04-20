@@ -72,11 +72,15 @@ export const AddCategoryDialog: FC<Props> = ({ getCategories, categories }) => {
               defaultValue=""
             >
               <option value="">None</option>
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
+              {categories.map((category) => {
+                const parent = categories.find((c) => c.id == category.parentId);
+
+                return (
+                  <option key={category.id} value={category.id}>
+                    {category.name} {parent ? `- (${parent.name})` : ""}
+                  </option>
+                );
+              })}
             </Select>
           </InputLabelContainer>
         </FlexDiv>
