@@ -132,6 +132,7 @@ public static class Routes
     public const string CategoryId = "{categoryId:int}";
 
     public const string CategoryRoot = $"{CategoriesRoot}/{CategoryId}";
+    public const string ToCategory = $"{CategoriesRoot}/to/{CategoryId}";
   }
 
   public const string StoresRoot = $"{GlobalPrefix}/stores";

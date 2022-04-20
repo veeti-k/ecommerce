@@ -81,12 +81,19 @@ public static class Categories
 
   public static List<int> GetRelevantCategoryIds(List<ProductCategory> categories, int deepestCategoryId)
   {
-    var ids = new List<int>() { deepestCategoryId };
+    var ids = new List<int>() {deepestCategoryId};
 
-    ids.AddRange(categories
-      .TakeWhile(category => category.ParentId is not null && category.ProductCategoryId != deepestCategoryId)
-      .Select(category => category.ParentId.Value));
+    var current = categories.FirstOrDefault(c => c.ProductCategoryId == deepestCategoryId);
+    if (current is null) return ids;
+    
+    while (current?.ParentId is not null)
+    {
+      current = categories.FirstOrDefault(c => c.ProductCategoryId == current.ParentId);
+      if (current is null) continue;
 
+      ids.Add(current.ProductCategoryId);
+    }
+    
     return ids;
   }
 }
