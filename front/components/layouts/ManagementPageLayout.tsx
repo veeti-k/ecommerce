@@ -26,6 +26,11 @@ export const ManagementPageLayout: FC<ManagementPageLayoutProps> = ({ children, 
   const { state } = useContext(UserContext);
 
   if (typeof window == "undefined") return null;
+
+  if (!isLoggedIn || !isAdmin(state.flags)) {
+    pushUser(router, routes.home, "managementPageLayout not logged in or not admin");
+  }
+
   if (!isLoggedIn) return null;
 
   return (

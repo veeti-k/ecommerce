@@ -26,64 +26,66 @@ export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({ children, cate
   const { dispatch } = useContext(UserContext);
 
   if (typeof window == "undefined") return null;
-  if (!isLoggedIn) pushUser(router, "/", "settingsPageLayout::isLoggedIn false");
+
+  if (!isLoggedIn) {
+    pushUser(router, "/", "settingsPageLayout::isLoggedIn false");
+    return null;
+  }
 
   return (
     <Layout categories={categories}>
-      {isLoggedIn ? (
-        <>
-          <PageTitleContainer>
-            <FlexDiv spaceBetween align fullWidth>
-              <div>
-                <PageTitle>Account settings</PageTitle>
-              </div>
+      <>
+        <PageTitleContainer>
+          <FlexDiv spaceBetween align fullWidth>
+            <div>
+              <PageTitle>Account settings</PageTitle>
+            </div>
 
-              <Button
-                colorScheme="red"
-                style={{ boxShadow: "2px 4px 12px rgb(0 0 0 / 8%)" }}
-                onClick={() => logout(router, dispatch, routes.home)}
+            <Button
+              colorScheme="red"
+              style={{ boxShadow: "2px 4px 12px rgb(0 0 0 / 8%)" }}
+              onClick={() => logout(router, dispatch, routes.home)}
+            >
+              <FlexDiv gap05 align>
+                <LogoutIcon /> Log out
+              </FlexDiv>
+            </Button>
+          </FlexDiv>
+        </PageTitleContainer>
+
+        <Card shadowFar>
+          <FlexDiv gap0>
+            <PageSelectorButtons>
+              <PageSelectorButton
+                route={routes.settingsAccount}
+                active={window.location.pathname.includes("account")}
               >
-                <FlexDiv gap05 align>
-                  <LogoutIcon /> Log out
-                </FlexDiv>
-              </Button>
-            </FlexDiv>
-          </PageTitleContainer>
+                <UserIcon /> <Text>Account</Text>
+              </PageSelectorButton>
+              <PageSelectorButton
+                route={routes.settingsPassword}
+                active={window.location.pathname.includes("password")}
+              >
+                <PasswordIcon /> <Text>Password</Text>
+              </PageSelectorButton>
+              <PageSelectorButton
+                route={routes.settingsAddresses}
+                active={window.location.pathname.includes("addresses")}
+              >
+                <AddressesIcon /> <Text>Addresses</Text>
+              </PageSelectorButton>
+              <PageSelectorButton
+                route={routes.settingsSessions}
+                active={window.location.pathname.includes("sessions")}
+              >
+                <SessionsIcon /> <Text>Sessions</Text>
+              </PageSelectorButton>
+            </PageSelectorButtons>
 
-          <Card shadowFar>
-            <FlexDiv gap0>
-              <PageSelectorButtons>
-                <PageSelectorButton
-                  route={routes.settingsAccount}
-                  active={window.location.pathname.includes("account")}
-                >
-                  <UserIcon /> <Text>Account</Text>
-                </PageSelectorButton>
-                <PageSelectorButton
-                  route={routes.settingsPassword}
-                  active={window.location.pathname.includes("password")}
-                >
-                  <PasswordIcon /> <Text>Password</Text>
-                </PageSelectorButton>
-                <PageSelectorButton
-                  route={routes.settingsAddresses}
-                  active={window.location.pathname.includes("addresses")}
-                >
-                  <AddressesIcon /> <Text>Addresses</Text>
-                </PageSelectorButton>
-                <PageSelectorButton
-                  route={routes.settingsSessions}
-                  active={window.location.pathname.includes("sessions")}
-                >
-                  <SessionsIcon /> <Text>Sessions</Text>
-                </PageSelectorButton>
-              </PageSelectorButtons>
-
-              <MainContent>{children}</MainContent>
-            </FlexDiv>
-          </Card>
-        </>
-      ) : null}
+            <MainContent>{children}</MainContent>
+          </FlexDiv>
+        </Card>
+      </>
     </Layout>
   );
 };
