@@ -57,7 +57,7 @@ public class GetProducts : EndpointBaseAsync
       Console.WriteLine("query null, category is not null");
 
       var allCategories = await _categoryRepo.GetAll();
-      var ids = Utils.Categories.GetRelevantCategoryIds(allCategories, request.Category.Value);
+      var ids = Utils.Categories.GetCategoriesToId(allCategories, request.Category.Value);
 
       products = await _productRepo.Search(null, ids);
 

@@ -79,7 +79,7 @@ public static class Categories
     return resolvedCategories;
   }
 
-  public static List<int> GetRelevantCategoryIds(List<ProductCategory> categories, int deepestCategoryId)
+  public static List<int> GetCategoriesToId(List<ProductCategory> categories, int deepestCategoryId)
   {
     var ids = new List<int>() {deepestCategoryId};
 
@@ -94,6 +94,24 @@ public static class Categories
       ids.Add(current.ProductCategoryId);
     }
     
+    return ids;
+  }
+  
+  public static List<int> GetAllChildCategories(List<ProductCategory> categories, int parentId)
+  {
+    var ids = new List<int>();
+
+    var current = categories.FirstOrDefault(c => c.ProductCategoryId == parentId);
+    if (current is null) return ids;
+
+    var children = categories.Where(c => c.ParentId == current.ProductCategoryId);
+
+    foreach (var child in children)
+    {
+      ids.Add(child.ProductCategoryId);
+      ids.AddRange(GetAllChildCategories(categories, child.ProductCategoryId));
+    }
+
     return ids;
   }
 }
