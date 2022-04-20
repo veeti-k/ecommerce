@@ -17,6 +17,13 @@ export const Card = styled("div", {
         boxShadow: "$shadowNearest",
       },
     },
+    hoverShadow: {
+      true: {
+        "&:hover": {
+          boxShadow: "2px 4px 16px rgb(0 0 0 / 16%)",
+        },
+      },
+    },
   },
 });
 
