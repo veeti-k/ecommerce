@@ -30,10 +30,12 @@ export type BaseProduct = {
 };
 
 export type Product = BaseProduct & {
-  bulletPoints: bulletPoint[];
-  images: imageLink[];
+  bulletPoints: string;
+  imageUrl: string;
 };
 
 export type ProductPageProduct = Product & {
+  bulletPoints: bulletPoint[];
+  images: imageLink[];
   path: Category[];
 };
