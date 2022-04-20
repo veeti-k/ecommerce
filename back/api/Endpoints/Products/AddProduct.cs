@@ -86,7 +86,7 @@ public class AddProduct : EndpointBaseAsync
       });
     }
 
-    await _zincService.UpsertProduct(added, request.Body.BulletPoints, request.Body.ImageLinks[0].Link);
+    await _zincService.AddProduct(added, request.Body.BulletPoints, request.Body.ImageLinks[0].Link);
 
     var locationUri = Routes.Products.ProductRoot.Replace(Routes.Products.ProductId, added.ProductId.ToString());
 

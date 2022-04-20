@@ -117,7 +117,7 @@ public class UpdateProduct : EndpointBaseAsync
       }
     }
 
-    await _zincService.UpsertProduct(updated, request.Body.BulletPoints, request.Body.ImageLinks[0].Link);
+    await _zincService.UpdateProduct(updated, request.Body.BulletPoints, request.Body.ImageLinks[0].Link);
 
     return Ok();
   }

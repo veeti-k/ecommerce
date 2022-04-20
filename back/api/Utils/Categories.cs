@@ -26,27 +26,6 @@ public static class Categories
     return result;
   }
 
-  public static List<ProductCategory> GetCategoryPath(List<ProductsCategories> allCategories, int deepestCategoryId)
-  {
-    var result = new List<ProductCategory>();
-
-    var current = allCategories.FirstOrDefault(c => c.ProductCategoryId == deepestCategoryId);
-
-    result.Add(current.Category);
-
-    while (current?.Category?.ParentId is not null)
-    {
-      current = allCategories.FirstOrDefault(c => c.ProductCategoryId == current.Category.ParentId);
-      if (current is null) continue;
-
-      result.Add(current.Category);
-    }
-
-    result.Reverse();
-
-    return result;
-  }
-
   public static List<ResolvedCategory> ResolveCategories(List<ProductCategory?> categories)
   {
     var resolvedCategories = new List<ResolvedCategory>();
@@ -79,13 +58,36 @@ public static class Categories
     return resolvedCategories;
   }
 
+  public static ResolvedCategory ResolveCategory(List<ProductCategory?> categories, ProductCategory category)
+  {
+    var resolved = new ResolvedCategory();
+    var categoryIds = new List<int>();
+
+    var current = category;
+
+    categoryIds.Add(current.ProductCategoryId);
+
+    resolved.Id = current.ProductCategoryId;
+    resolved.Name = current.Name;
+    resolved.ParentId = current.ParentId;
+    resolved.Children = null;
+
+    var children = categories.Where(c => c.ParentId == current.ProductCategoryId).ToList();
+
+    categoryIds.AddRange(children.Select(x => x.ProductCategoryId));
+
+    resolved.Children = children.Select(c => ResolveCategory(categories, c)).ToList();
+
+    return resolved;
+  }
+
   public static List<int> GetCategoriesToId(List<ProductCategory> categories, int deepestCategoryId)
   {
     var ids = new List<int>() {deepestCategoryId};
 
     var current = categories.FirstOrDefault(c => c.ProductCategoryId == deepestCategoryId);
     if (current is null) return ids;
-    
+
     while (current?.ParentId is not null)
     {
       current = categories.FirstOrDefault(c => c.ProductCategoryId == current.ParentId);
@@ -93,25 +95,27 @@ public static class Categories
 
       ids.Add(current.ProductCategoryId);
     }
-    
+
     return ids;
   }
-  
-  public static List<int> GetAllChildCategories(List<ProductCategory> categories, int parentId)
-  {
-    var ids = new List<int>();
 
-    var current = categories.FirstOrDefault(c => c.ProductCategoryId == parentId);
-    if (current is null) return ids;
+  public static List<ProductCategory> GetAllChildCategories(List<ProductCategory> categories, int categoryId)
+  {
+    var childCategories = new List<ProductCategory>() { };
+
+    var current = categories.FirstOrDefault(c => c.ProductCategoryId == categoryId);
+    if (current is null) return childCategories;
+
+    childCategories.Add(current);
 
     var children = categories.Where(c => c.ParentId == current.ProductCategoryId);
 
     foreach (var child in children)
     {
-      ids.Add(child.ProductCategoryId);
-      ids.AddRange(GetAllChildCategories(categories, child.ProductCategoryId));
+      childCategories.Add(child);
+      childCategories.AddRange(GetAllChildCategories(categories, child.ProductCategoryId));
     }
 
-    return ids;
+    return childCategories;
   }
 }

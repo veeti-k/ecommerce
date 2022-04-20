@@ -32,13 +32,15 @@ public record BaseProductResponse
   public int DeepestCategoryId { get; set; }
 }
 
-public record ProductResponse : BaseProductResponse
+public record ShowCaseProductResponse : BaseProductResponse
+{
+  public string BulletPoints { get; set; }
+  public string imageUrl { get; set; }
+}
+
+public record ProductPageProductResponse : BaseProductResponse
 {
   public List<ProductBulletPointResponse> BulletPoints { get; set; }
   public List<ProductImageResponse> Images { get; set; }
-}
-
-public record ProductPageProductResponse : ProductResponse
-{
   public List<CategoryResponse> Path { get; set; }
 }

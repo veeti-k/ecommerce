@@ -1,7 +1,7 @@
 ﻿using api.Repositories.Interfaces;
-using api.RequestsAndResponses.Category;
 using api.RequestsAndResponses.Product;
-using api.Utils;
+using api.Services;
+using api.Services.Interfaces;
 using Ardalis.ApiEndpoints;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -16,40 +16,39 @@ public record GetProductsRequest
 
 public class GetProducts : EndpointBaseAsync
   .WithRequest<GetProductsRequest>
-  .WithActionResult<List<ProductResponse>>
+  .WithActionResult<List<ZincProduct>>
 {
   private readonly IMapper _mapper;
-  private readonly IProductRepo _productRepo;
   private readonly ICategoryRepo _categoryRepo;
+  private readonly IZincService _zincService;
 
-  public GetProducts(IMapper mapper, IProductRepo productRepo, ICategoryRepo categoryRepo)
+  public GetProducts(IMapper mapper, ICategoryRepo categoryRepo, IZincService zincService)
   {
     _mapper = mapper;
-    _productRepo = productRepo;
     _categoryRepo = categoryRepo;
+    _zincService = zincService;
   }
 
   [HttpGet(Routes.ProductsRoot)]
-  public override async Task<ActionResult<List<ProductResponse>>> HandleAsync(
+  public override async Task<ActionResult<List<ZincProduct>>> HandleAsync(
     [FromRoute] GetProductsRequest request,
     CancellationToken cancellationToken = new CancellationToken())
   {
-    List<Models.Product> products = new List<Models.Product>() { };
+    IEnumerable<ZincProduct> products = new List<ZincProduct>() { };
 
     if (request.Query is null && request.Category is null)
     {
       Console.WriteLine("both null");
-      return Ok(_mapper.Map<List<ProductResponse>>(await _productRepo.GetManyNotDeleted()));
+      return Ok(products);
     }
 
     if (request.Query is not null && request.Category is null)
     {
       Console.WriteLine("query not null, category null");
-      
-      products = await _productRepo.GetManyNotDeleted();
-      SearchUtils.OrderByNameStartsWith(products, request.Query);
-      
-      return Ok(_mapper.Map<List<ProductResponse>>(products));
+
+      products = await _zincService.SearchWithString(request.Query);
+
+      return Ok(products);
     }
 
     if (request.Category is not null && request.Query is null)
@@ -57,13 +56,14 @@ public class GetProducts : EndpointBaseAsync
       Console.WriteLine("query null, category is not null");
 
       var allCategories = await _categoryRepo.GetAll();
-      var ids = Utils.Categories.GetCategoriesToId(allCategories, request.Category.Value);
 
-      products = await _productRepo.Search(null, ids);
+      var childCategories = Utils.Categories.GetAllChildCategories(allCategories, request.Category.Value);
+      var childIds = childCategories.Select(x => x.ProductCategoryId);
 
-      return Ok(_mapper.Map<List<ProductResponse>>(products));
+      products = await _zincService.SearchWithCategoryIds(childIds);
+      return Ok(_mapper.Map<List<ShowCaseProductResponse>>(products));
     }
 
-    return Ok(_mapper.Map<List<ProductResponse>>(await _productRepo.GetManyNotDeleted()));
+    return Ok(products);
   }
 }

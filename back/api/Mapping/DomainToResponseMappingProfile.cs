@@ -34,14 +34,14 @@ public class DomainToResponseMappingProfile : Profile
       options => options
         .MapFrom(src => src.AddressId));
 
-    CreateMap<Product, ProductResponse>()
-      .ForMember(dest => dest.Id,
-        options => options
-          .MapFrom(src => src.ProductId));
-
     CreateMap<Product, BaseProductResponse>().ForMember(dest => dest.Id,
       options => options
         .MapFrom(src => src.ProductId));
+
+    CreateMap<ZincProduct, ShowCaseProductResponse>()
+      .ForMember(dest => dest.Id,
+        options => options
+          .MapFrom(src => src.ProductId));
 
     CreateMap<Product, ProductPageProductResponse>()
       .ForMember(dest => dest.Id,
@@ -102,7 +102,7 @@ public class DomainToResponseMappingProfile : Profile
           .MapFrom(src => src.StoreId));
 
     CreateMap<Product, ZincProduct>();
-    
+
     CreateMap<ZincProductFrom, ZincProduct>()
       .IncludeMembers(src => src.Product)
       .ForMember(dest => dest.BulletPoints,
