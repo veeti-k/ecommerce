@@ -2,7 +2,7 @@ import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import toast from "react-hot-toast";
 import { CardContent } from "../../../components/Card";
 import { MgmtSettingsPageScrollableContent } from "../../../components/Containers";
-import { ProductForm, ProductFormValues } from "../../../components/Forms/ProductForm";
+import { ProductFormValues, ProductForm } from "../../../components/Forms/ProductForm";
 import { ManagementPageLayout } from "../../../components/layouts/ManagementPageLayout";
 import { TitleContainer } from "../../../components/layouts/Styles";
 import { Heading } from "../../../components/Text";
@@ -31,7 +31,13 @@ const AddProduct: NextPage<Result> = ({ categories }) => {
   const onSubmit = async (values: ProductFormValues) => {
     const notifId = toast.loading("Adding product");
 
-    const res = await AddProductRequest(values);
+    const res = await AddProductRequest({
+      ...values,
+      price: Number(values.price),
+      discountedPrice: Number(values.discountedPrice),
+      discountAmount: Number(values.discountAmount),
+      discountPercent: Number(values.discountPercent),
+    });
 
     toast.dismiss(notifId);
 

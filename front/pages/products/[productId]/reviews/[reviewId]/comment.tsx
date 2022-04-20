@@ -14,22 +14,24 @@ import {
   AddProductReviewCommentRequestBody,
   ProductReview,
 } from "../../../../../types/ProductReview";
-import {
-  getProduct_STATIC_PROPS,
-  getCategories_STATIC_PROPS,
-  getReviews_STATIC_PROPS,
-} from "../../../../../utils/getStaticProps";
+
 import { routes } from "../../../../../utils/routes";
 import { Formik } from "formik";
 import { AddProductReviewCommentRequest } from "../../../../../utils/Requests/ProductReview";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import { pushUser } from "../../../../../utils/router";
+import { NO_BUILD, STATIC_PROPS_REQUESTS } from "../../../../../utils/getStaticProps";
 
-export const WriteReviewComment: NextPage<Result> = ({ categories, product, review }) => {
+export const WriteReviewComment: NextPage<Result> = ({
+  resolvedCategories,
+  product,
+  review,
+  valid,
+}) => {
   const router = useRouter();
 
-  if (!review || !product || !categories) return null;
+  if (!valid) return null;
 
   const onSubmit = async (values: AddProductReviewCommentRequestBody) => {
     const notifId = toast.loading("Adding comment");
@@ -47,7 +49,7 @@ export const WriteReviewComment: NextPage<Result> = ({ categories, product, revi
   };
 
   return (
-    <Layout categories={categories} lessPaddingOnMobile>
+    <Layout categories={resolvedCategories} lessPaddingOnMobile>
       <PageTitleContainer>
         <PageTitle>Write a comment</PageTitle>
 
@@ -130,11 +132,19 @@ export const WriteReviewComment: NextPage<Result> = ({ categories, product, revi
 
 export default WriteReviewComment;
 
-type Result = {
-  product: ProductPageProduct | null;
-  review: ProductReview | null;
-  categories: ResolvedCategory[] | null;
-};
+type Result =
+  | {
+      product: ProductPageProduct;
+      review: ProductReview;
+      resolvedCategories: ResolvedCategory[];
+      valid: true;
+    }
+  | {
+      product?: never;
+      review?: never;
+      resolvedCategories?: never;
+      valid: false;
+    };
 
 export const getStaticProps: GetStaticProps = async (
   context
@@ -142,9 +152,11 @@ export const getStaticProps: GetStaticProps = async (
   const productId = context.params!.productId! as string;
   const reviewId = context.params!.reviewId! as string;
 
-  const product = productId == "0" ? null : await getProduct_STATIC_PROPS(productId);
-  const reviews = reviewId == "0" ? null : await getReviews_STATIC_PROPS(productId);
-  const categories = productId == "0" ? null : await getCategories_STATIC_PROPS();
+  if (productId === NO_BUILD || reviewId === NO_BUILD) return { props: { valid: false } };
+
+  const product = await STATIC_PROPS_REQUESTS.Products.getById(Number(productId));
+  const reviews = await STATIC_PROPS_REQUESTS.Reviews.getApprovedByProductId(Number(productId));
+  const resolvedCategories = await STATIC_PROPS_REQUESTS.Categories.getAllResolved();
 
   const review = reviews?.find((r) => r.id === reviewId) || null;
 
@@ -157,7 +169,8 @@ export const getStaticProps: GetStaticProps = async (
     props: {
       product,
       review,
-      categories,
+      resolvedCategories,
+      valid: true,
     },
   };
 };
@@ -167,8 +180,8 @@ export const getStaticPaths = async () => {
     paths: [
       {
         params: {
-          productId: "0",
-          reviewId: "0",
+          productId: NO_BUILD,
+          reviewId: NO_BUILD,
         },
       },
     ],

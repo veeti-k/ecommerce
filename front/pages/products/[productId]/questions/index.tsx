@@ -12,18 +12,14 @@ import { BiggerHeading, Heading, PageTitle } from "../../../../components/Text";
 import { ResolvedCategory } from "../../../../types/Category";
 import { ProductPageProduct } from "../../../../types/Product";
 import { ProductQuestion } from "../../../../types/ProductQuestion";
-import {
-  getProduct_STATIC_PROPS,
-  getCategories_STATIC_PROPS,
-  getQuestions_STATIC_PROPS,
-} from "../../../../utils/getStaticProps";
+import { NO_BUILD, STATIC_PROPS_REQUESTS } from "../../../../utils/getStaticProps";
 import { routes } from "../../../../utils/routes";
 
-const Questions: NextPage<Result> = ({ categories, product, questions }) => {
-  if (!product || !categories || !questions) return null;
+const Questions: NextPage<Result> = ({ resolvedCategories, product, questions, valid }) => {
+  if (!valid) return null;
 
   return (
-    <Layout categories={categories} lessPaddingOnMobile>
+    <Layout categories={resolvedCategories} lessPaddingOnMobile>
       <PageTitleContainer>
         <PageTitle>Questions</PageTitle>
 
@@ -73,26 +69,37 @@ const Questions: NextPage<Result> = ({ categories, product, questions }) => {
 
 export default Questions;
 
-type Result = {
-  product: ProductPageProduct | null;
-  categories: ResolvedCategory[] | null;
-  questions: ProductQuestion[] | null;
-};
+type Result =
+  | {
+      product: ProductPageProduct;
+      resolvedCategories: ResolvedCategory[];
+      questions: ProductQuestion[];
+      valid: true;
+    }
+  | {
+      product?: never;
+      resolvedCategories?: never;
+      questions?: never;
+      valid: false;
+    };
 
 export const getStaticProps: GetStaticProps = async (
   context
 ): Promise<GetStaticPropsResult<Result>> => {
   const productId = context.params!.productId! as string;
 
-  const product = productId == "0" ? null : await getProduct_STATIC_PROPS(productId);
-  const categories = productId == "0" ? null : await getCategories_STATIC_PROPS();
-  const questions = productId == "0" ? null : await getQuestions_STATIC_PROPS(productId);
+  if (productId === NO_BUILD) return { props: { valid: false } };
+
+  const product = await STATIC_PROPS_REQUESTS.Products.getById(Number(productId));
+  const resolvedCategories = await STATIC_PROPS_REQUESTS.Categories.getAllResolved();
+  const questions = await STATIC_PROPS_REQUESTS.Questions.getApprovedByProductId(Number(productId));
 
   return {
     props: {
       product,
-      categories,
+      resolvedCategories,
       questions,
+      valid: true,
     },
   };
 };
@@ -101,7 +108,7 @@ export const getStaticPaths = async () => ({
   paths: [
     {
       params: {
-        productId: "0",
+        productId: NO_BUILD,
       },
     },
   ],

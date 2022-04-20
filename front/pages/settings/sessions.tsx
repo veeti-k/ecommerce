@@ -11,10 +11,10 @@ import { styled } from "../../stitches.config";
 import toast from "react-hot-toast";
 import { getMe } from "../../utils/logout";
 import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
-import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
 import { TitleContainer } from "../../components/layouts/Styles";
 import { RevokeSessionRequest } from "../../utils/Requests/Session";
 import { ResolvedCategory } from "../../types/Category";
+import { STATIC_PROPS_REQUESTS } from "../../utils/getStaticProps";
 
 const SessionCard = styled(Card, {
   display: "flex",
@@ -29,20 +29,7 @@ const SessionCardButtons = styled("div", {
   gap: "0.5rem",
 });
 
-type Result = {
-  categories: ResolvedCategory[];
-};
-
-export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<Result>> => {
-  const categories = await getCategories_STATIC_PROPS();
-
-  return {
-    props: {
-      categories,
-    },
-  };
-};
-const Sessions: NextPage<Result> = ({ categories }) => {
+const Sessions: NextPage<Props> = ({ resolvedCategories }) => {
   const { state, dispatch } = useContext(UserContext);
 
   const revokeSession = async (sessionId: string) => {
@@ -58,7 +45,7 @@ const Sessions: NextPage<Result> = ({ categories }) => {
   };
 
   return (
-    <SettingsPageLayout categories={categories}>
+    <SettingsPageLayout categories={resolvedCategories}>
       <TitleContainer>
         <Heading>Sessions</Heading>
       </TitleContainer>
@@ -111,3 +98,17 @@ const Sessions: NextPage<Result> = ({ categories }) => {
 };
 
 export default Sessions;
+
+type Props = {
+  resolvedCategories: ResolvedCategory[];
+};
+
+export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<Props>> => {
+  const resolvedCategories = await STATIC_PROPS_REQUESTS.Categories.getAllResolved();
+
+  return {
+    props: {
+      resolvedCategories,
+    },
+  };
+};

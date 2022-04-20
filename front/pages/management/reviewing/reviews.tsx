@@ -14,11 +14,11 @@ import { Review } from "../../../components/Product/Review";
 import { Heading } from "../../../components/Text";
 import { ResolvedCategory } from "../../../types/Category";
 import { ProductReviewWithProduct } from "../../../types/ProductReview";
-import { getCategories_STATIC_PROPS } from "../../../utils/getStaticProps";
+import { STATIC_PROPS_REQUESTS } from "../../../utils/getStaticProps";
 import { GetNotApprovedProductReviewsRequest } from "../../../utils/Requests/ProductReview";
 import { routes } from "../../../utils/routes";
 
-export const Reviewing: NextPage<Result> = ({ categories }) => {
+export const Reviewing: NextPage<Result> = ({ resolvedCategories }) => {
   const [reviews, setReviews] = useState<ProductReviewWithProduct[]>([]);
 
   const { state } = useContext(BreakpointContext);
@@ -35,7 +35,7 @@ export const Reviewing: NextPage<Result> = ({ categories }) => {
 
   if (state.bp == "mobile")
     return (
-      <ReviewingPageLayout categories={categories}>
+      <ReviewingPageLayout categories={resolvedCategories}>
         <TitleContainer>
           <Heading>
             {reviews.length} review{reviews.length > 1 || reviews.length == 0 ? "s" : ""}
@@ -80,7 +80,7 @@ export const Reviewing: NextPage<Result> = ({ categories }) => {
     );
 
   return (
-    <ReviewingPageLayout categories={categories}>
+    <ReviewingPageLayout categories={resolvedCategories}>
       <TitleContainer>
         <Heading>
           {reviews.length} review{reviews.length > 1 || reviews.length == 0 ? "s" : ""}
@@ -128,15 +128,15 @@ export const Reviewing: NextPage<Result> = ({ categories }) => {
 };
 
 type Result = {
-  categories: ResolvedCategory[];
+  resolvedCategories: ResolvedCategory[];
 };
 
 export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<Result>> => {
-  const categories = await getCategories_STATIC_PROPS();
+  const resolvedCategories = await STATIC_PROPS_REQUESTS.Categories.getAllResolved();
 
   return {
     props: {
-      categories,
+      resolvedCategories,
     },
   };
 };

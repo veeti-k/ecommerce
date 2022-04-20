@@ -8,11 +8,11 @@ import { styled } from "../../stitches.config";
 import { EditAddressDialog } from "../../components/Dialogs/Address/EditAddressDialog";
 import { NewAddressDialog } from "../../components/Dialogs/Address/NewAddressDialog";
 import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
-import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
 import { TitleContainer } from "../../components/layouts/Styles";
 import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../components/Containers";
 import { DeleteAddressDialog } from "../../components/Dialogs/Address/DeleteAddressDialog";
 import { ResolvedCategory } from "../../types/Category";
+import { STATIC_PROPS_REQUESTS } from "../../utils/getStaticProps";
 
 const AddressCard = styled(Card, {
   display: "flex",
@@ -22,25 +22,11 @@ const AddressCard = styled(Card, {
   width: "100%",
 });
 
-type Result = {
-  categories: ResolvedCategory[];
-};
-
-export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<Result>> => {
-  const categories = await getCategories_STATIC_PROPS();
-
-  return {
-    props: {
-      categories,
-    },
-  };
-};
-
-export const Addresses: NextPage<Result> = ({ categories }) => {
+export const Addresses: NextPage<Props> = ({ resolvedCategories }) => {
   const { state } = useContext(UserContext);
 
   return (
-    <SettingsPageLayout categories={categories}>
+    <SettingsPageLayout categories={resolvedCategories}>
       <TitleContainer>
         <div>
           <Heading>Addresses</Heading>
@@ -85,3 +71,17 @@ export const Addresses: NextPage<Result> = ({ categories }) => {
 };
 
 export default Addresses;
+
+type Props = {
+  resolvedCategories: ResolvedCategory[];
+};
+
+export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<Props>> => {
+  const resolvedCategories = await STATIC_PROPS_REQUESTS.Categories.getAllResolved();
+
+  return {
+    props: {
+      resolvedCategories,
+    },
+  };
+};

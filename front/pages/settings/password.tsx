@@ -8,23 +8,9 @@ import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout"
 import { TitleContainer } from "../../components/layouts/Styles";
 import { Heading, Text } from "../../components/Text";
 import { ResolvedCategory } from "../../types/Category";
-import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
+import { STATIC_PROPS_REQUESTS } from "../../utils/getStaticProps";
 
-type Result = {
-  categories: ResolvedCategory[];
-};
-
-export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<Result>> => {
-  const categories = await getCategories_STATIC_PROPS();
-
-  return {
-    props: {
-      categories,
-    },
-  };
-};
-
-const Password: NextPage<Result> = ({ categories }) => {
+const Password: NextPage<Props> = ({ resolvedCategories }) => {
   const [currPw, setCurrPw] = useState<string>("");
   const [newPw, setNewPw] = useState<string>("");
   const [newPw2, setNewPw2] = useState<string>("");
@@ -36,7 +22,7 @@ const Password: NextPage<Result> = ({ categories }) => {
   };
 
   return (
-    <SettingsPageLayout categories={categories}>
+    <SettingsPageLayout categories={resolvedCategories}>
       <TitleContainer>
         <div>
           <Heading>Password</Heading>
@@ -96,3 +82,17 @@ const Password: NextPage<Result> = ({ categories }) => {
 };
 
 export default Password;
+
+type Props = {
+  resolvedCategories: ResolvedCategory[];
+};
+
+export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<Props>> => {
+  const resolvedCategories = await STATIC_PROPS_REQUESTS.Categories.getAllResolved();
+
+  return {
+    props: {
+      resolvedCategories,
+    },
+  };
+};

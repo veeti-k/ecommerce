@@ -11,28 +11,14 @@ import { UserContext } from "../../UserProvider/provider";
 import { toast } from "react-hot-toast";
 import { Actions } from "../../UserProvider/types";
 import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
-import { getCategories_STATIC_PROPS } from "../../utils/getStaticProps";
 import { TitleContainer } from "../../components/layouts/Styles";
 import { DeleteAccountDialog } from "../../components/Dialogs/Account/DeleteAccountDialog";
 import { UpdateAccountRequest } from "../../utils/Requests/Account";
 import { ResolvedCategory } from "../../types/Category";
 import { CardContent } from "../../components/Card";
+import { STATIC_PROPS_REQUESTS } from "../../utils/getStaticProps";
 
-type Result = {
-  categories: ResolvedCategory[];
-};
-
-export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<Result>> => {
-  const categories = await getCategories_STATIC_PROPS();
-
-  return {
-    props: {
-      categories,
-    },
-  };
-};
-
-const Account: NextPage<Result> = ({ categories }) => {
+const Account: NextPage<Props> = ({ resolvedCategories }) => {
   const { state, dispatch } = useContext(UserContext);
 
   const [name, setName] = useState<string>(state.name);
@@ -74,7 +60,7 @@ const Account: NextPage<Result> = ({ categories }) => {
   };
 
   return (
-    <SettingsPageLayout categories={categories}>
+    <SettingsPageLayout categories={resolvedCategories}>
       <TitleContainer>
         <div>
           <Heading>General Info</Heading>
@@ -142,3 +128,17 @@ const Account: NextPage<Result> = ({ categories }) => {
 };
 
 export default Account;
+
+type Props = {
+  resolvedCategories: ResolvedCategory[];
+};
+
+export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<Props>> => {
+  const resolvedCategories = await STATIC_PROPS_REQUESTS.Categories.getAllResolved();
+
+  return {
+    props: {
+      resolvedCategories,
+    },
+  };
+};

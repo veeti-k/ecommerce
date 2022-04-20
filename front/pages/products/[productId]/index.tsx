@@ -5,11 +5,6 @@ import { BiggerHeading, HugeHeading, Text } from "../../../components/Text";
 import { styled } from "../../../stitches.config";
 import { Button, Divider, ListItem, UnorderedList } from "@chakra-ui/react";
 import { FlexDiv } from "../../../components/Containers";
-import {
-  getAllProducts_STATIC_PROPS,
-  getCategories_STATIC_PROPS,
-  getProduct_STATIC_PROPS,
-} from "../../../utils/getStaticProps";
 import { EditIcon, ShoppingCartIcon } from "../../../components/Icons";
 import { DeleteProductDialog } from "../../../components/Dialogs/Product/DeleteProductDialog";
 import { isAdmin } from "../../../utils/flagResolve";
@@ -22,6 +17,7 @@ import { Markdown } from "../../../components/Markdown";
 import { Link } from "../../../components/Link";
 import { routes } from "../../../utils/routes";
 import { StarsReviewsQuestions } from "../../../components/Product/StarsReviewsQuestions";
+import { STATIC_PROPS_REQUESTS } from "../../../utils/getStaticProps";
 
 const RightDiv = styled("div", {
   display: "flex",
@@ -68,16 +64,13 @@ const ProductDescription = styled("div", {
   width: "100%",
 });
 
-type Props = {
-  product: ProductPageProduct;
-  categories: ResolvedCategory[];
-};
-
-const ProductPage: NextPage<Props> = ({ product, categories }) => {
+const ProductPage: NextPage<Props> = ({ product, resolvedCategories, valid }) => {
   const { state } = useContext(UserContext);
 
+  if (!valid) return null;
+
   return (
-    <Layout categories={categories} noPadding lessPaddingOnMobile>
+    <Layout categories={resolvedCategories} noPadding lessPaddingOnMobile>
       <ProductPath product={product} />
 
       <Card shadowFar>
@@ -150,35 +143,46 @@ const ProductPage: NextPage<Props> = ({ product, categories }) => {
   );
 };
 
+type Props =
+  | {
+      product: ProductPageProduct;
+      resolvedCategories: ResolvedCategory[];
+      valid: true;
+    }
+  | {
+      product?: never;
+      resolvedCategories?: never[];
+      valid: false;
+    };
+
 export const getStaticProps: GetStaticProps = async (
   context
 ): Promise<GetStaticPropsResult<Props>> => {
-  const id = context.params!.productId! as string;
+  const productId = context.params!.productId! as string;
 
-  const product = await getProduct_STATIC_PROPS(id);
-  const categories = await getCategories_STATIC_PROPS();
+  if (productId === "NO_BUILD") return { props: { valid: false } };
+
+  const product = await STATIC_PROPS_REQUESTS.Products.getById(Number(productId));
+  const resolvedCategories = await STATIC_PROPS_REQUESTS.Categories.getAllResolved();
 
   return {
     props: {
       product,
-      categories,
+      resolvedCategories,
+      valid: true,
     },
   };
 };
 
-export const getStaticPaths = async () => {
-  const products = await getAllProducts_STATIC_PROPS();
-
-  return {
-    paths: products.map((product) => {
-      return {
-        params: {
-          productId: product.id.toString(),
-        },
-      };
-    }),
-    fallback: false,
-  };
-};
+export const getStaticPaths = async () => ({
+  paths: [
+    {
+      params: {
+        productId: "NO_BUILD",
+      },
+    },
+  ],
+  fallback: "blocking",
+});
 
 export default ProductPage;

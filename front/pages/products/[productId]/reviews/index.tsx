@@ -14,12 +14,8 @@ import { styled } from "../../../../stitches.config";
 import { ResolvedCategory } from "../../../../types/Category";
 import { ProductPageProduct } from "../../../../types/Product";
 import { ProductReview } from "../../../../types/ProductReview";
-import {
-  getProduct_STATIC_PROPS,
-  getCategories_STATIC_PROPS,
-  getAllProducts_STATIC_PROPS,
-  getReviews_STATIC_PROPS,
-} from "../../../../utils/getStaticProps";
+import { NO_BUILD, STATIC_PROPS_REQUESTS } from "../../../../utils/getStaticProps";
+
 import { routes } from "../../../../utils/routes";
 
 const Div = styled(FlexDiv, {
@@ -30,11 +26,11 @@ const Div = styled(FlexDiv, {
   },
 });
 
-const Reviews: NextPage<Result> = ({ categories, product, reviews }) => {
-  if (!product || !categories || !reviews) return null;
+const Reviews: NextPage<Result> = ({ resolvedCategories, product, reviews, valid }) => {
+  if (!valid) return null;
 
   return (
-    <Layout categories={categories} lessPaddingOnMobile>
+    <Layout categories={resolvedCategories} lessPaddingOnMobile>
       <PageTitleContainer>
         <PageTitle>Reviews</PageTitle>
 
@@ -99,43 +95,50 @@ const Reviews: NextPage<Result> = ({ categories, product, reviews }) => {
   );
 };
 
-type Result = {
-  product: ProductPageProduct | null;
-  categories: ResolvedCategory[] | null;
-  reviews: ProductReview[] | null;
-};
+type Result =
+  | {
+      product: ProductPageProduct;
+      resolvedCategories: ResolvedCategory[];
+      reviews: ProductReview[];
+      valid: true;
+    }
+  | {
+      product?: never;
+      resolvedCategories?: never;
+      reviews?: never;
+      valid: false;
+    };
 
 export const getStaticProps: GetStaticProps = async (
   context
 ): Promise<GetStaticPropsResult<Result>> => {
   const productId = context.params!.productId! as string;
 
-  const product = productId == "0" ? null : await getProduct_STATIC_PROPS(productId);
-  const categories = productId == "0" ? null : await getCategories_STATIC_PROPS();
-  const reviews = productId == "0" ? null : await getReviews_STATIC_PROPS(productId);
+  if (productId === NO_BUILD) return { props: { valid: false } };
+
+  const product = await STATIC_PROPS_REQUESTS.Products.getById(Number(productId));
+  const resolvedCategories = await STATIC_PROPS_REQUESTS.Categories.getAllResolved();
+  const reviews = await STATIC_PROPS_REQUESTS.Reviews.getApprovedByProductId(Number(productId));
 
   return {
     props: {
       product,
-      categories,
+      resolvedCategories,
       reviews,
+      valid: true,
     },
   };
 };
 
-export const getStaticPaths = async () => {
-  const products = await getAllProducts_STATIC_PROPS();
-
-  return {
-    paths: products.map((product) => {
-      return {
-        params: {
-          productId: "0",
-        },
-      };
-    }),
-    fallback: "blocking",
-  };
-};
+export const getStaticPaths = async () => ({
+  paths: [
+    {
+      params: {
+        productId: NO_BUILD,
+      },
+    },
+  ],
+  fallback: "blocking",
+});
 
 export default Reviews;

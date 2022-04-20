@@ -10,10 +10,7 @@ import { Link, TextLink } from "../../../../components/Link";
 import { Heading, PageTitle } from "../../../../components/Text";
 import { ResolvedCategory } from "../../../../types/Category";
 import { ProductPageProduct } from "../../../../types/Product";
-import {
-  getProduct_STATIC_PROPS,
-  getCategories_STATIC_PROPS,
-} from "../../../../utils/getStaticProps";
+import { NO_BUILD, STATIC_PROPS_REQUESTS } from "../../../../utils/getStaticProps";
 import { pushUser } from "../../../../utils/router";
 import { routes } from "../../../../utils/routes";
 import { Formik } from "formik";
@@ -21,10 +18,10 @@ import { AddProductQuestionRequestBody } from "../../../../types/ProductQuestion
 import { FlexDiv, InputLabelContainer } from "../../../../components/Containers";
 import { AddProductQuestionRequest } from "../../../../utils/Requests/ProductQuestion";
 
-const AskQuestion: NextPage<Result> = ({ product, categories }) => {
+const AskQuestion: NextPage<Result> = ({ product, resolvedCategories, valid }) => {
   const router = useRouter();
 
-  if (!product || !categories) return null;
+  if (!valid) return null;
 
   const onSubmit = async (values: AddProductQuestionRequestBody) => {
     const notifId = toast.loading("Adding question");
@@ -42,7 +39,7 @@ const AskQuestion: NextPage<Result> = ({ product, categories }) => {
   };
 
   return (
-    <Layout categories={categories} lessPaddingOnMobile>
+    <Layout categories={resolvedCategories} lessPaddingOnMobile>
       <PageTitleContainer>
         <PageTitle>Ask a question</PageTitle>
 
@@ -126,36 +123,44 @@ const AskQuestion: NextPage<Result> = ({ product, categories }) => {
 
 export default AskQuestion;
 
-type Result = {
-  product: ProductPageProduct | null;
-  categories: ResolvedCategory[] | null;
-};
+type Result =
+  | {
+      product: ProductPageProduct;
+      resolvedCategories: ResolvedCategory[];
+      valid: true;
+    }
+  | {
+      product?: never;
+      resolvedCategories?: never;
+      valid: false;
+    };
 
 export const getStaticProps: GetStaticProps = async (
   context
 ): Promise<GetStaticPropsResult<Result>> => {
   const productId = context.params!.productId! as string;
 
-  const product = productId == "0" ? null : await getProduct_STATIC_PROPS(productId);
-  const categories = productId == "0" ? null : await getCategories_STATIC_PROPS();
+  if (productId === NO_BUILD) return { props: { valid: false } };
+
+  const product = await STATIC_PROPS_REQUESTS.Products.getById(Number(productId));
+  const resolvedCategories = await STATIC_PROPS_REQUESTS.Categories.getAllResolved();
 
   return {
     props: {
       product,
-      categories,
+      resolvedCategories,
+      valid: true,
     },
   };
 };
 
-export const getStaticPaths = async () => {
-  return {
-    paths: [
-      {
-        params: {
-          productId: "0",
-        },
+export const getStaticPaths = async () => ({
+  paths: [
+    {
+      params: {
+        productId: NO_BUILD,
       },
-    ],
-    fallback: "blocking",
-  };
-};
+    },
+  ],
+  fallback: "blocking",
+});

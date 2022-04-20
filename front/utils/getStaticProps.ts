@@ -1,59 +1,57 @@
 import { ResolvedCategory, Category } from "../types/Category";
 import { Product, ProductPageProduct } from "../types/Product";
+import { ProductQuestion } from "../types/ProductQuestion";
+import { ProductReview } from "../types/ProductReview";
 import { apiBase } from "./consts";
 
-export const getCategories_STATIC_PROPS = async () => {
-  const categoryRes = await fetch(`${apiBase}/categories`);
-  const categories = (await categoryRes.json())["resolvedCategories"] as ResolvedCategory[];
+export const NO_BUILD = "NO_BUILD";
 
-  return categories;
-};
+export const STATIC_PROPS_REQUESTS = {
+  Categories: {
+    getAll: async (): Promise<Category[]> => {
+      const res = await fetch(`${apiBase}/categories`);
+      return (await res.json())["allCategories"] as Category[];
+    },
 
-export const getAllCategories_STATIC_PROPS = async () => {
-  const categoryRes = await fetch(`${apiBase}/categories`);
-  const categories = (await categoryRes.json())["allCategories"] as Category[];
+    getAllResolved: async (): Promise<ResolvedCategory[]> => {
+      const res = await fetch(`${apiBase}/categories`);
+      return (await res.json())["resolvedCategories"] as ResolvedCategory[];
+    },
 
-  return categories;
-};
+    getById: async (categoryId: number): Promise<ResolvedCategory> => {
+      const res = await fetch(`${apiBase}/categories/${categoryId}`);
+      return (await res.json()) as ResolvedCategory;
+    },
+  },
 
-export const getIndexProducts_STATIC_PROPS = async () => {
-  const productRes = await fetch(`${apiBase}/products`);
-  const products = (await productRes.json()) as Product[];
+  Products: {
+    getByCategoryId: async (categoryId: number): Promise<Product[]> => {
+      const res = await fetch(`${apiBase}/products?category=${categoryId}`);
+      return (await res.json()) as Product[];
+    },
 
-  return products;
-};
+    getById: async (productId: number): Promise<ProductPageProduct> => {
+      const res = await fetch(`${apiBase}/products/${productId}`);
+      return (await res.json()) as ProductPageProduct;
+    },
+  },
 
-export const getAllProducts_STATIC_PROPS = async () => {
-  const productRes = await fetch(`${apiBase}/products`);
-  const products = (await productRes.json()) as Product[];
+  Reviews: {
+    getApprovedByProductId: async (productId: number): Promise<ProductReview[]> => {
+      const res = await fetch(`${apiBase}/reviews/${productId}`);
+      return await res.json();
+    },
 
-  return products;
-};
+    getAllApproved: async (): Promise<ProductReview[]> => {
+      const res = await fetch(`${apiBase}/products/reviews/approved`);
+      return await res.json();
+    },
+  },
 
-export const getProduct_STATIC_PROPS = async (id: string) => {
-  const productRes = await fetch(`${apiBase}/products/${id}`);
-  const product = (await productRes.json()) as ProductPageProduct;
-
-  return product;
-};
-
-export const getReviews_STATIC_PROPS = async (productId: string) => {
-  const reviewRes = await fetch(`${apiBase}/products/${productId}/reviews`);
-  const reviews = (await reviewRes.json()) as any[];
-
-  return reviews;
-};
-
-export const getAllApprovedReviews_STATIC_PROPS = async () => {
-  const reviewRes = await fetch(`${apiBase}/products/reviews/approved`);
-  const reviews = (await reviewRes.json()) as any[];
-
-  return reviews;
-};
-
-export const getQuestions_STATIC_PROPS = async (productId: string) => {
-  const questionRes = await fetch(`${apiBase}/products/${productId}/questions`);
-  const questions = (await questionRes.json()) as any[];
-
-  return questions;
+  Questions: {
+    getApprovedByProductId: async (productId: number): Promise<ProductQuestion[]> => {
+      const res = await fetch(`${apiBase}/products/questions/${productId}`);
+      return await res.json();
+    },
+  },
 };

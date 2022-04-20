@@ -10,24 +10,10 @@ import { TitleContainer } from "../../../components/layouts/Styles";
 import { Heading, Text } from "../../../components/Text";
 import { ResolvedCategory } from "../../../types/Category";
 import { Store } from "../../../types/Store";
-import { getCategories_STATIC_PROPS } from "../../../utils/getStaticProps";
+import { STATIC_PROPS_REQUESTS } from "../../../utils/getStaticProps";
 import { GetStoresRequest } from "../../../utils/Requests/Store";
 
-type Result = {
-  categories: ResolvedCategory[];
-};
-
-export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<Result>> => {
-  const categories = await getCategories_STATIC_PROPS();
-
-  return {
-    props: {
-      categories,
-    },
-  };
-};
-
-const Stores: NextPage<Result> = ({ categories }) => {
+const Stores: NextPage<Props> = ({ resolvedCategories }) => {
   const [stores, setStores] = useState<Store[]>([]);
 
   const getStores = async () => {
@@ -41,7 +27,7 @@ const Stores: NextPage<Result> = ({ categories }) => {
   }, []);
 
   return (
-    <ManagementPageLayout categories={categories}>
+    <ManagementPageLayout categories={resolvedCategories}>
       <TitleContainer>
         <Heading>Stores</Heading>
 
@@ -79,3 +65,17 @@ const Stores: NextPage<Result> = ({ categories }) => {
 };
 
 export default Stores;
+
+type Props = {
+  resolvedCategories: ResolvedCategory[];
+};
+
+export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<Props>> => {
+  const resolvedCategories = await STATIC_PROPS_REQUESTS.Categories.getAllResolved();
+
+  return {
+    props: {
+      resolvedCategories,
+    },
+  };
+};

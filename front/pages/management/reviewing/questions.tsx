@@ -16,11 +16,11 @@ import { Question } from "../../../components/Product/Question";
 import { Heading } from "../../../components/Text";
 import { ResolvedCategory } from "../../../types/Category";
 import { ProductQuestionWithProduct } from "../../../types/ProductQuestion";
-import { getCategories_STATIC_PROPS } from "../../../utils/getStaticProps";
+import { STATIC_PROPS_REQUESTS } from "../../../utils/getStaticProps";
 import { GetNotApprovedProductQuestionsRequest } from "../../../utils/Requests/ProductQuestion";
 import { routes } from "../../../utils/routes";
 
-export const ReviewingQuestions: NextPage<Result> = ({ categories }) => {
+export const ReviewingQuestions: NextPage<Result> = ({ resolvedCategories }) => {
   const [questions, setQuestions] = useState<ProductQuestionWithProduct[]>([]);
 
   const { state } = useContext(BreakpointContext);
@@ -37,7 +37,7 @@ export const ReviewingQuestions: NextPage<Result> = ({ categories }) => {
 
   if (state.bp == "mobile")
     return (
-      <ReviewingPageLayout categories={categories}>
+      <ReviewingPageLayout categories={resolvedCategories}>
         <TitleContainer>
           <Heading>
             <Pluralize singular="question" count={questions.length} />
@@ -82,7 +82,7 @@ export const ReviewingQuestions: NextPage<Result> = ({ categories }) => {
     );
 
   return (
-    <ReviewingPageLayout categories={categories}>
+    <ReviewingPageLayout categories={resolvedCategories}>
       <TitleContainer>
         <Heading>
           <Pluralize singular="question" count={questions.length} />
@@ -130,15 +130,15 @@ export const ReviewingQuestions: NextPage<Result> = ({ categories }) => {
 };
 
 type Result = {
-  categories: ResolvedCategory[];
+  resolvedCategories: ResolvedCategory[];
 };
 
 export const getStaticProps: GetStaticProps = async (): Promise<GetStaticPropsResult<Result>> => {
-  const categories = await getCategories_STATIC_PROPS();
+  const resolvedCategories = await STATIC_PROPS_REQUESTS.Categories.getAllResolved();
 
   return {
     props: {
-      categories,
+      resolvedCategories,
     },
   };
 };

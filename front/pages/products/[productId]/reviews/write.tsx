@@ -13,15 +13,12 @@ import { Review } from "../../../../components/Product/Review";
 import { Heading, PageTitle } from "../../../../components/Text";
 import { ResolvedCategory } from "../../../../types/Category";
 import { ProductPageProduct } from "../../../../types/Product";
-import {
-  getCategories_STATIC_PROPS,
-  getProduct_STATIC_PROPS,
-} from "../../../../utils/getStaticProps";
+import { STATIC_PROPS_REQUESTS } from "../../../../utils/getStaticProps";
 import { AddProductReviewRequest } from "../../../../utils/Requests/ProductReview";
 import { pushUser } from "../../../../utils/router";
 import { routes } from "../../../../utils/routes";
 
-const AddReview: NextPage<Result> = ({ categories, product }) => {
+const AddReview: NextPage<Result> = ({ resolvedCategories, product, valid }) => {
   const [nickname, setNickname] = useState<string>("");
   const [stars, setStars] = useState<number>(0);
   const [title, setTitle] = useState<string>("");
@@ -29,7 +26,7 @@ const AddReview: NextPage<Result> = ({ categories, product }) => {
 
   const router = useRouter();
 
-  if (!product || !categories) return null;
+  if (!valid) return null;
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -54,7 +51,7 @@ const AddReview: NextPage<Result> = ({ categories, product }) => {
   };
 
   return (
-    <Layout categories={categories} lessPaddingOnMobile>
+    <Layout categories={resolvedCategories} lessPaddingOnMobile>
       <PageTitleContainer>
         <PageTitle>Write a review</PageTitle>
 
@@ -154,23 +151,33 @@ const AddReview: NextPage<Result> = ({ categories, product }) => {
   );
 };
 
-type Result = {
-  product: ProductPageProduct | null;
-  categories: ResolvedCategory[] | null;
-};
+type Result =
+  | {
+      product: ProductPageProduct;
+      resolvedCategories: ResolvedCategory[];
+      valid: true;
+    }
+  | {
+      product?: never;
+      resolvedCategories?: never;
+      valid: false;
+    };
 
 export const getStaticProps: GetStaticProps = async (
   context
 ): Promise<GetStaticPropsResult<Result>> => {
   const productId = context.params!.productId! as string;
 
-  const product = productId == "0" ? null : await getProduct_STATIC_PROPS(productId);
-  const categories = productId == "0" ? null : await getCategories_STATIC_PROPS();
+  if (productId === "NO_BUILD") return { props: { valid: false } };
+
+  const product = await STATIC_PROPS_REQUESTS.Products.getById(Number(productId));
+  const resolvedCategories = await STATIC_PROPS_REQUESTS.Categories.getAllResolved();
 
   return {
     props: {
       product,
-      categories,
+      resolvedCategories,
+      valid: true,
     },
   };
 };
@@ -179,7 +186,7 @@ export const getStaticPaths = async () => ({
   paths: [
     {
       params: {
-        productId: "0",
+        productId: "NO_BUILD",
       },
     },
   ],

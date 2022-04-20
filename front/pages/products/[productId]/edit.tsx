@@ -2,7 +2,7 @@ import { Button } from "@chakra-ui/react";
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import toast from "react-hot-toast";
 import { Card, CardContent } from "../../../components/Card";
-import { ProductForm, ProductFormValues } from "../../../components/Forms/ProductForm";
+import { ProductFormValues, ProductForm } from "../../../components/Forms/ProductForm";
 import { ArrowLeftIcon } from "../../../components/Icons";
 import { Layout } from "../../../components/layouts/Layout";
 import { PageTitleContainer } from "../../../components/layouts/Styles";
@@ -10,16 +10,13 @@ import { Link } from "../../../components/Link";
 import { BiggerHeading } from "../../../components/Text";
 import { Category, ResolvedCategory } from "../../../types/Category";
 import { ProductPageProduct } from "../../../types/Product";
-import {
-  getProduct_STATIC_PROPS,
-  getCategories_STATIC_PROPS,
-  getAllCategories_STATIC_PROPS,
-} from "../../../utils/getStaticProps";
+import { STATIC_PROPS_REQUESTS } from "../../../utils/getStaticProps";
+
 import { UpdateProductRequest } from "../../../utils/Requests/Product";
 import { routes } from "../../../utils/routes";
 
-const ProductEdit: NextPage<Result> = ({ categories, allCategories, product }) => {
-  if (!categories || !product || !allCategories) return null;
+const ProductEdit: NextPage<Result> = ({ resolvedCategories, allCategories, product, valid }) => {
+  if (!valid) return null;
 
   const onSubmit = async (values: ProductFormValues) => {
     const notifId = toast.loading("Updating the product");
@@ -32,7 +29,7 @@ const ProductEdit: NextPage<Result> = ({ categories, allCategories, product }) =
   };
 
   return (
-    <Layout categories={categories} lessPaddingOnMobile>
+    <Layout categories={resolvedCategories} lessPaddingOnMobile>
       <PageTitleContainer>
         <BiggerHeading>Edit product</BiggerHeading>
 
@@ -57,41 +54,50 @@ const ProductEdit: NextPage<Result> = ({ categories, allCategories, product }) =
   );
 };
 
-type Result = {
-  product: ProductPageProduct | null;
-  categories: ResolvedCategory[] | null;
-  allCategories: Category[] | null;
-};
+type Result =
+  | {
+      product: ProductPageProduct;
+      resolvedCategories: ResolvedCategory[];
+      allCategories: Category[];
+      valid: true;
+    }
+  | {
+      product?: never;
+      resolvedCategories?: never[];
+      allCategories?: never[];
+      valid: false;
+    };
 
 export const getStaticProps: GetStaticProps = async (
   context
 ): Promise<GetStaticPropsResult<Result>> => {
   const productId = context.params!.productId! as string;
 
-  const product = productId == "0" ? null : await getProduct_STATIC_PROPS(productId);
-  const categories = productId == "0" ? null : await getCategories_STATIC_PROPS();
-  const allCategories = productId == "0" ? null : await getAllCategories_STATIC_PROPS();
+  if (productId === "NO_BUILD") return { props: { valid: false } };
+
+  const product = await STATIC_PROPS_REQUESTS.Products.getById(Number(productId));
+  const categories = await STATIC_PROPS_REQUESTS.Categories.getAllResolved();
+  const allCategories = await STATIC_PROPS_REQUESTS.Categories.getAll();
 
   return {
     props: {
       product,
-      categories,
+      resolvedCategories: categories,
       allCategories,
+      valid: true,
     },
   };
 };
 
-export const getStaticPaths = async () => {
-  return {
-    paths: [
-      {
-        params: {
-          productId: "0",
-        },
+export const getStaticPaths = async () => ({
+  paths: [
+    {
+      params: {
+        productId: "NO_BUILD",
       },
-    ],
-    fallback: "blocking",
-  };
-};
+    },
+  ],
+  fallback: "blocking",
+});
 
 export default ProductEdit;
