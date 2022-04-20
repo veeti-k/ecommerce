@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { FC, MouseEvent, useState } from "react";
 import { ResolvedCategory } from "../../types/Category";
 import { pushUser } from "../../utils/router";
+import { routes } from "../../utils/routes";
 import { FlexDiv } from "../Containers";
 import { Chevron } from "../Icons";
 import { CollapsibleTrigger, containerVariants, itemVariants, MenuItem } from "./Styles";
@@ -30,7 +31,7 @@ export const Category: FC<Props> = ({ category, indentation }) => {
     return (
       <Collapsible.Root>
         <FlexDiv spaceBetween gap0>
-          <Link href={`/category/${category.id}`} passHref>
+          <Link href={routes.categories(category.id)} passHref>
             <MenuItem
               style={{ paddingLeft: indentWith }}
               onClick={onCategoryClick}
@@ -67,7 +68,7 @@ export const Category: FC<Props> = ({ category, indentation }) => {
   }
 
   return (
-    <Link href={`/category/${category.id}`} passHref>
+    <Link href={routes.categories(category.id)} passHref>
       <MenuItem
         style={{ paddingLeft: indentWith }}
         onClick={onCategoryClick}
