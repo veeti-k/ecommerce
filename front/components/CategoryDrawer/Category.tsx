@@ -1,10 +1,8 @@
 import * as Collapsible from "@radix-ui/react-collapsible";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { FC, MouseEvent, useState } from "react";
+import { FC, useState } from "react";
 import { ResolvedCategory } from "../../types/Category";
-import { pushUser } from "../../utils/router";
 import { routes } from "../../utils/routes";
 import { FlexDiv } from "../Containers";
 import { Chevron } from "../Icons";
@@ -18,26 +16,14 @@ type Props = {
 export const Category: FC<Props> = ({ category, indentation }) => {
   const [open, setOpen] = useState<boolean>(false);
 
-  const router = useRouter();
-
   const indentWith = indentation * 15;
-
-  const onCategoryClick = (e: MouseEvent) => {
-    e.preventDefault();
-    pushUser(router, `/category/${category.id}`, "categoryMenu");
-  };
 
   if (category?.children?.length) {
     return (
       <Collapsible.Root>
         <FlexDiv spaceBetween gap0>
           <Link href={routes.categories(category.id)} passHref>
-            <MenuItem
-              style={{ paddingLeft: indentWith }}
-              onClick={onCategoryClick}
-              aside
-              variants={itemVariants}
-            >
+            <MenuItem style={{ paddingLeft: indentWith }} aside variants={itemVariants}>
               {category.name}
             </MenuItem>
           </Link>
@@ -69,11 +55,7 @@ export const Category: FC<Props> = ({ category, indentation }) => {
 
   return (
     <Link href={routes.categories(category.id)} passHref>
-      <MenuItem
-        style={{ paddingLeft: indentWith }}
-        onClick={onCategoryClick}
-        variants={itemVariants}
-      >
+      <MenuItem style={{ paddingLeft: indentWith }} variants={itemVariants}>
         {category.name}
       </MenuItem>
     </Link>
