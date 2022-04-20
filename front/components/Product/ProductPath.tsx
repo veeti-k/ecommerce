@@ -37,7 +37,7 @@ export const ProductPath: FC<Props> = ({ product }) => {
       {product.path?.length &&
         product.path.map((category) => (
           <BreadcrumbItem key={category.id}>
-            <Link href={routes.category(category.id)}>
+            <Link href={routes.categories(category.id)}>
               <BreadcrumbLink>
                 <Text>{category.name}</Text>
               </BreadcrumbLink>
