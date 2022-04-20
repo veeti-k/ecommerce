@@ -29,5 +29,4 @@ public class Product
   public virtual List<ProductBulletPoint> BulletPoints { get; init; }
   public virtual List<ProductReview> Reviews { get; init; }
   public virtual List<ProductQuestion> Questions { get; init; }
-  public virtual List<ProductsCategories> ProductsCategories { get; init; }
 }

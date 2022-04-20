@@ -26,9 +26,6 @@ public static class Repos
     builder.Services.AddScoped<IGenericRepo<ProductCategory>, GenericRepo<ProductCategory>>();
     builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
 
-    builder.Services.AddScoped<IGenericRepo<ProductsCategories>, GenericRepo<ProductsCategories>>();
-    builder.Services.AddScoped<IProductsCategoriesRepo, ProductsCategoriesRepo>();
-
     builder.Services.AddScoped<IGenericRepo<ProductBulletPoint>, GenericRepo<ProductBulletPoint>>();
     builder.Services.AddScoped<IGenericRepo<ProductImageLink>, GenericRepo<ProductImageLink>>();
 

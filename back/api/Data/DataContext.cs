@@ -67,16 +67,6 @@ public class DataContext : DbContext, IDataContext
       .HasForeignKey(comment => comment.ReviewId)
       .OnDelete(DeleteBehavior.Cascade);
 
-    // many-to-many product - categories
-    aBuilder.Entity<ProductsCategories>()
-      .HasKey(linked => new {linked.ProductCategoryId, linked.ProductId});
-
-    aBuilder.Entity<ProductsCategories>()
-      .HasOne<Product>()
-      .WithMany(product => product.ProductsCategories)
-      .HasForeignKey(pc => pc.ProductId)
-      .OnDelete(DeleteBehavior.Cascade);
-
     // many-to-many stores - products
     aBuilder.Entity<StoreProduct>()
       .HasKey(linked => new {linked.StoreId, linked.ProductId});
@@ -106,7 +96,6 @@ public class DataContext : DbContext, IDataContext
   public DbSet<ProductReviewComment> ProductReviewComments { get; set; }
   public DbSet<ProductCategory> ProductCategories { get; set; }
   public DbSet<ProductBulletPoint> ProductBulletPoints { get; set; }
-  public DbSet<ProductsCategories> ProductsCategories { get; set; }
 
   public DbSet<Store> Stores { get; set; }
   public DbSet<StoreHoursException> StoreHoursExceptions { get; set; }

@@ -16,7 +16,6 @@ public class UpdateProduct : EndpointBaseAsync
   .WithActionResult
 {
   private readonly IProductRepo _productRepo;
-  private readonly IProductsCategoriesRepo _pcRepo;
   private readonly ICategoryRepo _productCategoryRepo;
   private readonly IValidator<UpdateProductRequest> _validator;
   private readonly IGenericRepo<ProductImageLink> _imageRepo;
@@ -25,15 +24,13 @@ public class UpdateProduct : EndpointBaseAsync
 
   public UpdateProduct(
     IProductRepo productRepo,
-    IProductsCategoriesRepo pcRepo,
     ICategoryRepo productCategoryRepo,
     IValidator<UpdateProductRequest> validator,
     IGenericRepo<ProductImageLink> imageRepo,
-    IGenericRepo<ProductBulletPoint> bulletPointRepo, 
+    IGenericRepo<ProductBulletPoint> bulletPointRepo,
     IZincService zincService)
   {
     _productRepo = productRepo;
-    _pcRepo = pcRepo;
     _productCategoryRepo = productCategoryRepo;
     _validator = validator;
     _imageRepo = imageRepo;
