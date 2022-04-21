@@ -1,5 +1,6 @@
 import express from "express";
-import { v1 } from "../../handlers";
+import { v1 } from "../../endpoints";
+
 const router = express.Router();
 
 router.post("/register", v1.auth.register);

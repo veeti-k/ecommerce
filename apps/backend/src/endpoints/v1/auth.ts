@@ -1,4 +1,4 @@
-import { RequestHandler } from "../../types";
+import { Endpoint } from "../../types";
 import { respondError, respondSuccessWithHeaders } from "../../util/respondWith";
 import { ErrorMessages } from "shared";
 import { createAccessToken, createRefreshToken } from "../../util/jwt";
@@ -7,7 +7,7 @@ import { RegisterRequestBodyValidator, LoginRequestBodyValidator } from "../../v
 import { comparePassword, hashPassword } from "../../util/hash";
 import { db } from "../../database";
 
-export const register: RequestHandler = async (req, res) => {
+export const register: Endpoint = async (req, res) => {
   const validationResult = RegisterRequestBodyValidator(req.body);
   if (!validationResult.isValid)
     return respondError({
@@ -45,7 +45,7 @@ export const register: RequestHandler = async (req, res) => {
   });
 };
 
-export const login: RequestHandler = async (req, res) => {
+export const login: Endpoint = async (req, res) => {
   const validationResult = LoginRequestBodyValidator(req.body);
   if (!validationResult.isValid)
     return respondError({
