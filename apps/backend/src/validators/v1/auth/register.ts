@@ -1,5 +1,5 @@
-import { ValidationErrors, Validator } from "../validator";
 import { RegisterRequestBody, ValidationErrorCodes } from "shared";
+import { Validator, ValidationErrors } from "../../validator";
 
 export const RegisterRequestBodyValidator: Validator<RegisterRequestBody> = (obj) => {
   const errors = {} as ValidationErrors<RegisterRequestBody>;

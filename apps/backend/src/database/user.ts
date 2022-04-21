@@ -14,3 +14,8 @@ export const createUser = async (body: RegisterRequestBody) => {
     },
   });
 };
+
+export const getUser = {
+  byEmail: (email: string) => prisma.user.findFirst({ where: { email } }),
+  byPhoneNumber: (phoneNumber: string) => prisma.user.findFirst({ where: { phoneNumber } }),
+};
