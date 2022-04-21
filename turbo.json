@@ -1,0 +1,19 @@
+{
+  "pipeline": {
+    "typings": {
+      "dependsOn": ["^typings"],
+      "outputs": ["dist/**"]
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "dev": {
+      "dependsOn": ["typings"],
+      "cache": false
+    },
+    "clean": {
+      "cache": false
+    }
+  }
+}

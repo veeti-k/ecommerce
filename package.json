@@ -1,0 +1,22 @@
+{
+  "name": "ecommerce-project",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "typings": "turbo run typings",
+    "dev": "turbo run dev",
+    "clean": "turbo run clean"
+  },
+  "devDependencies": {
+    "turbo": "^1.2.4"
+  },
+  "engines": {
+    "npm": ">=8.7.0",
+    "node": ">=17.8.0"
+  },
+  "packageManager": "yarn@1.22.18"
+}
