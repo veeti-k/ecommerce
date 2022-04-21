@@ -1,6 +1,4 @@
 export interface IConfig {
-  port: number;
-
   databaseUrl: string;
 
   jwt: {

@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+  test-db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+    volumes:
+      - test-db-volume:/var/lib/postgresql/data
+
+  test-zinc:
+    image: public.ecr.aws/prabhat/zinc
+    ports:
+      - "4080:4080"
+    depends_on:
+      - test-db
+    environment:
+      - DATA_PATH=/data
+      - ZINC_FIRST_ADMIN_USER=test
+      - ZINC_FIRST_ADMIN_PASSWORD=test
+    volumes:
+      - test-zinc-volume:/data
+
+  test-backend: 
+    depends_on:
+      - test-db
+      - test-zinc
+    build: .
+    image: test-backend
+    environment:
+      - DATABASE_URL=postgresql://test:test@test-db:5432/test?schema=test
+      - PORT=3000
+    command: sh -c "yarn typings && node ./apps/backend/prisma/seed.js && yarn prisma db push && yarn dev --scope=backend --include-dependencies --no-deps"
+    restart: unless-stopped
+
+  test-runner: 
+    depends_on:
+      - test-db
+      - test-zinc
+      - test-backend
+    build: 
+      context: .
+      dockerfile: ./Dockerfile.test
+    image: test-runner
+    environment:
+      - DATABASE_URL=postgresql://test:test@test-db:5432/test?schema=test
+      - PORT=3000
+    command: dockerize -wait tcp://test-db:5432 -wait tcp://test-backend:4000 -timeout 10s sh -c "yarn test"
+
+volumes:
+  test-db-volume:
+  test-zinc-volume:

@@ -1,23 +1,26 @@
 import prismaPkg from "@prisma/client";
+import { seededUsers } from "../src/seededUsers";
 const { PrismaClient } = prismaPkg;
+import { hash } from "bcrypt";
+import { createHash } from "crypto";
 
-import { hashPassword } from "../dist/util/hash.js";
+const sha256 = (plainText) => createHash("sha256").update(plainText).digest("base64");
+
+const hashPassword = (plainText) => hash(sha256(plainText), 12);
 
 (async () => {
   const prisma = new PrismaClient();
 
-  const hashedPass = await hashPassword("ADMINISTRATOR-password");
+  for (const user of seededUsers) {
+    const hashedPassword = await hashPassword(user.password);
 
-  await prisma.user.create({
-    data: {
-      name: "ADMINISTRATOR",
-      email: "ADMINISTRATOR@test.test",
-      password: hashedPass,
-      flags: 1,
-      createdAt: new Date(),
-      phoneNumber: "ADMINISTRATOR-phoneNumber",
-    },
-  });
+    await prisma.user.create({
+      data: {
+        ...user,
+        password: hashedPassword,
+      },
+    });
+  }
 
   await prisma.$disconnect();
 })();

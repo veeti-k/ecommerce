@@ -23,3 +23,13 @@ services:
       - .env.zinc
     volumes:
       - ./DATA/zinc:/data
+    restart: unless-stopped
+
+  backend: 
+    depends_on:
+      - db
+      - zinc
+    build: .
+    image: backend
+    entrypoint: ["yarn", "dev", "--scope=backend", "--include-dependencies", "--no-deps"]
+    restart: unless-stopped

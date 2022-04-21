@@ -1,0 +1,5 @@
+{
+  "transformIgnorePatterns": [
+      "node_modules/(?!(npm-package|names|go-here)/)"
+  ]
+}
