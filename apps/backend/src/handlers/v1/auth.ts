@@ -20,6 +20,14 @@ export const register: RequestHandler = async (req, res) => {
 
   const validBody = validationResult.validated;
 
+  const existingByEmail = await getUser.byEmail(validBody.email);
+  if (existingByEmail)
+    return respondError({
+      res,
+      statusCode: 400,
+      message: "Email taken",
+    });
+
   const hashedPassword = await hashPassword(validBody.password);
 
   const result = await createUserAndSession(validBody, hashedPassword);
