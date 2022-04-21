@@ -3,10 +3,9 @@ import { respondError, respondSuccessWithHeaders } from "../../util/respondWith"
 import { ErrorMessages } from "shared";
 import { createAccessToken, createRefreshToken } from "../../util/jwt";
 import { createRefreshTokenCookie } from "../../util/cookie";
-import { createUserAndSession, getUser } from "../../database/user";
-import { createSession } from "../../database/session";
 import { RegisterRequestBodyValidator, LoginRequestBodyValidator } from "../../validators/v1";
 import { comparePassword, hashPassword } from "../../util/hash";
+import { db } from "../../database";
 
 export const register: RequestHandler = async (req, res) => {
   const validationResult = RegisterRequestBodyValidator(req.body);
@@ -20,7 +19,7 @@ export const register: RequestHandler = async (req, res) => {
 
   const validBody = validationResult.validated;
 
-  const existingByEmail = await getUser.byEmail(validBody.email);
+  const existingByEmail = await db.user.get.byEmail(validBody.email);
   if (existingByEmail)
     return respondError({
       res,
@@ -30,7 +29,7 @@ export const register: RequestHandler = async (req, res) => {
 
   const hashedPassword = await hashPassword(validBody.password);
 
-  const result = await createUserAndSession(validBody, hashedPassword);
+  const result = await db.user.createUserAndSession(validBody, hashedPassword);
 
   respondSuccessWithHeaders({
     res,
@@ -58,7 +57,7 @@ export const login: RequestHandler = async (req, res) => {
 
   const { email, password } = validationResult.validated;
 
-  const existingUser = await getUser.byEmail(email);
+  const existingUser = await db.user.get.byEmail(email);
   if (!existingUser)
     return respondError({
       res,
@@ -74,12 +73,12 @@ export const login: RequestHandler = async (req, res) => {
       message: "Invalid password",
     });
 
-  const createdSession = await createSession(existingUser.userId);
+  const createdSession = await db.session.create(existingUser.userId);
 
   respondSuccessWithHeaders({
     res,
     statusCode: 200,
-    sentInfo: "login successful",
+    sentInfo: "login success",
     headers: {
       accessToken: createAccessToken(
         existingUser.userId,

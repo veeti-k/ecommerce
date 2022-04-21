@@ -27,7 +27,7 @@ export const createUserAndSession = async (body: RegisterRequestBody, hashedPass
   };
 };
 
-export const getUser = {
+export const get = {
   byEmail: (email: string) => prisma.user.findFirst({ where: { email } }),
   byPhoneNumber: (phoneNumber: string) => prisma.user.findFirst({ where: { phoneNumber } }),
 };
