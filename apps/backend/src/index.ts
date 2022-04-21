@@ -1,5 +1,8 @@
 import { createServer } from "./server";
 import { config } from "config";
+import { prisma } from "./database";
+
+prisma.$connect();
 
 const server = createServer();
 

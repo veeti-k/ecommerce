@@ -2,7 +2,7 @@
   "pipeline": {
     "typings": {
       "dependsOn": ["^typings"],
-      "outputs": ["dist/**"]
+      "cache": false
     },
     "build": {
       "dependsOn": ["^build"],

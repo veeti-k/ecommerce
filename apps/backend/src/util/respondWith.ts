@@ -1,4 +1,5 @@
 import { Response } from "express";
+import { constants } from "config";
 
 interface RespondWithOptions {
   res: Response;
@@ -21,15 +22,20 @@ interface RespondWithError__Body {
   errors?: any;
 }
 
+interface RespondWithHeadersOptions extends RespondWithOptions {
+  headers: {
+    accessToken?: string;
+    refreshTokenCookie?: string;
+  };
+  json?: any;
+  sentInfo?: string;
+}
+
 interface RespondWithSuccess {
   (options: RespondWithSuccessOptions): void;
 }
 
-interface RespondWithError {
-  (options: RespondWithErrorOptions): void;
-}
-
-export const respondWithSuccess: RespondWithSuccess = ({ res, statusCode, json, sentInfo }) => {
+export const respondSuccess: RespondWithSuccess = ({ res, statusCode, json, sentInfo }) => {
   if (!json) res.status(statusCode).send();
   else res.status(statusCode).json(json);
 
@@ -37,7 +43,30 @@ export const respondWithSuccess: RespondWithSuccess = ({ res, statusCode, json, 
   else res.locals.sentInfo = sentInfo;
 };
 
-export const respondWithError: RespondWithError = ({ res, statusCode, message, errors }) => {
+interface RespondSuccessWithHeaders {
+  (options: RespondWithHeadersOptions): void;
+}
+
+export const respondSuccessWithHeaders: RespondSuccessWithHeaders = ({
+  res,
+  statusCode,
+  json,
+  sentInfo,
+  headers,
+}) => {
+  if (headers.refreshTokenCookie) res.setHeader("Set-Cookie", headers.refreshTokenCookie);
+  if (headers.accessToken) res.setHeader(constants.accessTokenHeaderName, headers.accessToken);
+
+  res.status(statusCode)[json ? "json" : "send"](json || null);
+
+  res.locals.sentInfo = sentInfo || "json";
+};
+
+interface RespondWithError {
+  (options: RespondWithErrorOptions): void;
+}
+
+export const respondError: RespondWithError = ({ res, statusCode, message, errors }) => {
   const responseBody: RespondWithError__Body = { code: statusCode, message };
 
   if (errors) responseBody.errors = errors;

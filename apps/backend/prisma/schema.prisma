@@ -1,0 +1,188 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model address {
+  addressId     String @id @default(uuid())
+  userId        Int
+  name          String
+  phoneNumber   String
+  email         String
+  streetAddress String
+  city          String
+  state         String
+  zip           String
+  user          user  @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([userId])
+}
+
+model productBulletPoint {
+  productBulletPointId String   @id @default(uuid())
+  productId            Int
+  text                 String
+  product              product @relation(fields: [productId], references: [productId], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([productId])
+}
+
+model productCategory {
+  productCategoryId Int    @id @default(autoincrement())
+  name              String
+  parentId          Int?
+}
+
+model productImageLink {
+  productImageLinkId String   @id @default(uuid())
+  productId          Int
+  link               String
+  product            product @relation(fields: [productId], references: [productId], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([productId])
+}
+
+model productQuestionAnswer {
+  productQuestionAnswerId String           @id @default(uuid())
+  questionId              String          
+  answerersNickname       String
+  byEmployee              Boolean
+  content                 String
+  isApproved              Boolean
+  createdAt               DateTime         @db.Timestamptz(6)
+  productQuestion         productQuestion @relation(fields: [questionId], references: [productQuestionId], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([questionId])
+}
+
+model productQuestion {
+  productQuestionId      String                   @id @default(uuid())
+  productId              Int
+  questionersNickname    String
+  title                  String
+  content                String
+  createdAt              DateTime                 @db.Timestamptz(6)
+  isApproved             Boolean
+  products               product                 @relation(fields: [productId], references: [productId], onDelete: Cascade, onUpdate: NoAction)
+  productQuestionAnswers productQuestionAnswer[]
+
+  @@index([productId])
+}
+
+model productReviewComment {
+  productReviewCommentId String         @id @default(uuid())
+  reviewId               String        
+  commentersNickname     String
+  byEmployee             Boolean
+  title                  String
+  content                String
+  isApproved             Boolean
+  createdAt              DateTime       @db.Timestamptz(6)
+  productReview          productReview @relation(fields: [reviewId], references: [productReviewId], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([reviewId])
+}
+
+model productReview {
+  productReviewId       String                  @id @default(uuid())
+  productId             Int
+  reviewersNickname     String
+  byEmployee            Boolean
+  title                 String
+  content               String
+  stars                 Int
+  createdAt             DateTime                @db.Timestamptz(6)
+  isApproved            Boolean
+  product               product                @relation(fields: [productId], references: [productId], onDelete: Cascade, onUpdate: NoAction)
+  productReviewComments productReviewComment[]
+
+  @@index([productId])
+}
+
+model product {
+  productId           Int                   @id @default(autoincrement())
+  name                String
+  description         String
+  shortDescription    String
+  price               Float
+  discountedPrice     Float
+  discountPercent     Float                 @db.Real
+  discountAmount      Float
+  isDiscounted        Boolean
+  isDeleted           Boolean
+  averageStars        Float                 @db.Real
+  reviewCount         Int
+  questionCount       Int
+  deepestCategoryId   Int
+  productBulletPoints productBulletPoint[]
+  productImageLinks   productImageLink[]
+  productQuestions    productQuestion[]
+  productReviews      productReview[]
+  storeProducts       storeProduct[]
+}
+
+model session {
+  sessionId  String   @id @default(uuid())
+  userId     Int
+  createdAt  DateTime @db.Timestamptz(6)
+  lastUsedAt DateTime @db.Timestamptz(6)
+  user       user    @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([userId])
+}
+
+model storeHoursException {
+  storeHoursExceptionId String   @id @default(uuid())
+  storeId               String  
+  date                  DateTime @db.Timestamptz(6)
+  reason                String
+  hours                 String
+  store                 store   @relation(fields: [storeId], references: [storeId], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([storeId])
+}
+
+model storeProduct {
+  storeId   String   @default(uuid())
+  productId Int
+  quantity  Int
+  products  product @relation(fields: [productId], references: [productId], onDelete: Cascade, onUpdate: NoAction)
+  stores    store   @relation(fields: [storeId], references: [storeId], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([storeId, productId])
+  @@index([productId])
+}
+
+model store {
+  storeId              String                 @id @default(uuid())
+  name                 String
+  city                 String
+  streetAddress        String
+  zip                  String
+  poneNumber           String
+  mondayHours          String
+  tuesdayHours         String
+  wednesdayHours       String
+  thursdayHours        String
+  fridayHours          String
+  saturdayHours        String
+  sundayHours          String
+  storeHoursException  storeHoursException[]
+  storeProduct         storeProduct[]
+}
+
+model user {
+  userId      Int         @id @default(autoincrement())
+  name        String
+  email       String      @unique
+  password    String
+  phoneNumber String?     @unique
+  flags       BigInt
+  createdAt   DateTime    @db.Timestamptz(6)
+  addresses   address[]
+  sessions    session[]
+}

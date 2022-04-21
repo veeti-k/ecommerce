@@ -1,5 +1,8 @@
 export type ValidationErrors<T> = {
-  [key in keyof T]: {};
+  [key in keyof T]: {
+    code: string;
+    message: string;
+  };
 };
 
 type ValidationResult<T> =
