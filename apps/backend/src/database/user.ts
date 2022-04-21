@@ -1,18 +1,30 @@
 import { RegisterRequestBody } from "shared";
 import { prisma } from ".";
-import { hashPassword } from "../util/hash";
 
-export const createUser = async (body: RegisterRequestBody) => {
-  const hash = await hashPassword(body.password);
-
-  return prisma.user.create({
+export const createUserAndSession = async (body: RegisterRequestBody, hashedPassword: string) => {
+  const userWithSessions = await prisma.user.create({
     data: {
       ...body,
-      password: hash,
+      password: hashedPassword,
       createdAt: new Date(),
       flags: 0,
+      sessions: {
+        create: {
+          createdAt: new Date(),
+          lastUsedAt: new Date(),
+        },
+      },
+    },
+    include: {
+      sessions: true,
     },
   });
+
+  return {
+    newUserId: userWithSessions.userId,
+    newFlags: userWithSessions.flags,
+    newSessionId: userWithSessions.sessions[0].sessionId,
+  };
 };
 
 export const getUser = {

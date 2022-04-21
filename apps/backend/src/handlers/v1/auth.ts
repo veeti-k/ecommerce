@@ -3,10 +3,10 @@ import { respondError, respondSuccessWithHeaders } from "../../util/respondWith"
 import { ErrorMessages } from "shared";
 import { createAccessToken, createRefreshToken } from "../../util/jwt";
 import { createRefreshTokenCookie } from "../../util/cookie";
-import { createUser, getUser } from "../../database/user";
+import { createUserAndSession, getUser } from "../../database/user";
 import { createSession } from "../../database/session";
 import { RegisterRequestBodyValidator, LoginRequestBodyValidator } from "../../validators/v1";
-import { comparePassword } from "../../util/hash";
+import { comparePassword, hashPassword } from "../../util/hash";
 
 export const register: RequestHandler = async (req, res) => {
   const validationResult = RegisterRequestBodyValidator(req.body);
@@ -18,27 +18,23 @@ export const register: RequestHandler = async (req, res) => {
       message: ErrorMessages.INVALID_REQUEST_BODY,
     });
 
-  const user = validationResult.validated;
+  const validBody = validationResult.validated;
 
-  const createdUser = await createUser(user);
+  const hashedPassword = await hashPassword(validBody.password);
 
-  const createdSession = await createSession(createdUser.userId);
+  const result = await createUserAndSession(validBody, hashedPassword);
 
   respondSuccessWithHeaders({
     res,
     statusCode: 201,
-    json: { userId: createdUser.userId },
+    json: { userId: result.newUserId },
     headers: {
-      accessToken: createAccessToken(
-        createdUser.userId,
-        createdSession.sessionId,
-        createdUser.flags
-      ),
+      accessToken: createAccessToken(result.newUserId, result.newSessionId, result.newFlags),
       refreshTokenCookie: createRefreshTokenCookie(
-        createRefreshToken(createdUser.userId, createdSession.sessionId, createdUser.flags)
+        createRefreshToken(result.newUserId, result.newSessionId, result.newFlags)
       ),
     },
-    sentInfo: "new user id",
+    sentInfo: "register success + new user id",
   });
 };
 
