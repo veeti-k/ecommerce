@@ -1,17 +1,8 @@
 /node_modules
 node_modules
-/.pnp
-.pnp.js
-
-/coverage
 
 /.next/
-/out/
 .next
-
-/build
-/ts-out
-ts-out
 
 .DS_Store
 *.pem
@@ -27,20 +18,12 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-bin/
-obj/
-.vs/
-
-*.csproj.user
-*.DotSettings.user
-appsettings.Development.json
-
-.idea/
 .vscode/
 /DATA
-.env.postgres
-.env.zinc
-Migrations
-
 .turbo
 dist/
+
+.env.postgres
+.env.zinc
+constants.ts
+config.ts
