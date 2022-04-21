@@ -1,6 +1,6 @@
 import express from "express";
 import { mainRouter } from "./routes";
-import { json } from "./util/jsonErrorHandler";
+import { json } from "./util/json";
 
 export const createServer = () => {
   const app = express();
