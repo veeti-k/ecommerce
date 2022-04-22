@@ -1,4 +1,4 @@
-import { SeededUser } from "./types/User";
+import { SeededUser } from "../types/User";
 
 type SeededUsers = {
   [key: string]: SeededUser;

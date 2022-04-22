@@ -1,5 +1,5 @@
 import { config } from "../../../../../config";
-import { seededUsers } from "../../../../../seededUsers";
+import { seededUsers } from "../../../../../database/seededUsers";
 import { login, testRefreshTokenCookie } from "../../../../utils/authUtils";
 import { baseUrl, testHttpClient } from "../../../../utils/base";
 
