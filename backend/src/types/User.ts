@@ -13,3 +13,5 @@ export interface User {
   addresses: Address[];
   sessions: Session[];
 }
+
+export interface SeededUser extends Omit<User, "userId" | "addresses" | "sessions"> {}

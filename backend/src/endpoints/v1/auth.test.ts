@@ -1,7 +1,8 @@
 import axios from "axios";
 import { config } from "../../config";
-
-const baseUrl = `http://test-backend:${config.port}/api`;
+import { seededUsers } from "../../seededUsers";
+import { login, testRefreshTokenCookie } from "../../testThings/utils/authUtils";
+import { baseUrl } from "../../testThings/utils/base";
 
 axios.defaults.validateStatus = () => true;
 
@@ -90,16 +91,10 @@ describe("v1 auth endpoints", () => {
       expect(res.headers["set-cookie"]).toBeDefined();
       expect(res.headers["set-cookie"]).toHaveLength(1);
 
-      expect(res.headers["set-cookie"]![0]).toContain(config.headers.refreshTokenCookieName);
-      expect(res.headers["set-cookie"]![0]).toContain("HttpOnly;");
-      expect(res.headers["set-cookie"]![0]).toContain("Secure;");
-      expect(res.headers["set-cookie"]![0]).toContain("SameSite=Strict;");
-      expect(res.headers["set-cookie"]![0]).toContain(
-        `Path=${config.headers.refreshTokenCookiePath};`
-      );
+      testRefreshTokenCookie(res.headers["set-cookie"]![0]);
     });
 
-    describe("given invalid registration body, should not create a new user, should not create a new session, should return 400 and should return the correct error message", () => {
+    describe("given invalid registration body, should return 400 and should return the correct error message", () => {
       it("missing name", async () => {
         const requestBody = {
           email: getRandomEmail(),
@@ -156,6 +151,55 @@ describe("v1 auth endpoints", () => {
           errors: { password: { message: "Password is required" } },
         });
       });
+    });
+  });
+
+  describe("Token refreshing", () => {
+    it("given valid refresh token, should return 200 and new tokens", async () => {
+      const user = seededUsers.testUser;
+      const loginResult = await login({ ...user, flags: BigInt(user.flags) });
+
+      const res = await axios.get(`${baseUrl}/v1/auth/tokens`, {
+        headers: {
+          Cookie: config.headers.refreshTokenCookieName + "=" + loginResult.refreshToken,
+        },
+      });
+
+      expect(res.status).toBe(200);
+      expect(res.headers[config.headers.accessTokenHeaderName]).toBeDefined();
+      expect(res.headers["set-cookie"]![0]).toBeDefined();
+
+      testRefreshTokenCookie(res.headers["set-cookie"]![0]);
+    });
+
+    it("given invalid refresh token, should return 401 and a correct error message", async () => {
+      const res = await axios.get(`${baseUrl}/v1/auth/tokens`, {
+        headers: {
+          Cookie: config.headers.refreshTokenCookieName + "=" + "invalid token",
+        },
+      });
+
+      expect(res.status).toBe(401);
+      expect(res.data).toEqual({
+        code: 401,
+        message: "Invalid refresh token",
+      });
+
+      expect(res.headers[config.headers.accessTokenHeaderName]).toBeUndefined();
+      expect(res.headers["set-cookie"]).toBeUndefined();
+    });
+
+    it("given no refresh token, should return 400 and a correct error message", async () => {
+      const res = await axios.get(`${baseUrl}/v1/auth/tokens`);
+
+      expect(res.status).toBe(400);
+      expect(res.data).toEqual({
+        code: 400,
+        message: "No refresh token",
+      });
+
+      expect(res.headers[config.headers.accessTokenHeaderName]).toBeUndefined();
+      expect(res.headers["set-cookie"]).toBeUndefined();
     });
   });
 });
