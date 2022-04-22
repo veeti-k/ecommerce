@@ -24,13 +24,7 @@ describe("v1 auth endpoints", () => {
       expect(res.headers[config.headers.accessTokenHeaderName]).toBeDefined();
       expect(res.headers["set-cookie"]).toBeDefined();
       expect(res.headers["set-cookie"]).toHaveLength(1);
-      expect(res.headers["set-cookie"]![0]).toContain(config.headers.refreshTokenCookieName);
-      expect(res.headers["set-cookie"]![0]).toContain("HttpOnly;");
-      expect(res.headers["set-cookie"]![0]).toContain("Secure;");
-      expect(res.headers["set-cookie"]![0]).toContain("SameSite=Strict;");
-      expect(res.headers["set-cookie"]![0]).toContain(
-        `Path=${config.headers.refreshTokenCookiePath};`
-      );
+      testRefreshTokenCookie(res.headers["set-cookie"]![0]);
     });
 
     it("given correct email, incorrect password it should not set headers, return 400 and the correct error message", async () => {
