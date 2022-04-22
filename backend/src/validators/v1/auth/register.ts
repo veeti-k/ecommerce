@@ -6,31 +6,31 @@ export const RegisterRequestBodyValidator: Validator<RegisterRequestBody> = (obj
 
   if (!obj.name) {
     errors.name = {
-      message: "name is required",
+      message: "Name is required",
     };
   } else if (typeof obj.name !== "string") {
     errors.name = {
-      message: "name must be a string",
+      message: "Name must be a string",
     };
   }
 
   if (!obj.email) {
     errors.email = {
-      message: "email is required",
+      message: "Email is required",
     };
   } else if (typeof obj.email !== "string") {
     errors.email = {
-      message: "email must be a string",
+      message: "Email must be a string",
     };
   }
 
   if (!obj.password) {
     errors.password = {
-      message: "password is required",
+      message: "Password is required",
     };
   } else if (typeof obj.password !== "string") {
     errors.password = {
-      message: "password must be a string",
+      message: "Password must be a string",
     };
   }
 

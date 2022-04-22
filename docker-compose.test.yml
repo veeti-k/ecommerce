@@ -8,8 +8,8 @@ services:
       - POSTGRES_PASSWORD=test
     volumes:
       - ./TEST-DATA/db:/var/lib/postgresql/data
-    logging: 
-      driver: none
+    # logging: 
+    #   driver: none
 
   test-zinc:
     image: public.ecr.aws/prabhat/zinc
@@ -21,8 +21,8 @@ services:
       - ZINC_FIRST_ADMIN_PASSWORD=test
     volumes:
       - ./TEST-DATA/zinc:/data
-    logging: 
-      driver: none
+    # logging: 
+    #   driver: none
 
   test-backend: 
     image: test-backend
@@ -35,8 +35,8 @@ services:
     environment:
       - DATABASE_URL=postgres://test:test@test-db:5432/test
     command: dockerize -wait tcp://test-db:5432 -timeout 30s sh -c "yarn prisma db push && yarn prisma db seed && yarn dev"
-    logging: 
-      driver: none
+    # logging: 
+    #   driver: none
 
   test-runner: 
     image: test-backend
