@@ -1,11 +1,12 @@
 import { respondError, respondSuccessWithHeaders } from "../../util/respondWith";
-import { createAccessToken, createRefreshToken } from "../../util/jwt";
+import { createAccessToken, createRefreshToken, decodeRefreshToken } from "../../util/jwt";
 import { createRefreshTokenCookie } from "../../util/cookie";
 import { RegisterRequestBodyValidator, LoginRequestBodyValidator } from "../../validators/v1";
 import { comparePassword, hashPassword } from "../../util/hash";
 import { db } from "../../database";
 import { Endpoint } from "../../types/Endpoint";
 import { SpecificErrorMessages } from "../../types/Errors";
+import { config } from "../../config";
 
 export const register: Endpoint = async (req, res) => {
   const validationResult = RegisterRequestBodyValidator(req.body);
@@ -31,15 +32,16 @@ export const register: Endpoint = async (req, res) => {
 
   const result = await db.user.createUserAndSession(validBody, hashedPassword);
 
+  const accessToken = createAccessToken(result.newUserId, result.newSessionId, result.newFlags);
+  const refreshToken = createRefreshToken(result.newUserId, result.newSessionId, result.newFlags);
+
   respondSuccessWithHeaders({
     res,
     statusCode: 201,
     json: { userId: result.newUserId },
     headers: {
-      accessToken: createAccessToken(result.newUserId, result.newSessionId, result.newFlags),
-      refreshTokenCookie: createRefreshTokenCookie(
-        createRefreshToken(result.newUserId, result.newSessionId, result.newFlags)
-      ),
+      accessToken: accessToken,
+      refreshTokenCookie: createRefreshTokenCookie(refreshToken),
     },
     sentInfo: "register success + new user id",
   });
@@ -75,19 +77,57 @@ export const login: Endpoint = async (req, res) => {
 
   const createdSession = await db.session.create(existingUser.userId);
 
+  const accessToken = createAccessToken(
+    existingUser.userId,
+    createdSession.sessionId,
+    existingUser.flags
+  );
+  const refreshToken = createRefreshToken(
+    existingUser.userId,
+    createdSession.sessionId,
+    existingUser.flags
+  );
+
   respondSuccessWithHeaders({
     res,
     statusCode: 200,
     sentInfo: "login success",
     headers: {
-      accessToken: createAccessToken(
-        existingUser.userId,
-        createdSession.sessionId,
-        existingUser.flags
-      ),
-      refreshTokenCookie: createRefreshTokenCookie(
-        createRefreshToken(existingUser.userId, createdSession.sessionId, existingUser.flags)
-      ),
+      accessToken: accessToken,
+      refreshTokenCookie: createRefreshTokenCookie(refreshToken),
     },
+  });
+};
+
+export const tokens: Endpoint = (req, res) => {
+  const refreshToken = req.cookies[config.headers.refreshTokenCookieName];
+  if (!refreshToken)
+    return respondError({
+      res,
+      statusCode: 400,
+      message: "No refresh token",
+    });
+
+  const result = decodeRefreshToken(refreshToken);
+  if (!result.isValid)
+    return respondError({
+      res,
+      statusCode: 401,
+      message: "Invalid refresh token",
+    });
+
+  const { userId, sessionId, flags } = result.payload;
+
+  const newAccessToken = createAccessToken(userId, sessionId, flags);
+  const newRefreshToken = createRefreshToken(userId, sessionId, flags);
+
+  respondSuccessWithHeaders({
+    res,
+    statusCode: 200,
+    headers: {
+      accessToken: newAccessToken,
+      refreshTokenCookie: createRefreshTokenCookie(newRefreshToken),
+    },
+    sentInfo: "tokens refreshed success",
   });
 };

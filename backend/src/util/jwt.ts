@@ -11,11 +11,11 @@ interface TokenPayload {
 type DecodeResult =
   | {
       payload: TokenPayload;
-      valid: true;
+      isValid: true;
     }
   | {
       payload?: never;
-      valid: false;
+      isValid: false;
     };
 
 export const createAccessToken = (userId: number, sessionId: string, flags: bigint) =>
@@ -59,17 +59,17 @@ export const decodeAccessToken = (token: string, user: User): DecodeResult => {
     }) as TokenPayload;
 
     return {
-      valid: true,
+      isValid: true,
       payload,
     };
   } catch {
     return {
-      valid: false,
+      isValid: false,
     };
   }
 };
 
-export const decodeRefreshToken = (token: string, user: User) => {
+export const decodeRefreshToken = (token: string): DecodeResult => {
   try {
     const payload = jwt.verify(token, config.jwt.refreshToken.secret, {
       audience: config.jwt.refreshToken.audience,
@@ -78,12 +78,12 @@ export const decodeRefreshToken = (token: string, user: User) => {
     }) as TokenPayload;
 
     return {
-      valid: true,
-      payload,
+      isValid: true,
+      payload: payload,
     };
   } catch {
     return {
-      valid: false,
+      isValid: false,
     };
   }
 };
