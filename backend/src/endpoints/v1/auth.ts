@@ -6,7 +6,6 @@ import { comparePassword, hashPassword } from "../../util/hash";
 import { db } from "../../database";
 import { Endpoint } from "../../types/Endpoint";
 import { SpecificErrorMessages } from "../../types/Errors";
-import { config } from "../../config";
 
 export const register: Endpoint = async (req, res) => {
   const validationResult = RegisterRequestBodyValidator(req.body);
@@ -100,7 +99,8 @@ export const login: Endpoint = async (req, res) => {
 };
 
 export const tokens: Endpoint = (req, res) => {
-  const refreshToken = req.cookies[config.headers.refreshTokenCookieName];
+  const refreshToken = req.headers.cookie?.split("=")[1];
+
   if (!refreshToken)
     return respondError({
       res,
