@@ -29,7 +29,13 @@ services:
     depends_on:
       - db
       - zinc
-    build: .
+    ports:
+      - "3000:3000" 
+    env_file:
+      - .env.backend
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
     image: backend
-    entrypoint: ["yarn", "dev", "--scope=backend", "--include-dependencies", "--no-deps"]
+    command: sh -c "yarn start"
     restart: unless-stopped

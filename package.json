@@ -1,23 +1,5 @@
 {
-  "name": "ecommerce-project",
-  "version": "0.0.0",
-  "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   "scripts": {
-    "typings": "turbo run typings",
-    "dev": "turbo run dev",
-    "clean": "turbo run clean"
-  },
-  "devDependencies": {
-    "turbo": "^1.2.4",
-    "prisma": "^3.12.0"
-  },
-  "engines": {
-    "npm": ">=8.7.0",
-    "node": ">=17.8.0"
-  },
-  "packageManager": "yarn@1.22.18"
+    "test:backend": "rm -rf ./TEST-DATA && docker-compose -f docker-compose.test.yml up --abort-on-container-exit --build && docker-compose -f docker-compose.test.yml rm -fsv"
+  }
 }

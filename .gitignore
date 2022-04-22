@@ -13,17 +13,13 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.backend
+.env.postgres
+.env.zinc
 
 .vscode/
 /DATA
+/TEST-DATA
 .turbo
 dist/
 
-.env.postgres
-.env.zinc
-constants.ts
-config.ts
