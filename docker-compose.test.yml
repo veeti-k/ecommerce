@@ -6,10 +6,8 @@ services:
     environment:
       - POSTGRES_USER=test
       - POSTGRES_PASSWORD=test
-    ports:
-      - "5432:5432"
     volumes:
-      - ./TEST-DATA:/var/lib/postgresql/data
+      - ./TEST-DATA/db:/var/lib/postgresql/data
     logging: 
       driver: none
 
@@ -21,10 +19,8 @@ services:
       - DATA_PATH=/data
       - ZINC_FIRST_ADMIN_USER=test
       - ZINC_FIRST_ADMIN_PASSWORD=test
-    ports:
-      - "4080:4080"
     volumes:
-      - ./TEST-DATA:/data
+      - ./TEST-DATA/zinc:/data
     logging: 
       driver: none
 
@@ -36,9 +32,9 @@ services:
     build: 
       context: ./backend
       dockerfile: ./Dockerfile.test
-    env_file:
-      - .env.backend
-    command: dockerize -wait tcp://test-db:5432 -timeout 30s sh -c "yarn prisma db push && yarn dev"
+    environment:
+      - DATABASE_URL=postgres://test:test@test-db:5432/test
+    command: dockerize -wait tcp://test-db:5432 -timeout 30s sh -c "yarn prisma db push && yarn prisma db seed && yarn dev"
     logging: 
       driver: none
 
@@ -48,9 +44,9 @@ services:
       - test-db
       - test-zinc
       - test-backend
+    environment:
+      - DATABASE_URL=postgres://test:test@test-db:5432/test
     build: 
       context: ./backend
       dockerfile: ./Dockerfile.test
-    env_file:
-      - .env.backend
     command: dockerize -wait tcp://test-db:5432 -wait tcp://test-backend:3000 -timeout 30s sh -c "yarn test"

@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  dev-db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=dev
+    ports:
+      - "9000:5432"
+    volumes:
+      - ./DEV-DATA/db:/var/lib/postgresql/data
+    logging: 
+      driver: none
+  
+  dev-zinc:
+    image: public.ecr.aws/prabhat/zinc
+    depends_on:
+      - dev-db
+    environment:
+      - DATA_PATH=/data
+      - ZINC_FIRST_ADMIN_USER=dev
+      - ZINC_FIRST_ADMIN_PASSWORD=dev
+    ports:
+      - "4080:4080"
+    volumes:
+      - ./DEV-DATA/zinc:/data
+    logging: 
+      driver: none

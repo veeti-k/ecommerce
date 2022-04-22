@@ -5,7 +5,7 @@ import { RegisterRequestBodyValidator, LoginRequestBodyValidator } from "../../v
 import { comparePassword, hashPassword } from "../../util/hash";
 import { db } from "../../database";
 import { Endpoint } from "../../types/Endpoint";
-import { ErrorMessages } from "../../types/Errors";
+import { SpecificErrorMessages } from "../../types/Errors";
 
 export const register: Endpoint = async (req, res) => {
   const validationResult = RegisterRequestBodyValidator(req.body);
@@ -14,7 +14,7 @@ export const register: Endpoint = async (req, res) => {
       res,
       statusCode: 400,
       errors: validationResult.errors,
-      message: ErrorMessages.INVALID_REQUEST_BODY,
+      message: SpecificErrorMessages.INVALID_REQUEST_BODY,
     });
 
   const validBody = validationResult.validated;
@@ -52,7 +52,7 @@ export const login: Endpoint = async (req, res) => {
       res,
       statusCode: 400,
       errors: validationResult.errors,
-      message: ErrorMessages.INVALID_REQUEST_BODY,
+      message: SpecificErrorMessages.INVALID_REQUEST_BODY,
     });
 
   const { email, password } = validationResult.validated;
@@ -62,7 +62,7 @@ export const login: Endpoint = async (req, res) => {
     return respondError({
       res,
       statusCode: 400,
-      message: "Invalid email",
+      message: "User not found",
     });
 
   const validPass = await comparePassword(password, existingUser.password);

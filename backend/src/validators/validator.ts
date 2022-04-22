@@ -1,6 +1,5 @@
 export type ValidationErrors<T> = {
   [key in keyof T]: {
-    code: string;
     message: string;
   };
 };
