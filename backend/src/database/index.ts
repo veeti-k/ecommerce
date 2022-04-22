@@ -1,7 +1,1 @@
-import * as user from "./user";
-import * as session from "./session";
-
-export const db = {
-  user,
-  session,
-};
+export * as db from "./methods";

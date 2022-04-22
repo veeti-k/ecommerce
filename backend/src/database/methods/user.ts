@@ -1,5 +1,5 @@
-import { RegisterRequestBody } from "../types/auth";
-import prisma from "./client";
+import { RegisterRequestBody } from "../../types/auth";
+import prisma from "../client";
 
 export const createUserAndSession = async (body: RegisterRequestBody, hashedPassword: string) => {
   const userWithSessions = await prisma.user.create({
