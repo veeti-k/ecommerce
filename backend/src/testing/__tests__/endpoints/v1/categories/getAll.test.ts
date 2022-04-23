@@ -41,7 +41,7 @@ describe("v1 category getAll", () => {
     expect(res.data.resolvedCategories).toBeDefined();
   });
 
-  it("resolved categories correctly", async () => {
+  it("resolves categories correctly", async () => {
     const category1Id = await addCategory();
     const category2Id = await addChildCategory(category1Id);
     const category3Id = await addChildCategory(category1Id);
