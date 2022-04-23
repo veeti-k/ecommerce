@@ -1,6 +1,6 @@
 import { config } from "../../../../../config";
 import { testRefreshTokenCookie } from "../../../../utils/authUtils";
-import { getRandomEmail, getRandomString, testHttpClient } from "../../../../utils/base";
+import { getRandomEmail, getRandomString, TestClient } from "../../../../utils/base";
 
 describe("v1 auth login", () => {
   describe("Logging in", () => {
@@ -10,7 +10,7 @@ describe("v1 auth login", () => {
         password: "ADMINISTRATOR-password",
       };
 
-      const res = await testHttpClient.post("/v1/auth/login", requestBody);
+      const res = await new TestClient().post("/v1/auth/login", requestBody);
 
       expect(res.status).toBe(200);
       expect(res.headers[config.headers.accessTokenHeaderName]).toBeDefined();
@@ -25,9 +25,7 @@ describe("v1 auth login", () => {
         password: "wrongpassword",
       };
 
-      const request = testHttpClient.post("/v1/auth/login", requestBody);
-
-      const res = await request;
+      const res = await new TestClient().post("/v1/auth/login", requestBody);
 
       expect(res.status).toBe(400);
       expect(res.headers[config.headers.accessTokenHeaderName]).toBeUndefined();
@@ -45,11 +43,7 @@ describe("v1 auth login", () => {
         password: "wrongpassword",
       };
 
-      const request = testHttpClient.post("/v1/auth/login", requestBody, {
-        validateStatus: () => true,
-      });
-
-      const res = await request;
+      const res = await new TestClient().post("/v1/auth/login", requestBody);
 
       expect(res.status).toBe(400);
       expect(res.headers[config.headers.accessTokenHeaderName]).toBeUndefined();
@@ -67,9 +61,7 @@ describe("v1 auth login", () => {
           password: getRandomString(),
         };
 
-        const request = testHttpClient.post("/v1/auth/login", requestBody);
-
-        const res = await request;
+        const res = await new TestClient().post("/v1/auth/login", requestBody);
 
         expect(res.status).toBe(400);
         expect(res.headers[config.headers.accessTokenHeaderName]).toBeUndefined();
@@ -87,9 +79,7 @@ describe("v1 auth login", () => {
           email: getRandomEmail(),
         };
 
-        const request = testHttpClient.post("/v1/auth/login", requestBody);
-
-        const res = await request;
+        const res = await new TestClient().post("/v1/auth/login", requestBody);
 
         expect(res.status).toBe(400);
         expect(res.headers[config.headers.accessTokenHeaderName]).toBeUndefined();

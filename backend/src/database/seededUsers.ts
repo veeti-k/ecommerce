@@ -1,15 +1,21 @@
+import { Flags } from "../types/Flags";
 import { SeededUser } from "../types/User";
 
-type SeededUsers = {
+export enum SeededUsers {
+  admin = "admin",
+  testUser = "testUser",
+}
+
+type SeededUsersObj = {
   [key: string]: SeededUser;
 };
 
-export const seededUsers: SeededUsers = {
+export const seededUsers: SeededUsersObj = {
   admin: {
     name: "ADMINISTRATOR",
     email: "ADMINISTRATOR@test.test",
     password: "ADMINISTRATOR-password",
-    flags: BigInt(1),
+    flags: Flags.Admin,
     createdAt: new Date(),
     phoneNumber: "ADMINISTRATOR-phoneNumber",
   },
@@ -18,7 +24,7 @@ export const seededUsers: SeededUsers = {
     name: "TEST-USER",
     email: "TEST-USER@test.test",
     password: "TEST-USER-password",
-    flags: BigInt(0),
+    flags: Flags.None,
     createdAt: new Date(),
     phoneNumber: "TEST-USER-phoneNumber",
   },

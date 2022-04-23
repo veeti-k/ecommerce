@@ -1,6 +1,6 @@
 import { config } from "../../../../../config";
 import { testRefreshTokenCookie } from "../../../../utils/authUtils";
-import { getRandomString, getRandomEmail, testHttpClient } from "../../../../utils/base";
+import { getRandomString, getRandomEmail, TestClient } from "../../../../utils/base";
 
 describe("v1 auth register", () => {
   it("given valid registration body, should create a new user, a new session and return 201", async () => {
@@ -10,7 +10,7 @@ describe("v1 auth register", () => {
       password: getRandomString(),
     };
 
-    const res = await testHttpClient.post("/v1/auth/register", requestBody);
+    const res = await new TestClient().post("/v1/auth/register", requestBody);
 
     expect(res.status).toBe(201);
     expect(res.headers[config.headers.accessTokenHeaderName]).toBeDefined();
@@ -27,7 +27,7 @@ describe("v1 auth register", () => {
         password: getRandomString(),
       };
 
-      const res = await testHttpClient.post("/v1/auth/register", requestBody);
+      const res = await new TestClient().post("/v1/auth/register", requestBody);
 
       expect(res.status).toBe(400);
       expect(res.headers[config.headers.accessTokenHeaderName]).toBeUndefined();
@@ -46,7 +46,7 @@ describe("v1 auth register", () => {
         password: getRandomString(),
       };
 
-      const res = await testHttpClient.post("/v1/auth/register", requestBody);
+      const res = await new TestClient().post("/v1/auth/register", requestBody);
 
       expect(res.status).toBe(400);
       expect(res.headers[config.headers.accessTokenHeaderName]).toBeUndefined();
@@ -65,7 +65,7 @@ describe("v1 auth register", () => {
         email: getRandomEmail(),
       };
 
-      const res = await testHttpClient.post("/v1/auth/register", requestBody);
+      const res = await new TestClient().post("/v1/auth/register", requestBody);
 
       expect(res.status).toBe(400);
       expect(res.headers[config.headers.accessTokenHeaderName]).toBeUndefined();

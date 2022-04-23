@@ -1,16 +1,16 @@
 import { config } from "../../../../../config";
-import { seededUsers } from "../../../../../database/seededUsers";
-import { login, testRefreshTokenCookie } from "../../../../utils/authUtils";
-import { testHttpClient } from "../../../../utils/base";
+import { testRefreshTokenCookie } from "../../../../utils/authUtils";
+import { TestClient } from "../../../../utils/base";
 
 describe("v1 auth tokens", () => {
   it("given valid refresh token, should return 200 and new tokens", async () => {
-    const user = seededUsers.testUser;
-    const loginResult = await login({ ...user, flags: BigInt(user.flags) });
+    const client = new TestClient();
 
-    const res = await testHttpClient.get("/v1/auth/tokens", {
+    const { refreshToken } = await client.loginAs.testUser();
+
+    const res = await client.get("/v1/auth/tokens", {
       headers: {
-        Cookie: config.headers.refreshTokenCookieName + "=" + loginResult.refreshToken,
+        Cookie: config.headers.refreshTokenCookieName + "=" + refreshToken,
       },
     });
 
@@ -22,7 +22,7 @@ describe("v1 auth tokens", () => {
   });
 
   it("given invalid refresh token, should return 401 and a correct error message", async () => {
-    const res = await testHttpClient.get("/v1/auth/tokens", {
+    const res = await new TestClient().get("/v1/auth/tokens", {
       headers: {
         Cookie: config.headers.refreshTokenCookieName + "=" + "invalid token",
       },
@@ -39,7 +39,7 @@ describe("v1 auth tokens", () => {
   });
 
   it("given no refresh token, should return 400 and a correct error message", async () => {
-    const res = await testHttpClient.get("/v1/auth/tokens");
+    const res = await new TestClient().get("/v1/auth/tokens");
 
     expect(res.status).toBe(400);
     expect(res.data).toEqual({
