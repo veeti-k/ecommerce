@@ -4,7 +4,11 @@ USER root
 
 WORKDIR /app
 
-COPY . .
+COPY ./prisma ./prisma
+COPY ./src ./src
+COPY ./package.json .
+COPY ./yarn.lock .
+COPY ./tsconfig.json .
 
 RUN yarn
 
