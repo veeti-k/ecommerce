@@ -5,7 +5,7 @@ export interface Category {
 }
 
 export interface ResolvedCategory extends Category {
-  children?: ResolvedCategory[];
+  children: ResolvedCategory[] | null;
 }
 
 export interface AddCategoryRequestBody {

@@ -17,10 +17,15 @@ export const remove = (categoryId: number) =>
   });
 
 export const get = {
+  all: () => prisma.category.findMany(),
   byId: (categoryId: number) =>
     prisma.category.findFirst({
       where: {
         categoryId,
       },
     }),
+};
+
+export const forTests = {
+  removeAll: () => prisma.category.deleteMany({}),
 };
