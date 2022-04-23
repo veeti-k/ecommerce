@@ -28,6 +28,11 @@ export const createUserAndSession = async (body: RegisterRequestBody, hashedPass
 };
 
 export const get = {
+  byUserId: async (userId: number) => prisma.user.findFirst({ where: { userId } }),
+  byUserIdWith: {
+    sessions: async (userId: number) =>
+      prisma.user.findFirst({ where: { userId }, include: { sessions: true } }),
+  },
   byEmail: (email: string) => prisma.user.findFirst({ where: { email } }),
   byPhoneNumber: (phoneNumber: string) => prisma.user.findFirst({ where: { phoneNumber } }),
 };
