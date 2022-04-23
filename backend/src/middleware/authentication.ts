@@ -3,6 +3,7 @@ import { Middleware } from "../types/ApiThings";
 import { decodeAccessToken } from "../util/jwt";
 import { respondError } from "../util/respondWith";
 import { db } from "../database";
+import { REQ_USER } from "../util/consts";
 
 const errorInvalidAuthHeader = (res: Response) =>
   respondError({
@@ -53,12 +54,12 @@ export const authentication: Middleware = async (req, res, next) => {
 
   if (!user) return errorInvalidAccessToken(res);
 
-  if (user.flags !== tokenPayload.flags) return errorInvalidAccessToken(res);
+  if (user.flags !== BigInt(tokenPayload.flags)) return errorInvalidAccessToken(res);
 
   if (!user.sessions.find((s) => s.sessionId === tokenPayload.sessionId))
     return errorInvalidAccessToken(res);
 
-  req.app.set("user", user);
+  req.app.set(REQ_USER, user);
 
   next();
 };
