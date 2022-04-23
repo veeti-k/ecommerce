@@ -58,4 +58,8 @@ export class TestClient {
   async patch(url: string, data?: any, config?: AxiosRequestConfig<any>) {
     return this.axiosInstance.patch(url, data, config);
   }
+
+  async delete(url: string, config?: AxiosRequestConfig<any>) {
+    return this.axiosInstance.delete(url, config);
+  }
 }
