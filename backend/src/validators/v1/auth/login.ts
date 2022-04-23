@@ -6,21 +6,21 @@ export const LoginRequestBodyValidator: Validator<LoginRequestBody> = (obj) => {
 
   if (!obj.email) {
     errors.email = {
-      message: "email is required",
+      message: "'email' is required",
     };
   } else if (typeof obj.email !== "string") {
     errors.email = {
-      message: "email must be a string",
+      message: "'email' must be a string",
     };
   }
 
   if (!obj.password) {
     errors.password = {
-      message: "password is required",
+      message: "'password' is required",
     };
   } else if (typeof obj.password !== "string") {
     errors.password = {
-      message: "password must be a string",
+      message: "'password' must be a string",
     };
   }
 
