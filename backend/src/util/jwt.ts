@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import { config } from "../config";
-import { User } from "../types/User";
 
 interface TokenPayload {
   userId: number;
@@ -50,7 +49,7 @@ export const createRefreshToken = (userId: number, sessionId: string, flags: big
     }
   );
 
-export const decodeAccessToken = (token: string, user: User): DecodeResult => {
+export const decodeAccessToken = (token: string): DecodeResult => {
   try {
     const payload = jwt.verify(token, config.jwt.accessToken.secret, {
       audience: config.jwt.accessToken.audience,
