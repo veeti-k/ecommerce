@@ -36,7 +36,7 @@ describe("v1 auth register", () => {
       expect(res.data).toEqual({
         code: 400,
         message: "Invalid request body",
-        errors: { name: { message: "Name is required" } },
+        errors: { name: { message: "'name' is required" } },
       });
     });
 
@@ -55,7 +55,7 @@ describe("v1 auth register", () => {
       expect(res.data).toEqual({
         code: 400,
         message: "Invalid request body",
-        errors: { email: { message: "Email is required" } },
+        errors: { email: { message: "'email' is required" } },
       });
     });
 
@@ -74,7 +74,7 @@ describe("v1 auth register", () => {
       expect(res.data).toEqual({
         code: 400,
         message: "Invalid request body",
-        errors: { password: { message: "Password is required" } },
+        errors: { password: { message: "'password' is required" } },
       });
     });
   });

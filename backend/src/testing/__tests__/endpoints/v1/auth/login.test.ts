@@ -1,6 +1,6 @@
 import { config } from "../../../../../config";
 import { testRefreshTokenCookie } from "../../../../utils/authUtils";
-import { testHttpClient } from "../../../../utils/base";
+import { getRandomEmail, getRandomString, testHttpClient } from "../../../../utils/base";
 
 describe("v1 auth login", () => {
   describe("Logging in", () => {
@@ -58,6 +58,48 @@ describe("v1 auth login", () => {
       expect(res.data).toEqual({
         code: 400,
         message: "User not found",
+      });
+    });
+
+    describe("given invalid request body it should not set headers, return 400 and the correct error message", () => {
+      it("missing email", async () => {
+        const requestBody = {
+          password: getRandomString(),
+        };
+
+        const request = testHttpClient.post("/v1/auth/login", requestBody);
+
+        const res = await request;
+
+        expect(res.status).toBe(400);
+        expect(res.headers[config.headers.accessTokenHeaderName]).toBeUndefined();
+        expect(res.headers["set-cookie"]).toBeUndefined();
+
+        expect(res.data).toEqual({
+          code: 400,
+          message: "Invalid request body",
+          errors: { email: { message: "'email' is required" } },
+        });
+      });
+
+      it("missing password", async () => {
+        const requestBody = {
+          email: getRandomEmail(),
+        };
+
+        const request = testHttpClient.post("/v1/auth/login", requestBody);
+
+        const res = await request;
+
+        expect(res.status).toBe(400);
+        expect(res.headers[config.headers.accessTokenHeaderName]).toBeUndefined();
+        expect(res.headers["set-cookie"]).toBeUndefined();
+
+        expect(res.data).toEqual({
+          code: 400,
+          message: "Invalid request body",
+          errors: { password: { message: "'password' is required" } },
+        });
       });
     });
   });
