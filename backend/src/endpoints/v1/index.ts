@@ -1,2 +1,2 @@
-export * as auth from "./auth/";
-export * as categories from "./categories/";
+export * as auth from "./auth";
+export * as category from "./category";

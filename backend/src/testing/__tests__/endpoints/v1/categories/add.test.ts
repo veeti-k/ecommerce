@@ -1,6 +1,6 @@
 import { getRandomString, TestClient } from "../../../../utils/base";
 
-describe("v1 categories add", () => {
+describe("v1 category add", () => {
   it("given valid request body, should return 201 and the created category's id", async () => {
     const client = new TestClient();
 

@@ -62,6 +62,11 @@ export const respondSuccessWithHeaders: RespondSuccessWithHeaders = ({
   res.locals.sentInfo = sentInfo || "json";
 };
 
+export const respondSuccessNoContent = (res: Response) => {
+  res.status(204).send();
+  res.locals.sentInfo = "noContent";
+};
+
 interface RespondWithError {
   (options: RespondWithErrorOptions): void;
 }

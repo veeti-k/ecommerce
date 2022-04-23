@@ -26,7 +26,7 @@ export const add: Endpoint = async (req, res) => {
       });
   }
 
-  const createdCategory = await db.category.addCategory(validationResult.validated);
+  const createdCategory = await db.category.create(validationResult.validated);
 
   return respondSuccess({
     res,

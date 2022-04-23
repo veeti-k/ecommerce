@@ -1,6 +1,6 @@
 import express from "express";
 import { auth } from "./auth";
-import { categories } from "./categories";
+import { categories } from "./category";
 
 const router = express.Router();
 
