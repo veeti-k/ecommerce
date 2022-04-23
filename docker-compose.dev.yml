@@ -8,8 +8,6 @@ services:
       - POSTGRES_PASSWORD=dev
     ports:
       - "9000:5432"
-    volumes:
-      - ./DEV-DATA/db:/var/lib/postgresql/data
     logging: 
       driver: none
   

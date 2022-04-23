@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "rm -rf dist && ./node_modules/.bin/tsc -p ./tsconfig.json",
-    "dev": "yarn build && node ./dist/index.js",
+    "dev": "yarn build && yarn prisma db push && yarn prisma generate && node ./dist/index.js",
+    "devinit": "yarn && yarn build && yarn prisma db init && yarn prisma generate && node ./dist/index.js",
     "start": "yarn build && node ./dist/index.js",
     "clean": "rm -rf node_modules && rm -rf .turbo && rm -rf dist",
     "test": "jest"
