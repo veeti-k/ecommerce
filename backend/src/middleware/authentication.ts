@@ -4,6 +4,7 @@ import { decodeAccessToken } from "../util/jwt";
 import { respondError } from "../util/respondWith";
 import { db } from "../database";
 import { REQ_USER } from "../util/consts";
+import { ReqSetUser } from "../types/User";
 
 const errorInvalidAuthHeader = (res: Response) =>
   respondError({
@@ -59,7 +60,14 @@ export const authentication: Middleware = async (req, res, next) => {
   if (!user.sessions.find((s) => s.sessionId === tokenPayload.sessionId))
     return errorInvalidAccessToken(res);
 
-  req.app.set(REQ_USER, user);
+  req.app.set(REQ_USER, {
+    userId: user.userId,
+    name: user.name,
+    email: user.email,
+    phoneNumber: user.phoneNumber,
+    flags: user.flags,
+    createdAt: user.createdAt,
+  } as ReqSetUser);
 
   next();
 };
