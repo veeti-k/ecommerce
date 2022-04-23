@@ -1,8 +1,10 @@
 import express from "express";
 import { auth } from "./auth";
+import { categories } from "./categories";
 
 const router = express.Router();
 
 router.use("/auth", auth);
+router.use("/categories", categories);
 
 export { router as v1Router };

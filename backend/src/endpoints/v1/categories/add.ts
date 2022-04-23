@@ -3,7 +3,7 @@ import { Endpoint } from "../../../types/Endpoint";
 import { respondError, respondSuccess } from "../../../util/respondWith";
 import { addCategoryRequestBodyValidator } from "../../../validators/v1/categories/addCategory";
 
-export const addCategory: Endpoint = async (req, res) => {
+export const add: Endpoint = async (req, res) => {
   const validationResult = addCategoryRequestBodyValidator(req.body);
   if (!validationResult.isValid)
     return respondError({
