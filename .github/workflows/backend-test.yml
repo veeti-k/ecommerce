@@ -16,7 +16,6 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '17.8.0'
-        cache: yarn
     - name: Build
       run: yarn build:backend
     - name: Test
