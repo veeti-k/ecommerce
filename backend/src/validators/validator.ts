@@ -1,5 +1,5 @@
 export type ValidationErrors<T> = {
-  [key in keyof T]: {
+  [key in keyof T]?: {
     message: string;
   };
 };
