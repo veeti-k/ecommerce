@@ -1,0 +1,23 @@
+name: Backend test
+
+on: 
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+    
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js 17.8.0
+      uses: actions/setup-node@v3
+      with:
+        node-version: '17.8.0'
+        cache: yarn
+    - name: Build
+      run: yarn build:backend
+    - name: Test
+      run: yarn test:backend
