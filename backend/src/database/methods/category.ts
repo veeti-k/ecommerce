@@ -1,4 +1,4 @@
-import { CreateCategoryRequestBody } from "../../types/Category";
+import { CreateCategoryRequestBody, UpdateCategoryRequestBody } from "../../types/Category";
 import prisma from "../client";
 
 export const create = (obj: CreateCategoryRequestBody) =>
@@ -13,6 +13,17 @@ export const remove = (categoryId: number) =>
   prisma.category.delete({
     where: {
       categoryId,
+    },
+  });
+
+export const update = (categoryId: number, obj: UpdateCategoryRequestBody) =>
+  prisma.category.update({
+    where: {
+      categoryId,
+    },
+    data: {
+      name: obj.name,
+      parentId: obj.parentId,
     },
   });
 

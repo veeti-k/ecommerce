@@ -8,3 +8,5 @@ export interface CreateCategoryRequestBody {
   name: string;
   parentId: number | null;
 }
+
+export interface UpdateCategoryRequestBody extends CreateCategoryRequestBody {}
