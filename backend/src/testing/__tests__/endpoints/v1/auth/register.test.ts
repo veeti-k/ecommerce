@@ -1,22 +1,16 @@
 import { config } from "../../../../../config";
 import { testRefreshTokenCookie } from "../../../../utils/authUtils";
-import {
-  getRandomName,
-  getRandomEmail,
-  getRandomPassword,
-  baseUrl,
-  testHttpClient,
-} from "../../../../utils/base";
+import { getRandomString, getRandomEmail, testHttpClient } from "../../../../utils/base";
 
 describe("v1 auth register", () => {
   it("given valid registration body, should create a new user, a new session and return 201", async () => {
     const requestBody = {
-      name: getRandomName(),
+      name: getRandomString(),
       email: getRandomEmail(),
-      password: getRandomPassword(),
+      password: getRandomString(),
     };
 
-    const res = await testHttpClient.post(`${baseUrl}/v1/auth/register`, requestBody);
+    const res = await testHttpClient.post("/v1/auth/register", requestBody);
 
     expect(res.status).toBe(201);
     expect(res.headers[config.headers.accessTokenHeaderName]).toBeDefined();
@@ -30,10 +24,10 @@ describe("v1 auth register", () => {
     it("missing name", async () => {
       const requestBody = {
         email: getRandomEmail(),
-        password: getRandomPassword(),
+        password: getRandomString(),
       };
 
-      const res = await testHttpClient.post(`${baseUrl}/v1/auth/register`, requestBody);
+      const res = await testHttpClient.post("/v1/auth/register", requestBody);
 
       expect(res.status).toBe(400);
       expect(res.headers[config.headers.accessTokenHeaderName]).toBeUndefined();
@@ -48,11 +42,11 @@ describe("v1 auth register", () => {
 
     it("missing email", async () => {
       const requestBody = {
-        name: getRandomName(),
-        password: getRandomPassword(),
+        name: getRandomString(),
+        password: getRandomString(),
       };
 
-      const res = await testHttpClient.post(`${baseUrl}/v1/auth/register`, requestBody);
+      const res = await testHttpClient.post("/v1/auth/register", requestBody);
 
       expect(res.status).toBe(400);
       expect(res.headers[config.headers.accessTokenHeaderName]).toBeUndefined();
@@ -67,11 +61,11 @@ describe("v1 auth register", () => {
 
     it("missing password", async () => {
       const requestBody = {
-        name: getRandomName(),
+        name: getRandomString(),
         email: getRandomEmail(),
       };
 
-      const res = await testHttpClient.post(`${baseUrl}/v1/auth/register`, requestBody);
+      const res = await testHttpClient.post("/v1/auth/register", requestBody);
 
       expect(res.status).toBe(400);
       expect(res.headers[config.headers.accessTokenHeaderName]).toBeUndefined();

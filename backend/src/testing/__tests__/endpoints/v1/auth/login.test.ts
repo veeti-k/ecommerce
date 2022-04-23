@@ -1,6 +1,6 @@
 import { config } from "../../../../../config";
 import { testRefreshTokenCookie } from "../../../../utils/authUtils";
-import { baseUrl, testHttpClient } from "../../../../utils/base";
+import { testHttpClient } from "../../../../utils/base";
 
 describe("v1 auth login", () => {
   describe("Logging in", () => {
@@ -10,7 +10,7 @@ describe("v1 auth login", () => {
         password: "ADMINISTRATOR-password",
       };
 
-      const res = await testHttpClient.post(`${baseUrl}/v1/auth/login`, requestBody);
+      const res = await testHttpClient.post("/v1/auth/login", requestBody);
 
       expect(res.status).toBe(200);
       expect(res.headers[config.headers.accessTokenHeaderName]).toBeDefined();
@@ -25,7 +25,7 @@ describe("v1 auth login", () => {
         password: "wrongpassword",
       };
 
-      const request = testHttpClient.post(`${baseUrl}/v1/auth/login`, requestBody);
+      const request = testHttpClient.post("/v1/auth/login", requestBody);
 
       const res = await request;
 
@@ -45,7 +45,7 @@ describe("v1 auth login", () => {
         password: "wrongpassword",
       };
 
-      const request = testHttpClient.post(`${baseUrl}/v1/auth/login`, requestBody, {
+      const request = testHttpClient.post("/v1/auth/login", requestBody, {
         validateStatus: () => true,
       });
 
