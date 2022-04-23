@@ -7,7 +7,10 @@ import { Flags } from "../../types/Flags";
 const router = express.Router();
 
 router.get("/", v1.category.getAll);
+router.get("/:categoryId", v1.category.getOne);
+
 router.use(authentication, authorization(Flags.ManageCategories));
+
 router.post("/", v1.category.add);
 router.delete("/", v1.category.remove);
 

@@ -1,6 +1,7 @@
-import { Category, ResolvedCategory } from "../types/Category";
+import { category } from "@prisma/client";
+import { ResolvedCategory } from "../types/Category";
 
-export const resolveCategories = (categories: Category[]): ResolvedCategory[] => {
+export const resolveCategories = (categories: category[]): ResolvedCategory[] => {
   const resolvedCategories: ResolvedCategory[] = [];
 
   const temp: ResolvedCategory[] = categories.map((category) => ({
@@ -23,8 +24,26 @@ export const resolveCategories = (categories: Category[]): ResolvedCategory[] =>
   return resolvedCategories;
 };
 
-export const getCategoryPath = (categories: Category[], deepestCategoryId: number): Category[] => {
-  const result: Category[] = [];
+export const resolveCategory = (categories: category[], category: category): ResolvedCategory => {
+  const categoryIds: number[] = [];
+
+  const current = category;
+
+  categoryIds.push(current.categoryId);
+
+  const resolved: ResolvedCategory = { ...current, children: null };
+
+  const children = categories.filter((c) => c.parentId === current.categoryId);
+
+  if (!children.length) return resolved;
+
+  resolved.children = children.map((c) => resolveCategory(categories, c));
+
+  return resolved;
+};
+
+export const getCategoryPath = (categories: category[], deepestCategoryId: number): category[] => {
+  const result: category[] = [];
 
   let current = categories.find((c) => c.categoryId == deepestCategoryId);
   if (!current) return [];
