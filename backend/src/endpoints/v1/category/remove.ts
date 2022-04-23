@@ -3,9 +3,9 @@ import { Endpoint } from "../../../types/ApiThings";
 import { respondError, respondSuccessNoContent } from "../../../util/respondWith";
 
 export const remove: Endpoint = async (req, res) => {
-  const { categoryId } = req.params;
+  const categoryId = Number(req.params.categoryId);
 
-  const category = await db.category.get.byId(Number(categoryId));
+  const category = await db.category.get.byId(categoryId);
 
   if (!category) {
     return respondError({
