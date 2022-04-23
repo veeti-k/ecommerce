@@ -1,7 +1,7 @@
-import { AddCategoryRequestBody } from "../../types/Category";
+import { CreateCategoryRequestBody } from "../../types/Category";
 import prisma from "../client";
 
-export const create = (obj: AddCategoryRequestBody) =>
+export const create = (obj: CreateCategoryRequestBody) =>
   prisma.category.create({
     data: {
       name: obj.name,

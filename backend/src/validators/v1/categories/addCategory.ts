@@ -1,8 +1,8 @@
-import { AddCategoryRequestBody } from "../../../types/Category";
+import { CreateCategoryRequestBody } from "../../../types/Category";
 import { ValidationErrors, Validator } from "../../validator";
 
-export const addCategoryRequestBodyValidator: Validator<AddCategoryRequestBody> = (obj) => {
-  const errors = {} as ValidationErrors<AddCategoryRequestBody>;
+export const createCategoryRequestBodyValidator: Validator<CreateCategoryRequestBody> = (obj) => {
+  const errors = {} as ValidationErrors<CreateCategoryRequestBody>;
 
   if (!obj.name) {
     errors.name = {
@@ -32,6 +32,6 @@ export const addCategoryRequestBodyValidator: Validator<AddCategoryRequestBody> 
 
   return {
     isValid: true,
-    validated: obj as AddCategoryRequestBody,
+    validated: obj as CreateCategoryRequestBody,
   };
 };

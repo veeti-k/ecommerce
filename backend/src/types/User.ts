@@ -1,17 +1,5 @@
-import { Address } from "./Address";
-import { Session } from "./Session";
+import { user } from "@prisma/client";
 
-export interface User {
-  userId: number;
-  name: string;
-  email: string;
-  phoneNumber: string | null;
-  flags: bigint;
-  createdAt: Date;
-  password: string;
+export interface ReqSetUser extends Omit<user, "password" | "addresses" | "sessions"> {}
 
-  addresses: Address[];
-  sessions: Session[];
-}
-
-export interface SeededUser extends Omit<User, "userId" | "addresses" | "sessions"> {}
+export interface SeededUser extends Omit<user, "userId" | "addresses" | "sessions"> {}

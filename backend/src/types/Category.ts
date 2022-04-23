@@ -1,14 +1,10 @@
-export interface Category {
-  categoryId: number;
-  name: string;
-  parentId: number | null;
-}
+import { category } from "@prisma/client";
 
-export interface ResolvedCategory extends Category {
+export interface ResolvedCategory extends category {
   children: ResolvedCategory[] | null;
 }
 
-export interface AddCategoryRequestBody {
+export interface CreateCategoryRequestBody {
   name: string;
   parentId: number | null;
 }

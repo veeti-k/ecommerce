@@ -1,10 +1,10 @@
 import { db } from "../../../database";
 import { Endpoint } from "../../../types/ApiThings";
 import { respondError, respondSuccess } from "../../../util/respondWith";
-import { addCategoryRequestBodyValidator } from "../../../validators/v1/categories/addCategory";
+import { createCategoryRequestBodyValidator } from "../../../validators/v1/categories/addCategory";
 
-export const add: Endpoint = async (req, res) => {
-  const validationResult = addCategoryRequestBodyValidator(req.body);
+export const create: Endpoint = async (req, res) => {
+  const validationResult = createCategoryRequestBodyValidator(req.body);
   if (!validationResult.isValid)
     return respondError({
       res,

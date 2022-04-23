@@ -11,7 +11,7 @@ router.get("/:categoryId", v1.category.getOne);
 
 router.use(authentication, authorization(Flags.ManageCategories));
 
-router.post("/", v1.category.add);
+router.post("/", v1.category.create);
 router.delete("/:categoryId", v1.category.remove);
 
 export { router as categories };

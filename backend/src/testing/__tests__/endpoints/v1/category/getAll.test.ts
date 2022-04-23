@@ -1,5 +1,6 @@
+import { category } from "@prisma/client";
 import { db } from "../../../../../database";
-import { Category, ResolvedCategory } from "../../../../../types/Category";
+import { ResolvedCategory } from "../../../../../types/Category";
 import { TestClient } from "../../../../utils/base";
 import { addCategory, addChildCategory } from "../../../../utils/categoryUtils";
 
@@ -24,7 +25,7 @@ describe("v1 category getAll", () => {
     expect(res.status).toBe(200);
 
     expect(res.data.length).toBe(5);
-    expect(res.data.some((c: Category) => !ids.includes(c.categoryId))).toBeFalsy();
+    expect(res.data.some((c: category) => !ids.includes(c.categoryId))).toBeFalsy();
     expect(res.data.resolvedCategories).toBeUndefined();
   });
 
@@ -61,7 +62,7 @@ describe("v1 category getAll", () => {
     expect(res.data.categories).toBeDefined();
     expect(res.data.resolvedCategories).toBeDefined();
 
-    const categories = res.data.categories as Category[];
+    const categories = res.data.categories as category[];
     const resolvedCategories = res.data.resolvedCategories as ResolvedCategory[];
 
     expect(categories.length).toBe(8);
