@@ -1,5 +1,5 @@
 import { db } from "../../../database";
-import { Endpoint } from "../../../types/Endpoint";
+import { Endpoint } from "../../../types/ApiThings";
 import { respondError, respondSuccess } from "../../../util/respondWith";
 import { addCategoryRequestBodyValidator } from "../../../validators/v1/categories/addCategory";
 

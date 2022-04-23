@@ -1,4 +1,4 @@
-import { Endpoint } from "../../../types/Endpoint";
+import { Endpoint } from "../../../types/ApiThings";
 import { createRefreshTokenCookie } from "../../../util/cookie";
 import { decodeRefreshToken, createAccessToken, createRefreshToken } from "../../../util/jwt";
 import { respondError, respondSuccessWithHeaders } from "../../../util/respondWith";

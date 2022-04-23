@@ -1,5 +1,5 @@
 import { db } from "../../../database";
-import { Endpoint } from "../../../types/Endpoint";
+import { Endpoint } from "../../../types/ApiThings";
 import { SpecificErrorMessages } from "../../../types/Errors";
 import { createRefreshTokenCookie } from "../../../util/cookie";
 import { comparePassword } from "../../../util/hash";

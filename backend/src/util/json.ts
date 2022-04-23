@@ -1,5 +1,5 @@
 import express from "express";
-import { Endpoint } from "../types/Endpoint";
+import { Endpoint } from "../types/ApiThings";
 import { respondError } from "./respondWith";
 
 export const json: Endpoint = (req, res, next) => {
