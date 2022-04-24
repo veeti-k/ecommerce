@@ -1,6 +1,9 @@
 export interface IConfig {
   port: number;
-  databaseUrl: string;
+  dbUrls: {
+    catalogue: string;
+    users: string;
+  };
 
   jwt: {
     accessToken: {

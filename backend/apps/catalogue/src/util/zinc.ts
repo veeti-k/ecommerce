@@ -1,6 +1,6 @@
-import { product } from "@prisma/client";
 import axios from "axios";
-import { config } from "../config";
+import { config } from "config";
+import { Product } from "shared";
 
 const axiosConfig = {
   auth: {
@@ -12,10 +12,10 @@ const axiosConfig = {
 export const createProductsIndex = async () =>
   axios.put(`${config.zinc.baseUrl}/index`, productIndex, axiosConfig);
 
-export const pushProductToZinc = async (product: product) =>
+export const pushProductToZinc = async (product: Product) =>
   axios.put(`${config.zinc.baseUrl}/products/document`, product, axiosConfig);
 
-export const updateProductOnZinc = async (newProduct: product) =>
+export const updateProductOnZinc = async (newProduct: Product) =>
   axios.put(
     `${config.zinc.baseUrl}/products/_doc/${newProduct.productId}`,
     newProduct,

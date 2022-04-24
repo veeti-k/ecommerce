@@ -9,6 +9,9 @@
     },
     "start": {
       "dependsOn": ["^start"]
+    },
+    "test":{
+      "dependsOn": ["^test"]
     }
   }
 }

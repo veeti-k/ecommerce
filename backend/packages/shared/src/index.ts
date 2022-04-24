@@ -1,6 +1,7 @@
 export * from "./utils/json";
 export * from "./utils/respondWith";
 export * from "./utils/auth";
+export * from "./utils/seededUsers";
 
 export * from "./types/ApiThings";
 export * from "./types/Auth";

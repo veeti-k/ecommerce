@@ -2,7 +2,10 @@ import { IConfig } from "./types";
 
 export const config: IConfig = {
   port: Number(process.env.PORT) || 3000,
-  databaseUrl: process.env.DATABASE_URL || "",
+  dbUrls: {
+    catalogue: process.env.CATALOGUE_DB_URL || "",
+    users: process.env.USERS_DB_URL || "",
+  },
 
   jwt: {
     accessToken: {
