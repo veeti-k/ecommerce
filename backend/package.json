@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build",
+    "build": "turbo run build --scope=backend-users && turbo run build --scope=backend-catalogue",
     "dev:up": "mkdir -p ./DEV-DATA/zinc && chmod a+rwx ./DEV-DATA/zinc && docker-compose -f docker-compose.dev.yml up -d --build",
     "dev:down": "docker-compose -f docker-compose.dev.yml rm -fsv",
     "dev:restart": "docker-compose -f docker-compose.dev.yml up -d --force-recreate --build --no-deps",
