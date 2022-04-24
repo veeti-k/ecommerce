@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model store {
+  storeId              String                 @id @default(uuid())
+  name                 String
+  city                 String
+  streetAddress        String
+  zip                  String
+  poneNumber           String
+  mondayHours          String
+  tuesdayHours         String
+  wednesdayHours       String
+  thursdayHours        String
+  fridayHours          String
+  saturdayHours        String
+  sundayHours          String
+  storeHoursException  storeHoursException[]
+  storeProduct         storeProduct[]
+}
+
+model storeHoursException {
+  storeHoursExceptionId String   @id @default(uuid())
+  storeId               String  
+  date                  DateTime @db.Timestamptz(6)
+  reason                String
+  hours                 String
+  store                 store   @relation(fields: [storeId], references: [storeId], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([storeId])
+}
+
+model storeProduct {
+  storeId   String   @default(uuid())
+  productId Int
+  quantity  Int
+  stores    store   @relation(fields: [storeId], references: [storeId], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([storeId, productId])
+  @@index([productId])
+}
+

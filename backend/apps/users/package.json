@@ -1,0 +1,29 @@
+{
+  "name": "backend-users",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "yarn prisma generate && rm -rf dist && ./node_modules/.bin/tsc -p ./tsconfig.json",
+    "start": "yarn prisma db push && node ./dist/index.js",
+    "dbinit": "yarn prisma db push && yarn prisma generate",
+    "clean": "rm -rf dist && rm -rf node_modules && rm -rf .turbo"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.12.0",
+    "@types/bcrypt": "^5.0.0",
+    "@types/express": "^4.17.13",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/node": "^17.0.25",
+    "axios": "^0.26.1",
+    "bcrypt": "^5.0.1",
+    "config": "*",
+    "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "shared": "*",
+    "tsconfig": "*",
+    "typescript": "^4.6.3"
+  },
+  "devDependencies": {
+    "prisma": "^3.12.0"
+  }
+}

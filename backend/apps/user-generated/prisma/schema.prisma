@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model questionAnswer {
+  questionAnswerId        String           @id @default(uuid())
+  questionId              String          
+  answerersNickname       String
+  byEmployee              Boolean
+  content                 String
+  isApproved              Boolean
+  createdAt               DateTime         @db.Timestamptz(6)
+  productQuestion         question @relation(fields: [questionId], references: [questionId], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([questionId])
+}
+
+model question {
+  questionId             String                   @id @default(uuid())
+  productId              Int
+  questionersNickname    String
+  title                  String
+  content                String
+  createdAt              DateTime                 @db.Timestamptz(6)
+  isApproved             Boolean
+  questionAnswers        questionAnswer[]
+
+  @@index([productId])
+}
+
+model reviewComment {
+  reviewCommentId        String         @id @default(uuid())
+  reviewId               String        
+  commentersNickname     String
+  byEmployee             Boolean
+  title                  String
+  content                String
+  isApproved             Boolean
+  createdAt              DateTime       @db.Timestamptz(6)
+  review                 review @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([reviewId])
+}
+
+model review {
+  reviewId              String                  @id @default(uuid())
+  productId             Int
+  reviewersNickname     String
+  byEmployee            Boolean
+  title                 String
+  content               String
+  stars                 Int
+  createdAt             DateTime                @db.Timestamptz(6)
+  isApproved            Boolean
+  reviewComments        reviewComment[]
+
+  @@index([productId])
+}

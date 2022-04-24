@@ -1,0 +1,73 @@
+version: '3.9'
+
+services:
+  dev-zinc: 
+    image: public.ecr.aws/h9e2j3o7/zinc
+    ports:
+      - "4080:4080"
+    environment:
+      - DATA_PATH=/data
+      - ZINC_FIRST_ADMIN_USER=dev
+      - ZINC_FIRST_ADMIN_PASSWORD=dev
+    volumes:
+      - ./DEV-DATA/zinc:/data
+    
+  dev-users-db:
+    image: postgres
+    ports:
+      - "6000:5432"
+    environment:
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=dev
+    restart: unless-stopped
+
+  dev-users-api:
+    depends_on:
+      - dev-users-db
+    environment:
+      - DATABASE_URL=postgres://dev:dev@dev-users-db:5432/dev?schema=dev
+    image: dev-users-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+      - SCOPE=backend-users
+    command: sh -c "yarn turbo run start --scope=backend-users --include-dependencies --no-deps"
+    restart: unless-stopped
+
+  dev-catalogue-db:
+    image: postgres
+    ports:
+      - "6001:5432"
+    environment:
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=dev
+    restart: unless-stopped
+
+  dev-catalogue-api:
+    depends_on:
+      - dev-catalogue-db
+    environment:
+      - DATABASE_URL=postgres://dev:dev@dev-catalogue-db:5432/dev?schema=dev
+      - AUTH_SERVICE_URL=http://dev-users-api:3000/api/v1/auth
+      - ZINC_BASE_URL=http://dev-zinc:4080/api
+    image: dev-catalogue-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+      - SCOPE=backend-catalogue
+    command: sh -c "yarn turbo run start --scope=backend-catalogue --include-dependencies --no-deps"
+    restart: unless-stopped
+  
+  dev-loadbalancer: 
+    depends_on:
+      - dev-zinc
+      - dev-users-api
+      - dev-catalogue-api
+    image: nginx
+    ports:
+      - "80:5000"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    restart: unless-stopped

@@ -1,35 +1,25 @@
 {
-  "name": "backend",
+  "name": "ecommerce-backend",
   "version": "0.0.0",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "build": "rm -rf dist && ./node_modules/.bin/tsc -p ./tsconfig.json",
-    "dev": "yarn build && yarn prisma db push && yarn prisma generate && node ./dist/index.js",
-    "devinit": "yarn && yarn build && yarn prisma db init && yarn prisma generate && node ./dist/index.js",
-    "start": "yarn build && node ./dist/index.js",
-    "clean": "rm -rf node_modules && rm -rf .turbo && rm -rf dist",
-    "test": "jest --runInBand"
-  },
-  "prisma": {
-    "seed": "yarn ts-node ./prisma/seed.ts"
-  },
-  "dependencies": {
-    "@prisma/client": "^3.12.0",
-    "axios": "^0.26.1",
-    "bcrypt": "^5.0.1",
-    "express": "^4.17.3",
-    "jsonwebtoken": "^8.5.1",
-    "ts-jest": "^27.1.4"
+    "build": "turbo run build",
+    "dev:up": "mkdir -p ./DEV-DATA/zinc && chmod a+rwx ./DEV-DATA/zinc && docker-compose -f docker-compose.dev.yml up -d --build",
+    "dev:down": "docker-compose -f docker-compose.dev.yml rm -fsv",
+    "dev:restart": "docker-compose -f docker-compose.dev.yml up -d --force-recreate --build --no-deps",
+    "dev:db:catalogue": "cd ./catalogue && DATABASE_URL=postgres://dev:dev@localhost:6001/dev?schema=dev yarn prisma studio",
+    "dev:db:users": "cd ./users && DATABASE_URL=postgres://dev:dev@localhost:6000/dev?schema=dev yarn prisma studio"
   },
   "devDependencies": {
-    "@types/bcrypt": "^5.0.0",
-    "@types/express": "^4.17.13",
-    "@types/jest": "^27.4.1",
-    "@types/jsonwebtoken": "^8.5.8",
-    "@types/node": "^17.0.25",
-    "jest": "^27.5.1",
-    "prisma": "^3.12.0",
-    "ts-node": "^10.7.0",
-    "typescript": "^4.6.3"
-  }
+    "turbo": "^1.2.5"
+  },
+  "engines": {
+    "npm": ">=8.7.0",
+    "node": ">=17.8.0"
+  },
+  "packageManager": "yarn@1.22.18"
 }
