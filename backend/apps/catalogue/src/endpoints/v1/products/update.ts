@@ -1,4 +1,4 @@
-import { Endpoint, respondError, respondSuccessNoContent } from "shared";
+import { Endpoint, respondError, respondSuccessNoContent, zinc } from "shared";
 import { db } from "../../../database";
 import { updateProductRequestBodyValidator } from "../../../validators/v1/products/update";
 
@@ -32,6 +32,8 @@ export const update: Endpoint = async (req, res) => {
     });
 
   await db.products.update(productId, validatedBody);
+
+  await zinc.updateProduct(product);
 
   respondSuccessNoContent(res);
 };

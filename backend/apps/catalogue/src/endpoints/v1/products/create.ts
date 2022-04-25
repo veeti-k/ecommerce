@@ -1,6 +1,5 @@
-import { Endpoint, respondError, respondSuccess } from "shared";
+import { Endpoint, respondError, respondSuccess, zinc } from "shared";
 import { db } from "../../../database";
-import { pushProductToZinc } from "../../../util/zinc";
 import { createProductRequestBodyValidator } from "../../../validators/v1/products/create";
 
 export const create: Endpoint = async (req, res) => {
@@ -25,7 +24,7 @@ export const create: Endpoint = async (req, res) => {
 
   const createdProduct = await db.products.create(validatedBody);
 
-  await pushProductToZinc(createdProduct);
+  await zinc.addProduct(createdProduct);
 
   respondSuccess({
     res,

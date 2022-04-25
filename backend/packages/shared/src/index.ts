@@ -2,6 +2,7 @@ export * from "./utils/json";
 export * from "./utils/respondWith";
 export * from "./utils/auth";
 export * from "./utils/seededUsers";
+export * as zinc from "./utils/zinc";
 
 export * from "./types/ApiThings";
 export * from "./types/Auth";
