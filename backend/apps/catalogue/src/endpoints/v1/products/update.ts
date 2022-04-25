@@ -31,9 +31,9 @@ export const update: Endpoint = async (req, res) => {
       message: "Product does not exist",
     });
 
-  await db.products.update(productId, validatedBody);
+  const updatedProduct = await db.products.update(productId, validatedBody);
 
-  await zinc.updateProduct(productId, validatedBody);
+  await zinc.updateProduct(updatedProduct);
 
   respondSuccessNoContent(res);
 };

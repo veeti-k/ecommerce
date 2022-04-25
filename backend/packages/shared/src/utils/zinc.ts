@@ -1,6 +1,6 @@
 import axios from "axios";
 import { config } from "config";
-import { Product, UpdateProductRequestBody, ZincProduct } from "../types/Product";
+import { Product, ZincProduct } from "../types/Product";
 
 export const searchProductsWithString = async (query: string): Promise<Product[]> => {
   const res = await axios.post(
@@ -50,8 +50,8 @@ const axiosConfig = {
 export const addProduct = async (product: Product) =>
   axios.put(`${config.zinc.baseUrl}/products/document`, product, axiosConfig);
 
-export const updateProduct = async (productId: number, updated: UpdateProductRequestBody) => {
-  const product = await getProductById(productId);
+export const updateProduct = async (updated: Product) => {
+  const product = await getProductById(updated.productId);
 
   const zincId = product!._id;
 
