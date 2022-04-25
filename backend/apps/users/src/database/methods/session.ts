@@ -17,3 +17,11 @@ export const get = {
       },
     }),
 };
+
+export const removeMany = (userId: number, sessionIds: string[]) =>
+  prisma.session.deleteMany({
+    where: {
+      userId,
+      sessionId: { in: sessionIds },
+    },
+  });
