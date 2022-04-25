@@ -1,4 +1,4 @@
-import { catalogueBaseUrl, getRandomString, TestClient } from "../../../../utils/misc";
+import { catalogueBaseUrl, getRandomString, TestClient } from "../../../utils/misc";
 
 describe("v1 category add", () => {
   it("given valid request body, should return 201 and the created category's id", async () => {

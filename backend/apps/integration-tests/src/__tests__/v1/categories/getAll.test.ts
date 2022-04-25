@@ -1,6 +1,6 @@
 import { Category, ResolvedCategory } from "shared";
-import { addCategory, addChildCategory } from "../../../../utils/categoryUtils";
-import { catalogueBaseUrl, cataloguePrisma, TestClient } from "../../../../utils/misc";
+import { addCategory, addChildCategory } from "../../../utils/categoryUtils";
+import { catalogueBaseUrl, cataloguePrisma, TestClient } from "../../../utils/misc";
 
 describe("v1 category getAll", () => {
   beforeEach(async () => {
