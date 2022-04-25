@@ -1,4 +1,4 @@
-name: 'Backend: build'
+name: 'Backend: build code and run tests'
 
 on: 
   push:
@@ -15,7 +15,7 @@ on:
 jobs:
   build: 
     runs-on: ubuntu-latest
-    name: Build
+    name: "Backend: build code and run tests"
 
     steps:
     - uses: actions/checkout@v3
@@ -27,3 +27,6 @@ jobs:
 
     - name: Build
       run: yarn build:backend
+    
+    - name: Test
+      run: yarn test:backend

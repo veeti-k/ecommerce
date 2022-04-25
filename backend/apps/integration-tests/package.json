@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "yarn prisma generate --schema ./prisma/schema.prisma && yarn prisma db push && yarn prisma db seed && jest --runInBand"
+    "test": "yarn prisma db seed && jest --runInBand"
   },
   "prisma": {
-    "seed": "yarn ts-node ./prisma/seed.ts"
+    "seed": "yarn ts-node ./src/utils/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^3.12.0",

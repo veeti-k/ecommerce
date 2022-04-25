@@ -3,9 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "yarn prisma generate && rm -rf dist && ./node_modules/.bin/tsc -p ./tsconfig.json",
-    "start": "yarn prisma db push && node ./dist/index.js",
-    "dbinit": "yarn prisma db push && yarn prisma generate",
+    "build": "rm -rf dist && ./node_modules/.bin/tsc -p ./tsconfig.json",
+    "start": "node ./dist/index.js",
     "clean": "rm -rf dist && rm -rf node_modules && rm -rf .turbo"
   },
   "dependencies": {

@@ -27,7 +27,7 @@ export const config: IConfig = {
   },
 
   services: {
-    auth: process.env.AUTH_SERVICE_URL || "http://dev-users-api:3000/api/v1/auth",
+    auth: process.env.AUTH_SERVICE_URL || "",
   },
 
   frontendRevalidation: {
@@ -36,8 +36,8 @@ export const config: IConfig = {
   },
 
   zinc: {
-    baseUrl: process.env.ZINC_BASE_URL || "http://dev-zinc:4080/api",
-    username: Buffer.from(process.env.ZINC_USERNAME || "dev", "base64").toString(),
-    password: Buffer.from(process.env.ZINC_PASSWORD || "dev", "base64").toString(),
+    baseUrl: process.env.ZINC_BASE_URL || "",
+    username: process.env.ZINC_USERNAME || "",
+    password: process.env.ZINC_PASSWORD || "",
   },
 };

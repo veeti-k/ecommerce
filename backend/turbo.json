@@ -12,6 +12,9 @@
     },
     "test":{
       "dependsOn": ["^test"]
+    },
+    "db:pushall":{
+      "dependsOn": ["^db:pushall"]
     }
   }
 }

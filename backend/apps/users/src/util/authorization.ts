@@ -1,9 +1,9 @@
 import { Flags } from "shared";
 
-export const hasFlags = (neededFlags: bigint[], userFlags: bigint) => {
+export const hasAccess = (neededFlags: bigint[], userFlags: bigint) => {
   const totalNeeded = neededFlags.reduce((acc, curr) => acc | curr);
 
-  return (userFlags & totalNeeded) === totalNeeded;
+  return isAdmin(userFlags) || (userFlags & totalNeeded) === totalNeeded;
 };
 
 export const isAdmin = (userFlags: bigint) => (userFlags & Flags.Admin) === Flags.Admin;

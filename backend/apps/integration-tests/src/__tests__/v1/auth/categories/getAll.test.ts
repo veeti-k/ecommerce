@@ -1,10 +1,10 @@
 import { Category, ResolvedCategory } from "shared";
 import { addCategory, addChildCategory } from "../../../../utils/categoryUtils";
-import { TestClient } from "../../../../utils/misc";
+import { catalogueBaseUrl, cataloguePrisma, TestClient } from "../../../../utils/misc";
 
 describe("v1 category getAll", () => {
   beforeEach(async () => {
-    await db.category.forTests.removeAll();
+    await cataloguePrisma.category.deleteMany({});
   });
 
   it("given no 'resolved' query param, doesn't return resolved categories", async () => {
@@ -18,7 +18,7 @@ describe("v1 category getAll", () => {
 
     const client = new TestClient();
 
-    const res = await client.get("/v1/categories");
+    const res = await client.get(`${catalogueBaseUrl}/v1/categories`);
 
     expect(res.status).toBe(200);
 
@@ -32,7 +32,7 @@ describe("v1 category getAll", () => {
 
     const client = new TestClient();
 
-    const res = await client.get("/v1/categories?resolved=true");
+    const res = await client.get(`${catalogueBaseUrl}/v1/categories?resolved=true`);
 
     expect(res.status).toBe(200);
 
@@ -53,7 +53,7 @@ describe("v1 category getAll", () => {
 
     const client = new TestClient();
 
-    const res = await client.get("/v1/categories?resolved=true");
+    const res = await client.get(`${catalogueBaseUrl}/v1/categories?resolved=true`);
 
     expect(res.status).toBe(200);
 

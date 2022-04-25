@@ -7,15 +7,15 @@
     "packages/*"
   ],
   "scripts": {
-    "test": "mkdir -p ./TEST-DATA/zinc && chmod a+rwx ./TEST-DATA/zinc && docker-compose -f docker-compose.dev.yml --profile test up --build && docker-compose -f docker-compose.dev.yml --profile test rm -fsv",
+    "test": "mkdir -p ./TEST-DATA/zinc && chmod a+rwx ./TEST-DATA/zinc && docker-compose -f docker-compose.test.yml up --abort-on-container-exit && docker-compose -f docker-compose.test.yml rm -fsv",
     "clean": "turbo run clean",
-    "build": "yarn && turbo run build --scope=backend-users && turbo run build --scope=backend-catalogue",
+    "build": "yarn && turbo run build",
     "dev:setup": "mkdir -p ./DEV-DATA/zinc && chmod a+rwx ./DEV-DATA/zinc",
     "dev:up": "yarn dev:setup && docker-compose -f docker-compose.dev.yml up -d --build",
     "dev:down": "docker-compose -f docker-compose.dev.yml rm -fsv",
     "dev:restart": "docker-compose -f docker-compose.dev.yml up -d --force-recreate --build --no-deps",
-    "dev:db:catalogue": "cd ./catalogue && DATABASE_URL=postgres://dev:dev@localhost:6001/dev?schema=dev yarn prisma studio",
-    "dev:db:users": "cd ./users && DATABASE_URL=postgres://dev:dev@localhost:6000/dev?schema=dev yarn prisma studio"
+    "db:catalogue": "cd ./packages/shared && CATALOGUE_DB_URL=postgres://dev:dev@localhost:6001/dev?schema=dev yarn prisma studio --schema ./src/databases/catalogue/schema.prisma",
+    "db:users": "cd ./packages/shared && USERS_DB_URL=postgres://dev:dev@localhost:6000/dev?schema=dev yarn prisma studio --schema ./src/databases/users/schema.prisma"
   },
   "devDependencies": {
     "turbo": "^1.2.5"
