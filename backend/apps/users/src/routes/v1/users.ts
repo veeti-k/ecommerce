@@ -1,5 +1,6 @@
 import express from "express";
 import { auth, Flags } from "shared";
+import { v1 } from "../../endpoints";
 
 const router = express.Router();
 
@@ -13,7 +14,7 @@ router.get("/:userId/addresses", auth(Flags.ManageUsers));
 router.get("/me", auth(Flags.None));
 router.patch("/me"), auth(Flags.None);
 
-router.get("/me/sessions", auth(Flags.None));
+router.get("/me/sessions", auth(Flags.None), v1.users.me.sessions.getAll);
 router.delete("/me/sessions", auth(Flags.None));
 
 router.patch("/:userId/flags", auth(Flags.ManageUsers));
