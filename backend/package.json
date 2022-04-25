@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "test": "mkdir -p ./TEST-DATA/zinc && chmod a+rwx ./TEST-DATA/zinc && docker-compose -f docker-compose.test.yml up --abort-on-container-exit && docker-compose -f docker-compose.test.yml rm -fsv",
+    "test": "mkdir -p ./TEST-DATA/zinc && chmod a+rwx ./TEST-DATA/zinc && docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit && docker-compose -f docker-compose.test.yml rm -fsv",
     "clean": "turbo run clean",
     "build": "yarn && turbo run build",
     "dev:setup": "mkdir -p ./DEV-DATA/zinc && chmod a+rwx ./DEV-DATA/zinc",

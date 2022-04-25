@@ -7,12 +7,10 @@ services:
       - "4080:4080"
     environment:
       - DATA_PATH=/data
-      - ZINC_FIRST_ADMIN_USER=dev
-      - ZINC_FIRST_ADMIN_PASSWORD=dev
+      - ZINC_FIRST_ADMIN_USER=test
+      - ZINC_FIRST_ADMIN_PASSWORD=test
     volumes:
       - ./TEST-DATA/zinc:/data
-    logging:
-      driver: none
     
   test-users-db:
     image: postgres
@@ -22,8 +20,6 @@ services:
       - POSTGRES_USER=test
       - POSTGRES_PASSWORD=test
     restart: unless-stopped
-    logging:
-      driver: none
 
   test-catalogue-db:
     image: postgres
@@ -33,8 +29,6 @@ services:
       - POSTGRES_USER=test
       - POSTGRES_PASSWORD=test
     restart: unless-stopped
-    logging:
-      driver: none
 
   test-users-api:
     depends_on:
@@ -51,8 +45,6 @@ services:
       - SCOPE=backend-users
     command: sh -c "yarn turbo run start --scope=backend-users"
     restart: unless-stopped
-    logging:
-      driver: none
 
   test-catalogue-api:
     depends_on:
@@ -71,8 +63,6 @@ services:
       - SCOPE=backend-catalogue
     command: sh -c "yarn turbo run start --scope=backend-catalogue"
     restart: unless-stopped
-    logging:
-      driver: none
 
   test-runner:
     depends_on:
@@ -82,6 +72,9 @@ services:
     environment:
       - CATALOGUE_DB_URL=postgres://test:test@test-catalogue-db:5432/test?schema=test
       - USERS_DB_URL=postgres://test:test@test-users-db:5432/test?schema=test
+      - ZINC_BASE_URL=http://test-zinc:4080/api
+      - ZINC_USERNAME=test
+      - ZINC_PASSWORD=test
     build:
       context: .
       dockerfile: Dockerfile.dockerize

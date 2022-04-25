@@ -4,9 +4,12 @@ import { seededUsers, SeededUsers, CatalogueClient, UsersClient } from "shared";
 
 export const usersBaseUrl = `http://test-users-api:3000/api`;
 export const catalogueBaseUrl = `http://test-catalogue-api:3000/api`;
+export const zincBaseUrl = `http://test-zinc:4080/api`;
 
 export const getRandomEmail = () => Math.random().toString().slice(2, 20) + "@test.test";
 export const getRandomString = () => Math.random().toString().slice(2, 20) + "test-name";
+export const getRandomInt = () => Math.floor(Math.random() * 1000);
+export const getRandomBoolean = () => Math.random() >= 0.5;
 
 export const cataloguePrisma = new CatalogueClient({
   datasources: { db: { url: config.dbUrls.catalogue } },
@@ -66,5 +69,9 @@ export class TestClient {
 
   async delete(url: string, config?: AxiosRequestConfig<any>) {
     return this.axiosInstance.delete(url, config);
+  }
+
+  async withConfig(config: AxiosRequestConfig<any>) {
+    return this.axiosInstance(config);
   }
 }

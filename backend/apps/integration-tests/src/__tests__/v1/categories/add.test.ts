@@ -9,7 +9,7 @@ describe("v1 category add", () => {
       parentId: null,
     };
 
-    await client.loginAs.admin();
+    await client.loginAs.Admin();
 
     const res = await client.post(`${catalogueBaseUrl}/v1/categories`, requestBody);
 
@@ -29,7 +29,7 @@ describe("v1 category add", () => {
       parentId: Number.MAX_SAFE_INTEGER,
     };
 
-    await client.loginAs.admin();
+    await client.loginAs.Admin();
 
     const res = await client.post(`${catalogueBaseUrl}/v1/categories`, requestBody);
 
@@ -50,7 +50,7 @@ describe("v1 category add", () => {
         parentId: Number.MAX_SAFE_INTEGER,
       };
 
-      await client.loginAs.admin();
+      await client.loginAs.Admin();
 
       const res = await client.post(`${catalogueBaseUrl}/v1/categories`, requestBody);
 
@@ -71,7 +71,7 @@ describe("v1 category add", () => {
         name: getRandomString(),
       };
 
-      await client.loginAs.admin();
+      await client.loginAs.Admin();
 
       const res = await client.post(`${catalogueBaseUrl}/v1/categories`, requestBody);
 

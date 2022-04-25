@@ -8,7 +8,7 @@ export const addCategory = async () => {
     parentId: null,
   };
 
-  await client.loginAs.admin();
+  await client.loginAs.Admin();
 
   const res = await client.post(`${catalogueBaseUrl}/v1/categories`, requestBody);
 
@@ -28,7 +28,7 @@ export const addChildCategory = async (parentId: number) => {
     parentId,
   };
 
-  await client.loginAs.admin();
+  await client.loginAs.Admin();
 
   const res = await client.post(`${catalogueBaseUrl}/v1/categories`, requestBody);
 

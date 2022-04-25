@@ -6,7 +6,7 @@ describe("v1 auth tokens", () => {
   it("given valid refresh token, should return 200 and new tokens", async () => {
     const client = new TestClient();
 
-    const { refreshToken } = await client.loginAs.testUser();
+    const { refreshToken } = await client.loginAs.TestUser();
 
     const res = await client.get(`${usersBaseUrl}/v1/auth/tokens`, {
       headers: {

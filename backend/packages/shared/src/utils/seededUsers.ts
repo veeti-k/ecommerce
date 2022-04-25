@@ -2,8 +2,11 @@ import { Flags } from "../types/Flags";
 import { SeededUser } from "../types/User";
 
 export enum SeededUsers {
-  admin = "admin",
-  testUser = "testUser",
+  Admin = "Admin",
+  TestUser = "TestUser",
+  Employee = "Employee",
+  ManageCategories = "ManageCategories",
+  ManageProducts = "ManageProducts",
 }
 
 type SeededUsersObj = {
@@ -11,7 +14,7 @@ type SeededUsersObj = {
 };
 
 export const seededUsers: SeededUsersObj = {
-  admin: {
+  Admin: {
     name: "ADMINISTRATOR",
     email: "ADMINISTRATOR@test.test",
     password: "ADMINISTRATOR-password",
@@ -20,12 +23,39 @@ export const seededUsers: SeededUsersObj = {
     phoneNumber: "ADMINISTRATOR-phoneNumber",
   },
 
-  testUser: {
+  TestUser: {
     name: "TEST-USER",
     email: "TEST-USER@test.test",
     password: "TEST-USER-password",
     flags: Flags.None,
     createdAt: new Date(),
     phoneNumber: "TEST-USER-phoneNumber",
+  },
+
+  Employee: {
+    name: "EMPLOYEE",
+    email: "EMPLOYEE@test.test",
+    password: "EMPLOYEE-password",
+    flags: Flags.Employee,
+    createdAt: new Date(),
+    phoneNumber: "EMPLOYEE-phoneNumber",
+  },
+
+  ManageProducts: {
+    name: "MANAGE-PRODUCTS",
+    email: "MANAGE-PRODUCTS@test.test",
+    password: "MANAGE-PRODUCTS-password",
+    flags: Flags.ManageProducts,
+    createdAt: new Date(),
+    phoneNumber: "MANAGE-PRODUCTS-phoneNumber",
+  },
+
+  ManageCategories: {
+    name: "MANAGE-CATEGORIES",
+    email: "MANAGE-CATEGORIES@test.test",
+    password: "MANAGE-CATEGORIES-password",
+    flags: Flags.ManageCategories,
+    createdAt: new Date(),
+    phoneNumber: "MANAGE-CATEGORIES-phoneNumber",
   },
 };
