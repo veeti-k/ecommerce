@@ -33,7 +33,7 @@ export const update: Endpoint = async (req, res) => {
 
   await db.products.update(productId, validatedBody);
 
-  await zinc.updateProduct(product);
+  await zinc.updateProduct(productId, validatedBody);
 
   respondSuccessNoContent(res);
 };
