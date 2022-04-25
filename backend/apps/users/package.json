@@ -21,8 +21,5 @@
     "shared": "*",
     "tsconfig": "*",
     "typescript": "^4.6.3"
-  },
-  "devDependencies": {
-    "prisma": "^3.12.0"
   }
 }

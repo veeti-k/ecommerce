@@ -4,4 +4,5 @@ export const Flags = {
   Employee: BigInt(1 << 2),
   ManageCategories: BigInt(1 << 3),
   ManageProducts: BigInt(1 << 4),
+  ManageUsers: BigInt(1 << 5),
 };

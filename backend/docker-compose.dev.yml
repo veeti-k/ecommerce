@@ -45,11 +45,27 @@ services:
       - SCOPE=shared
     command: dockerize -wait tcp://dev-users-db:5432 -wait tcp://dev-catalogue-db:5432 -timeout 30s sh -c "yarn turbo run db:pushall --scope=shared"
 
+  dev-auth-api:
+    depends_on:
+      - dev-users-db
+      - dev-db-pusher
+    environment:
+      - USERS_DB_URL=postgres://dev:dev@dev-users-db:5432/dev?schema=dev
+    image: dev-auth-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+      - SCOPE=backend-auth
+    command: sh -c "yarn turbo run start --scope=backend-auth"
+    restart: unless-stopped
+
   dev-users-api:
     depends_on:
       - dev-users-db
       - dev-db-pusher
     environment:
+      - AUTH_SERVICE_URL=http://dev-auth-api:3000/api/v1/auth
       - USERS_DB_URL=postgres://dev:dev@dev-users-db:5432/dev?schema=dev
     image: dev-users-api
     build:
@@ -65,7 +81,7 @@ services:
       - dev-catalogue-db
       - dev-db-pusher
     environment:
-      - AUTH_SERVICE_URL=http://dev-users-api:3000/api/v1/auth
+      - AUTH_SERVICE_URL=http://dev-auth-api:3000/api/v1/auth
       - ZINC_BASE_URL=http://dev-zinc:4080/api
       - ZINC_USERNAME=dev
       - ZINC_PASSWORD=dev

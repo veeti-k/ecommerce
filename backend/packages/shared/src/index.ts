@@ -13,5 +13,7 @@ export * from "./types/Product";
 export * from "./types/User";
 export * from "./types/Validator";
 
+export * from "./consts";
+
 export { PrismaClient as CatalogueClient } from "./databases/generated/catalogue";
 export { PrismaClient as UsersClient } from "./databases/generated/users";

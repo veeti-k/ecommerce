@@ -66,6 +66,24 @@ describe("v1 products create", () => {
     expect(res.status).toBe(400);
   });
 
+  it("given deepestCategoryId that doesn't exist it should return 400", async () => {
+    const requestBody = getRandomProduct(Number.MAX_SAFE_INTEGER);
+
+    const client = new TestClient();
+
+    await client.loginAs.Admin();
+
+    const res = await client.post(`${catalogueBaseUrl}/v1/products`, requestBody);
+
+    await client.logout();
+
+    expect(res.status).toBe(400);
+    expect(res.data).toEqual({
+      code: 400,
+      message: "Invalid 'deepestCategoryId', category does not exist",
+    });
+  });
+
   it("permission test", async () => {
     await testPerms(`${catalogueBaseUrl}/v1/products`, "POST", Flags.ManageProducts);
   });

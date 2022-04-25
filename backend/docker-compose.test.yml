@@ -30,12 +30,26 @@ services:
       - POSTGRES_PASSWORD=test
     restart: unless-stopped
 
-  test-users-api:
+  test-auth-api:
     depends_on:
       - test-users-db
     environment:
-      - DATABASE_URL=postgres://test:test@test-users-db:5432/test?schema=test
-      - CATALOGUE_DB_URL=postgres://test:test@test-catalogue-db:5432/test?schema=test
+      - USERS_DB_URL=postgres://test:test@test-users-db:5432/test?schema=test
+    image: test-auth-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+      - SCOPE=backend-auth
+    command: sh -c "yarn turbo run start --scope=backend-auth"
+    restart: unless-stopped
+
+  test-users-api:
+    depends_on:
+      - test-users-db
+      - test-auth-api
+    environment:
+      - AUTH_SERVICE_URL=http://test-auth-api:3000/api/v1/auth
       - USERS_DB_URL=postgres://test:test@test-users-db:5432/test?schema=test
     image: test-users-api
     build:
@@ -49,8 +63,9 @@ services:
   test-catalogue-api:
     depends_on:
       - test-catalogue-db
+      - test-auth-api
     environment:
-      - AUTH_SERVICE_URL=http://test-users-api:3000/api/v1/auth
+      - AUTH_SERVICE_URL=http://test-auth-api:3000/api/v1/auth
       - ZINC_BASE_URL=http://test-zinc:4080/api
       - ZINC_USERNAME=test
       - ZINC_PASSWORD=test
@@ -68,8 +83,10 @@ services:
     depends_on:
       - test-users-api
       - test-catalogue-api
+      - test-auth-api
     image: test-runner
     environment:
+      - AUTH_SERVICE_URL=http://test-auth-api:3000/api/v1/auth
       - CATALOGUE_DB_URL=postgres://test:test@test-catalogue-db:5432/test?schema=test
       - USERS_DB_URL=postgres://test:test@test-users-db:5432/test?schema=test
       - ZINC_BASE_URL=http://test-zinc:4080/api

@@ -23,12 +23,9 @@ export const update = (productId: number, body: UpdateProductRequestBody) =>
     },
     data: {
       ...body,
-      bulletPoints: {
-        set: body.bulletPoints,
-      },
-      imageLinks: {
-        set: body.imageLinks,
-      },
+
+      bulletPoints: body.bulletPoints.join(","),
+      imageLinks: body.imageLinks.join(","),
     },
   });
 

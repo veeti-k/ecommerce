@@ -1,6 +1,6 @@
 import { config } from "config";
 import { testRefreshTokenCookie } from "../../../utils/cookie";
-import { TestClient, usersBaseUrl } from "../../../utils/misc";
+import { TestClient, authBaseUrl } from "../../../utils/misc";
 
 describe("v1 auth tokens", () => {
   it("given valid refresh token, should return 200 and new tokens", async () => {
@@ -8,7 +8,7 @@ describe("v1 auth tokens", () => {
 
     const { refreshToken } = await client.loginAs.TestUser();
 
-    const res = await client.get(`${usersBaseUrl}/v1/auth/tokens`, {
+    const res = await client.get(`${authBaseUrl}/v1/auth/tokens`, {
       headers: {
         Cookie: config.headers.refreshTokenCookieName + "=" + refreshToken,
       },
@@ -22,7 +22,7 @@ describe("v1 auth tokens", () => {
   });
 
   it("given invalid refresh token, should return 401 and a correct error message", async () => {
-    const res = await new TestClient().get(`${usersBaseUrl}/v1/auth/tokens`, {
+    const res = await new TestClient().get(`${authBaseUrl}/v1/auth/tokens`, {
       headers: {
         Cookie: config.headers.refreshTokenCookieName + "=" + "invalid token",
       },
@@ -39,7 +39,7 @@ describe("v1 auth tokens", () => {
   });
 
   it("given no refresh token, should return 400 and a correct error message", async () => {
-    const res = await new TestClient().get(`${usersBaseUrl}/v1/auth/tokens`);
+    const res = await new TestClient().get(`${authBaseUrl}/v1/auth/tokens`);
 
     expect(res.status).toBe(400);
     expect(res.data).toEqual({

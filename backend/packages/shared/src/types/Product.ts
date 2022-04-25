@@ -37,5 +37,4 @@ export interface CreateProductRequestBody
   bulletPoints: string[];
 }
 
-export interface UpdateProductRequestBody
-  extends Omit<Product, "productId" | "averageStars" | "reviewCount" | "questionCount"> {}
+export interface UpdateProductRequestBody extends CreateProductRequestBody {}
