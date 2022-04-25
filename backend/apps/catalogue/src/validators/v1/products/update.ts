@@ -1,6 +1,12 @@
-import { UpdateProductRequestBody } from "shared";
-import { validateString, validateNumber, validateBoolean, validateArray } from "../../helpers";
-import { ValidationErrors, Validator } from "../../validator";
+import {
+  UpdateProductRequestBody,
+  validateString,
+  validateNumber,
+  validateBoolean,
+  validateArray,
+  ValidationErrors,
+  Validator,
+} from "shared";
 
 export const updateProductRequestBodyValidator: Validator<UpdateProductRequestBody> = (obj) => {
   const errors = {} as ValidationErrors<UpdateProductRequestBody>;

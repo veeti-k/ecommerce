@@ -3,6 +3,7 @@ export * from "./utils/respondWith";
 export * from "./utils/auth";
 export * from "./utils/seededUsers";
 export * as zinc from "./utils/zinc";
+export * from "./utils/validationHelpers";
 
 export * from "./types/ApiThings";
 export * from "./types/Auth";
@@ -12,6 +13,7 @@ export * from "./types/Flags";
 export * from "./types/Product";
 export * from "./types/User";
 export * from "./types/Validator";
+export * from "./types/Session";
 
 export * from "./consts";
 

@@ -1,5 +1,4 @@
-import { CreateCategoryRequestBody } from "shared";
-import { ValidationErrors, Validator } from "../../validator";
+import { CreateCategoryRequestBody, ValidationErrors, Validator } from "shared";
 
 export const createCategoryRequestBodyValidator: Validator<CreateCategoryRequestBody> = (obj) => {
   const errors = {} as ValidationErrors<CreateCategoryRequestBody>;
