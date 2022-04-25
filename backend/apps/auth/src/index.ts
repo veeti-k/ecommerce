@@ -3,4 +3,6 @@ import { config } from "config";
 
 const server = createServer();
 
-server.listen(config.port, () => console.log(`auth-api started on port ${config.port}`));
+server.listen(config.ports.auth, () =>
+  console.log(`auth-api started on port ${config.ports.auth}`)
+);

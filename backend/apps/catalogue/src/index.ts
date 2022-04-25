@@ -3,4 +3,6 @@ import { config } from "config";
 
 const server = createServer();
 
-server.listen(config.port, () => console.log(`catalogue-api started on port ${config.port}`));
+server.listen(config.ports.catalogue, () =>
+  console.log(`catalogue-api started on port ${config.ports.catalogue}`)
+);

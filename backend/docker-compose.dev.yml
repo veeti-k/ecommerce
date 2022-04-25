@@ -20,6 +20,8 @@ services:
       - POSTGRES_USER=dev
       - POSTGRES_PASSWORD=dev
     restart: unless-stopped
+    volumes:
+      - users-db:/var/lib/postgresql/data
 
   dev-catalogue-db:
     image: postgres
@@ -29,81 +31,22 @@ services:
       - POSTGRES_USER=dev
       - POSTGRES_PASSWORD=dev
     restart: unless-stopped
-  
-  dev-db-pusher:
-    depends_on:
-      - dev-users-db
-      - dev-catalogue-db
-    environment:
-      - USERS_DB_URL=postgres://dev:dev@dev-users-db:5432/dev?schema=dev
-      - CATALOGUE_DB_URL=postgres://dev:dev@dev-catalogue-db:5432/dev?schema=dev
-    image: dev-db-pusher
-    build:
-      context: .
-      dockerfile: Dockerfile.dockerize
-      args:
-      - SCOPE=shared
-    command: dockerize -wait tcp://dev-users-db:5432 -wait tcp://dev-catalogue-db:5432 -timeout 30s sh -c "yarn turbo run db:pushall --scope=shared"
-
-  dev-auth-api:
-    depends_on:
-      - dev-users-db
-      - dev-db-pusher
-    environment:
-      - USERS_DB_URL=postgres://dev:dev@dev-users-db:5432/dev?schema=dev
-    image: dev-auth-api
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-      - SCOPE=backend-auth
-    command: sh -c "yarn turbo run start --scope=backend-auth"
-    restart: unless-stopped
-
-  dev-users-api:
-    depends_on:
-      - dev-users-db
-      - dev-db-pusher
-    environment:
-      - AUTH_SERVICE_URL=http://dev-auth-api:3000/api/v1/auth
-      - USERS_DB_URL=postgres://dev:dev@dev-users-db:5432/dev?schema=dev
-    image: dev-users-api
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-      - SCOPE=backend-users
-    command: sh -c "yarn turbo run start --scope=backend-users"
-    restart: unless-stopped
-
-  dev-catalogue-api:
-    depends_on:
-      - dev-catalogue-db
-      - dev-db-pusher
-    environment:
-      - AUTH_SERVICE_URL=http://dev-auth-api:3000/api/v1/auth
-      - ZINC_BASE_URL=http://dev-zinc:4080/api
-      - ZINC_USERNAME=dev
-      - ZINC_PASSWORD=dev
-      - CATALOGUE_DB_URL=postgres://dev:dev@dev-catalogue-db:5432/dev?schema=dev
-    image: dev-catalogue-api
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-      - SCOPE=backend-catalogue
-    command: sh -c "yarn turbo run start --scope=backend-catalogue"
-    restart: unless-stopped
+    volumes:
+      - catalogue-db:/var/lib/postgresql/data
 
   dev-loadbalancer: 
     depends_on:
-      - dev-zinc
-      - dev-users-api
-      - dev-catalogue-api
+      - dev-users-db
+      - dev-catalogue-db
     image: nginx
-    ports:
+    ports: 
       - "80:5000"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
     restart: unless-stopped
-    
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  users-db:
+  catalogue-db:

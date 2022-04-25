@@ -15,7 +15,10 @@
     "dev:down": "docker-compose -f docker-compose.dev.yml rm -fsv",
     "dev:restart": "docker-compose -f docker-compose.dev.yml up -d --force-recreate --build --no-deps",
     "db:catalogue": "cd ./packages/shared && CATALOGUE_DB_URL=postgres://dev:dev@localhost:6001/dev?schema=dev yarn prisma studio --schema ./src/databases/catalogue/schema.prisma",
-    "db:users": "cd ./packages/shared && USERS_DB_URL=postgres://dev:dev@localhost:6000/dev?schema=dev yarn prisma studio --schema ./src/databases/users/schema.prisma"
+    "db:users": "cd ./packages/shared && USERS_DB_URL=postgres://dev:dev@localhost:6000/dev?schema=dev yarn prisma studio --schema ./src/databases/users/schema.prisma",
+    "dev": "turbo run dev",
+    "dev:dbs": "yarn dev:setup && docker-compose -f docker-compose.dev.yml up -d",
+    "dev:dbinit": "turbo run db:pushall"
   },
   "devDependencies": {
     "turbo": "^1.2.5"

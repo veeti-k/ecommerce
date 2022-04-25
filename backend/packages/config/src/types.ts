@@ -1,5 +1,10 @@
 export interface IConfig {
-  port: number;
+  ports: {
+    catalogue: number;
+    users: number;
+    auth: number;
+  };
+
   dbUrls: {
     catalogue: string;
     users: string;

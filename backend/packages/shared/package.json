@@ -11,6 +11,8 @@
     "db:client:users": "yarn prisma generate --schema ./src/databases/users/schema.prisma",
     "db:pushall": "yarn db:push:catalogue && yarn db:push:users",
     "build": "yarn db:client:catalogue && yarn db:client:users && ./node_modules/.bin/tsc -p ./tsconfig.json && mkdir -p ./dist/databases/generated && cp -r ./src/databases/generated/ ./dist/databases/",
+    "dev": "yarn build",
+    "dev:dbinit": "yarn db:pushall",
     "clean": "rm -rf node_modules && rm -rf .turbo && rm -rf dist"
   },
   "dependencies": {
