@@ -20,17 +20,14 @@ export const updateProductRequestBodyValidator: Validator<UpdateProductRequestBo
   const discountedPriceResult = validateNumber(obj, "discountedPrice");
   if (discountedPriceResult) errors["discountedPrice"] = { message: discountedPriceResult };
 
-  const discountedPercentResult = validateNumber(obj, "discountedPercent");
-  if (discountedPercentResult) errors["discountPercent"] = { message: discountedPercentResult };
+  const discountPercentResult = validateNumber(obj, "discountPercent");
+  if (discountPercentResult) errors["discountPercent"] = { message: discountPercentResult };
 
   const discountAmountResult = validateNumber(obj, "discountAmount");
   if (discountAmountResult) errors["discountAmount"] = { message: discountAmountResult };
 
   const isDiscountedResult = validateBoolean(obj, "isDiscounted");
   if (isDiscountedResult) errors["isDiscounted"] = { message: isDiscountedResult };
-
-  const isDeletedResult = validateBoolean(obj, "isDeleted");
-  if (isDeletedResult) errors["isDeleted"] = { message: isDeletedResult };
 
   const deepestCategoryIdResult = validateNumber(obj, "deepestCategoryId");
   if (deepestCategoryIdResult) errors["deepestCategoryId"] = { message: deepestCategoryIdResult };
@@ -67,6 +64,18 @@ export const updateProductRequestBodyValidator: Validator<UpdateProductRequestBo
 
   return {
     isValid: true,
-    validated: obj as UpdateProductRequestBody,
+    validated: {
+      name: obj.name,
+      description: obj.description,
+      shortDescription: obj.shortDescription,
+      bulletPoints: obj.bulletPoints,
+      imageLinks: obj.imageLinks,
+      deepestCategoryId: obj.deepestCategoryId,
+      discountAmount: obj.discountAmount,
+      discountPercent: obj.discountPercent,
+      discountedPrice: obj.discountedPrice,
+      isDiscounted: obj.isDiscounted,
+      price: obj.price,
+    } as UpdateProductRequestBody,
   };
 };

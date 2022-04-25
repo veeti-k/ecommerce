@@ -64,6 +64,18 @@ export const createProductRequestBodyValidator: Validator<CreateProductRequestBo
 
   return {
     isValid: true,
-    validated: obj as CreateProductRequestBody,
+    validated: {
+      name: obj.name,
+      description: obj.description,
+      shortDescription: obj.shortDescription,
+      price: obj.price,
+      discountedPrice: obj.discountedPrice,
+      discountPercent: obj.discountPercent,
+      discountAmount: obj.discountAmount,
+      isDiscounted: obj.isDiscounted,
+      deepestCategoryId: obj.deepestCategoryId,
+      bulletPoints: obj.bulletPoints,
+      imageLinks: obj.imageLinks,
+    } as CreateProductRequestBody,
   };
 };
