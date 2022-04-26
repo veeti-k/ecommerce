@@ -15,6 +15,3 @@ export interface AuthVerifyUserResponse
 }
 
 export interface SeededUser extends Omit<User, "userId" | "addresses" | "sessions"> {}
-
-export interface UpdateMeRequestBody
-  extends Omit<User, "userId" | "addresses" | "sessions" | "password" | "createdAt" | "flags"> {}

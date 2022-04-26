@@ -21,20 +21,3 @@ export interface ZincProduct {
   _id: string;
   _source: Product;
 }
-
-export interface CreateProductRequestBody
-  extends Omit<
-    Product,
-    | "productId"
-    | "averageStars"
-    | "reviewCount"
-    | "questionCount"
-    | "isDeleted"
-    | "imageLinks"
-    | "bulletPoints"
-  > {
-  imageLinks: string[];
-  bulletPoints: string[];
-}
-
-export interface UpdateProductRequestBody extends CreateProductRequestBody {}

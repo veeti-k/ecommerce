@@ -7,10 +7,3 @@ export interface Category {
 export interface ResolvedCategory extends Category {
   children: ResolvedCategory[] | null;
 }
-
-export interface CreateCategoryRequestBody {
-  name: string;
-  parentId: number | null;
-}
-
-export interface UpdateCategoryRequestBody extends CreateCategoryRequestBody {}
