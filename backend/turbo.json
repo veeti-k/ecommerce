@@ -17,8 +17,7 @@
       "dependsOn": ["^db:pushall"]
     },
     "dev": {
-      "dependsOn": ["^dev"],
-      "cache": false
+      "dependsOn": ["^dev"]
     }
   }
 }
