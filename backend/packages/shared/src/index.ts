@@ -1,6 +1,7 @@
-export * from "./utils/json";
+export * from "./middleware/json";
+export * from "./middleware/auth";
+
 export * from "./utils/respondWith";
-export * from "./utils/auth";
 export * from "./utils/seededUsers";
 export * as zinc from "./utils/zinc";
 

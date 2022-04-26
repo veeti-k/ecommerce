@@ -1,6 +1,6 @@
 import express from "express";
 import { Middleware } from "../types/ApiThings";
-import { respondError } from "./respondWith";
+import { respondError } from "../utils/respondWith";
 
 export const json: Middleware = (req, res, next) => {
   express.json()(req, res, (err: any) => {

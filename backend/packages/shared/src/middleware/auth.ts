@@ -3,7 +3,7 @@ import { REQ_USER } from "../consts";
 import { Middleware } from "../types/ApiThings";
 import axios from "axios";
 import { Response } from "express";
-import { respondError } from "./respondWith";
+import { respondError } from "../utils/respondWith";
 
 export const auth =
   (...neededFlags: bigint[]): Middleware =>
