@@ -26,7 +26,7 @@
     "dev:down": "docker-compose -f docker-compose.dev.yml rm -fsv",
 
     "clean": "turbo run clean && rm -rf node_modules",
-    "build": "turbo run build",
+    "build": "yarn && turbo run build",
     "db:catalogue": "cd ./packages/shared && yarn dev:env:dbs yarn prisma studio --schema ./src/databases/catalogue/schema.prisma",
     "db:users": "cd ./packages/shared && yarn dev:env:dbs yarn prisma studio --schema ./src/databases/users/schema.prisma"
   },
