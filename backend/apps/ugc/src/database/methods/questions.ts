@@ -7,4 +7,11 @@ export const get = {
         isApproved,
       },
     }),
+
+  byProductId: (productId: number) =>
+    prisma.review.findMany({
+      where: {
+        productId,
+      },
+    }),
 };
