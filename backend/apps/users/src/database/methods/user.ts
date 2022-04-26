@@ -36,3 +36,9 @@ export const get = {
   byEmail: (email: string) => prisma.user.findFirst({ where: { email } }),
   byPhoneNumber: (phoneNumber: string) => prisma.user.findFirst({ where: { phoneNumber } }),
 };
+
+export const update = (userId: number, updated: any) =>
+  prisma.user.update({
+    where: { userId },
+    data: updated,
+  });
