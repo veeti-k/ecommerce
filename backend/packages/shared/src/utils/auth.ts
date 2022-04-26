@@ -9,6 +9,7 @@ export const auth =
   (...neededFlags: bigint[]): Middleware =>
   async (req, res, next) => {
     const token = getToken(res, req.headers.authorization);
+    if (!token) return;
 
     const result = await axios.post(config.services.authVerify, {
       token,
