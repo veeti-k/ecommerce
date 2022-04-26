@@ -1,4 +1,4 @@
-import { RegisterRequestBody } from "shared";
+import { Flags, RegisterRequestBody } from "shared";
 import prisma from "../client";
 
 export const createUserAndSession = async (body: RegisterRequestBody, hashedPassword: string) => {
@@ -7,7 +7,7 @@ export const createUserAndSession = async (body: RegisterRequestBody, hashedPass
       ...body,
       password: hashedPassword,
       createdAt: new Date(),
-      flags: 0,
+      flags: Flags.None,
       sessions: {
         create: {
           createdAt: new Date(),
