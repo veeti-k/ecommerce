@@ -1,6 +1,6 @@
 import { zinc } from "shared";
 import { addCategory } from "../../../utils/categoryUtils";
-import { catalogueBaseUrl, TestClient } from "../../../utils/misc";
+import { productsBaseUrl, TestClient } from "../../../utils/misc";
 import { addProduct, getProduct, getRandomProduct } from "../../../utils/productUtils";
 
 describe("v1 products update", () => {
@@ -15,7 +15,7 @@ describe("v1 products update", () => {
 
     await client.loginAs.Admin();
 
-    const res = await client.patch(`${catalogueBaseUrl}/v1/products/${productId}`, requestBody);
+    const res = await client.patch(`${productsBaseUrl}/${productId}`, requestBody);
 
     await client.logout();
 

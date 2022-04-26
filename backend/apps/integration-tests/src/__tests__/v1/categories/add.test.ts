@@ -1,4 +1,4 @@
-import { catalogueBaseUrl, getRandomString, TestClient } from "../../../utils/misc";
+import { categoriesBaseUrl, getRandomString, TestClient } from "../../../utils/misc";
 
 describe("v1 category add", () => {
   it("given valid request body, should return 201 and the created category's id", async () => {
@@ -11,7 +11,7 @@ describe("v1 category add", () => {
 
     await client.loginAs.Admin();
 
-    const res = await client.post(`${catalogueBaseUrl}/v1/categories`, requestBody);
+    const res = await client.post(categoriesBaseUrl, requestBody);
 
     await client.logout();
 
@@ -31,7 +31,7 @@ describe("v1 category add", () => {
 
     await client.loginAs.Admin();
 
-    const res = await client.post(`${catalogueBaseUrl}/v1/categories`, requestBody);
+    const res = await client.post(categoriesBaseUrl, requestBody);
 
     await client.logout();
 
@@ -52,7 +52,7 @@ describe("v1 category add", () => {
 
       await client.loginAs.Admin();
 
-      const res = await client.post(`${catalogueBaseUrl}/v1/categories`, requestBody);
+      const res = await client.post(categoriesBaseUrl, requestBody);
 
       await client.logout();
 
@@ -73,7 +73,7 @@ describe("v1 category add", () => {
 
       await client.loginAs.Admin();
 
-      const res = await client.post(`${catalogueBaseUrl}/v1/categories`, requestBody);
+      const res = await client.post(categoriesBaseUrl, requestBody);
 
       await client.logout();
 

@@ -10,14 +10,20 @@
     "start": {
       "dependsOn": ["^start"]
     },
-    "test":{
-      "dependsOn": ["^test"]
-    },
     "db:pushall":{
-      "dependsOn": ["^db:pushall"]
+      "dependsOn": ["^db:pushall"],
+      "cache": false
     },
     "dev": {
       "dependsOn": ["^dev"]
-    }
+    },
+    "test":{
+      "dependsOn": ["^test"],
+      "cache": false
+    },
+    "seed": {
+      "dependsOn": ["^seed"],
+      "cache": false
+    } 
   }
 }

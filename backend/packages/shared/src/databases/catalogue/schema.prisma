@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = "postgres://dev:dev@localhost:6001/dev?schema=dev"
+  url      = env("CATALOGUE_DB_URL")
 }
 
 generator client {

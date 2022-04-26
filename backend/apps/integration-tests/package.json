@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "yarn prisma db seed && jest --runInBand"
+    "test": "jest --runInBand",
+    "seed": "yarn prisma db seed",
+    "clean": "rm -rf dist && rm -rf node_modules && rm -rf .turbo"
   },
   "prisma": {
     "seed": "yarn ts-node ./src/utils/seed.ts"

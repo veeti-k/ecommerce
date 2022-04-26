@@ -1,13 +1,13 @@
-import { CreateProductRequestBody, Product } from "shared";
+import { Product } from "shared";
 import {
-  catalogueBaseUrl,
   getRandomBoolean,
   getRandomInt,
   getRandomString,
+  productsBaseUrl,
   TestClient,
 } from "./misc";
 
-export const getRandomProduct = (categoryId: number): CreateProductRequestBody => ({
+export const getRandomProduct = (categoryId: number) => ({
   name: getRandomString(),
   description: getRandomString(),
   shortDescription: getRandomString(),
@@ -28,7 +28,7 @@ export const addProduct = async (categoryId: number): Promise<number> => {
 
   await client.loginAs.Admin();
 
-  const res = await client.post(`${catalogueBaseUrl}/v1/products`, requestBody);
+  const res = await client.post(productsBaseUrl, requestBody);
 
   await client.logout();
 
@@ -40,7 +40,7 @@ export const addProduct = async (categoryId: number): Promise<number> => {
 export const getProduct = async (productId: number): Promise<Product> => {
   const client = new TestClient();
 
-  const res = await client.get(`${catalogueBaseUrl}/v1/products/${productId}`);
+  const res = await client.get(`${productsBaseUrl}/${productId}`);
 
   if (res.status > 300) throw new Error("testUtil::getProduct - Failed to get product by id");
 

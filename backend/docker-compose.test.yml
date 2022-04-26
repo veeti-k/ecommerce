@@ -4,7 +4,7 @@ services:
   test-zinc: 
     image: public.ecr.aws/h9e2j3o7/zinc
     ports:
-      - "4080:4080"
+      - "36800:4080"
     environment:
       - DATA_PATH=/data
       - ZINC_FIRST_ADMIN_USER=test
@@ -15,7 +15,7 @@ services:
   test-users-db:
     image: postgres
     ports:
-      - "6000:5432"
+      - "36801:5432"
     environment:
       - POSTGRES_USER=test
       - POSTGRES_PASSWORD=test
@@ -24,82 +24,21 @@ services:
   test-catalogue-db:
     image: postgres
     ports:
-      - "6001:5432"
+      - "36802:5432"
     environment:
       - POSTGRES_USER=test
       - POSTGRES_PASSWORD=test
     restart: unless-stopped
 
-  test-auth-api:
+  test-loadbalancer: 
     depends_on:
       - test-users-db
-    environment:
-      - USERS_DB_URL=postgres://test:test@test-users-db:5432/test?schema=test
-      - PORT=3000
-    image: test-auth-api
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-      - SCOPE=backend-auth
-    command: sh -c "yarn turbo run start --scope=backend-auth"
-    restart: unless-stopped
-
-  test-users-api:
-    depends_on:
-      - test-users-db
-      - test-auth-api
-    environment:
-      - PORT=3000
-      - AUTH_SERVICE_URL=http://test-auth-api:3000/api/v1/auth
-      - USERS_DB_URL=postgres://test:test@test-users-db:5432/test?schema=test
-    image: test-users-api
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-      - SCOPE=backend-users
-    command: sh -c "yarn turbo run start --scope=backend-users"
-    restart: unless-stopped
-
-  test-catalogue-api:
-    depends_on:
       - test-catalogue-db
-      - test-auth-api
-    environment:
-      - PORT=3000
-      - AUTH_SERVICE_URL=http://test-auth-api:3000/api/v1/auth
-      - ZINC_BASE_URL=http://test-zinc:4080/api
-      - ZINC_USERNAME=test
-      - ZINC_PASSWORD=test
-      - CATALOGUE_DB_URL=postgres://test:test@test-catalogue-db:5432/test?schema=test
-    image: test-catalogue-api
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-      - SCOPE=backend-catalogue
-    command: sh -c "yarn turbo run start --scope=backend-catalogue"
+    image: nginx
+    ports: 
+      - "80:5000"
+    volumes:
+      - ./nginx.test.conf:/etc/nginx/nginx.conf
     restart: unless-stopped
-
-  test-runner:
-    depends_on:
-      - test-users-api
-      - test-catalogue-api
-      - test-auth-api
-    image: test-runner
-    environment:
-      - AUTH_SERVICE_URL=http://test-auth-api:3000/api/v1/auth
-      - CATALOGUE_DB_URL=postgres://test:test@test-catalogue-db:5432/test?schema=test
-      - USERS_DB_URL=postgres://test:test@test-users-db:5432/test?schema=test
-      - ZINC_BASE_URL=http://test-zinc:4080/api
-      - ZINC_USERNAME=test
-      - ZINC_PASSWORD=test
-    build:
-      context: .
-      dockerfile: Dockerfile.dockerize
-      args:
-      - SCOPE=backend-integration-tests
-    command: dockerize -wait tcp://test-zinc:4080 -wait tcp://test-users-db:5432 -wait tcp://test-users-api:3000 -wait tcp://test-catalogue-db:5432 -wait tcp://test-catalogue-api:3000 -timeout 30s sh -c "yarn turbo run db:pushall --scope=shared && yarn turbo run test --scope=backend-integration-tests"
-    
-    
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

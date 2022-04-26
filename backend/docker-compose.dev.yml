@@ -4,7 +4,7 @@ services:
   dev-zinc: 
     image: public.ecr.aws/h9e2j3o7/zinc
     ports:
-      - "4080:4080"
+      - "35800:4080"
     environment:
       - DATA_PATH=/data
       - ZINC_FIRST_ADMIN_USER=dev
@@ -15,7 +15,7 @@ services:
   dev-users-db:
     image: postgres
     ports:
-      - "6000:5432"
+      - "35801:5432"
     environment:
       - POSTGRES_USER=dev
       - POSTGRES_PASSWORD=dev
@@ -26,7 +26,7 @@ services:
   dev-catalogue-db:
     image: postgres
     ports:
-      - "6001:5432"
+      - "35802:5432"
     environment:
       - POSTGRES_USER=dev
       - POSTGRES_PASSWORD=dev

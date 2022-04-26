@@ -7,18 +7,28 @@
     "packages/*"
   ],
   "scripts": {
-    "test": "mkdir -p ./TEST-DATA/zinc && chmod a+rwx ./TEST-DATA/zinc && docker-compose -f docker-compose.test.yml up --build --abort-on-container-exit && docker-compose -f docker-compose.test.yml rm -fsv",
-    "clean": "turbo run clean",
-    "build": "yarn && turbo run build",
-    "dev:setup": "mkdir -p ./DEV-DATA/zinc && chmod a+rwx ./DEV-DATA/zinc",
-    "dev:up": "yarn dev:setup && docker-compose -f docker-compose.dev.yml up -d --build",
-    "dev:down": "docker-compose -f docker-compose.dev.yml rm -fsv",
-    "dev:restart": "docker-compose -f docker-compose.dev.yml up -d --force-recreate --build --no-deps",
-    "db:catalogue": "cd ./packages/shared && CATALOGUE_DB_URL=postgres://dev:dev@localhost:6001/dev?schema=dev yarn prisma studio --schema ./src/databases/catalogue/schema.prisma",
-    "db:users": "cd ./packages/shared && USERS_DB_URL=postgres://dev:dev@localhost:6000/dev?schema=dev yarn prisma studio --schema ./src/databases/users/schema.prisma",
+    "wait": "timeout 22 bash -c 'until printf \"\" 2>>/dev/null >>/dev/tcp/$0/$1; do sleep 1; done'",
+
     "dev": "turbo run dev",
-    "dev:dbs": "yarn dev:setup && docker-compose -f docker-compose.dev.yml up -d",
-    "dev:dbinit": "turbo run db:pushall"
+
+    "dev:env:ports": "CATALOGUE_PORT=36600 USERS_PORT=36701 AUTH_PORT=36702",
+    "dev:env:zinc": "ZINC_BASE_URL=http://localhost:35800/api ZINC_USERNAME=dev ZINC_PASSWORD=dev",
+    "dev:env:services": "AUTH_VERIFY_URL=http://localhost:36702/api/v1/auth/verify",
+    "dev:env:dbs": "CATALOGUE_DB_URL=postgres://dev:dev@localhost:35802/dev?schema=dev USERS_DB_URL=postgres://dev:dev@localhost:35801/dev?schema=dev",
+    "dev:env:all": "yarn dev:env:ports yarn dev:env:zinc yarn dev:env:services yarn dev:env:dbs",
+
+    "dev:setup": "mkdir -p ./DEV-DATA/zinc && chmod a+rwx ./DEV-DATA/zinc",
+    "dev:dbs": "docker-compose -f docker-compose.dev.yml up -d",
+    "dev:dbinit": "yarn dev:env:dbs turbo run db:pushall",
+    "dev:start": "yarn dev:env:all yarn dev",
+    "dev:wait": "yarn wait localhost 35800 && yarn wait localhost 35801 && yarn wait localhost 35802",
+    "dev:auto": "yarn dev:setup && yarn dev:dbs && yarn dev:wait && yarn dev:dbinit && yarn dev:start",
+    "dev:down": "docker-compose -f docker-compose.dev.yml rm -fsv",
+
+    "clean": "turbo run clean && rm -rf node_modules",
+    "build": "turbo run build",
+    "db:catalogue": "cd ./packages/shared && yarn dev:env:dbs yarn prisma studio --schema ./src/databases/catalogue/schema.prisma",
+    "db:users": "cd ./packages/shared && yarn dev:env:dbs yarn prisma studio --schema ./src/databases/users/schema.prisma"
   },
   "devDependencies": {
     "turbo": "^1.2.5"

@@ -2,14 +2,14 @@ import { IConfig } from "./types";
 
 export const config: IConfig = {
   ports: {
-    catalogue: Number(process.env.PORT) || 3000,
-    users: Number(process.env.PORT) || 3001,
-    auth: Number(process.env.PORT) || 3002,
+    catalogue: Number(process.env.CATALOGUE_PORT),
+    users: Number(process.env.USERS_PORT),
+    auth: Number(process.env.AUTH_PORT),
   },
 
   dbUrls: {
-    catalogue: process.env.CATALOGUE_DB_URL || "postgres://dev:dev@localhost:6001/dev?schema=dev",
-    users: process.env.USERS_DB_URL || "postgres://dev:dev@localhost:6000/dev?schema=dev",
+    catalogue: process.env.CATALOGUE_DB_URL || "",
+    users: process.env.USERS_DB_URL || "",
   },
 
   jwt: {
@@ -32,7 +32,7 @@ export const config: IConfig = {
   },
 
   services: {
-    authVerify: process.env.AUTH_SERVICE_URL || "http://localhost:3002/api/v1/auth/verify",
+    authVerify: process.env.AUTH_VERIFY_URL || "",
   },
 
   frontendRevalidation: {
@@ -41,8 +41,8 @@ export const config: IConfig = {
   },
 
   zinc: {
-    baseUrl: process.env.ZINC_BASE_URL || "http://localhost:4080/api",
-    username: process.env.ZINC_USERNAME || "dev",
-    password: process.env.ZINC_PASSWORD || "dev",
+    baseUrl: process.env.ZINC_BASE_URL || "",
+    username: process.env.ZINC_USERNAME || "",
+    password: process.env.ZINC_PASSWORD || "",
   },
 };

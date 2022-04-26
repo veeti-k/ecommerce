@@ -1,4 +1,4 @@
-import { catalogueBaseUrl, getRandomString, TestClient } from "./misc";
+import { categoriesBaseUrl, getRandomString, TestClient } from "./misc";
 
 export const addCategory = async () => {
   const client = new TestClient();
@@ -10,7 +10,7 @@ export const addCategory = async () => {
 
   await client.loginAs.Admin();
 
-  const res = await client.post(`${catalogueBaseUrl}/v1/categories`, requestBody);
+  const res = await client.post(categoriesBaseUrl, requestBody);
 
   await client.logout();
 
@@ -30,7 +30,7 @@ export const addChildCategory = async (parentId: number) => {
 
   await client.loginAs.Admin();
 
-  const res = await client.post(`${catalogueBaseUrl}/v1/categories`, requestBody);
+  const res = await client.post(categoriesBaseUrl, requestBody);
 
   await client.logout();
 

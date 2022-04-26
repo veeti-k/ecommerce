@@ -2,10 +2,11 @@ import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import { config } from "config";
 import { seededUsers, SeededUsers, CatalogueClient, UsersClient } from "shared";
 
-export const authBaseUrl = "http://test-auth-api:3000/api";
-export const usersBaseUrl = `http://test-users-api:3000/api`;
-export const catalogueBaseUrl = `http://test-catalogue-api:3000/api`;
-export const zincBaseUrl = `http://test-zinc:4080/api`;
+export const authBaseUrl = "http://localhost/api/v1/auth";
+export const usersBaseUrl = `http://localhost/api/v1/users`;
+export const productsBaseUrl = `http://localhost/api/v1/products`;
+export const categoriesBaseUrl = `http://localhost/api/v1/categories`;
+export const zincBaseUrl = `http://localhost:4080/api`;
 
 export const getRandomEmail = () => Math.random().toString().slice(2, 20) + "@test.test";
 export const getRandomString = () => Math.random().toString().slice(2, 20) + "test-name";
@@ -34,7 +35,7 @@ export class TestClient {
       const user = seededUsers[username];
 
       this.loginAs[username as SeededUsers] = async () => {
-        const res = await this.axiosInstance.post(`${authBaseUrl}/v1/auth/login`, {
+        const res = await this.axiosInstance.post(`${authBaseUrl}/login`, {
           email: user.email,
           password: user.password,
         });

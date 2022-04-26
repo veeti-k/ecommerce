@@ -1,5 +1,5 @@
 import { addCategory } from "../../../utils/categoryUtils";
-import { catalogueBaseUrl, TestClient } from "../../../utils/misc";
+import { productsBaseUrl, TestClient } from "../../../utils/misc";
 import { getProduct, getRandomProduct } from "../../../utils/productUtils";
 import { Flags, zinc } from "shared";
 import { testPerms } from "../../../utils/testPerms";
@@ -13,7 +13,7 @@ describe("v1 products create", () => {
 
     await client.loginAs.Admin();
 
-    const res = await client.post(`${catalogueBaseUrl}/v1/products`, requestBody);
+    const res = await client.post(productsBaseUrl, requestBody);
 
     await client.logout();
 
@@ -59,7 +59,7 @@ describe("v1 products create", () => {
 
     await client.loginAs.Admin();
 
-    const res = await client.post(`${catalogueBaseUrl}/v1/products`, {});
+    const res = await client.post(productsBaseUrl, {});
 
     await client.logout();
 
@@ -73,7 +73,7 @@ describe("v1 products create", () => {
 
     await client.loginAs.Admin();
 
-    const res = await client.post(`${catalogueBaseUrl}/v1/products`, requestBody);
+    const res = await client.post(productsBaseUrl, requestBody);
 
     await client.logout();
 
@@ -85,6 +85,6 @@ describe("v1 products create", () => {
   });
 
   it("permission test", async () => {
-    await testPerms(`${catalogueBaseUrl}/v1/products`, "POST", Flags.ManageProducts);
+    await testPerms(productsBaseUrl, "POST", Flags.ManageProducts);
   });
 });

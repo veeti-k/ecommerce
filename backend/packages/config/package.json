@@ -10,6 +10,7 @@
     "dev": "yarn build"
   },
   "dependencies": {
+    "dotenv": "^16.0.0",
     "typescript": "^4.6.3"
   },
   "devDependencies": {
