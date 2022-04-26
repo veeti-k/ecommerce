@@ -24,3 +24,25 @@ export const get = {
       },
     }),
 };
+
+export const approve = (questionId: string) =>
+  prisma.question.update({
+    where: {
+      questionId,
+    },
+    data: {
+      isApproved: true,
+      isDeclined: false,
+    },
+  });
+
+export const decline = (questionId: string) =>
+  prisma.question.update({
+    where: {
+      questionId,
+    },
+    data: {
+      isApproved: false,
+      isDeclined: true,
+    },
+  });
