@@ -1,7 +1,6 @@
-import { CreateCategoryRequestBody, UpdateCategoryRequestBody } from "shared";
 import prisma from "../client";
 
-export const create = (obj: CreateCategoryRequestBody) =>
+export const create = (obj: any) =>
   prisma.category.create({
     data: {
       ...obj,
@@ -16,7 +15,7 @@ export const remove = (categoryId: number) =>
     },
   });
 
-export const update = (categoryId: number, obj: UpdateCategoryRequestBody) =>
+export const update = (categoryId: number, obj: any) =>
   prisma.category.update({
     where: {
       categoryId,

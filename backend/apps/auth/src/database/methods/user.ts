@@ -1,7 +1,7 @@
-import { Flags, RegisterRequestBody } from "shared";
+import { Flags } from "shared";
 import prisma from "../client";
 
-export const createUserAndSession = async (body: RegisterRequestBody, hashedPassword: string) => {
+export const createUserAndSession = async (body: any, hashedPassword: string) => {
   const userWithSessions = await prisma.user.create({
     data: {
       ...body,

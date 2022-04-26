@@ -1,7 +1,6 @@
-import { CreateProductRequestBody, UpdateProductRequestBody } from "shared";
 import prisma from "../client";
 
-export const create = (body: CreateProductRequestBody) =>
+export const create = (body: any) =>
   prisma.product.create({
     data: {
       ...body,
@@ -16,7 +15,7 @@ export const create = (body: CreateProductRequestBody) =>
     },
   });
 
-export const update = (productId: number, body: UpdateProductRequestBody) =>
+export const update = (productId: number, body: any) =>
   prisma.product.update({
     where: {
       productId,
