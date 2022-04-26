@@ -4,15 +4,17 @@ import { Endpoint, respondError, respondSuccess } from "shared";
 
 export const create: Endpoint = async (req, res) => {
   const validationResult = createCategoryRequestBodyValidator(req.body);
-  if (!validationResult.isValid)
+  if (validationResult.error)
     return respondError({
       res,
       statusCode: 400,
       message: "Invalid request body",
-      errors: validationResult.errors,
+      errors: validationResult.error?.details,
     });
 
-  const { parentId } = validationResult.validated;
+  const validatedBody = validationResult.value;
+
+  const { parentId } = validatedBody;
 
   if (parentId) {
     const parentCategory = await db.categories.get.byId(parentId);
@@ -25,7 +27,7 @@ export const create: Endpoint = async (req, res) => {
       });
   }
 
-  const createdCategory = await db.categories.create(validationResult.validated);
+  const createdCategory = await db.categories.create(validatedBody);
 
   return respondSuccess({
     res,

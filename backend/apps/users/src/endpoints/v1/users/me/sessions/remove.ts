@@ -10,15 +10,15 @@ import { removeSessionsRequestBodyValidator } from "../../../../../validators/v1
 
 export const remove: Endpoint = async (req, res) => {
   const validationResult = removeSessionsRequestBodyValidator(req.body);
-  if (!validationResult.isValid)
+  if (validationResult.error)
     return respondError({
       res,
       statusCode: 400,
       message: "Invalid request body",
-      errors: validationResult.errors,
+      errors: validationResult.error?.details,
     });
 
-  const validatedBody = validationResult.validated;
+  const validatedBody = validationResult.value;
 
   const user = req.app.get(REQ_USER) as AuthVerifyUserResponse;
 

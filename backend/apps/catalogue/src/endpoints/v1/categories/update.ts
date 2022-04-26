@@ -4,12 +4,12 @@ import { updateCategoryRequestBodyValidator } from "../../../validators/v1/categ
 
 export const update: Endpoint = async (req, res) => {
   const validationResult = updateCategoryRequestBodyValidator(req.body);
-  if (!validationResult.isValid)
+  if (validationResult.error)
     return respondError({
       res,
       statusCode: 400,
       message: "Invalid request body",
-      errors: validationResult.errors,
+      errors: validationResult.error?.details,
     });
 
   const categoryId = Number(req.params.categoryId);
@@ -22,10 +22,10 @@ export const update: Endpoint = async (req, res) => {
       message: "Category not found",
     });
 
-  const validated = validationResult.validated;
+  const validatedBody = validationResult.value;
 
-  if (validated.parentId) {
-    const existingParent = await db.categories.get.byId(validated.parentId);
+  if (validatedBody.parentId) {
+    const existingParent = await db.categories.get.byId(validatedBody.parentId);
 
     if (!existingParent)
       return respondError({
@@ -35,7 +35,7 @@ export const update: Endpoint = async (req, res) => {
       });
   }
 
-  await db.categories.update(existingCategory.categoryId, validated);
+  await db.categories.update(existingCategory.categoryId, validatedBody);
 
   respondSuccessNoContent(res);
 };

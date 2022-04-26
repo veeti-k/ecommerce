@@ -4,8 +4,8 @@ import prisma from "../client";
 export const create = (obj: CreateCategoryRequestBody) =>
   prisma.category.create({
     data: {
-      name: obj.name,
-      parentId: obj.parentId,
+      ...obj,
+      parentId: obj.parentId || null,
     },
   });
 
@@ -21,10 +21,7 @@ export const update = (categoryId: number, obj: UpdateCategoryRequestBody) =>
     where: {
       categoryId,
     },
-    data: {
-      name: obj.name,
-      parentId: obj.parentId,
-    },
+    data: obj,
   });
 
 export const get = {

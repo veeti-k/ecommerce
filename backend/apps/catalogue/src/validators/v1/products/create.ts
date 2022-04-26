@@ -1,87 +1,16 @@
-import {
-  CreateProductRequestBody,
-  validateString,
-  validateNumber,
-  validateBoolean,
-  validateArray,
-  ValidationErrors,
-  Validator,
-} from "shared";
+import Joi from "joi";
 
-export const createProductRequestBodyValidator: Validator<CreateProductRequestBody> = (obj) => {
-  const errors = {} as ValidationErrors<CreateProductRequestBody>;
-
-  const nameResult = validateString(obj, "name");
-  if (nameResult) errors["name"] = { message: nameResult };
-
-  const descriptionResult = validateString(obj, "description");
-  if (descriptionResult) errors["description"] = { message: descriptionResult };
-
-  const shortDescriptionResult = validateString(obj, "shortDescription");
-  if (shortDescriptionResult) errors["shortDescription"] = { message: shortDescriptionResult };
-
-  const priceResult = validateNumber(obj, "price");
-  if (priceResult) errors["price"] = { message: priceResult };
-
-  const discountedPriceResult = validateNumber(obj, "discountedPrice");
-  if (discountedPriceResult) errors["discountedPrice"] = { message: discountedPriceResult };
-
-  const discountPercentResult = validateNumber(obj, "discountPercent");
-  if (discountPercentResult) errors["discountPercent"] = { message: discountPercentResult };
-
-  const discountAmountResult = validateNumber(obj, "discountAmount");
-  if (discountAmountResult) errors["discountAmount"] = { message: discountAmountResult };
-
-  const isDiscountedResult = validateBoolean(obj, "isDiscounted");
-  if (isDiscountedResult) errors["isDiscounted"] = { message: isDiscountedResult };
-
-  const deepestCategoryIdResult = validateNumber(obj, "deepestCategoryId");
-  if (deepestCategoryIdResult) errors["deepestCategoryId"] = { message: deepestCategoryIdResult };
-
-  const bulletPointsResult = validateArray(obj, "bulletPoints");
-  if (bulletPointsResult) errors["bulletPoints"] = { message: bulletPointsResult };
-  else {
-    const bulletPoints = obj.bulletPoints as any[];
-    bulletPoints.forEach((bulletPoint, index) => {
-      if (typeof bulletPoint !== "string")
-        errors[`bulletPoints[${index}]`] = {
-          message: `'bulletPoints' must be a string array, bulletPoints[${index}] is not a string`,
-        };
-    });
-  }
-
-  const imageLinksResult = validateArray(obj, "imageLinks");
-  if (imageLinksResult) errors["imageLinks"] = { message: imageLinksResult };
-  else {
-    const imageLinks = obj.imageLinks as any[];
-    imageLinks.forEach((imageLink, index) => {
-      if (typeof imageLink !== "string")
-        errors[`imageLinks[${index}]`] = {
-          message: `'imageLinks' must be a string array, imageLinks[${index}] is not a string`,
-        };
-    });
-  }
-
-  if (Object.keys(errors).length > 0)
-    return {
-      isValid: false,
-      errors,
-    };
-
-  return {
-    isValid: true,
-    validated: {
-      name: obj.name,
-      description: obj.description,
-      shortDescription: obj.shortDescription,
-      price: obj.price,
-      discountedPrice: obj.discountedPrice,
-      discountPercent: obj.discountPercent,
-      discountAmount: obj.discountAmount,
-      isDiscounted: obj.isDiscounted,
-      deepestCategoryId: obj.deepestCategoryId,
-      bulletPoints: obj.bulletPoints,
-      imageLinks: obj.imageLinks,
-    } as CreateProductRequestBody,
-  };
-};
+export const createProductRequestBodyValidator = (obj: any) =>
+  Joi.object({
+    name: Joi.string().required(),
+    description: Joi.string().required(),
+    shortDescription: Joi.string().required(),
+    price: Joi.number().required(),
+    discountedPrice: Joi.number().required(),
+    discountPercent: Joi.number().required(),
+    discountAmount: Joi.number().required(),
+    isDiscounted: Joi.boolean().required(),
+    deepestCategoryId: Joi.number().required(),
+    bulletPoints: Joi.array().items(Joi.string().required()).required(),
+    imageLinks: Joi.array().items(Joi.string().required()).required(),
+  }).validate(obj);

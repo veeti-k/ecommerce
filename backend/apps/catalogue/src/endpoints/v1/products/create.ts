@@ -4,15 +4,15 @@ import { createProductRequestBodyValidator } from "../../../validators/v1/produc
 
 export const create: Endpoint = async (req, res) => {
   const validationResult = createProductRequestBodyValidator(req.body);
-  if (!validationResult.isValid)
+  if (validationResult.error)
     return respondError({
       res,
       statusCode: 400,
       message: "Invalid request body",
-      errors: validationResult.errors,
+      errors: validationResult.error?.details,
     });
 
-  const validatedBody = validationResult.validated;
+  const validatedBody = validationResult.value;
 
   const category = await db.categories.get.byId(validatedBody.deepestCategoryId);
   if (!category)
