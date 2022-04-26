@@ -18,6 +18,11 @@ export const update = (addressId: string, body: any) =>
     },
   });
 
+export const remove = (userId: number, addressId: string) =>
+  prisma.address.deleteMany({
+    where: { addressId, userId }, // deleteMany instead of delete because: https://github.com/prisma/prisma/issues/6953#issuecomment-919051985
+  });
+
 export const get = {
   allByUserId: (userId: number) =>
     prisma.address.findMany({
