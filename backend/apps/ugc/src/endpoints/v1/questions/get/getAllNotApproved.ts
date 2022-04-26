@@ -1,5 +1,5 @@
 import { Endpoint, respondSuccess } from "shared";
-import { db } from "../../../database";
+import { db } from "../../../../database";
 
 export const getAllNotApproved: Endpoint = async (req, res) =>
   respondSuccess({

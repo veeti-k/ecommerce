@@ -1,3 +1,3 @@
-export * from "./getAllNotApproved";
-export * from "./getAllApproved";
-export * from "./getByProduct";
+export * from "./get/getAllNotApproved";
+export * from "./get/getAllApproved";
+export * from "./get/getByProduct";
