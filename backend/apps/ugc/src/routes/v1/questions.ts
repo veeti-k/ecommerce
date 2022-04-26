@@ -1,5 +1,5 @@
 import express from "express";
-import { validation } from "shared";
+import { auth, Flags, validation } from "shared";
 import { v1 } from "../../endpoints";
 import { v1Validators } from "../../validators";
 
@@ -10,12 +10,15 @@ router.get("/products/questions/not-approved", v1.questions.getAllNotApproved);
 
 router.get(
   "/products/:productId/questions",
-  validation({
-    parameterValidator: v1Validators.questions.getByProductId.params,
-  }),
+  validation(v1Validators.questions.getByProductId),
   v1.questions.getByProduct
 );
-router.post("/products/:productId/questions");
+router.post(
+  "/products/:productId/questions",
+  auth(Flags.None),
+  validation(v1Validators.questions.create),
+  v1.questions.create
+);
 router.patch("/products/:productId/questions/:questionId");
 router.delete("/products/:productId/questions/:questionId");
 
