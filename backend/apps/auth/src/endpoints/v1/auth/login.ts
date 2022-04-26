@@ -7,15 +7,15 @@ import { createAccessToken, createRefreshToken } from "../../../util/jwt";
 
 export const login: Endpoint = async (req, res) => {
   const validationResult = LoginRequestBodyValidator(req.body);
-  if (!validationResult.isValid)
+  if (validationResult.value)
     return respondError({
       res,
       statusCode: 400,
-      errors: validationResult.errors,
+      errors: validationResult.error?.details,
       message: SpecificErrorMessages.INVALID_REQUEST_BODY,
     });
 
-  const { email, password } = validationResult.validated;
+  const { email, password } = validationResult.value;
 
   const existingUser = await db.user.get.byEmail(email);
   if (!existingUser)

@@ -7,17 +7,17 @@ import { createAccessToken, createRefreshToken } from "../../../util/jwt";
 
 export const register: Endpoint = async (req, res) => {
   const validationResult = RegisterRequestBodyValidator(req.body);
-  if (!validationResult.isValid)
+  if (validationResult.error)
     return respondError({
       res,
       statusCode: 400,
-      errors: validationResult.errors,
       message: SpecificErrorMessages.INVALID_REQUEST_BODY,
+      errors: validationResult.error?.details,
     });
 
-  const validBody = validationResult.validated;
+  const validatedBody = validationResult.value;
 
-  const existingByEmail = await db.user.get.byEmail(validBody.email);
+  const existingByEmail = await db.user.get.byEmail(validatedBody.email);
   if (existingByEmail)
     return respondError({
       res,
@@ -25,9 +25,9 @@ export const register: Endpoint = async (req, res) => {
       message: "Email taken",
     });
 
-  const hashedPassword = await hashPassword(validBody.password);
+  const hashedPassword = await hashPassword(validatedBody.password);
 
-  const result = await db.user.createUserAndSession(validBody, hashedPassword);
+  const result = await db.user.createUserAndSession(validatedBody, hashedPassword);
 
   const accessToken = createAccessToken(result.newUserId, result.newSessionId, result.newFlags);
   const refreshToken = createRefreshToken(result.newUserId, result.newSessionId, result.newFlags);
