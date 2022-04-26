@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/me/addresses", auth(Flags.None), v1.users.me.addresses.get);
 router.post("/me/addresses", auth(Flags.None), v1.users.me.addresses.create);
 router.patch("/me/addresses/:addressId", auth(Flags.None), v1.users.me.addresses.update);
-router.delete("/me/addresses/:addressId", auth(Flags.None));
+router.delete("/me/addresses/:addressId", auth(Flags.None), v1.users.me.addresses.remove);
 
 router.get("/:userId/addresses", auth(Flags.ManageUsers));
 
