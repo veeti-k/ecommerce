@@ -7,3 +7,4 @@ export const hasAccess = (neededFlags: bigint[], userFlags: bigint) => {
 };
 
 export const isAdmin = (userFlags: bigint) => (userFlags & Flags.Admin) === Flags.Admin;
+export const isEmployee = (userFlags: bigint) => (userFlags & Flags.Employee) === Flags.Employee;

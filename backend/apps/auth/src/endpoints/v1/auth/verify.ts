@@ -1,8 +1,8 @@
 import { Response } from "express";
 import { db } from "../../../database";
-import { Endpoint, Flags, AuthVerifyUserResponse, respondSuccess } from "shared";
+import { Endpoint, AuthVerifyUserResponse, respondSuccess } from "shared";
 import { decodeAccessToken } from "../../../util/jwt";
-import { hasAccess } from "../../../util/authorization";
+import { hasAccess, isEmployee } from "../../../util/authorization";
 
 export const verify: Endpoint = async (req, res) => {
   const neededFlags = req.body.neededFlags.map((flag: number) => BigInt(flag));
@@ -22,8 +22,6 @@ export const verify: Endpoint = async (req, res) => {
 
   if (!hasAccess(neededFlags, dbUser.flags)) return noAccess(res);
 
-  const isEmployee = hasAccess([Flags.Employee], dbUser.flags);
-
   const userResponse: AuthVerifyUserResponse = {
     userId: dbUser.userId,
     name: dbUser.name,
@@ -31,7 +29,7 @@ export const verify: Endpoint = async (req, res) => {
     flags: Number(dbUser.flags),
     phoneNumber: dbUser.phoneNumber,
     createdAt: dbUser.createdAt,
-    isEmployee,
+    isEmployee: isEmployee(dbUser.flags),
   };
 
   return respondSuccess({
