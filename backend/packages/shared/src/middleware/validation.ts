@@ -1,19 +1,13 @@
 import { Middleware } from "../types/ApiThings";
 import { SpecificErrorMessages } from "../types/Errors";
-import { AtLeastOne } from "../types/Util";
-import { Validator } from "../types/Validator";
+import { Validators } from "../types/Validator";
 import { respondError } from "../utils/respondWith";
 
-type Props = AtLeastOne<{
-  parameterValidator: Validator;
-  bodyValidator: Validator;
-}>;
-
 export const validation =
-  ({ parameterValidator, bodyValidator }: Props): Middleware =>
+  (validators: Validators): Middleware =>
   (req, res, next) => {
-    if (parameterValidator) {
-      const { error: parameterError } = parameterValidator(req.params);
+    if (validators.params) {
+      const { error: parameterError } = validators.params(req.params);
       if (parameterError)
         return respondError({
           res,
@@ -23,8 +17,8 @@ export const validation =
         });
     }
 
-    if (bodyValidator) {
-      const { error: bodyError } = bodyValidator(req.body);
+    if (validators.params) {
+      const { error: bodyError } = validators.params(req.body);
       if (bodyError)
         return respondError({
           res,
