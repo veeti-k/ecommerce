@@ -10,7 +10,7 @@ export const auth =
   async (req, res, next) => {
     const token = getToken(res, req.headers.authorization);
 
-    const result = await axios.post(`${config.services.auth}/verify`, {
+    const result = await axios.post(config.services.authVerify, {
       token,
       neededFlags: neededFlags.map((flag) => Number(flag)),
     });

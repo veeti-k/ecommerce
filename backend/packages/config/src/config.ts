@@ -32,7 +32,7 @@ export const config: IConfig = {
   },
 
   services: {
-    auth: process.env.AUTH_SERVICE_URL || "http://localhost:3002/api",
+    authVerify: process.env.AUTH_SERVICE_URL || "http://localhost:3002/api/v1/auth/verify",
   },
 
   frontendRevalidation: {

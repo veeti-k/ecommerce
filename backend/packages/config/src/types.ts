@@ -30,7 +30,7 @@ export interface IConfig {
   };
 
   services: {
-    auth: string;
+    authVerify: string;
   };
 
   frontendRevalidation: {
