@@ -8,11 +8,10 @@ export const Flags = {
   ManageQuestions: BigInt(1 << 6),
   ManageReviews: BigInt(1 << 7),
 };
-export const isAdmin = (userFlags: bigint) => (BigInt(userFlags) & Flags.Admin) == Flags.Admin;
+export const isAdmin = (userFlags: number) => (BigInt(userFlags) & Flags.Admin) == Flags.Admin;
 
-export const hasManageReviews = (userFlags: bigint) =>
-  isAdmin(BigInt(userFlags)) || (BigInt(userFlags) & Flags.ManageReviews) == Flags.ManageReviews;
+export const hasManageReviews = (userFlags: number) =>
+  isAdmin(userFlags) || (BigInt(userFlags) & Flags.ManageReviews) == Flags.ManageReviews;
 
-export const hasManageQuestions = (userFlags: bigint) =>
-  isAdmin(BigInt(userFlags)) ||
-  (BigInt(userFlags) & Flags.ManageQuestions) == Flags.ManageQuestions;
+export const hasManageQuestions = (userFlags: number) =>
+  isAdmin(userFlags) || (BigInt(userFlags) & Flags.ManageQuestions) == Flags.ManageQuestions;

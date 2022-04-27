@@ -73,10 +73,10 @@ export const AddCategoryDialog: FC<Props> = ({ getCategories, categories }) => {
             >
               <option value="">None</option>
               {categories.map((category) => {
-                const parent = categories.find((c) => c.id == category.parentId);
+                const parent = categories.find((c) => c.categoryId == category.parentId);
 
                 return (
-                  <option key={category.id} value={category.id}>
+                  <option key={category.categoryId} value={category.categoryId}>
                     {category.name} {parent ? `- (${parent.name})` : ""}
                   </option>
                 );

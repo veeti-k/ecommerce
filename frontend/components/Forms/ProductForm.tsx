@@ -159,9 +159,9 @@ export const ProductForm: FC<ProductFormProps> = ({
             <option value="">None</option>
             {categories.map((category) => (
               <option
-                key={category.id}
-                value={category.id}
-                selected={categoryId?.toString() === category.id.toString()}
+                key={category.categoryId}
+                value={category.categoryId}
+                selected={categoryId?.toString() === category.categoryId.toString()}
               >
                 {category.name}
               </option>

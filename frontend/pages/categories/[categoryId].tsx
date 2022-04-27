@@ -67,7 +67,7 @@ export const getStaticPaths = async () => {
   return {
     paths: categories.map((category) => ({
       params: {
-        categoryId: category.id.toString(),
+        categoryId: category.categoryId.toString(),
       },
     })),
     fallback: false,

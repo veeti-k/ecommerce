@@ -8,14 +8,17 @@ export const DeleteCategoryRequest = (categoryId: number) =>
     method: "DELETE",
   });
 
-export const EditCategoryRequest = (categoryId: number, updatedCategory: Omit<Category, "id">) =>
+export const EditCategoryRequest = (
+  categoryId: number,
+  updatedCategory: Omit<Category, "categoryId">
+) =>
   request({
     path: apiRoutes.categories.category(categoryId),
     method: "PATCH",
     body: updatedCategory,
   });
 
-export const AddCategoryRequest = (newCategory: Omit<Category, "id">) =>
+export const AddCategoryRequest = (newCategory: Omit<Category, "categoryId">) =>
   request({
     path: apiRoutes.categoriesRoot,
     method: "POST",

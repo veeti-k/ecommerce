@@ -40,7 +40,7 @@ const Categories: NextPage = () => {
         <CardContent>
           <FlexDiv column gap05>
             {categories.map((category) => (
-              <InfoCard key={category.id}>
+              <InfoCard key={category.categoryId}>
                 <FlexDiv spaceBetween fullWidth>
                   <Heading>{category.name}</Heading>
                   <FlexDiv gap05>

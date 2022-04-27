@@ -22,7 +22,7 @@ export const Category: FC<Props> = ({ category, indentation }) => {
     return (
       <Collapsible.Root>
         <FlexDiv spaceBetween gap0>
-          <Link href={routes.categories(category.id)} passHref>
+          <Link href={routes.categories(category.categoryId)} passHref>
             <MenuItem style={{ paddingLeft: indentWith }} aside variants={itemVariants}>
               {category.name}
             </MenuItem>
@@ -54,7 +54,7 @@ export const Category: FC<Props> = ({ category, indentation }) => {
   }
 
   return (
-    <Link href={routes.categories(category.id)} passHref>
+    <Link href={routes.categories(category.categoryId)} passHref>
       <MenuItem style={{ paddingLeft: indentWith }} variants={itemVariants}>
         {category.name}
       </MenuItem>

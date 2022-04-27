@@ -84,7 +84,7 @@ const ProductPage: NextPage<Props> = ({ product, resolvedCategories, valid }) =>
 
           <MainDiv style={{ paddingTop: "1rem" }}>
             <ImageContainer>
-              <img src={product.images.split(",")[0]} alt={product.name} />
+              <img src={product.imageLinks.split(",")[0]} alt={product.name} />
             </ImageContainer>
             <RightDiv>
               <FlexDiv fullWidth>

@@ -21,6 +21,6 @@ export type Product = {
 
 export type ProductPageProduct = Product & {
   bulletPoints: string;
-  images: string;
+  imageLinks: string;
   path: Category[];
 };

@@ -4,6 +4,6 @@ import { Validators } from "shared";
 export const create: Validators = {
   body: Yup.object({
     name: Yup.string().required(),
-    parentId: Yup.number().optional(),
+    parentId: Yup.number().nullable(),
   }).noUnknown(true),
 };

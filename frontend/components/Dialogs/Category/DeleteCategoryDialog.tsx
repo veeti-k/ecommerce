@@ -17,7 +17,7 @@ export const DeleteCategoryDialog: FC<Props> = ({ category, getCategories }) => 
   const onSubmit = async () => {
     const notifId = toast.loading("Deleting the category");
 
-    const res = await DeleteCategoryRequest(category.id);
+    const res = await DeleteCategoryRequest(category.categoryId);
 
     toast.dismiss(notifId);
 

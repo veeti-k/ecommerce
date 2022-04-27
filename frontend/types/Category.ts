@@ -1,11 +1,11 @@
 export type Category = {
-  id: number;
+  categoryId: number;
   name: string;
   parentId: number | null;
 };
 
 export type ResolvedCategory = {
-  id: number;
+  categoryId: number;
   name: string;
   parentId: number | null;
   children: ResolvedCategory[];

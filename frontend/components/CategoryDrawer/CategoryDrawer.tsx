@@ -45,7 +45,7 @@ export const CategoryDrawer: FC<Props> = ({ categories }) => {
           <DrawerBody style={{ padding: 0 }}>
             <FlexDiv gap0 column>
               {categories.map((category, i) => (
-                <Category key={category.id} category={category} indentation={1} />
+                <Category key={category.categoryId} category={category} indentation={1} />
               ))}
             </FlexDiv>
           </DrawerBody>

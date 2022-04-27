@@ -22,7 +22,7 @@ export const EditCategoryDialog: FC<Props> = ({ getCategories, categories, categ
   const onSubmit = async () => {
     const notifId = toast.loading("Saving your edits");
 
-    const res = await EditCategoryRequest(category.id, {
+    const res = await EditCategoryRequest(category.categoryId, {
       name: categoryName,
       parentId: categoryParentId,
     });
@@ -76,7 +76,7 @@ export const EditCategoryDialog: FC<Props> = ({ getCategories, categories, categ
                   <option
                     key={optionCategory.id}
                     value={optionCategory.id}
-                    disabled={optionCategory.id == category.id}
+                    disabled={optionCategory.id == category.categoryId}
                   >
                     {optionCategory.name} {parent ? `(${parent.name})` : ""}
                   </option>
