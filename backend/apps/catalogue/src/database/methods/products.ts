@@ -36,3 +36,10 @@ export const get = {
       },
     }),
 };
+
+export const remove = (productId: number) =>
+  prisma.product.delete({
+    where: {
+      productId,
+    },
+  });
