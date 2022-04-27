@@ -56,7 +56,9 @@ export const tokenRequest = async (options: TokenRequestOptions) => {
     });
 
     logger.logRequestSuccess(options);
-    if (res?.headers["access-token"]) saveToken(res.data.accessToken);
+
+    const accessToken = res?.headers["access-token"];
+    if (accessToken) saveToken(accessToken);
 
     return res;
   } catch (err) {
