@@ -1,5 +1,6 @@
 import { Breadcrumb as ChakraBreadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 import { FC } from "react";
+import { useHasMounted } from "../../hooks/useHasMounted";
 import { styled } from "../../stitches.config";
 import { ProductPageProduct } from "../../types/Product";
 import { routes } from "../../utils/routes";
@@ -19,7 +20,8 @@ const Breadcrumb = styled(ChakraBreadcrumb, {
 });
 
 export const ProductPath: FC<Props> = ({ product }) => {
-  if (typeof window == "undefined") return null;
+  const hasMounted = useHasMounted();
+  if (!hasMounted) return null;
 
   const onReviewsPage = window.location.pathname.includes("reviews");
   const onReviewsAddPage = window.location.pathname.includes("reviews/write");

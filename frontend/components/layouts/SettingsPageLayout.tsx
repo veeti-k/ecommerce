@@ -1,6 +1,7 @@
 import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FC, useContext } from "react";
+import { useHasMounted } from "../../hooks/useHasMounted";
 import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 import { ResolvedCategory } from "../../types/Category";
 import { UserContext } from "../../UserProvider/provider";
@@ -25,7 +26,8 @@ export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({ children, cate
 
   const { dispatch } = useContext(UserContext);
 
-  if (typeof window == "undefined") return null;
+  const hasMounted = useHasMounted();
+  if (!hasMounted) return null;
 
   if (!isLoggedIn) {
     pushUser(router, "/", "settingsPageLayout::isLoggedIn false");

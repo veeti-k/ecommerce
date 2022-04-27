@@ -1,6 +1,7 @@
 import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FC, useContext } from "react";
+import { useHasMounted } from "../../hooks/useHasMounted";
 import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 import { ResolvedCategory } from "../../types/Category";
 import { UserContext } from "../../UserProvider/provider";
@@ -25,12 +26,13 @@ export const ManagementPageLayout: FC<ManagementPageLayoutProps> = ({ children, 
 
   const { state } = useContext(UserContext);
 
-  if (typeof window == "undefined") return null;
+  const hasMounted = useHasMounted();
+  if (!hasMounted) return null;
 
   if (!isLoggedIn || !isAdmin(state.flags)) {
     console.log("not logged in or not admin");
 
-    //pushUser(router, routes.home, "managementPageLayout not logged in or not admin");
+    pushUser(router, routes.home, "managementPageLayout not logged in or not admin");
   }
 
   if (!isLoggedIn) return null;
