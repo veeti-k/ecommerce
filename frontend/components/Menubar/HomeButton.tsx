@@ -4,11 +4,11 @@ import { HomeIcon } from "../Icons";
 import { Link } from "../Link";
 
 export const HomeButton = () => (
-  <Tooltip label="Go to homepage">
-    <Link href={routes.home}>
+  <Link href={routes.home}>
+    <Tooltip label="Go to homepage">
       <IconButton aria-label="Go to homepage">
         <HomeIcon />
       </IconButton>
-    </Link>
-  </Tooltip>
+    </Tooltip>
+  </Link>
 );

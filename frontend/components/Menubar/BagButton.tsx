@@ -5,12 +5,12 @@ import { Link } from "../Link";
 
 export const BagButton = () => {
   return (
-    <Tooltip label="Shopping bag">
-      <Link href={routes.home}>
+    <Link href={routes.home}>
+      <Tooltip label="Shopping bag">
         <IconButton aria-label="Shopping bag">
           <ShoppingCartIcon />
         </IconButton>
-      </Link>
-    </Tooltip>
+      </Tooltip>
+    </Link>
   );
 };

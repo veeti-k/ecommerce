@@ -24,11 +24,9 @@ export const CategoryDrawer: FC<Props> = ({ categories }) => {
   return (
     <>
       <Tooltip label="Categories">
-        <IconButton
-          aria-label="Category menu"
-          icon={<HamburgerIcon />}
-          onClick={() => setOpen(true)}
-        />
+        <IconButton aria-label="Category menu" onClick={() => setOpen(true)}>
+          <HamburgerIcon />
+        </IconButton>
       </Tooltip>
 
       <Drawer isOpen={open} onClose={() => setOpen(false)} placement="left">
