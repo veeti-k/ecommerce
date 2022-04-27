@@ -11,17 +11,17 @@
 
     "dev": "turbo run dev",
 
-    "dev:env:ports": "CATALOGUE_PORT=36600 USERS_PORT=36701 AUTH_PORT=36702",
+    "dev:env:ports": "CATALOGUE_PORT=36700 USERS_PORT=36701 AUTH_PORT=36702 UGC_PORT=36703",
     "dev:env:zinc": "ZINC_BASE_URL=http://localhost:35800/api ZINC_USERNAME=dev ZINC_PASSWORD=dev",
     "dev:env:services": "AUTH_VERIFY_URL=http://localhost:36702/api/v1/auth/verify",
-    "dev:env:dbs": "CATALOGUE_DB_URL=postgres://dev:dev@localhost:35802/dev?schema=dev USERS_DB_URL=postgres://dev:dev@localhost:35801/dev?schema=dev",
+    "dev:env:dbs": "CATALOGUE_DB_URL=postgres://dev:dev@localhost:35802/dev?schema=dev USERS_DB_URL=postgres://dev:dev@localhost:35801/dev?schema=dev UGC_DB_URL=postgres://dev:dev@localhost:35803/dev?schema=dev",
     "dev:env:all": "yarn dev:env:ports yarn dev:env:zinc yarn dev:env:services yarn dev:env:dbs",
 
     "dev:setup": "mkdir -p ./DEV-DATA/zinc && chmod a+rwx ./DEV-DATA/zinc",
     "dev:dbs": "docker-compose -f docker-compose.dev.yml up -d",
     "dev:dbinit": "yarn dev:env:dbs turbo run db:pushall",
     "dev:start": "yarn dev:env:all yarn dev",
-    "dev:wait": "yarn wait localhost 35800 && yarn wait localhost 35801 && yarn wait localhost 35802",
+    "dev:wait": "yarn wait localhost 35800 && yarn wait localhost 35801 && yarn wait localhost 35802 && yarn wait localhost 35803",
     "dev:auto": "yarn dev:setup && yarn dev:dbs && yarn dev:wait && yarn dev:dbinit && yarn dev:start",
     "dev:down": "docker-compose -f docker-compose.dev.yml rm -fsv",
 

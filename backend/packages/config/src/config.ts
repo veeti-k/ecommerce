@@ -5,11 +5,13 @@ export const config: IConfig = {
     catalogue: Number(process.env.CATALOGUE_PORT),
     users: Number(process.env.USERS_PORT),
     auth: Number(process.env.AUTH_PORT),
+    ugc: Number(process.env.UGC_PORT),
   },
 
   dbUrls: {
     catalogue: process.env.CATALOGUE_DB_URL || "",
     users: process.env.USERS_DB_URL || "",
+    ugc: process.env.UGC_DB_URL || "",
   },
 
   jwt: {

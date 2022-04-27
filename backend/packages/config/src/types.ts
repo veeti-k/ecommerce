@@ -3,11 +3,13 @@ export interface IConfig {
     catalogue: number;
     users: number;
     auth: number;
+    ugc: number;
   };
 
   dbUrls: {
     catalogue: string;
     users: string;
+    ugc: string;
   };
 
   jwt: {

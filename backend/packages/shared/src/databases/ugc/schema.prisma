@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("UGC_DATABASE_URL")
+  url      = env("UGC_DB_URL")
 }
 
 model questionAnswer {

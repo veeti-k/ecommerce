@@ -34,13 +34,24 @@ services:
     volumes:
       - catalogue-db:/var/lib/postgresql/data
 
+  dev-ugc-db:
+    image: postgres
+    ports:
+      - "35803:5432"
+    environment:
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=dev
+    restart: unless-stopped
+    volumes:
+      - ugc-db:/var/lib/postgresql/data
+
   dev-loadbalancer: 
     depends_on:
       - dev-users-db
       - dev-catalogue-db
     image: nginx
     ports: 
-      - "80:5000"
+      - "4000:5000"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
     restart: unless-stopped
@@ -50,3 +61,4 @@ services:
 volumes:
   users-db:
   catalogue-db:
+  ugc-db:
