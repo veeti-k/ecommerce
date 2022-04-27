@@ -28,7 +28,7 @@
     "clean": "turbo run clean && rm -rf node_modules",
     "build": "yarn && turbo run build",
     "db:catalogue": "cd ./packages/shared && yarn dev:env:dbs yarn prisma studio --schema ./src/databases/catalogue/schema.prisma",
-    "db:users": "cd ./packages/shared && yarn dev:env:dbs yarn prisma studio --schema ./src/databases/users/schema.prisma"
+    "db:users": "cd ./packages/shared && USERS_DB_URL=postgres://dev:dev@localhost:35801/dev?schema=dev yarn prisma studio --schema ./src/databases/users/schema.prisma"
   },
   "devDependencies": {
     "turbo": "^1.2.5"
