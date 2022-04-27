@@ -21,6 +21,7 @@
     "clean": "rm -rf node_modules && rm -rf .turbo && rm -rf dist"
   },
   "dependencies": {
+    "@prisma/client": "^3.13.0",
     "axios": "^0.26.1",
     "config": "*",
     "express": "^4.17.3",
