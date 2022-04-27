@@ -32,17 +32,17 @@ export const approve = (questionId: string) =>
     },
     data: {
       isApproved: true,
-      isDeclined: false,
+      isDeleted: false,
     },
   });
 
-export const decline = (questionId: string) =>
+export const remove = (questionId: string) =>
   prisma.question.update({
     where: {
       questionId,
     },
     data: {
       isApproved: false,
-      isDeclined: true,
+      isDeleted: true,
     },
   });

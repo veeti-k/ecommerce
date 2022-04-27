@@ -15,7 +15,7 @@ model questionAnswer {
   byEmployee              Boolean
   content                 String
   isApproved              Boolean
-  isDeclined              Boolean
+  isDeleted               Boolean
   createdAt               DateTime         @db.Timestamptz(6)
   productQuestion         question @relation(fields: [questionId], references: [questionId], onDelete: Cascade, onUpdate: NoAction)
 
@@ -30,7 +30,7 @@ model question {
   content                String
   createdAt              DateTime                 @db.Timestamptz(6)
   isApproved             Boolean
-  isDeclined              Boolean
+  isDeleted              Boolean
   questionAnswers        questionAnswer[]
 
   @@index([productId])
@@ -44,7 +44,7 @@ model reviewComment {
   title                  String
   content                String
   isApproved             Boolean
-  isDeclined             Boolean
+  isDeleted              Boolean
   createdAt              DateTime       @db.Timestamptz(6)
   review                 review @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade, onUpdate: NoAction)
 
@@ -61,7 +61,7 @@ model review {
   stars                 Int
   createdAt             DateTime                @db.Timestamptz(6)
   isApproved            Boolean
-  isDeclined            Boolean
+  isDeleted             Boolean
   reviewComments        reviewComment[]
 
   @@index([productId])
