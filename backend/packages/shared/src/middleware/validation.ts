@@ -8,7 +8,7 @@ export const validation =
   async (req, res, next) => {
     if (validators.params) {
       try {
-        await validators.params(req.params);
+        await validators.params.validate(req.params);
       } catch (err) {
         return respondError({
           res,
@@ -20,7 +20,8 @@ export const validation =
 
     if (validators.body) {
       try {
-        await validators.body(req.body);
+        await validators.body.validate(req.body);
+        req.body = validators.body.cast(req.body);
       } catch (err) {
         return respondError({
           res,

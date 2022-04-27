@@ -5,5 +5,5 @@ export const getByProductId: Validators = {
   params: (obj: any) =>
     Yup.object({
       productId,
-    }).validate(obj),
+    }).noUnknown(true),
 };

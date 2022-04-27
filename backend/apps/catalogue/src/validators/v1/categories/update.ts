@@ -2,14 +2,12 @@ import * as Yup from "yup";
 import { categoryId, Validators } from "shared";
 
 export const update: Validators = {
-  params: (obj) =>
-    Yup.object({
-      categoryId,
-    }).validate(obj),
+  params: Yup.object({
+    categoryId,
+  }).noUnknown(true),
 
-  body: (obj) =>
-    Yup.object({
-      name: Yup.string().required(),
-      parentId: Yup.number().optional(),
-    }).validate(obj),
+  body: Yup.object({
+    name: Yup.string().required(),
+    parentId: Yup.number().optional(),
+  }).noUnknown(true),
 };
