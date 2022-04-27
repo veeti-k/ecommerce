@@ -3,7 +3,7 @@ import { createRefreshTokenCookie } from "../../../util/cookie";
 import { decodeRefreshToken, createAccessToken, createRefreshToken } from "../../../util/jwt";
 
 export const tokens: Endpoint = (req, res) => {
-  const refreshToken = req.headers.cookie?.split("=")[1];
+  const refreshToken = req.headers.cookie?.split(";")[0].split("=")[1] as string;
 
   if (!refreshToken)
     return respondError({
