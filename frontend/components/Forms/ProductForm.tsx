@@ -108,14 +108,16 @@ export const ProductForm: FC<ProductFormProps> = ({
     setDescription(initialValues?.description ?? "");
     setShortDescription(initialValues?.shortDescription ?? "");
 
-    setCategoryId(initialValues?.path[initialValues?.path.length - 1]?.id?.toString() ?? null);
+    setCategoryId(
+      initialValues?.path[initialValues?.path.length - 1]?.categoryId?.toString() ?? null
+    );
 
     setDiscountedPrice(initialValues?.discountedPrice?.toString() ?? "");
     setDiscountPercent(initialValues?.discountPercent?.toString() ?? "");
     setDiscountAmount(initialValues?.discountAmount?.toString() ?? "");
 
     setBulletPoints(initialValues?.bulletPoints.split(",") ?? [""]);
-    setImageLinks(initialValues?.images.split(",") ?? [""]);
+    setImageLinks(initialValues?.imageLinks.split(",") ?? [""]);
 
     setIsDiscounted(initialValues?.isDiscounted ?? false);
   }, [initialValues]);

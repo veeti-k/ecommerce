@@ -70,13 +70,13 @@ export const EditCategoryDialog: FC<Props> = ({ getCategories, categories, categ
             >
               <option value="">None</option>
               {categories.map((optionCategory) => {
-                const parent = categories.find((c) => c.id == optionCategory.parentId);
+                const parent = categories.find((c) => c.categoryId == optionCategory.parentId);
 
                 return (
                   <option
-                    key={optionCategory.id}
-                    value={optionCategory.id}
-                    disabled={optionCategory.id == category.categoryId}
+                    key={optionCategory.categoryId}
+                    value={optionCategory.categoryId}
+                    disabled={optionCategory.categoryId == category.categoryId}
                   >
                     {optionCategory.name} {parent ? `(${parent.name})` : ""}
                   </option>

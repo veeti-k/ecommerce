@@ -43,7 +43,7 @@ export const Category: FC<Props> = ({ category, indentation }) => {
                 style={{ display: "flex", flexDirection: "column" }}
               >
                 {category.children.map((child) => (
-                  <Category key={child.id} category={child} indentation={indentation + 1} />
+                  <Category key={child.categoryId} category={child} indentation={indentation + 1} />
                 ))}
               </motion.div>
             )}
