@@ -18,7 +18,7 @@ const errorHandler = (options: ErrorHandlerOptions) => {
   const status = error?.response?.status;
 
   if (status >= 400 && status <= 404) {
-    if (error?.response?.data?.message) {
+    if (error?.response?.data?.message && status !== 401) {
       toast.error(error.response.data.message);
     }
 
@@ -56,11 +56,12 @@ export const tokenRequest = async (options: TokenRequestOptions) => {
     });
 
     logger.logRequestSuccess(options);
-    if (res?.data?.accessToken) saveToken(res.data.accessToken);
+    if (res?.headers["access-token"]) saveToken(res.data.accessToken);
 
     return res;
   } catch (err) {
     errorHandler({ error: err, shouldRedirect401: false, options });
+    if (err?.response?.data?.errors) return err.response.data.errors;
     return null;
   }
 };
