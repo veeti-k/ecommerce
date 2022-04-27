@@ -14,7 +14,7 @@ export const STATIC_PROPS_REQUESTS = {
     },
 
     getAllResolved: async (): Promise<ResolvedCategory[]> => {
-      const res = await fetch(`${apiBase}/categories`);
+      const res = await fetch(`${apiBase}/categories?resolved=true`);
       return (await res.json())["resolvedCategories"] as ResolvedCategory[];
     },
 
