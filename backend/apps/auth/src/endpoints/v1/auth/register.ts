@@ -1,23 +1,13 @@
 import { db } from "../../../database";
-import { RegisterRequestBodyValidator } from "../../../validators/v1";
-import { Endpoint, SpecificErrorMessages, respondError, respondSuccessWithHeaders } from "shared";
+import { Endpoint, respondError, respondSuccessWithHeaders } from "shared";
 import { createRefreshTokenCookie } from "../../../util/cookie";
 import { hashPassword } from "../../../util/hash";
 import { createAccessToken, createRefreshToken } from "../../../util/jwt";
 
 export const register: Endpoint = async (req, res) => {
-  const validationResult = RegisterRequestBodyValidator(req.body);
-  if (validationResult.error)
-    return respondError({
-      res,
-      statusCode: 400,
-      message: SpecificErrorMessages.INVALID_REQUEST_BODY,
-      errors: validationResult.error?.details,
-    });
+  const body = req.body;
 
-  const validatedBody = validationResult.value;
-
-  const existingByEmail = await db.user.get.byEmail(validatedBody.email);
+  const existingByEmail = await db.user.get.byEmail(body.email);
   if (existingByEmail)
     return respondError({
       res,
@@ -25,9 +15,9 @@ export const register: Endpoint = async (req, res) => {
       message: "Email taken",
     });
 
-  const hashedPassword = await hashPassword(validatedBody.password);
+  const hashedPassword = await hashPassword(body.password);
 
-  const result = await db.user.createUserAndSession(validatedBody, hashedPassword);
+  const result = await db.user.createUserAndSession(body, hashedPassword);
 
   const accessToken = createAccessToken(result.newUserId, result.newSessionId, result.newFlags);
   const refreshToken = createRefreshToken(result.newUserId, result.newSessionId, result.newFlags);

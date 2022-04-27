@@ -1,21 +1,11 @@
 import { Endpoint, respondError, respondSuccessNoContent, zinc } from "shared";
 import { db } from "../../../database";
-import { updateProductRequestBodyValidator } from "../../../validators/v1/products/update";
 
 export const update: Endpoint = async (req, res) => {
-  const validationResult = updateProductRequestBodyValidator(req.body);
-  if (validationResult.error)
-    return respondError({
-      res,
-      statusCode: 400,
-      message: "Invalid request body",
-      errors: validationResult.error?.details,
-    });
-
   const productId = Number(req.params.productId);
-  const validatedBody = validationResult.value;
+  const body = req.body;
 
-  const category = await db.categories.get.byId(validatedBody.deepestCategoryId);
+  const category = await db.categories.get.byId(body.deepestCategoryId);
   if (!category)
     return respondError({
       res,
@@ -31,7 +21,7 @@ export const update: Endpoint = async (req, res) => {
       message: "Product does not exist",
     });
 
-  const updatedProduct = await db.products.update(productId, validatedBody);
+  const updatedProduct = await db.products.update(productId, body);
 
   await zinc.updateProduct(updatedProduct);
 

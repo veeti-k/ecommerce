@@ -1,17 +1,7 @@
 import { Endpoint, respondError, respondSuccessNoContent } from "shared";
 import { db } from "../../../database";
-import { updateCategoryRequestBodyValidator } from "../../../validators/v1/categories/update";
 
 export const update: Endpoint = async (req, res) => {
-  const validationResult = updateCategoryRequestBodyValidator(req.body);
-  if (validationResult.error)
-    return respondError({
-      res,
-      statusCode: 400,
-      message: "Invalid request body",
-      errors: validationResult.error?.details,
-    });
-
   const categoryId = Number(req.params.categoryId);
 
   const existingCategory = await db.categories.get.byId(categoryId);
@@ -22,10 +12,10 @@ export const update: Endpoint = async (req, res) => {
       message: "Category not found",
     });
 
-  const validatedBody = validationResult.value;
+  const body = req.body;
 
-  if (validatedBody.parentId) {
-    const existingParent = await db.categories.get.byId(validatedBody.parentId);
+  if (body.parentId) {
+    const existingParent = await db.categories.get.byId(body.parentId);
 
     if (!existingParent)
       return respondError({
@@ -35,7 +25,7 @@ export const update: Endpoint = async (req, res) => {
       });
   }
 
-  await db.categories.update(existingCategory.categoryId, validatedBody);
+  await db.categories.update(existingCategory.categoryId, body);
 
   respondSuccessNoContent(res);
 };

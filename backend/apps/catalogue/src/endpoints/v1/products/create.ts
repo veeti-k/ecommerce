@@ -1,20 +1,10 @@
 import { Endpoint, respondError, respondSuccess, zinc } from "shared";
 import { db } from "../../../database";
-import { createProductRequestBodyValidator } from "../../../validators/v1/products/create";
 
 export const create: Endpoint = async (req, res) => {
-  const validationResult = createProductRequestBodyValidator(req.body);
-  if (validationResult.error)
-    return respondError({
-      res,
-      statusCode: 400,
-      message: "Invalid request body",
-      errors: validationResult.error?.details,
-    });
+  const body = req.body;
 
-  const validatedBody = validationResult.value;
-
-  const category = await db.categories.get.byId(validatedBody.deepestCategoryId);
+  const category = await db.categories.get.byId(body.deepestCategoryId);
   if (!category)
     return respondError({
       res,
@@ -22,7 +12,7 @@ export const create: Endpoint = async (req, res) => {
       message: "Invalid 'deepestCategoryId', category does not exist",
     });
 
-  const createdProduct = await db.products.create(validatedBody);
+  const createdProduct = await db.products.create(body);
 
   await zinc.addProduct(createdProduct);
 

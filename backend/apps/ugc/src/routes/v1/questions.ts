@@ -1,42 +1,64 @@
 import express from "express";
 import { auth, Flags, validation } from "shared";
-import { v1 } from "../../endpoints";
+import { v1Endpoints } from "../../endpoints";
 import { v1Validators } from "../../validators";
 
 const router = express.Router();
 
-router.get("/products/questions/approved", v1.questions.getAllApproved);
-router.get("/products/questions/not-approved", v1.questions.getAllNotApproved);
+router.get("/products/questions/approved", v1Endpoints.questions.getAllApproved);
+router.get("/products/questions/not-approved", v1Endpoints.questions.getAllNotApproved);
 
 router.get(
   "/products/:productId/questions",
   validation(v1Validators.questions.getByProductId),
-  v1.questions.getByProduct
+  v1Endpoints.questions.getByProduct
 );
 
 router.post(
   "/products/:productId/questions",
-  auth(Flags.None),
   validation(v1Validators.questions.create),
-  v1.questions.create
+  v1Endpoints.questions.create
 );
 
 router.patch(
   "/products/:productId/questions/:questionId",
-  auth(Flags.ManageQuestions),
+  auth({
+    neededFlags: [Flags.ManageQuestions],
+  }),
   validation(v1Validators.questions.approve),
-  v1.questions.approve
+  v1Endpoints.questions.approve
 );
 
 router.delete(
   "/products/:productId/questions/:questionId",
-  auth(Flags.ManageQuestions),
-  validation(v1Validators.questions.decline),
-  v1.questions.decline
+  auth({ neededFlags: [Flags.ManageQuestions] }),
+  validation(v1Validators.questions.remove),
+  v1Endpoints.questions.remove
 );
 
-router.post("/products/:productId/questions/:questionId/answers");
-router.patch("/products/:productId/questions/:questionId/answers/:answerId");
-router.delete("/products/:productId/questions/:questionId/answers/:answerId");
+router.post(
+  "/products/:productId/questions/:questionId/answers",
+  auth({
+    neededFlags: [Flags.None],
+    allowUnauthorized: true,
+  }),
+  validation(v1Validators.questions.answers.create),
+  v1Endpoints.questions.answers.create
+);
+router.patch(
+  "/products/:productId/questions/:questionId/answers/:answerId",
+  auth({
+    neededFlags: [Flags.ManageQuestions],
+  }),
+  validation(v1Validators.questions.answers.approve),
+  v1Endpoints.questions.answers.approve
+);
+router.delete(
+  "/products/:productId/questions/:questionId/answers/:answerId",
+  auth({
+    neededFlags: [Flags.ManageQuestions],
+  }),
+  validation(v1Validators.questions.answers.remove)
+);
 
 export { router as questions };

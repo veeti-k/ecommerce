@@ -1,2 +1,1 @@
-export * from "./auth/register";
-export * from "./auth/login";
+export * as v1Validators from "./auth";

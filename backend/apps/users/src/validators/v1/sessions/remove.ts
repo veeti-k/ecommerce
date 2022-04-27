@@ -1,6 +1,9 @@
 import Joi from "joi";
+import { Validators } from "shared";
 
-export const removeSessionsRequestBodyValidator = (obj: any) =>
-  Joi.object({
-    sessionIds: Joi.array().items(Joi.string().uuid()).required(),
-  }).validate(obj);
+export const remove: Validators = {
+  body: (obj) =>
+    Joi.object({
+      sessionIds: Joi.array().items(Joi.string().uuid()).required(),
+    }).validate(obj),
+};

@@ -1,9 +1,10 @@
 import Joi from "joi";
-import { Validators } from "shared";
+import { Validators, questionId, productId } from "shared";
 
 export const approve: Validators = {
   params: (obj) =>
     Joi.object({
-      questionId: Joi.string().uuid().required(),
+      productId,
+      questionId,
     }).validate(obj),
 };

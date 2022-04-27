@@ -10,16 +10,19 @@ export const create = (productId: number, body: any) =>
 
 export const get = {
   all: (isApproved: boolean) =>
-    prisma.review.findMany({
+    prisma.question.findMany({
       where: {
         isApproved,
+        isDeleted: false,
       },
+      include: {},
     }),
 
   byProductId: (productId: number) =>
-    prisma.review.findMany({
+    prisma.question.findMany({
       where: {
         productId,
+        isDeleted: false,
       },
     }),
 };

@@ -1,10 +1,10 @@
 import Joi from "joi";
-import { Validators, PARAM_NUMBER_MAX_SAFE } from "shared";
+import { Validators, productId } from "shared";
 
 export const create: Validators = {
   params: (obj) =>
     Joi.object({
-      productId: Joi.number().max(PARAM_NUMBER_MAX_SAFE).required(),
+      productId,
     }).validate(obj),
 
   body: (obj) =>

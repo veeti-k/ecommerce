@@ -5,8 +5,12 @@ import axios from "axios";
 import { Response } from "express";
 import { respondError } from "../utils/respondWith";
 
-export const auth =
-  (...neededFlags: bigint[]): Middleware =>
+interface Auth {
+  (opts: { allowUnauthorized?: boolean; neededFlags: bigint[] }): Middleware;
+}
+
+export const auth: Auth =
+  ({ neededFlags, allowUnauthorized }): Middleware =>
   async (req, res, next) => {
     const token = getToken(res, req.headers.authorization);
     if (!token) return;
@@ -14,6 +18,7 @@ export const auth =
     const result = await axios.post(config.services.authVerify, {
       token,
       neededFlags: neededFlags.map((flag) => Number(flag)),
+      allowUnauthorized: !!allowUnauthorized,
     });
 
     if (!result.data.valid) return errorInvalidAccessToken(res);

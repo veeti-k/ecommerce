@@ -1,7 +1,10 @@
 import Joi from "joi";
+import { Validators } from "shared";
 
-export const LoginRequestBodyValidator = (obj: any) =>
-  Joi.object({
-    email: Joi.string().email().required(),
-    password: Joi.string().required(),
-  }).validate(obj);
+export const login: Validators = {
+  body: (obj) =>
+    Joi.object({
+      email: Joi.string().email().required(),
+      password: Joi.string().required(),
+    }).validate(obj),
+};
