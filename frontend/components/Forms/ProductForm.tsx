@@ -169,7 +169,7 @@ export const ProductForm: FC<ProductFormProps> = ({
           </Select>
         </InputLabelContainer>
 
-        <InputLabelContainer id="description" label="Description">
+        <InputLabelContainer id="description" label="Description" style={{ paddingTop: "1rem" }}>
           <Textarea
             rows={10}
             id="description"
