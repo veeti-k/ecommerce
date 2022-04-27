@@ -21,7 +21,7 @@ const ProductEdit: NextPage<Result> = ({ resolvedCategories, allCategories, prod
   const onSubmit = async (values: ProductFormValues) => {
     const notifId = toast.loading("Updating the product");
 
-    const res = await UpdateProductRequest(product.id, values);
+    const res = await UpdateProductRequest(product.productId, values);
 
     toast.dismiss(notifId);
 
@@ -33,7 +33,7 @@ const ProductEdit: NextPage<Result> = ({ resolvedCategories, allCategories, prod
       <PageTitleContainer>
         <BiggerHeading>Edit product</BiggerHeading>
 
-        <Link href={routes.productRoot(product.id)}>
+        <Link href={routes.productRoot(product.productId)}>
           <Button size="sm" leftIcon={<ArrowLeftIcon />}>
             Back to product page
           </Button>

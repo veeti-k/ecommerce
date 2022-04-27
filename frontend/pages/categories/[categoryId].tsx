@@ -20,7 +20,7 @@ const CategoryProducts: NextPage<Result> = ({ products, resolvedCategories, cate
         <CardContent>
           <FlexDiv column gap05>
             {products.map((product) => (
-              <WideProduct product={product} key={product.id} />
+              <WideProduct product={product} key={product.productId} />
             ))}
           </FlexDiv>
         </CardContent>

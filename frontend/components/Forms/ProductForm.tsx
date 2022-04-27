@@ -12,13 +12,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Category } from "../../types/Category";
-import {
-  bulletPoint,
-  imageLink,
-  ProductPageProduct,
-  bulletPointDefaultValue,
-  imageLinkDefaultValue,
-} from "../../types/Product";
+import { ProductPageProduct } from "../../types/Product";
 import { AnimatedListItem } from "../Animate";
 
 import { FlexDiv, InputLabelContainer } from "../Containers";
@@ -34,8 +28,8 @@ export type ProductFormValues = {
   discountPercent: string;
   discountAmount: string;
 
-  bulletPoints: bulletPoint[];
-  imageLinks: imageLink[];
+  bulletPoints: string[];
+  imageLinks: string[];
 
   deepestCategoryId: number;
 };
@@ -64,8 +58,8 @@ export const ProductForm: FC<ProductFormProps> = ({
   const [discountPercent, setDiscountPercent] = useState<string>("");
   const [discountAmount, setDiscountAmount] = useState<string>("");
 
-  const [bulletPoints, setBulletPoints] = useState<bulletPoint[]>([{ id: null, text: "" }]);
-  const [imageLinks, setImageLinks] = useState<imageLink[]>([{ id: null, link: "" }]);
+  const [bulletPoints, setBulletPoints] = useState<string[]>([""]);
+  const [imageLinks, setImageLinks] = useState<string[]>([""]);
 
   const [isDiscounted, setIsDiscounted] = useState<boolean>(false);
 
@@ -120,8 +114,8 @@ export const ProductForm: FC<ProductFormProps> = ({
     setDiscountPercent(initialValues?.discountPercent?.toString() ?? "");
     setDiscountAmount(initialValues?.discountAmount?.toString() ?? "");
 
-    setBulletPoints(initialValues?.bulletPoints ?? [bulletPointDefaultValue]);
-    setImageLinks(initialValues?.images ?? [imageLinkDefaultValue]);
+    setBulletPoints(initialValues?.bulletPoints.split(",") ?? [""]);
+    setImageLinks(initialValues?.images.split(",") ?? [""]);
 
     setIsDiscounted(initialValues?.isDiscounted ?? false);
   }, [initialValues]);
@@ -215,12 +209,10 @@ export const ProductForm: FC<ProductFormProps> = ({
                     type="text"
                     onChange={(e) =>
                       setBulletPoints(
-                        bulletPoints.map((bulletPoint, i) =>
-                          i === index ? { id: bulletPoint.id, text: e.target.value } : bulletPoint
-                        )
+                        bulletPoints.map((point, i) => (i === index ? e.target.value : point))
                       )
                     }
-                    value={bulletPoint.text}
+                    value={bulletPoint}
                     autoComplete="off"
                   />
                   <InputRightElement width="6rem">
@@ -243,7 +235,7 @@ export const ProductForm: FC<ProductFormProps> = ({
 
         <Button
           style={{ marginBottom: "1rem" }}
-          onClick={() => setBulletPoints([...bulletPoints, bulletPointDefaultValue])}
+          onClick={() => setBulletPoints([...bulletPoints, ""])}
           colorScheme="blue"
           variant="outline"
           size="sm"
@@ -265,12 +257,10 @@ export const ProductForm: FC<ProductFormProps> = ({
                     type="text"
                     onChange={(e) =>
                       setImageLinks(
-                        imageLinks.map((imageLink, i) =>
-                          i === index ? { id: imageLink.id, link: e.target.value } : imageLink
-                        )
+                        imageLinks.map((link, i) => (i === index ? e.target.value : link))
                       )
                     }
-                    value={imagelink.link}
+                    value={imagelink}
                     autoComplete="off"
                   />
                   <InputRightElement width="6rem">
@@ -292,7 +282,7 @@ export const ProductForm: FC<ProductFormProps> = ({
         </AnimatePresence>
 
         <Button
-          onClick={() => setImageLinks([...imageLinks, imageLinkDefaultValue])}
+          onClick={() => setImageLinks([...imageLinks, ""])}
           colorScheme="blue"
           variant="outline"
           size="sm"

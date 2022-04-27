@@ -1,5 +1,5 @@
 export type Address = {
-  id: string;
+  addressId: string;
   name: string;
   phoneNumber: string;
   email: string;
@@ -10,7 +10,7 @@ export type Address = {
 };
 
 export type Session = {
-  id: string;
+  sessionId: string;
   createdAt: string;
   lastUsedAt: string;
   isCurrentSession: boolean;

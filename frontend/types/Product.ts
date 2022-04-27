@@ -1,19 +1,7 @@
 import { Category } from "./Category";
 
-export type bulletPoint = {
-  id: string | null;
-  text: string;
-};
-export const bulletPointDefaultValue = { id: null, text: "" };
-
-export type imageLink = {
-  id: string | null;
-  link: string;
-};
-export const imageLinkDefaultValue = { id: null, link: "" };
-
-export type BaseProduct = {
-  id: number;
+export type Product = {
+  productId: number;
   name: string;
   description: string;
   shortDescription: string;
@@ -27,15 +15,12 @@ export type BaseProduct = {
   reviewCount: number;
   questionCount: number;
   deepestCategoryId: number;
-};
-
-export type Product = BaseProduct & {
   bulletPoints: string;
   imageUrl: string;
 };
 
 export type ProductPageProduct = Product & {
-  bulletPoints: bulletPoint[];
-  images: imageLink[];
+  bulletPoints: string;
+  images: string;
   path: Category[];
 };

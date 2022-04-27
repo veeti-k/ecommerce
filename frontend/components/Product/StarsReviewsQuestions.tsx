@@ -13,8 +13,8 @@ const ReviewsLink = ({ product }: { product: ProductPageProduct }) => (
     <TextLink
       href={
         product.reviewCount
-          ? routes.product.reviews(product.id)
-          : routes.product.reviewsAdd(product.id)
+          ? routes.product.reviews(product.productId)
+          : routes.product.reviewsAdd(product.productId)
       }
     >
       <Text>
@@ -33,8 +33,8 @@ const QuestionsLink = ({ product }: { product: ProductPageProduct }) => {
     <TextLink
       href={
         product.questionCount
-          ? routes.product.questions(product.id)
-          : routes.product.questionsAdd(product.id)
+          ? routes.product.questions(product.productId)
+          : routes.product.questionsAdd(product.productId)
       }
     >
       <Text>

@@ -26,7 +26,7 @@ const AskQuestion: NextPage<Result> = ({ product, resolvedCategories, valid }) =
   const onSubmit = async (values: AddProductQuestionRequestBody) => {
     const notifId = toast.loading("Adding question");
 
-    const res = await AddProductQuestionRequest(product.id, values);
+    const res = await AddProductQuestionRequest(product.productId, values);
 
     toast.dismiss(notifId);
 
@@ -34,7 +34,7 @@ const AskQuestion: NextPage<Result> = ({ product, resolvedCategories, valid }) =
       toast("Your question will show up after its approved", { icon: <InfoIcon /> });
       toast.success("Question added");
 
-      pushUser(router, routes.productRoot(product.id), "question added success");
+      pushUser(router, routes.productRoot(product.productId), "question added success");
     }
   };
 
@@ -43,7 +43,7 @@ const AskQuestion: NextPage<Result> = ({ product, resolvedCategories, valid }) =
       <PageTitleContainer>
         <PageTitle>Ask a question</PageTitle>
 
-        <Link href={routes.productRoot(product.id)}>
+        <Link href={routes.productRoot(product.productId)}>
           <Button size="sm" leftIcon={<ArrowLeftIcon />}>
             Back to product page
           </Button>
@@ -54,7 +54,8 @@ const AskQuestion: NextPage<Result> = ({ product, resolvedCategories, valid }) =
         <CardContent>
           <FlexDiv column fullWidth>
             <Heading>
-              Product: <TextLink href={routes.productRoot(product.id)}>{product.name}</TextLink>
+              Product:{" "}
+              <TextLink href={routes.productRoot(product.productId)}>{product.name}</TextLink>
             </Heading>
 
             <Formik
@@ -103,7 +104,7 @@ const AskQuestion: NextPage<Result> = ({ product, resolvedCategories, valid }) =
                     </InputLabelContainer>
 
                     <FlexDiv>
-                      <Link href={routes.productRoot(product.id)} style={{ width: "100%" }}>
+                      <Link href={routes.productRoot(product.productId)} style={{ width: "100%" }}>
                         <Button isFullWidth>Cancel</Button>
                       </Link>
                       <Button isFullWidth colorScheme="blue" type="submit">

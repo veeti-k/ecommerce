@@ -20,7 +20,7 @@ export const DeleteProductDialog: FC<Props> = ({ product }) => {
   const onSubmit = async () => {
     const notifId = toast.loading("Deleting the product");
 
-    const res = await DeleteProductRequest(product.id);
+    const res = await DeleteProductRequest(product.productId);
 
     toast.dismiss(notifId);
 

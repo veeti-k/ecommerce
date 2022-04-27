@@ -12,7 +12,7 @@ export const useGetMe = () => {
     (async () => {
       logger.logHook("useGetMe");
 
-      if (state?.id) return logger.logHook("useGetMe", "stopped, user already set");
+      if (state?.userId) return logger.logHook("useGetMe", "stopped, user already set");
 
       const res = await request({
         method: "GET",

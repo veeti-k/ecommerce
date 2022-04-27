@@ -36,7 +36,7 @@ export const WriteReviewComment: NextPage<Result> = ({
   const onSubmit = async (values: AddProductReviewCommentRequestBody) => {
     const notifId = toast.loading("Adding comment");
 
-    const res = await AddProductReviewCommentRequest(product.id, review.id, values);
+    const res = await AddProductReviewCommentRequest(product.productId, review.id, values);
 
     toast.dismiss(notifId);
 
@@ -44,7 +44,11 @@ export const WriteReviewComment: NextPage<Result> = ({
       toast("Your comment will show up after its approved", { icon: <InfoIcon /> });
       toast.success("Comment added");
 
-      pushUser(router, routes.productRoot(product.id), "product review comment added success");
+      pushUser(
+        router,
+        routes.productRoot(product.productId),
+        "product review comment added success"
+      );
     }
   };
 
@@ -53,7 +57,7 @@ export const WriteReviewComment: NextPage<Result> = ({
       <PageTitleContainer>
         <PageTitle>Write a comment</PageTitle>
 
-        <Link href={routes.productRoot(product.id)}>
+        <Link href={routes.productRoot(product.productId)}>
           <Button size="sm" leftIcon={<ArrowLeftIcon />}>
             Back to product page
           </Button>
@@ -64,7 +68,7 @@ export const WriteReviewComment: NextPage<Result> = ({
         <CardContent>
           <FlexDiv column>
             <FlexDiv column>
-              <TextLink href={routes.productRoot(product.id)}>
+              <TextLink href={routes.productRoot(product.productId)}>
                 <BiggerHeading>{product.name}</BiggerHeading>
               </TextLink>
 
@@ -111,7 +115,10 @@ export const WriteReviewComment: NextPage<Result> = ({
                       </InputLabelContainer>
 
                       <FlexDiv>
-                        <Link href={routes.productRoot(product.id)} style={{ width: "100%" }}>
+                        <Link
+                          href={routes.productRoot(product.productId)}
+                          style={{ width: "100%" }}
+                        >
                           <Button isFullWidth>Cancel</Button>
                         </Link>
                         <Button isFullWidth colorScheme="blue" type="submit">

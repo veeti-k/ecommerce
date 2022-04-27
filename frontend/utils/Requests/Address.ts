@@ -8,7 +8,7 @@ export const DeleteAddressRequest = (addressId: string) =>
     path: apiRoutes.user.addresses.address("me", addressId),
   });
 
-export const EditAddressRequest = (addressId: string, address: Omit<Address, "id">) =>
+export const EditAddressRequest = (addressId: string, address: Omit<Address, "addressId">) =>
   request({
     method: "PATCH",
     path: apiRoutes.user.addresses.address("me", addressId),

@@ -33,7 +33,7 @@ const AddReview: NextPage<Result> = ({ resolvedCategories, product, valid }) => 
 
     const notifId = toast.loading("Adding review");
 
-    const res = await AddProductReviewRequest(product.id, {
+    const res = await AddProductReviewRequest(product.productId, {
       reviewersNickname: nickname,
       stars,
       title,
@@ -46,7 +46,7 @@ const AddReview: NextPage<Result> = ({ resolvedCategories, product, valid }) => 
       toast("Your review will show up after its approved", { icon: <InfoIcon /> });
       toast.success("Review added");
 
-      pushUser(router, routes.productRoot(product.id), "Review added");
+      pushUser(router, routes.productRoot(product.productId), "Review added");
     }
   };
 
@@ -55,7 +55,7 @@ const AddReview: NextPage<Result> = ({ resolvedCategories, product, valid }) => 
       <PageTitleContainer>
         <PageTitle>Write a review</PageTitle>
 
-        <Link href={routes.productRoot(product.id)}>
+        <Link href={routes.productRoot(product.productId)}>
           <Button size="sm" leftIcon={<ArrowLeftIcon />}>
             Back to product page
           </Button>
@@ -69,7 +69,7 @@ const AddReview: NextPage<Result> = ({ resolvedCategories, product, valid }) => 
               <FlexDiv align spaceBetween fullWidth>
                 <Heading>
                   Reviewing:{" "}
-                  <TextLink href={routes.productRoot(product.id)}>{product.name}</TextLink>
+                  <TextLink href={routes.productRoot(product.productId)}>{product.name}</TextLink>
                 </Heading>
               </FlexDiv>
 
@@ -136,7 +136,7 @@ const AddReview: NextPage<Result> = ({ resolvedCategories, product, valid }) => 
               </FlexDiv>
 
               <FlexDiv>
-                <Link href={routes.productRoot(product.id)} style={{ width: "100%" }}>
+                <Link href={routes.productRoot(product.productId)} style={{ width: "100%" }}>
                   <Button isFullWidth>Cancel</Button>
                 </Link>
                 <Button isFullWidth colorScheme="blue" type="submit">

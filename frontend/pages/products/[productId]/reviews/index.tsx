@@ -34,7 +34,7 @@ const Reviews: NextPage<Result> = ({ resolvedCategories, product, reviews, valid
       <PageTitleContainer>
         <PageTitle>Reviews</PageTitle>
 
-        <Link href={routes.productRoot(product.id)}>
+        <Link href={routes.productRoot(product.productId)}>
           <Button size="sm" leftIcon={<ArrowLeftIcon />}>
             Back to product page
           </Button>
@@ -46,7 +46,7 @@ const Reviews: NextPage<Result> = ({ resolvedCategories, product, reviews, valid
           <FlexDiv column>
             <Div spaceBetween>
               <FlexDiv>
-                <TextLink href={routes.productRoot(product.id)}>
+                <TextLink href={routes.productRoot(product.productId)}>
                   <BiggerHeading>{product.name}</BiggerHeading>
                 </TextLink>
               </FlexDiv>
@@ -70,7 +70,7 @@ const Reviews: NextPage<Result> = ({ resolvedCategories, product, reviews, valid
             </Div>
 
             <div>
-              <Link href={routes.product.reviewsAdd(product.id)}>
+              <Link href={routes.product.reviewsAdd(product.productId)}>
                 <Button colorScheme="blue">
                   {!!reviews.length ? "Write a review" : "Write the first review"}
                 </Button>

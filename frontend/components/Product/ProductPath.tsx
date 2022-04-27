@@ -49,7 +49,7 @@ export const ProductPath: FC<Props> = ({ product }) => {
 
       <BreadcrumbItem>
         <Text aria-current>
-          Product: <strong>{product.id}</strong>
+          Product: <strong>{product.productId}</strong>
         </Text>
       </BreadcrumbItem>
 

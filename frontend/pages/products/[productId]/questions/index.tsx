@@ -23,7 +23,7 @@ const Questions: NextPage<Result> = ({ resolvedCategories, product, questions, v
       <PageTitleContainer>
         <PageTitle>Questions</PageTitle>
 
-        <Link href={routes.productRoot(product.id)}>
+        <Link href={routes.productRoot(product.productId)}>
           <Button size="sm" leftIcon={<ArrowLeftIcon />}>
             Back to product page
           </Button>
@@ -34,13 +34,13 @@ const Questions: NextPage<Result> = ({ resolvedCategories, product, questions, v
         <CardContent>
           <FlexDiv column>
             <FlexDiv>
-              <TextLink href={routes.productRoot(product.id)}>
+              <TextLink href={routes.productRoot(product.productId)}>
                 <BiggerHeading>{product.name}</BiggerHeading>
               </TextLink>
             </FlexDiv>
 
             <div>
-              <Link href={routes.product.questionsAdd(product.id)}>
+              <Link href={routes.product.questionsAdd(product.productId)}>
                 <Button colorScheme="blue">
                   {!!questions.length ? "Ask a question" : "Ask the first question"}
                 </Button>

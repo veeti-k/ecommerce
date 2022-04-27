@@ -38,7 +38,7 @@ export const Addresses: NextPage<Props> = ({ resolvedCategories }) => {
         <CardContent>
           <FlexDiv fullWidth column gap05>
             {state.addresses.map((address) => (
-              <AddressCard key={address.id}>
+              <AddressCard key={address.addressId}>
                 <FlexDiv column>
                   <FlexDiv column gap0>
                     <Text bold>{address.name}</Text>

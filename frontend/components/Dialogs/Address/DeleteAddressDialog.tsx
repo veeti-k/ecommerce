@@ -15,7 +15,7 @@ export const DeleteAddressDialog = ({ address }: { address: Address }) => {
   const onSubmit = async () => {
     const notifId = toast.loading("Deleting address");
 
-    const res = await DeleteAddressRequest(address.id);
+    const res = await DeleteAddressRequest(address.addressId);
 
     toast.dismiss(notifId);
 

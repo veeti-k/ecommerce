@@ -26,7 +26,7 @@ export const EditAddressDialog = ({ address }: { address: Address }) => {
   const onSubmit = async () => {
     const notifId = toast.loading("Editing address");
 
-    const res = await EditAddressRequest(address.id, {
+    const res = await EditAddressRequest(address.addressId, {
       name,
       phoneNumber,
       email,

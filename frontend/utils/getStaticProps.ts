@@ -10,7 +10,7 @@ export const STATIC_PROPS_REQUESTS = {
   Categories: {
     getAll: async (): Promise<Category[]> => {
       const res = await fetch(`${apiBase}/categories`);
-      return (await res.json())["allCategories"] as Category[];
+      return (await res.json()) as Category[];
     },
 
     getAllResolved: async (): Promise<ResolvedCategory[]> => {

@@ -21,7 +21,7 @@ export const WideProduct: FC<Props> = ({ product }) => (
   <Card shadowNear hoverShadow style={{ height: "14rem" }}>
     <div style={{ width: "100%", height: "100%", position: "relative", padding: "1rem" }}>
       <Link
-        href={routes.productRoot(product.id)}
+        href={routes.productRoot(product.productId)}
         style={{ position: "absolute", width: "100%", height: "100%", top: 0, left: 0 }}
       ></Link>
 

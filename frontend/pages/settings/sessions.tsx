@@ -57,7 +57,7 @@ const Sessions: NextPage<Props> = ({ resolvedCategories }) => {
               const lastUsedAt = new Date(session.lastUsedAt);
 
               return (
-                <SessionCard key={session.id}>
+                <SessionCard key={session.sessionId}>
                   <div>
                     <FlexDiv gap05 align>
                       {session.isCurrentSession ? (
@@ -81,7 +81,7 @@ const Sessions: NextPage<Props> = ({ resolvedCategories }) => {
                         aria-label="Revoke session"
                         size="sm"
                         colorScheme="red"
-                        onClick={() => revokeSession(session.id)}
+                        onClick={() => revokeSession(session.sessionId)}
                       >
                         <TrashIcon />
                       </IconButton>

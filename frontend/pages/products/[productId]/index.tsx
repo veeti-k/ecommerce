@@ -77,21 +77,21 @@ const ProductPage: NextPage<Props> = ({ product, resolvedCategories, valid }) =>
         <CardContent>
           <FlexDiv fullWidth align spaceBetween style={{ paddingBottom: "0.5rem" }}>
             <BiggerHeading>{product.name}</BiggerHeading>
-            <Text>{product.id}</Text>
+            <Text>{product.productId}</Text>
           </FlexDiv>
 
           <StarsReviewsQuestions product={product} />
 
           <MainDiv style={{ paddingTop: "1rem" }}>
             <ImageContainer>
-              <img src={product.images[0].link} alt={product.name} />
+              <img src={product.images.split(",")[0]} alt={product.name} />
             </ImageContainer>
             <RightDiv>
               <FlexDiv fullWidth>
                 <UnorderedList width={"100%"}>
-                  {product.bulletPoints.map((bulletPoint) => (
-                    <ListItem key={bulletPoint.id}>
-                      <Text>{bulletPoint.text}</Text>
+                  {product.bulletPoints.split(",").map((bulletPoint, i) => (
+                    <ListItem key={i}>
+                      <Text>{bulletPoint}</Text>
                     </ListItem>
                   ))}
                 </UnorderedList>
@@ -120,12 +120,12 @@ const ProductPage: NextPage<Props> = ({ product, resolvedCategories, valid }) =>
                 <FlexDiv column fullWidth>
                   <div>
                     <Text>Product id: </Text>
-                    <Text bold>{product.id}</Text>
+                    <Text bold>{product.productId}</Text>
                   </div>
 
                   {isAdmin(state.flags) ? (
                     <FlexDiv column gap05>
-                      <Link href={routes.product.edit(product.id)}>
+                      <Link href={routes.product.edit(product.productId)}>
                         <Button isFullWidth leftIcon={<EditIcon />}>
                           Edit
                         </Button>

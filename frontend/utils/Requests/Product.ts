@@ -1,5 +1,4 @@
 import { ProductFormValues } from "../../components/Forms/ProductForm";
-import { bulletPoint, imageLink } from "../../types/Product";
 import { request } from "../requests";
 import { apiRoutes } from "../routes";
 
@@ -33,8 +32,8 @@ type AddProductRequestBody = {
   discountPercent: number;
   discountAmount: number;
 
-  bulletPoints: bulletPoint[];
-  imageLinks: imageLink[];
+  bulletPoints: string[];
+  imageLinks: string[];
 
   deepestCategoryId: number;
 };

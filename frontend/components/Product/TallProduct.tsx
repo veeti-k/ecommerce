@@ -26,12 +26,12 @@ const StyledImage = styled("img", {
 export const TallProduct: FC<TallProductProps> = ({ product }) => (
   <ProductCard>
     <Link
-      href={routes.productRoot(product.id)}
+      href={routes.productRoot(product.productId)}
       style={{ position: "absolute", width: "100%", height: "100%", top: 0, left: 0 }}
     ></Link>
 
     <FlexDiv flexEnd fullWidth>
-      <Text style={{ zIndex: 5 }}>{product.id}</Text>
+      <Text style={{ zIndex: 5 }}>{product.productId}</Text>
     </FlexDiv>
 
     <FlexDiv style={{ padding: "0.5rem 0" }} fullHeight align>

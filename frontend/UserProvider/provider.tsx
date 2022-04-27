@@ -4,7 +4,7 @@ import { logger } from "../utils/logger";
 import { Action, Actions, MyDispatch } from "./types";
 
 export const initState: User = {
-  id: "",
+  userId: "",
   name: "",
   email: "",
   phoneNumber: "",
