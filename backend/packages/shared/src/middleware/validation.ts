@@ -17,8 +17,8 @@ export const validation =
         });
     }
 
-    if (validators.params) {
-      const { error: bodyError } = validators.params(req.body);
+    if (validators.body) {
+      const { error: bodyError } = validators.body(req.body);
       if (bodyError)
         return respondError({
           res,
