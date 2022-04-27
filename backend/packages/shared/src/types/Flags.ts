@@ -6,4 +6,5 @@ export const Flags = {
   ManageProducts: BigInt(1 << 4),
   ManageUsers: BigInt(1 << 5),
   ManageQuestions: BigInt(1 << 6),
+  ManageReviews: BigInt(1 << 7),
 };
