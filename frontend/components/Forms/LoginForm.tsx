@@ -6,17 +6,20 @@ import { UserContext } from "../../UserProvider/provider";
 import { FlexDiv, InputLabelContainer } from "../Containers";
 import { Button, Input } from "@chakra-ui/react";
 import { PasswordInputWithLabel } from "../Inputs";
-import { basename } from "path";
+import { useRouter } from "next/router";
+import { pushUser } from "../../utils/router";
 
 export const LoginForm = () => {
   const { dispatch } = useContext(UserContext);
   const emailInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   const onSubmit = async (values: any) => {
     const res = await LoginRequest(values);
 
     if (res) {
       getMe(dispatch);
+      pushUser(router, "/", "login success");
     } else {
       setTimeout(() => {
         emailInputRef?.current && emailInputRef.current.focus();
