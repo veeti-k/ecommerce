@@ -1,16 +1,17 @@
 import prisma from "../client";
 
-export const create = (productId: number, body: any) =>
-  prisma.question.create({
+export const create = (productId: number, byEmployee: boolean, body: any) =>
+  prisma.review.create({
     data: {
       ...body,
+      byEmployee,
       productId,
     },
   });
 
 export const get = {
   all: (isApproved: boolean) =>
-    prisma.question.findMany({
+    prisma.review.findMany({
       where: {
         isApproved,
         isDeleted: false,
@@ -19,26 +20,26 @@ export const get = {
     }),
 
   byProductId: (productId: number) =>
-    prisma.question.findMany({
+    prisma.review.findMany({
       where: {
         productId,
         isDeleted: false,
       },
     }),
 
-  oneById: (questionId: string) =>
-    prisma.question.findFirst({
+  oneById: (reviewId: string) =>
+    prisma.review.findFirst({
       where: {
-        questionId,
+        reviewId,
         isDeleted: false,
       },
     }),
 };
 
-export const approve = (questionId: string) =>
-  prisma.question.update({
+export const approve = (reviewId: string) =>
+  prisma.review.update({
     where: {
-      questionId,
+      reviewId,
     },
     data: {
       isApproved: true,
@@ -46,10 +47,10 @@ export const approve = (questionId: string) =>
     },
   });
 
-export const remove = (questionId: string) =>
-  prisma.question.update({
+export const remove = (reviewId: string) =>
+  prisma.review.update({
     where: {
-      questionId,
+      reviewId,
     },
     data: {
       isApproved: false,
