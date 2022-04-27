@@ -1,17 +1,7 @@
-import {
-  AuthVerifyUserResponse,
-  Endpoint,
-  REQ_USER,
-  respondError,
-  respondSuccess,
-  zinc,
-} from "shared";
+import { Endpoint, respondError, respondSuccess, zinc } from "shared";
 import { db } from "../../../database";
 
 export const create: Endpoint = async (req, res) => {
-  const currentUser = req.app.get(REQ_USER) as AuthVerifyUserResponse | null;
-  const isEmployee = !!currentUser?.isEmployee;
-
   const productId = Number(req.params.productId);
 
   const product = await zinc.getProductById(productId);
@@ -22,7 +12,7 @@ export const create: Endpoint = async (req, res) => {
       message: "Product not found",
     });
 
-  const createdQuestion = await db.questions.create(productId, isEmployee, req.body);
+  const createdQuestion = await db.questions.create(productId, req.body);
 
   respondSuccess({
     res,
