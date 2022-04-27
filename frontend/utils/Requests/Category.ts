@@ -24,6 +24,6 @@ export const AddCategoryRequest = (newCategory: Omit<Category, "id">) =>
 
 export const GetCategoriesRequest = () =>
   request({
-    path: apiRoutes.categoriesRoot,
+    path: apiRoutes.categoriesRoot + "?resolved=true",
     method: "GET",
   });

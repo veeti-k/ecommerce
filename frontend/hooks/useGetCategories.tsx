@@ -19,7 +19,7 @@ export const useGetCategories = () => {
       setIsLoading(false);
 
       if (res) {
-        setAllCategories(res.data["allCategories"]);
+        setAllCategories(res.data["categories"]);
         setResolvedCategories(res.data["resolvedCategories"]);
       }
     })();

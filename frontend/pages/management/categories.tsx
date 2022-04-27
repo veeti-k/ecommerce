@@ -19,7 +19,7 @@ const Categories: NextPage = () => {
     const res = await GetCategoriesRequest();
 
     if (res) {
-      setCategories(res.data["allCategories"]);
+      setCategories(res.data["categories"]);
       setResolvedCategories(res.data["resolvedCategories"]);
     }
   };
