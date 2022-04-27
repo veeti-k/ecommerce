@@ -16,7 +16,7 @@ export const ProfileMenu = () => {
 
   const isAllowedToReview = hasManageReviews(state.flags) || hasManageQuestions(state.flags);
 
-  if (!state.id)
+  if (!state.userId)
     return (
       <Menu>
         <MenuButton aria-label="User menu" as={IconButton} icon={<UserIcon />} />
