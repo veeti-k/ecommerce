@@ -1,9 +1,9 @@
-import Joi from "joi";
+import * as Yup from "yup";
 import { Validators, productId, questionId } from "shared";
 
 export const remove: Validators = {
   params: (obj) =>
-    Joi.object({
+    Yup.object({
       productId,
       questionId,
     }).validate(obj),

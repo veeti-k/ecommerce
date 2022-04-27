@@ -12,9 +12,9 @@
     "axios": "^0.26.1",
     "config": "*",
     "express": "^4.17.3",
-    "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
-    "shared": "*"
+    "shared": "*",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",

@@ -1,8 +1,8 @@
-import Joi from "joi";
+import * as Yup from "yup";
 import { PARAM_NUMBER_MAX_SAFE } from "../consts";
 
-const number = Joi.number().max(PARAM_NUMBER_MAX_SAFE).required();
-const uuid = Joi.string().uuid().required();
+const number = Yup.number().max(PARAM_NUMBER_MAX_SAFE).required();
+const uuid = Yup.string().uuid().required();
 
 export const productId = number;
 

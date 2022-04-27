@@ -1,10 +1,10 @@
-import Joi from "joi";
+import * as Yup from "yup";
 import { Validators } from "shared";
 
 export const login: Validators = {
-  body: (obj) =>
-    Joi.object({
-      email: Joi.string().email().required(),
-      password: Joi.string().required(),
+  body: (obj: any) =>
+    Yup.object({
+      email: Yup.string().email().required(),
+      password: Yup.string().required(),
     }).validate(obj),
 };

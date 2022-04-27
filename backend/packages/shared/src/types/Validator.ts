@@ -1,8 +1,7 @@
-import Joi from "joi";
 import { AtLeastOne } from "./Util";
 
 export interface Validator {
-  (obj: any): Joi.ValidationResult<any>;
+  (obj: any): Promise<any>;
 }
 
 export type Validators = AtLeastOne<{

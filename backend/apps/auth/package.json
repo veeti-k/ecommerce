@@ -13,9 +13,9 @@
     "bcrypt": "^5.0.1",
     "config": "*",
     "express": "^4.17.3",
-    "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
-    "shared": "*"
+    "shared": "*",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",

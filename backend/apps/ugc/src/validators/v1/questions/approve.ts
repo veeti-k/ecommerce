@@ -1,9 +1,9 @@
-import Joi from "joi";
+import * as Yup from "yup";
 import { Validators, questionId, productId } from "shared";
 
 export const approve: Validators = {
   params: (obj) =>
-    Joi.object({
+    Yup.object({
       productId,
       questionId,
     }).validate(obj),

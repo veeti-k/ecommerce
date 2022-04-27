@@ -5,6 +5,7 @@ export * from "./middleware/validation";
 export * from "./utils/respondWith";
 export * from "./utils/seededUsers";
 export * from "./utils/validation";
+export * from "./utils/string";
 export * as zinc from "./utils/zinc";
 
 export * from "./types/ApiThings";
