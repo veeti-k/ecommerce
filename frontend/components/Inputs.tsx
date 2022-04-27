@@ -8,6 +8,8 @@ interface PasswordInputProps {
   onChange: ChangeEventHandler<HTMLInputElement> | undefined;
   value: string;
   autoComplete: string | undefined;
+  onBlur?: ChangeEventHandler<HTMLInputElement> | undefined;
+  name?: string;
 }
 
 export const PasswordInputWithLabel: FC<PasswordInputProps> = ({
@@ -16,6 +18,8 @@ export const PasswordInputWithLabel: FC<PasswordInputProps> = ({
   onChange,
   value,
   autoComplete,
+  onBlur,
+  name,
 }) => {
   const [showPw, setShowPw] = useState<boolean>(false);
 
@@ -26,9 +30,12 @@ export const PasswordInputWithLabel: FC<PasswordInputProps> = ({
           type={showPw ? "text" : "password"}
           id={id}
           onChange={onChange}
+          onBlur={onBlur}
           value={value}
           autoComplete={autoComplete}
+          name={name}
           required
+          pr="4.5rem"
         />
         <InputRightElement width="4.5rem">
           <Button size="sm" height="1.75rem" onClick={() => setShowPw(!showPw)}>

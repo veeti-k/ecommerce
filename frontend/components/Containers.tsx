@@ -87,6 +87,7 @@ interface InputLabelContainerProps extends ComponentPropsWithoutRef<"div"> {
   label: string;
   id: string;
   row?: boolean;
+  error?: string;
 }
 
 export const InputLabelContainer: FC<InputLabelContainerProps> = ({
@@ -95,16 +96,18 @@ export const InputLabelContainer: FC<InputLabelContainerProps> = ({
   children,
   row,
   style,
-}) => {
-  return (
-    <FlexDiv gap0 align={row} column={!row} style={style} fullWidth>
-      <Label htmlFor={id} style={{ paddingBottom: "0.2rem" }}>
-        {label}
+  error,
+}) => (
+  <FlexDiv gap0 align={row} column={!row} style={style} fullWidth>
+    <FlexDiv fullWidth spaceBetween style={{ paddingBottom: "0.2rem" }}>
+      <Label htmlFor={id}>{label}</Label>
+      <Label htmlFor={id} style={{ color: "red" }} noMargin>
+        {error}
       </Label>
-      {children}
     </FlexDiv>
-  );
-};
+    {children}
+  </FlexDiv>
+);
 
 export const MgmtSettingsPageScrollableContent = styled("div", {
   overflowY: "auto",

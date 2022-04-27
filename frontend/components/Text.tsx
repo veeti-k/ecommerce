@@ -5,6 +5,14 @@ export const Label = styled(RadixLabel.Root, {
   fontSize: "0.9rem",
   marginRight: "1rem",
   padding: 0,
+
+  variants: {
+    noMargin: {
+      true: {
+        marginRight: 0,
+      },
+    },
+  },
 });
 
 export const Paragraph = styled("p", {
