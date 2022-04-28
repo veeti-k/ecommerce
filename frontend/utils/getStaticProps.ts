@@ -26,7 +26,7 @@ export const STATIC_PROPS_REQUESTS = {
 
   Products: {
     getByCategoryId: async (categoryId: number): Promise<Product[]> => {
-      const res = await fetch(`${apiBase}/products?category=${categoryId}`);
+      const res = await fetch(`${apiBase}/search/products?categoryId=${categoryId}`);
       return (await res.json()) as Product[];
     },
 

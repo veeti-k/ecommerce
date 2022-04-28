@@ -26,7 +26,7 @@ export const Addresses: NextPage<Props> = ({ resolvedCategories }) => {
   const { state } = useContext(UserContext);
 
   return (
-    <SettingsPageLayout categories={resolvedCategories}>
+    <SettingsPageLayout activePage="addresses" categories={resolvedCategories}>
       <TitleContainer>
         <div>
           <Heading>Addresses</Heading>

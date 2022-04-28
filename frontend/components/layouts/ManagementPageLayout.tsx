@@ -2,7 +2,6 @@ import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FC, useContext } from "react";
 import { useHasMounted } from "../../hooks/useHasMounted";
-import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 import { ResolvedCategory } from "../../types/Category";
 import { UserContext } from "../../UserProvider/provider";
 import { isAdmin } from "../../utils/flagResolve";
@@ -22,30 +21,22 @@ type ManagementPageLayoutProps = {
 export const ManagementPageLayout: FC<ManagementPageLayoutProps> = ({ children, categories }) => {
   const router = useRouter();
 
-  const isLoggedIn = useIsLoggedIn();
-
   const { state } = useContext(UserContext);
 
   const hasMounted = useHasMounted();
-  if (!hasMounted) return null;
 
-  if (!isLoggedIn || !isAdmin(state.flags)) {
-    console.log("not logged in or not admin");
+  const isLoggedIn = state.userId && state.status === "loaded";
 
-    pushUser(router, routes.home, "managementPageLayout not logged in or not admin");
-  }
-
-  if (!isLoggedIn) return null;
+  if (!isLoggedIn) pushUser(router, "/", "managementPageLayout::isLoggedIn, isAdmin false");
 
   return (
     <Layout categories={categories}>
-      {isAdmin(state.flags) ? (
-        <>
-          <PageTitleContainer>
-            <PageTitle>Management</PageTitle>
-          </PageTitleContainer>
-
-          <Card shadowFar>
+      <>
+        <PageTitleContainer>
+          <PageTitle>Management</PageTitle>
+        </PageTitleContainer>
+        <Card shadowFar>
+          {hasMounted && isLoggedIn && isAdmin(state.flags) ? (
             <FlexDiv gap0>
               <PageSelectorButtons>
                 <Button
@@ -89,9 +80,9 @@ export const ManagementPageLayout: FC<ManagementPageLayoutProps> = ({ children, 
 
               <MainContent>{children}</MainContent>
             </FlexDiv>
-          </Card>
-        </>
-      ) : null}
+          ) : null}
+        </Card>
+      </>
     </Layout>
   );
 };

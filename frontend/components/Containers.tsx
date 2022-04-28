@@ -18,11 +18,6 @@ export const VerticalGrid = styled("div", {
   paddingBottom: "0.5rem",
 });
 
-export const MainGrid = styled("div", {
-  display: "flex",
-  gap: "1rem",
-});
-
 export const FlexDiv = styled("div", {
   display: "flex",
   flexDirection: "row",

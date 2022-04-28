@@ -60,7 +60,7 @@ const Account: NextPage<Props> = ({ resolvedCategories }) => {
   };
 
   return (
-    <SettingsPageLayout categories={resolvedCategories}>
+    <SettingsPageLayout activePage="account" categories={resolvedCategories}>
       <TitleContainer>
         <div>
           <Heading>General Info</Heading>

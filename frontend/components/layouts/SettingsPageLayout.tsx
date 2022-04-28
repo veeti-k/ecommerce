@@ -2,7 +2,6 @@ import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FC, useContext } from "react";
 import { useHasMounted } from "../../hooks/useHasMounted";
-import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
 import { ResolvedCategory } from "../../types/Category";
 import { UserContext } from "../../UserProvider/provider";
 import { logout } from "../../utils/logout";
@@ -15,24 +14,28 @@ import { Text, PageTitle } from "../Text";
 import { Layout } from "./Layout";
 import { PageTitleContainer, PageSelectorButtons, PageSelectorButton, MainContent } from "./Styles";
 
+type ActivePage = "account" | "addresses" | "sessions" | "password";
+
 type SettingsPageLayoutProps = {
   categories: ResolvedCategory[];
+  activePage: ActivePage;
 };
 
-export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({ children, categories }) => {
+export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({
+  children,
+  categories,
+  activePage,
+}) => {
   const router = useRouter();
 
-  const isLoggedIn = useIsLoggedIn();
-
-  const { dispatch } = useContext(UserContext);
+  const { dispatch, state } = useContext(UserContext);
 
   const hasMounted = useHasMounted();
-  if (!hasMounted) return null;
 
-  if (!isLoggedIn) {
+  const isLoggedIn = state.userId && state.status === "loaded";
+
+  if (!state.userId && state.status == "loaded")
     pushUser(router, "/", "settingsPageLayout::isLoggedIn false");
-    return null;
-  }
 
   return (
     <Layout categories={categories}>
@@ -58,33 +61,30 @@ export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({ children, cate
         <Card shadowFar>
           <FlexDiv gap0>
             <PageSelectorButtons>
-              <PageSelectorButton
-                route={routes.settingsAccount}
-                active={window.location.pathname.includes("account")}
-              >
+              <PageSelectorButton route={routes.settingsAccount} active={activePage === "account"}>
                 <UserIcon /> <Text>Account</Text>
               </PageSelectorButton>
               <PageSelectorButton
                 route={routes.settingsPassword}
-                active={window.location.pathname.includes("password")}
+                active={activePage === "password"}
               >
                 <PasswordIcon /> <Text>Password</Text>
               </PageSelectorButton>
               <PageSelectorButton
                 route={routes.settingsAddresses}
-                active={window.location.pathname.includes("addresses")}
+                active={activePage === "addresses"}
               >
                 <AddressesIcon /> <Text>Addresses</Text>
               </PageSelectorButton>
               <PageSelectorButton
                 route={routes.settingsSessions}
-                active={window.location.pathname.includes("sessions")}
+                active={activePage === "sessions"}
               >
                 <SessionsIcon /> <Text>Sessions</Text>
               </PageSelectorButton>
             </PageSelectorButtons>
 
-            <MainContent>{children}</MainContent>
+            <MainContent>{hasMounted && isLoggedIn ? children : null}</MainContent>
           </FlexDiv>
         </Card>
       </>

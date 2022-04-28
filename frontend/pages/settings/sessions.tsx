@@ -45,7 +45,7 @@ const Sessions: NextPage<Props> = ({ resolvedCategories }) => {
   };
 
   return (
-    <SettingsPageLayout categories={resolvedCategories}>
+    <SettingsPageLayout activePage="sessions" categories={resolvedCategories}>
       <TitleContainer>
         <Heading>Sessions</Heading>
       </TitleContainer>

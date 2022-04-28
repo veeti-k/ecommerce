@@ -16,11 +16,9 @@ export type Product = {
   questionCount: number;
   deepestCategoryId: number;
   bulletPoints: string;
-  imageUrl: string;
+  imageLinks: string;
 };
 
 export type ProductPageProduct = Product & {
-  bulletPoints: string;
-  imageLinks: string;
   path: Category[];
 };

@@ -14,13 +14,18 @@ export const useGetMe = () => {
 
       if (state?.userId) return logger.logHook("useGetMe", "stopped, user already set");
 
+      dispatch({ type: Actions.SetStatus, payload: "loading" });
+
       const res = await request({
         method: "GET",
         path: apiRoutes.userRoot("me"),
         shouldRedirect401: false,
       });
 
-      if (res) dispatch({ type: Actions.SetUser, payload: res.data });
+      dispatch({ type: Actions.SetStatus, payload: "loaded" });
+      if (res) {
+        return dispatch({ type: Actions.SetUser, payload: res.data });
+      }
     })();
   }, []);
 };

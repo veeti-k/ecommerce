@@ -27,7 +27,7 @@ export const WideProduct: FC<Props> = ({ product }) => (
 
       <FlexDiv fullWidth fullHeight>
         <FlexDiv fullHeight align>
-          <StyledImage src={product.imageUrl} alt={product.name} />
+          <StyledImage src={product.imageLinks.split(",")[0]} alt={product.name} />
         </FlexDiv>
 
         <FlexDiv column fullWidth fullHeight>

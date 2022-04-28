@@ -22,7 +22,7 @@ const Password: NextPage<Props> = ({ resolvedCategories }) => {
   };
 
   return (
-    <SettingsPageLayout categories={resolvedCategories}>
+    <SettingsPageLayout activePage="password" categories={resolvedCategories}>
       <TitleContainer>
         <div>
           <Heading>Password</Heading>

@@ -35,7 +35,7 @@ export const TallProduct: FC<TallProductProps> = ({ product }) => (
     </FlexDiv>
 
     <FlexDiv style={{ padding: "0.5rem 0" }} fullHeight align>
-      <StyledImage src={product.imageUrl} alt={product.name} />
+      <StyledImage src={product.imageLinks.split(",")[0]} alt={product.name} />
     </FlexDiv>
 
     <FlexDiv column fullWidth fullHeight flexEnd gap05>

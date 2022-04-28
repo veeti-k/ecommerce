@@ -3,7 +3,13 @@ import { User } from "../types/User";
 import { logger } from "../utils/logger";
 import { Action, Actions, MyDispatch } from "./types";
 
-export const initState: User = {
+export type Status = "loading" | "loaded" | "empty" | "error";
+
+type State = User & {
+  status: Status;
+};
+
+export const initState: State = {
   userId: "",
   name: "",
   email: "",
@@ -12,9 +18,10 @@ export const initState: User = {
   createdAt: "",
   addresses: [],
   sessions: [],
+  status: "empty",
 };
 
-const userReducer = (state: User, action: Action) => {
+const userReducer = (state: State, action: Action) => {
   switch (action.type) {
     case Actions.SetUser:
       logger.log(`[REDUCER] - setting user: `, action.payload);
@@ -28,6 +35,13 @@ const userReducer = (state: User, action: Action) => {
       return {
         ...initState,
       };
+
+    case Actions.SetStatus:
+      logger.log(`[REDUCER] - setting state status: `, action.payload);
+      return {
+        ...state,
+        status: action.payload,
+      };
     default:
       return state;
   }
@@ -40,7 +54,7 @@ export const UserProvider: FC = ({ children }) => {
 };
 
 export const UserContext = createContext<{
-  state: User;
+  state: State;
   dispatch: MyDispatch;
 }>({
   state: initState,
