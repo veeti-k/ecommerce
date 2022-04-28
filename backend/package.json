@@ -11,7 +11,7 @@
 
     "dev": "turbo run dev",
 
-    "dev:env:ports": "CATALOGUE_PORT=36700 USERS_PORT=36701 AUTH_PORT=36702 UGC_PORT=36703",
+    "dev:env:ports": "CATALOGUE_PORT=36700 USERS_PORT=36701 AUTH_PORT=36702 UGC_PORT=36703 SEARCH_PORT=36704",
     "dev:env:zinc": "ZINC_BASE_URL=http://localhost:35800/api ZINC_USERNAME=dev ZINC_PASSWORD=dev",
     "dev:env:services": "AUTH_VERIFY_URL=http://localhost:36702/api/v1/auth/verify",
     "dev:env:dbs": "CATALOGUE_DB_URL=postgres://dev:dev@localhost:35802/dev?schema=dev USERS_DB_URL=postgres://dev:dev@localhost:35801/dev?schema=dev UGC_DB_URL=postgres://dev:dev@localhost:35803/dev?schema=dev",

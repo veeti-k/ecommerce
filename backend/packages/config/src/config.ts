@@ -6,6 +6,7 @@ export const config: IConfig = {
     users: Number(process.env.USERS_PORT),
     auth: Number(process.env.AUTH_PORT),
     ugc: Number(process.env.UGC_PORT),
+    search: Number(process.env.SEARCH_PORT),
   },
 
   dbUrls: {

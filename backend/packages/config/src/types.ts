@@ -4,6 +4,7 @@ export interface IConfig {
     users: number;
     auth: number;
     ugc: number;
+    search: number;
   };
 
   dbUrls: {
