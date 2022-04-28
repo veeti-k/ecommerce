@@ -17,7 +17,7 @@
     "dev:env:dbs": "CATALOGUE_DB_URL=postgres://dev:dev@localhost:35802/dev?schema=dev USERS_DB_URL=postgres://dev:dev@localhost:35801/dev?schema=dev UGC_DB_URL=postgres://dev:dev@localhost:35803/dev?schema=dev",
     "dev:env:all": "yarn dev:env:ports yarn dev:env:zinc yarn dev:env:services yarn dev:env:dbs",
 
-    "dev:setup": "mkdir -p ./DEV-DATA/zinc && chmod a+rwx ./DEV-DATA/zinc",
+    "dev:setup": "mkdir -p ./DEV-DATA/zinc && chmod a+rwx ./DEV-DATA/zinc && yarn build",
     "dev:dbs": "docker-compose -f docker-compose.dev.yml up -d",
     "dev:dbinit": "yarn dev:env:dbs turbo run db:pushall",
     "dev:start": "yarn dev:env:all yarn dev",

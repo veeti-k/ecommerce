@@ -7,7 +7,7 @@
   "scripts": {
     "build": "./node_modules/.bin/tsc -p ./tsconfig.json",
     "start": "node ./dist/index.js",
-    "dev": "yarn build && yarn start",
+    "dev": "yarn start",
     "clean": "rm -rf node_modules && rm -rf .turbo && rm -rf dist"
   },
   "dependencies": {

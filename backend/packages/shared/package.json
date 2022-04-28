@@ -14,7 +14,6 @@
     "db:client:all": "yarn db:client:ugc && yarn db:client:catalogue && yarn db:client:users",
     "db:pushall": "yarn db:push:catalogue && yarn db:push:users && yarn db:push:ugc",
     "build": "yarn db:client:all && ./node_modules/.bin/tsc -p ./tsconfig.json && mkdir -p ./dist/databases/generated && cp -r ./src/databases/generated/ ./dist/databases/",
-    "dev": "yarn build",
     "clean": "rm -rf node_modules && rm -rf .turbo && rm -rf dist"
   },
   "dependencies": {
