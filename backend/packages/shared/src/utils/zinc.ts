@@ -10,7 +10,7 @@ interface IBuildZincSearchTerm {
 export const buildSearchTerm = ({ query, categoryId }: IBuildZincSearchTerm): string => {
   const searchTerm = [];
 
-  if (query) searchTerm.push(`+${query} +${query}*`);
+  if (query) searchTerm.push(`${query} +${query}*`);
   if (categoryId) searchTerm.push(`+deepestCategoryId:${categoryId}`);
 
   return searchTerm.join(" ");
