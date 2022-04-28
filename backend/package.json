@@ -21,6 +21,7 @@
     "dev:dbs": "docker-compose -f docker-compose.dev.yml up -d",
     "dev:dbinit": "yarn dev:env:dbs turbo run db:pushall",
     "dev:start": "yarn dev:env:all yarn dev",
+    "dev:restart": "yarn build && yarn dev:start",
     "dev:wait": "yarn wait localhost 35800 && yarn wait localhost 35801 && yarn wait localhost 35802 && yarn wait localhost 35803",
     "dev:auto": "yarn dev:setup && yarn dev:dbs && yarn dev:wait && yarn dev:dbinit && yarn dev:start",
     "dev:down": "docker-compose -f docker-compose.dev.yml rm -fsv",

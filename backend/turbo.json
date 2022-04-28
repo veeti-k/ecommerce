@@ -16,7 +16,8 @@
       "cache": false
     },
     "dev": {
-      "dependsOn": ["^dev"]
+      "dependsOn": ["^dev"],
+      "cache": false
     },
     "test":{
       "dependsOn": ["^test"],
