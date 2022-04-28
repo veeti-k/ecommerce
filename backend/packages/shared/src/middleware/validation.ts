@@ -31,5 +31,18 @@ export const validation =
       }
     }
 
+    if (validators.query) {
+      try {
+        await validators.query.validate(req.query);
+        req.query = validators.query.cast(req.query);
+      } catch (err) {
+        return respondError({
+          res,
+          statusCode: 400,
+          message: capitalize(err.message),
+        });
+      }
+    }
+
     next();
   };

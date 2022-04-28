@@ -2,13 +2,27 @@ import axios from "axios";
 import { config } from "config";
 import { Product, ZincProduct } from "../types/Product";
 
-export const searchProductsWithString = async (query: string): Promise<Product[]> => {
+interface IBuildZincSearchTerm {
+  query?: string;
+  categoryId?: number;
+}
+
+export const buildSearchTerm = ({ query, categoryId }: IBuildZincSearchTerm): string => {
+  const searchTerm = [];
+
+  if (query) searchTerm.push(`+${query} +${query}*`);
+  if (categoryId) searchTerm.push(`+deepestCategoryId:${categoryId}`);
+
+  return searchTerm.join(" ");
+};
+
+export const search = async (searchTerm: string): Promise<Product[]> => {
   const res = await axios.post(
     `${config.zinc.baseUrl}/products/_search`,
     {
       search_type: "querystring",
       query: {
-        term: `${query} ${query}*`,
+        term: searchTerm,
       },
       _source: [],
       max_results: 100_000,
@@ -18,7 +32,7 @@ export const searchProductsWithString = async (query: string): Promise<Product[]
 
   if (!res?.data?.hits?.total?.value) return [];
 
-  return res.data.hits.hits.map((hit: any) => hit._source);
+  return res.data.hits.hits.map((hit: ZincProduct) => hit._source);
 };
 
 export const getProductById = async (productId: number): Promise<ZincProduct | null> => {
