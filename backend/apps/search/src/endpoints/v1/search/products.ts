@@ -13,8 +13,6 @@ export const search: Endpoint = async (req, res) => {
       json: [],
     });
 
-  console.log(searchTerm);
-
   const products = await zinc.search(searchTerm);
 
   respondSuccess({
