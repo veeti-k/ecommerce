@@ -1,9 +1,8 @@
 import express from "express";
-
-import { products } from "./products/search";
+import { v1Endpoints } from "../../endpoints";
 
 const router = express.Router();
 
-router.get("/products", products);
+router.get("/search/products", v1Endpoints.products.search);
 
 export { router as v1Router };
