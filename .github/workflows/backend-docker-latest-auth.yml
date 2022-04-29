@@ -45,3 +45,4 @@ jobs:
           context: ./backend
           push: true
           tags: veetik/ecommerce-project-b-auth:latest
+          dockerfile: ./backend/Dockerfile
