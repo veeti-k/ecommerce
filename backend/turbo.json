@@ -9,7 +9,8 @@
       "cache": false
     },
     "start": {
-      "dependsOn": ["^start"]
+      "dependsOn": ["^start"],
+      "cache": false
     },
     "db:pushall":{
       "dependsOn": ["^db:pushall"],

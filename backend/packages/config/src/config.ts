@@ -2,11 +2,11 @@ import { IConfig } from "./types";
 
 export const config: IConfig = {
   ports: {
-    catalogue: Number(process.env.CATALOGUE_PORT),
-    users: Number(process.env.USERS_PORT),
-    auth: Number(process.env.AUTH_PORT),
-    ugc: Number(process.env.UGC_PORT),
-    search: Number(process.env.SEARCH_PORT),
+    catalogue: Number(process.env.CATALOGUE_PORT || 3000),
+    users: Number(process.env.USERS_PORT || 3000),
+    auth: Number(process.env.AUTH_PORT || 3000),
+    ugc: Number(process.env.UGC_PORT || 3000),
+    search: Number(process.env.SEARCH_PORT || 3000),
   },
 
   dbUrls: {
