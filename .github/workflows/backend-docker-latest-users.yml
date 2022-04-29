@@ -3,7 +3,7 @@ name: 'Backend-users: build Docker image'
 on: 
   push:
     paths: 
-      - 'backend/apps/users'
+      - 'backend/apps/users/**'
       - 'backend/packages/**'
     branches:   
       - master

@@ -3,7 +3,7 @@ name: 'Backend-auth: build Docker image'
 on: 
   push:
     paths: 
-      - 'backend/apps/auth'
+      - 'backend/apps/auth/**'
       - 'backend/packages/**'
     branches:   
       - master

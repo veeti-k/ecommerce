@@ -3,7 +3,7 @@ name: 'Backend-catalogue: build Docker image'
 on: 
   push:
     paths: 
-      - 'backend/apps/catalogue'
+      - 'backend/apps/catalogue/**'
       - 'backend/packages/**'
     branches:   
       - master

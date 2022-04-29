@@ -3,7 +3,7 @@ name: 'Backend-ugc: build Docker image'
 on: 
   push:
     paths: 
-      - 'backend/apps/ugc'
+      - 'backend/apps/ugc/**'
       - 'backend/packages/**'
     branches:   
       - master

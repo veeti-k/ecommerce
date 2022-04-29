@@ -3,7 +3,7 @@ name: 'Backend-search: build Docker image'
 on: 
   push:
     paths: 
-      - 'backend/apps/search'
+      - 'backend/apps/search/**'
       - 'backend/packages/**'
     branches:   
       - master
