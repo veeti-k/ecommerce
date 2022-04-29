@@ -1,0 +1,45 @@
+name: 'Backend-users: build Docker image'
+
+on: 
+  push:
+    paths: 
+      - 'backend/apps/users'
+      - 'backend/packages/**'
+    branches:   
+      - master
+
+jobs:
+  build-code: 
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js 17.8.0
+      uses: actions/setup-node@v3
+      with:
+        node-version: '17.8.0'
+
+    - name: Build code
+      run: yarn build:backend
+
+  build-image: 
+    needs: build-code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up QEMU
+        users: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        users: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        users: docker/login-action@v1
+        with: 
+          username: ${{ secrets.DH_USERNAME }}
+          password: ${{ secrets.DH_TOKEN }}
+
+      - name: Build and push Docker image
+        users: docker/build-push-action@v2
+        with:
+          push: true
+          tags: veetik/ecommerce-project-b-users:latest

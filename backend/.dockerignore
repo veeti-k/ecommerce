@@ -1,2 +1,4 @@
 **/DEV-DATA
 **/TEST-DATA
+**/node_modules
+**/dist
