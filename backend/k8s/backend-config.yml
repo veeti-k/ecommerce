@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+data:
+  USERS_DB_URL:
+  CATALOGUE_DB_URL:
+  UGC_DB_URL:
+  AUTH_VERIFY_URL:
+  ZINC_BASE_URL:
+  ZINC_USERNAME:
+  ZINC_PASSWORD:
