@@ -50,3 +50,6 @@ jobs:
       if: ${{ steps.builds.outputs.test == 'true' }}
       run: echo "test"
 
+    - name: test
+      run: echo ${{ steps.builds.outputs }}
+
