@@ -40,18 +40,17 @@ jobs:
         for i in ${{ steps.getfile.outputs.files }}
         do
           if [[ "backend/apps/auth" == *$i* ]]; then
-            echo "::set-output name=auth::'true'"
+            echo "::set-output name=auth::true"
           elif [[ "backend/" == *$i* ]]; then
-            echo "::set-output name=test::'true'"
+            echo "::set-output name=test::true"
           fi
-          echo "::set-output name=ok::'true'"
+          echo "::set-output name=ok::true"
         done
     
     - name: test
-      if: ${{ steps.builds.outputs.test == 'true' }}
+      if: ${{ steps.builds.outputs.test == true }}
       run: echo "test"
 
     - name: test2
-      run: echo ${{ steps.builds.outputs.test }}
       run: echo ${{ steps.builds.outputs.ok }}
 
