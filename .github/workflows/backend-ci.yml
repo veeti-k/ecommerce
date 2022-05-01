@@ -19,7 +19,7 @@ jobs:
         node-version: '17.8.0'
 
     - name: Build code
-      run: yarn build:backend
+      run: yarn build
   
   determine-images:
     name: "Determine images to build"
