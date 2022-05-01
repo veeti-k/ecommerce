@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "test:backend": "cd ./backend && yarn test",
+    "build:backend": "cd ./backend && yarn build"
+  }
+}

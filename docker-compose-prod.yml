@@ -1,0 +1,80 @@
+version: '3.9'
+
+services:
+  prod-zinc: 
+    image: public.ecr.aws/h9e2j3o7/zinc
+    ports:
+      - "4080:4080"
+    env_file:
+      - .env.backend
+    volumes:
+      - ./DATA/zinc:/data
+    
+  prod-users-db:
+    image: postgres
+    ports:
+      - "35801:5432"
+    env_file:
+      - .env.backend
+    restart: unless-stopped
+    volumes:
+      - ./DATA/dbs/users:/var/lib/postgresql/data
+
+  prod-catalogue-db:
+    image: postgres
+    ports:
+      - "35802:5432"
+    env_file:
+      - .env.backend
+    restart: unless-stopped
+    volumes:
+      - ./DATA/dbs/catalogue:/var/lib/postgresql/data
+
+  prod-ugc-db:
+    image: postgres
+    ports:
+      - "35803:5432"
+    env_file:
+      - .env.backend
+    restart: unless-stopped
+    volumes:
+      - ./DATA/dbs/ugc:/var/lib/postgresql/data
+
+  prod-auth:
+    image: veetik/ecommerce-project-b-auth
+    env_file:
+      - .env.backend
+
+  prod-catalogue:
+    image: veetik/ecommerce-project-b-catalogue
+    env_file:
+      - .env.backend
+  
+  prod-ugc:
+    image: veetik/ecommerce-project-b-ugc
+    env_file:
+      - .env.backend
+
+  prod-users:
+    image: veetik/ecommerce-project-b-users
+    env_file:
+      - .env.backend
+
+  prod-search:
+    image: veetik/ecommerce-project-b-search
+    env_file:
+      - .env.backend
+
+  prod-loadbalancer: 
+    depends_on:
+      - prod-users-db
+      - prod-catalogue-db
+      - prod-ugc-db
+    image: nginx
+    ports: 
+      - "4000:5000"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

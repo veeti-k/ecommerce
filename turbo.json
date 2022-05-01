@@ -27,6 +27,10 @@
     "seed": {
       "dependsOn": ["^seed"],
       "cache": false
-    } 
+    },
+    "build-front": {
+      "dependsOn": ["^build-front"],
+      "outputs": [".next/**"]
+    }
   }
 }

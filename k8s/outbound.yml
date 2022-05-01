@@ -16,7 +16,7 @@ metadata:
   name: users-db
 subsets:
   - addresses:
-    - ip: 
+    - ip:
     ports:
     - port: 35801
       name: users-db
@@ -41,7 +41,7 @@ metadata:
   name: catalogue-db
 subsets:
   - addresses:
-    - ip: 
+    - ip:
     ports:
     - port: 35802
       name: catalogue-db
@@ -66,7 +66,7 @@ metadata:
   name: ugc-db
 subsets:
   - addresses:
-    - ip: 
+    - ip:
     ports:
     - port: 35803
       name: ugc-db
@@ -81,7 +81,7 @@ spec:
   ports:
   - name: zinc
     protocol: TCP
-    port: 35800
+    port: 80
     targetPort: 35800
     nodePort: 0
 ---
@@ -91,7 +91,7 @@ metadata:
   name: zinc
 subsets:
   - addresses:
-    - ip: 
+    - ip:
     ports:
     - port: 35800
       name: zinc

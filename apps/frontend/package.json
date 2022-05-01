@@ -1,12 +1,13 @@
 {
-  "name": "front",
+  "name": "frontend",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build-front": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "clean": "rm -rf .next && rm -rf node_modules && rm -rf .turbo"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.8.8",
@@ -27,7 +28,8 @@
     "react-markdown": "^8.0.2",
     "react-rewards": "^2.0.3",
     "swiper": "^8.1.4",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "shared": "*"
   },
   "devDependencies": {
     "@types/node": "17.0.21",

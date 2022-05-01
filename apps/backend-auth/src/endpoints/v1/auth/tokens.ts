@@ -8,7 +8,7 @@ export const tokens: Endpoint = (req, res) => {
   if (!refreshToken)
     return respondError({
       res,
-      statusCode: 400,
+      statusCode: 401,
       message: "No refresh token",
     });
 

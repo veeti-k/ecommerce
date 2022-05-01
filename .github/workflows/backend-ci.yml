@@ -68,38 +68,38 @@ jobs:
         }
 
         auth () {
-          if [[ $1 == *"backend/apps/auth"* ]]; then 
+          if [[ $1 == *"apps/backend-"* ]]; then 
             set_auth 
           fi
         }
 
         catalogue () {
-          if [[ $1 == *"backend/apps/catalogue"* ]]; then 
+          if [[ $1 == *"apps/backend-"* ]]; then 
             set_catalogue 
           fi        
         }
 
         ugc () {
-          if [[ $1 == *"backend/apps/ugc"* ]]; then 
+          if [[ $1 == *"apps/backend-"* ]]; then 
             set_ugc 
           fi        
         }
 
         users () {
-          if [[ $1 == *"backend/apps/users"* ]]; then 
+          if [[ $1 == *"apps/backend-"* ]]; then 
             set_users 
           fi        
         }
 
         search () {
-          if [[ $1 == *"backend/apps/search"* ]]; then 
+          if [[ $1 == *"apps/backend-"* ]]; then 
             set_search 
           fi        
         }
 
         for i in ${{ steps.getfile.outputs.files }}
         do
-          if [[ $i == *"backend/packages/"* ]]; then
+          if [[ $i == *"packages/"* ]]; then
             set_auth
             set_catalogue
             set_ugc
@@ -134,7 +134,7 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@v2
       with:
-        context: "{{defaultContext}}:backend"
+        context: .
         build-args: SCOPE=backend-auth
         push: true
         tags: veetik/ecommerce-project-b-auth:latest
@@ -157,7 +157,7 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@v2
       with:
-        context: "{{defaultContext}}:backend"
+        context: .
         build-args: SCOPE=backend-catalogue
         push: true
         tags: veetik/ecommerce-project-b-catalogue:latest
@@ -180,7 +180,7 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@v2
       with:
-        context: "{{defaultContext}}:backend"
+        context: .
         build-args: SCOPE=backend-ugc
         push: true
         tags: veetik/ecommerce-project-b-ugc:latest
@@ -203,7 +203,7 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@v2
       with:
-        context: "{{defaultContext}}:backend"
+        context: .
         build-args: SCOPE=backend-users
         push: true
         tags: veetik/ecommerce-project-b-users:latest
@@ -226,7 +226,7 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@v2
       with:
-        context: "{{defaultContext}}:backend"
+        context: .
         build-args: SCOPE=backend-search
         push: true
         tags: veetik/ecommerce-project-b-search:latest
