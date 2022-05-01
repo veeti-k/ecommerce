@@ -47,6 +47,6 @@ jobs:
         done
     
     - name: test
-      run: |
-        echo ${{ steps.builds.outputs.test }}
+      if: ${{ steps.builds.outputs.test == 'true' }}
+      run: echo "test"
 
