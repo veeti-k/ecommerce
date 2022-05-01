@@ -35,9 +35,9 @@ jobs:
         echo "::set-output name=files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }}| xargs)"
 
     - name: Show changed files
-        run: |
-          for i in ${{ steps.getfile.outputs.files }}
-          do
-              echo $i
-          done
+      run: |
+        for i in ${{ steps.getfile.outputs.files }}
+        do
+            echo $i
+        done
 
