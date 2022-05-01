@@ -1,0 +1,43 @@
+name: 'Backend: build code'
+
+on: 
+  push:
+    # paths: 
+    #   - 'backend/**'
+    branches:   
+      - master
+
+jobs:
+  # build-code:     
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+    
+  #   - name: Use Node.js 17.8.0
+  #     uses: actions/setup-node@v3
+  #     with:
+  #       node-version: '17.8.0'
+
+  #   - name: Build code
+  #     run: yarn build:backend
+  
+  docker-stuff:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Get changed files
+      id: getfile
+      run: |
+        echo "::set-output name=files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }}| xargs)"
+
+    - name: Show changed files
+        run: |
+          for i in ${{ steps.getfile.outputs.files }}
+          do
+              echo $i
+          done
+
