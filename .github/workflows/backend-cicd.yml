@@ -44,12 +44,14 @@ jobs:
           elif [[ "backend/" == *$i* ]]; then
             echo "::set-output name=test::'true'"
           fi
+          echo "::set-output name=ok::'true'"
         done
     
     - name: test
       if: ${{ steps.builds.outputs.test == 'true' }}
       run: echo "test"
 
-    - name: test
-      run: echo ${{ steps.builds.outputs }}
+    - name: test2
+      run: echo ${{ steps.builds.outputs.test }}
+      run: echo ${{ steps.builds.outputs.ok }}
 
