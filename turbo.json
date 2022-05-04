@@ -20,8 +20,8 @@
       "dependsOn": ["^dev"],
       "cache": false
     },
-    "test":{
-      "dependsOn": ["^test"],
+    "test:backend":{
+      "dependsOn": ["^test:backend"],
       "cache": false
     },
     "seed": {
