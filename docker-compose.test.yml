@@ -3,19 +3,13 @@ version: '3.9'
 services:
   test-zinc: 
     image: public.ecr.aws/h9e2j3o7/zinc
-    ports:
-      - "36800:4080"
-    environment:
-      - DATA_PATH=/data
-      - ZINC_FIRST_ADMIN_USER=test
-      - ZINC_FIRST_ADMIN_PASSWORD=test
+    env_file:
+      - .env.test
     volumes:
       - ./TEST-DATA/zinc:/data
-    
+
   test-users-db:
     image: postgres
-    ports:
-      - "36801:5432"
     environment:
       - POSTGRES_USER=test
       - POSTGRES_PASSWORD=test
@@ -23,22 +17,63 @@ services:
 
   test-catalogue-db:
     image: postgres
-    ports:
-      - "36802:5432"
-    environment:
-      - POSTGRES_USER=test
-      - POSTGRES_PASSWORD=test
+    env_file:
+      - .env.test
     restart: unless-stopped
 
-  test-loadbalancer: 
+  test-ugc-db:
+    image: postgres
+    env_file:
+      - .env.test
+    restart: unless-stopped
+
+  test-users-api:
     depends_on:
       - test-users-db
-      - test-catalogue-db
-    image: nginx
-    ports: 
-      - "80:5000"
-    volumes:
-      - ./nginx.test.conf:/etc/nginx/nginx.conf
+    env_file:
+      - .env.test
+    image: veetik/ecommerce-project-b-users:test
     restart: unless-stopped
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+
+  test-auth-api:
+    depends_on:
+      - test-users-db
+    env_file:
+      - .env.test
+    image: veetik/ecommerce-project-b-auth:test
+    restart: unless-stopped
+  
+  test-catalogue-api:
+    depends_on:
+      - test-catalogue-db
+    env_file:
+      - .env.test
+    image: veetik/ecommerce-project-b-catalogue:test
+    restart: unless-stopped
+
+  test-ugc-api:
+    depends_on:
+      - test-ugc-db
+    env_file:
+      - .env.test
+    image: veetik/ecommerce-project-b-ugc:test
+    restart: unless-stopped
+
+  test-search-api:
+    depends_on:
+      - test-zinc
+    env_file:
+      - .env.test
+    image: veetik/ecommerce-project-b-search:test
+    restart: unless-stopped
+
+  test-runner:
+    depends_on:
+      - test-auth-api
+      - test-users-api
+      - test-catalogue-api
+      - test-ugc-api
+      - test-search-api
+    env_file:
+      - .env.test
+    image: veetik/ecommerce-project-b-integration-tests:latest

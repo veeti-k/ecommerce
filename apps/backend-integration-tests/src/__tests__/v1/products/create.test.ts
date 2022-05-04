@@ -78,10 +78,6 @@ describe("v1 products create", () => {
     await client.logout();
 
     expect(res.status).toBe(400);
-    expect(res.data).toEqual({
-      code: 400,
-      message: "Invalid 'deepestCategoryId', category does not exist",
-    });
   });
 
   it("permission test", async () => {

@@ -5,7 +5,8 @@ on:
     branches:   
       - master
     paths: 
-      - 'backend/**'
+      - 'apps/backend-*/**'
+      - 'packages/**/*'
 
 jobs:
   build-code:     
@@ -23,7 +24,6 @@ jobs:
   
   determine-images:
     name: "Determine images to build"
-    needs: build-code
     runs-on: ubuntu-latest
     outputs:
       some: ${{ steps.builds.outputs.some }}
@@ -32,9 +32,9 @@ jobs:
       users: ${{ steps.builds.outputs.users }}
       ugc: ${{ steps.builds.outputs.ugc }}
       search: ${{ steps.builds.outputs.search }}
+      integration-tests: ${{ steps.builds.outputs.integration-tests }}
     steps:
-    - name: checkout
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
@@ -49,8 +49,12 @@ jobs:
         setOutput () { 
           echo "::set-output name=$1::true"
           echo "::set-output name=some::true"
+          echo "set $1"
         }
 
+        set_integration_tests () { 
+          setOutput integration-tests
+        }
         set_auth () { 
           setOutput auth
         }
@@ -67,39 +71,47 @@ jobs:
           setOutput search
         }
 
+        integration_tests () {
+          if [[ $1 == *"apps/backend-integration-tests"* ]]; then 
+            set_integration_tests 
+          fi
+        }
+
         auth () {
-          if [[ $1 == *"apps/backend-"* ]]; then 
+          if [[ $1 == *"apps/backend-auth"* ]]; then 
             set_auth 
           fi
         }
 
         catalogue () {
-          if [[ $1 == *"apps/backend-"* ]]; then 
+          if [[ $1 == *"apps/backend-catalogue"* ]]; then 
             set_catalogue 
           fi        
         }
 
         ugc () {
-          if [[ $1 == *"apps/backend-"* ]]; then 
+          if [[ $1 == *"apps/backend-ugc"* ]]; then 
             set_ugc 
           fi        
         }
 
         users () {
-          if [[ $1 == *"apps/backend-"* ]]; then 
+          if [[ $1 == *"apps/backend-users"* ]]; then 
             set_users 
           fi        
         }
 
         search () {
-          if [[ $1 == *"apps/backend-"* ]]; then 
+          if [[ $1 == *"apps/backend-search"* ]]; then 
             set_search 
           fi        
         }
 
         for i in ${{ steps.getfile.outputs.files }}
         do
+          echo $i
           if [[ $i == *"packages/"* ]]; then
+            set_integration_tests
             set_auth
             set_catalogue
             set_ugc
@@ -109,6 +121,7 @@ jobs:
             break
           fi
 
+          integration_tests $i
           auth $i
           catalogue $i
           ugc $i
@@ -116,118 +129,93 @@ jobs:
           search $i
         done
 
-  build-push-auth-image:
-    name: "Build and push auth Docker image"
+  build-push-auth-testing-image:
     needs: determine-images
-    runs-on: ubuntu-latest
+    name: "Build and push auth testing Docker image"
     if: ${{ needs.determine-images.outputs.auth }}
-    steps:
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+    uses: ./.github/workflows/build-docker-image.yml
+    with:
+      scope: backend-auth
+      image-name-tag: veetik/ecommerce-project-b-auth:test
+    secrets: 
+      DH_USERNAME: ${{ secrets.DH_USERNAME }}
+      DH_TOKEN: ${{ secrets.DH_TOKEN }}
 
-    - name: Login to DockerHub
-      uses: docker/login-action@v1
-      with: 
-        username: ${{ secrets.DH_USERNAME }}
-        password: ${{ secrets.DH_TOKEN }}
-
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        build-args: SCOPE=backend-auth
-        push: true
-        tags: veetik/ecommerce-project-b-auth:latest
-
-  build-push-catalogue-image:
-    name: "Build and push catalogue Docker image"
+  build-push-catalogue-testing-image:
     needs: determine-images
-    runs-on: ubuntu-latest
+    name: "Build and push catalogue testing Docker image"
     if: ${{ needs.determine-images.outputs.catalogue }}
-    steps:
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+    uses: ./.github/workflows/build-docker-image.yml
+    with:
+      scope: backend-catalogue
+      image-name-tag: veetik/ecommerce-project-b-catalogue:test
+    secrets: 
+      DH_USERNAME: ${{ secrets.DH_USERNAME }}
+      DH_TOKEN: ${{ secrets.DH_TOKEN }}
 
-    - name: Login to DockerHub
-      uses: docker/login-action@v1
-      with: 
-        username: ${{ secrets.DH_USERNAME }}
-        password: ${{ secrets.DH_TOKEN }}
-
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        build-args: SCOPE=backend-catalogue
-        push: true
-        tags: veetik/ecommerce-project-b-catalogue:latest
-
-  build-push-ugc-image:
-    name: "Build and push ugc Docker image"
+  build-push-ugc-testing-image:
     needs: determine-images
-    runs-on: ubuntu-latest
+    name: "Build and push ugc testing Docker image"
     if: ${{ needs.determine-images.outputs.ugc }}
-    steps:
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+    uses: ./.github/workflows/build-docker-image.yml
+    with:
+      scope: backend-ugc
+      image-name-tag: veetik/ecommerce-project-b-ugc:test
+    secrets: 
+      DH_USERNAME: ${{ secrets.DH_USERNAME }}
+      DH_TOKEN: ${{ secrets.DH_TOKEN }}
 
-    - name: Login to DockerHub
-      uses: docker/login-action@v1
-      with: 
-        username: ${{ secrets.DH_USERNAME }}
-        password: ${{ secrets.DH_TOKEN }}
-
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        build-args: SCOPE=backend-ugc
-        push: true
-        tags: veetik/ecommerce-project-b-ugc:latest
-  
-  build-push-users-image:
-    name: "Build and push users Docker image"
+  build-push-users-testing-image:
     needs: determine-images
-    runs-on: ubuntu-latest
+    name: "Build and push users testing Docker image"
     if: ${{ needs.determine-images.outputs.users }}
-    steps:
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
-
-    - name: Login to DockerHub
-      uses: docker/login-action@v1
-      with: 
-        username: ${{ secrets.DH_USERNAME }}
-        password: ${{ secrets.DH_TOKEN }}
-
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        build-args: SCOPE=backend-users
-        push: true
-        tags: veetik/ecommerce-project-b-users:latest
+    uses: ./.github/workflows/build-docker-image.yml
+    with:
+      scope: backend-users
+      image-name-tag: veetik/ecommerce-project-b-users:test
+    secrets: 
+      DH_USERNAME: ${{ secrets.DH_USERNAME }}
+      DH_TOKEN: ${{ secrets.DH_TOKEN }}
     
-  build-push-search-image:
-    name: "Build and push search Docker image"
+  build-push-search-testing-image:
     needs: determine-images
-    runs-on: ubuntu-latest
+    name: "Build and push search testing Docker image"
     if: ${{ needs.determine-images.outputs.search }}
+    uses: ./.github/workflows/build-docker-image.yml
+    with:
+      scope: backend-search
+      image-name-tag: veetik/ecommerce-project-b-search:test
+    secrets: 
+      DH_USERNAME: ${{ secrets.DH_USERNAME }}
+      DH_TOKEN: ${{ secrets.DH_TOKEN }}
+
+  build-push-integration-tests-image:
+    needs: determine-images
+    name: "Build and push integration tests Docker image"
+    if: ${{ needs.determine-images.outputs.integration-tests }}
+    uses: ./.github/workflows/build-docker-image.yml
+    with:
+      scope: backend-integration-tests
+      image-name-tag: veetik/ecommerce-project-b-integration-tests:latest
+      dockerfile-name: Dockerfile.test
+    secrets: 
+      DH_USERNAME: ${{ secrets.DH_USERNAME }}
+      DH_TOKEN: ${{ secrets.DH_TOKEN }}
+  
+  test:
+    needs: [determine-images, build-push-auth-testing-image, build-push-catalogue-testing-image, build-push-ugc-testing-image, build-push-users-testing-image, build-push-search-testing-image, build-push-integration-tests-image]
+    runs-on: ubuntu-latest
+    if: ${{ needs.determine-images.outputs.some && always() }}
+    name: "Run tests"
     steps:
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+    - uses: actions/checkout@v3
 
-    - name: Login to DockerHub
-      uses: docker/login-action@v1
-      with: 
-        username: ${{ secrets.DH_USERNAME }}
-        password: ${{ secrets.DH_TOKEN }}
-
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v2
+    - name: Use Node.js 17.8.0
+      uses: actions/setup-node@v3
       with:
-        context: .
-        build-args: SCOPE=backend-search
-        push: true
-        tags: veetik/ecommerce-project-b-search:latest
+        node-version: '17.8.0'
 
+    - name: "Run tests"
+      run: yarn test:backend
+
+  

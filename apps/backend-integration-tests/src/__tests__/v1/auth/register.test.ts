@@ -32,12 +32,6 @@ describe("v1 auth register", () => {
       expect(res.status).toBe(400);
       expect(res.headers[config.headers.accessTokenHeaderName]).toBeUndefined();
       expect(res.headers["set-cookie"]).toBeUndefined();
-
-      expect(res.data).toEqual({
-        code: 400,
-        message: "Invalid request body",
-        errors: { name: { message: "'name' is required" } },
-      });
     });
 
     it("missing email", async () => {
@@ -51,12 +45,6 @@ describe("v1 auth register", () => {
       expect(res.status).toBe(400);
       expect(res.headers[config.headers.accessTokenHeaderName]).toBeUndefined();
       expect(res.headers["set-cookie"]).toBeUndefined();
-
-      expect(res.data).toEqual({
-        code: 400,
-        message: "Invalid request body",
-        errors: { email: { message: "'email' is required" } },
-      });
     });
 
     it("missing password", async () => {
@@ -70,12 +58,6 @@ describe("v1 auth register", () => {
       expect(res.status).toBe(400);
       expect(res.headers[config.headers.accessTokenHeaderName]).toBeUndefined();
       expect(res.headers["set-cookie"]).toBeUndefined();
-
-      expect(res.data).toEqual({
-        code: 400,
-        message: "Invalid request body",
-        errors: { password: { message: "'password' is required" } },
-      });
     });
   });
 });

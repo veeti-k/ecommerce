@@ -36,10 +36,6 @@ describe("v1 category add", () => {
     await client.logout();
 
     expect(res.status).toBe(400);
-    expect(res.data).toEqual({
-      code: 400,
-      message: "Parent category does not exist",
-    });
   });
 
   describe("given invalid request body, should return 400 and the correct error message", () => {
@@ -57,32 +53,6 @@ describe("v1 category add", () => {
       await client.logout();
 
       expect(res.status).toBe(400);
-      expect(res.data).toEqual({
-        code: 400,
-        message: "Invalid request body",
-        errors: { name: { message: "'name' is required" } },
-      });
-    });
-
-    it("missing parentId", async () => {
-      const client = new TestClient();
-
-      const requestBody = {
-        name: getRandomString(),
-      };
-
-      await client.loginAs.Admin();
-
-      const res = await client.post(categoriesBaseUrl, requestBody);
-
-      await client.logout();
-
-      expect(res.status).toBe(400);
-      expect(res.data).toEqual({
-        code: 400,
-        message: "Invalid request body",
-        errors: { parentId: { message: "'parentId' is required" } },
-      });
     });
   });
 });

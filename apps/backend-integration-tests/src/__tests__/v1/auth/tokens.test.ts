@@ -41,9 +41,9 @@ describe("v1 auth tokens", () => {
   it("given no refresh token, should return 400 and a correct error message", async () => {
     const res = await new TestClient().get(`${authBaseUrl}/tokens`);
 
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(401);
     expect(res.data).toEqual({
-      code: 400,
+      code: 401,
       message: "No refresh token",
     });
 
