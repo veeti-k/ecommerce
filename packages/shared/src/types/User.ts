@@ -12,6 +12,7 @@ export interface AuthVerifyUserResponse
   extends Omit<User, "password" | "addresses" | "sessions" | "flags"> {
   isEmployee: boolean;
   flags: number;
+  sessionId: string;
 }
 
 export interface SeededUser extends Omit<User, "userId" | "addresses" | "sessions"> {}

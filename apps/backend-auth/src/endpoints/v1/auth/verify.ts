@@ -32,6 +32,7 @@ export const verify: Endpoint = async (req, res) => {
     phoneNumber: dbUser.phoneNumber,
     createdAt: dbUser.createdAt,
     isEmployee: isEmployee(dbUser.flags),
+    sessionId: tokenPayload.sessionId,
   };
 
   return respondSuccess({

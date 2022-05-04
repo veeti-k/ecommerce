@@ -6,9 +6,14 @@ export const get: Endpoint = async (req, res) => {
 
   const fullUser = await db.user.get.byUserIdWith.sessionsAndAddresses(currentUser.userId);
 
+  const sessions: any[] = [...(fullUser?.sessions || [])].map((session) => ({
+    ...session,
+    isCurrentSession: session.sessionId === currentUser.sessionId,
+  }));
+
   respondSuccess({
     res,
     statusCode: 200,
-    json: { ...fullUser, flags: Number(fullUser!.flags) },
+    json: { ...fullUser, flags: Number(fullUser!.flags), sessions },
   });
 };
