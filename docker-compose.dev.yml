@@ -12,7 +12,7 @@ services:
     volumes:
       - ./DEV-DATA/zinc:/data
     
-  dev-users-db:
+  dev-db:
     image: postgres
     ports:
       - "35801:5432"
@@ -21,34 +21,12 @@ services:
       - POSTGRES_PASSWORD=dev
     restart: unless-stopped
     volumes:
-      - users-db:/var/lib/postgresql/data
-
-  dev-catalogue-db:
-    image: postgres
-    ports:
-      - "35802:5432"
-    environment:
-      - POSTGRES_USER=dev
-      - POSTGRES_PASSWORD=dev
-    restart: unless-stopped
-    volumes:
-      - catalogue-db:/var/lib/postgresql/data
-
-  dev-ugc-db:
-    image: postgres
-    ports:
-      - "35803:5432"
-    environment:
-      - POSTGRES_USER=dev
-      - POSTGRES_PASSWORD=dev
-    restart: unless-stopped
-    volumes:
-      - ugc-db:/var/lib/postgresql/data
+      - dev-db:/var/lib/postgresql/data
 
   dev-loadbalancer: 
     depends_on:
-      - dev-users-db
-      - dev-catalogue-db
+      - dev-zinc
+      - dev-db
     image: nginx
     ports: 
       - "4000:5000"
@@ -59,6 +37,4 @@ services:
       - "host.docker.internal:host-gateway"
 
 volumes:
-  users-db:
-  catalogue-db:
-  ugc-db:
+  dev-db:
