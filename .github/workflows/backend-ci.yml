@@ -23,6 +23,7 @@ jobs:
       run: yarn build
   
   determine-images:
+    needs: build-code
     name: "Determine images to build"
     runs-on: ubuntu-latest
     outputs:
