@@ -1,11 +1,11 @@
 import { AnimatePresence } from "framer-motion";
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
-import { FC, ReactNode, useContext, useEffect, useState } from "react";
-import { BreakpointContext } from "../../../BreakpointProvider/BreakpointProvider";
+import { useEffect, useState } from "react";
 import { CardContent } from "../../../components/Card";
-import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../../components/Containers";
+import { FlexDiv } from "../../../components/Containers";
 import { ReviewingPageLayout } from "../../../components/layouts/ReviewingPageLayout";
 import { TitleContainer } from "../../../components/layouts/Styles";
+import { ReviewingPageContent } from "../../../components/pages/management/reviewing/Content";
 import { ReviewingPageReview } from "../../../components/pages/management/reviewing/reviews/Review";
 import { Pluralize } from "../../../components/Pluralize";
 import { Heading } from "../../../components/Text";
@@ -13,14 +13,6 @@ import { ResolvedCategory } from "../../../types/Category";
 import { ProductReviewWithProduct } from "../../../types/ProductReview";
 import { STATIC_PROPS_REQUESTS } from "../../../utils/getStaticProps";
 import { GetNotApprovedProductReviewsRequest } from "../../../utils/Requests/ProductReview";
-
-const Content: FC<{ children: ReactNode }> = ({ children }) => {
-  const { state } = useContext(BreakpointContext);
-
-  if (state.bp === "mobile") return <>{children}</>;
-
-  return <MgmtSettingsPageScrollableContent>{children}</MgmtSettingsPageScrollableContent>;
-};
 
 export const Reviewing: NextPage<Result> = ({ resolvedCategories }) => {
   const [reviews, setReviews] = useState<ProductReviewWithProduct[]>([]);
@@ -44,7 +36,7 @@ export const Reviewing: NextPage<Result> = ({ resolvedCategories }) => {
       </TitleContainer>
 
       {reviews.length ? (
-        <Content>
+        <ReviewingPageContent>
           <CardContent>
             <FlexDiv column gap05>
               <AnimatePresence>
@@ -58,7 +50,7 @@ export const Reviewing: NextPage<Result> = ({ resolvedCategories }) => {
               </AnimatePresence>
             </FlexDiv>
           </CardContent>
-        </Content>
+        </ReviewingPageContent>
       ) : null}
     </ReviewingPageLayout>
   );
