@@ -1,7 +1,6 @@
 import { Select } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { useHasMounted } from "../../../hooks/useHasMounted";
 import { pushUser } from "../../../utils/router";
 import { PageTitle } from "../../Text";
 import { PageTitleContainer } from "../Styles";
@@ -20,9 +19,6 @@ export const ReviewingPageLayoutMobile = () => {
   useEffect(() => {
     setSelectValue(window.location.pathname.split("/").pop()!);
   }, []);
-
-  const hasMounted = useHasMounted();
-  if (!hasMounted) return null;
 
   return (
     <PageTitleContainer test>

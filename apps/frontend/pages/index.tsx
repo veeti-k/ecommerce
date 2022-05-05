@@ -23,35 +23,37 @@ const Home: NextPage<Result> = ({ resolvedCategories }) => {
     })();
   }, []);
 
-  if (!products.length) return null;
-
   return (
     <Layout categories={resolvedCategories}>
       <Swiper slidesPerView={4} spaceBetween={16} autoHeight style={{ padding: "1rem" }}>
-        <SwiperSlide>
-          <TallProduct product={products[0]} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <TallProduct product={products[0]} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <TallProduct product={products[0]} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <TallProduct product={products[0]} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <TallProduct product={products[0]} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <TallProduct product={products[0]} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <TallProduct product={products[0]} />
-        </SwiperSlide>
-        <SwiperSlide>
-          <TallProduct product={products[0]} />
-        </SwiperSlide>
+        {products[0] ? (
+          <>
+            <SwiperSlide>
+              <TallProduct product={products[0]} />
+            </SwiperSlide>
+            <SwiperSlide>
+              <TallProduct product={products[0]} />
+            </SwiperSlide>
+            <SwiperSlide>
+              <TallProduct product={products[0]} />
+            </SwiperSlide>
+            <SwiperSlide>
+              <TallProduct product={products[0]} />
+            </SwiperSlide>
+            <SwiperSlide>
+              <TallProduct product={products[0]} />
+            </SwiperSlide>
+            <SwiperSlide>
+              <TallProduct product={products[0]} />
+            </SwiperSlide>
+            <SwiperSlide>
+              <TallProduct product={products[0]} />
+            </SwiperSlide>
+            <SwiperSlide>
+              <TallProduct product={products[0]} />
+            </SwiperSlide>
+          </>
+        ) : null}
       </Swiper>
     </Layout>
   );
