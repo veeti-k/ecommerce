@@ -1,7 +1,7 @@
 import { Product } from "./Product";
 
 export type ProductQuestionAnswer = {
-  id: string;
+  questionAnswerId: string;
   questionId: string;
   answerersNickname: string;
   content: string;
@@ -10,7 +10,7 @@ export type ProductQuestionAnswer = {
 };
 
 export type ProductQuestion = {
-  id: string;
+  questionId: string;
   productId: number;
   questionersNickname: string;
   title: string;
@@ -25,5 +25,5 @@ export type ProductQuestionWithProduct = ProductQuestion & {
 
 export type AddProductQuestionRequestBody = Omit<
   ProductQuestion,
-  "id" | "reviewId" | "byEmployee" | "createdAt" | "answers" | "productId"
+  "questionId" | "reviewId" | "byEmployee" | "createdAt" | "answers" | "productId"
 >;

@@ -57,7 +57,7 @@ const Questions: NextPage<Result> = ({ resolvedCategories, product, questions, v
 
             <FlexDiv column gap05>
               {questions.map((question) => (
-                <Question question={question} key={question.id} />
+                <Question question={question} key={question.questionId} />
               ))}
             </FlexDiv>
           </FlexDiv>

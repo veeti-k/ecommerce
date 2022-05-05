@@ -40,7 +40,11 @@ export const ReviewingQuestions: NextPage<Result> = ({ resolvedCategories }) => 
           <FlexDiv column gap05>
             <AnimatePresence>
               {questions.map((question) => (
-                <ReviewingPageQuestion question={question} getQuestions={getQuestions} />
+                <ReviewingPageQuestion
+                  key={question.questionId}
+                  question={question}
+                  getQuestions={getQuestions}
+                />
               ))}
             </AnimatePresence>
           </FlexDiv>

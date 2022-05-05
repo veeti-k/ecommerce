@@ -16,7 +16,7 @@ interface Props {
 }
 
 export const ReviewingPageQuestion: FC<Props> = ({ question, getQuestions }) => (
-  <AnimatedListItem key={question.id}>
+  <AnimatedListItem key={question.questionId}>
     <InfoCard>
       <FlexDiv column>
         <FlexDiv spaceBetween>
@@ -26,13 +26,13 @@ export const ReviewingPageQuestion: FC<Props> = ({ question, getQuestions }) => 
 
           <FlexDiv gap05>
             <ApproveProductQuestionDialog
-              questionId={question.id}
+              questionId={question.questionId}
               productId={question.productId}
               getQuestions={getQuestions}
             />
 
             <DeclineProductReviewDialog
-              reviewId={question.id}
+              reviewId={question.questionId}
               productId={question.productId}
               getReviews={getQuestions}
             />
