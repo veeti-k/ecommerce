@@ -36,7 +36,7 @@ export const WriteReviewComment: NextPage<Result> = ({
   const onSubmit = async (values: AddProductReviewCommentRequestBody) => {
     const notifId = toast.loading("Adding comment");
 
-    const res = await AddProductReviewCommentRequest(product.productId, review.id, values);
+    const res = await AddProductReviewCommentRequest(product.productId, review.reviewId, values);
 
     toast.dismiss(notifId);
 
@@ -165,7 +165,7 @@ export const getStaticProps: GetStaticProps = async (
   const reviews = await STATIC_PROPS_REQUESTS.Reviews.getApprovedByProductId(Number(productId));
   const resolvedCategories = await STATIC_PROPS_REQUESTS.Categories.getAllResolved();
 
-  const review = reviews?.find((r) => r.id === reviewId) || null;
+  const review = reviews?.find((r) => r.reviewId === reviewId) || null;
 
   if (!review)
     return {

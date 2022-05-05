@@ -86,7 +86,7 @@ const Reviews: NextPage<Result> = ({ resolvedCategories, product, reviews, valid
             </Heading>
 
             {reviews.map((review) => (
-              <Review review={review} key={review.id} showCommentButton />
+              <Review review={review} key={review.reviewId} showCommentButton />
             ))}
           </FlexDiv>
         </CardContent>

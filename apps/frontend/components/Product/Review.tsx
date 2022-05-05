@@ -17,7 +17,7 @@ type Props =
     }
   | {
       showCommentButton?: never;
-      review: Omit<ProductReview, "id" | "productId" | "createdAt">;
+      review: Omit<ProductReview, "reviewId" | "productId" | "createdAt">;
     };
 
 const Div = styled(FlexDiv, {
@@ -49,7 +49,7 @@ export const Review: FC<Props> = ({ review, showCommentButton }) => (
 
           {showCommentButton && (
             <div>
-              <Link href={routes.product.reviewComment(review.productId, review.id)}>
+              <Link href={routes.product.reviewComment(review.productId, review.reviewId)}>
                 <Button size="sm">Write a comment</Button>
               </Link>
             </div>

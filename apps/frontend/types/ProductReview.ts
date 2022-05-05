@@ -1,7 +1,7 @@
 import { Product } from "./Product";
 
 export type ProductReview = {
-  id: string;
+  reviewId: string;
   productId: number;
   reviewersNickname: string;
   byEmployee: boolean;
@@ -17,11 +17,11 @@ export type ProductReviewWithProduct = ProductReview & {
 
 export type AddProductReviewRequestBody = Omit<
   ProductReview,
-  "id" | "productId" | "byEmployee" | "createdAt"
+  "reviewId" | "productId" | "byEmployee" | "createdAt"
 >;
 
 export type ProductReviewComment = {
-  id: string;
+  reviewCommentId: string;
   reviewId: string;
   commentersNickname: string;
   byEmployee: string;
@@ -32,5 +32,5 @@ export type ProductReviewComment = {
 
 export type AddProductReviewCommentRequestBody = Omit<
   ProductReviewComment,
-  "id" | "reviewId" | "byEmployee" | "createdAt"
+  "reviewCommentId" | "reviewId" | "byEmployee" | "createdAt"
 >;

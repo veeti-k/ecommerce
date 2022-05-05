@@ -49,7 +49,11 @@ export const Reviewing: NextPage<Result> = ({ resolvedCategories }) => {
             <FlexDiv column gap05>
               <AnimatePresence>
                 {reviews.map((review) => (
-                  <ReviewingPageReview review={review} getReviews={getReviews} />
+                  <ReviewingPageReview
+                    key={review.reviewId}
+                    review={review}
+                    getReviews={getReviews}
+                  />
                 ))}
               </AnimatePresence>
             </FlexDiv>
