@@ -17,5 +17,8 @@ jobs:
       with:
         node-version: '17.8.0'
 
+    - name: Install deps
+      run: yarn
+
     - name: Lint
       run: yarn lint:frontend
