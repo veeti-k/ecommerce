@@ -43,17 +43,19 @@ export const Reviewing: NextPage<Result> = ({ resolvedCategories }) => {
         </Heading>
       </TitleContainer>
 
-      <Content>
-        <CardContent>
-          <FlexDiv column gap05>
-            <AnimatePresence>
-              {reviews.map((review) => (
-                <ReviewingPageReview review={review} getReviews={getReviews} />
-              ))}
-            </AnimatePresence>
-          </FlexDiv>
-        </CardContent>
-      </Content>
+      {reviews.length ? (
+        <Content>
+          <CardContent>
+            <FlexDiv column gap05>
+              <AnimatePresence>
+                {reviews.map((review) => (
+                  <ReviewingPageReview review={review} getReviews={getReviews} />
+                ))}
+              </AnimatePresence>
+            </FlexDiv>
+          </CardContent>
+        </Content>
+      ) : null}
     </ReviewingPageLayout>
   );
 };

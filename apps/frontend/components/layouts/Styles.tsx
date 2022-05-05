@@ -105,7 +105,7 @@ export const TitleContainer = styled("div", {
   display: "flex",
   justifyContent: "space-between",
   padding: "0.8rem",
-  paddingBottom: "0",
+  paddingBottom: "0.8rem",
   position: "sticky",
 
   "@mobileAndUp": {
