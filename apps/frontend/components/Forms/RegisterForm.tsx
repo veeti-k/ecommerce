@@ -1,10 +1,12 @@
 import { Button, Input } from "@chakra-ui/react";
 import { Formik } from "formik";
+import { useRouter } from "next/router";
 import { useContext, useRef } from "react";
 import * as Yup from "yup";
 import { UserContext } from "../../UserProvider/provider";
 import { getMe } from "../../utils/logout";
 import { RegisterRequest } from "../../utils/Requests/Auth";
+import { pushUser } from "../../utils/router";
 import { FlexDiv, InputLabelContainer } from "../Containers";
 
 const validationSchema = Yup.object().shape({
@@ -19,12 +21,14 @@ const validationSchema = Yup.object().shape({
 export const RegisterForm = () => {
   const nameInputRef = useRef<HTMLInputElement>(null);
   const { dispatch } = useContext(UserContext);
+  const router = useRouter();
 
   const onSubmit = async (values: any) => {
     const res = await RegisterRequest(values);
 
     if (res) {
       getMe(dispatch);
+      pushUser(router, "/", "register success");
     } else {
       setTimeout(() => {
         nameInputRef?.current && nameInputRef.current.focus();
