@@ -39,6 +39,10 @@
     "start:frontend":{
       "dependsOn": ["^start:frontend"],
       "cache": false
+    },
+    "lint:frontend": {
+      "dependsOn": ["^lint:frontend"],
+      "cache": false
     }
   }
 }
