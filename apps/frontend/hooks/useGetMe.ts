@@ -23,9 +23,7 @@ export const useGetMe = () => {
       });
 
       dispatch({ type: Actions.SetStatus, payload: "loaded" });
-      if (res) {
-        return dispatch({ type: Actions.SetUser, payload: res.data });
-      }
+      if (res) return dispatch({ type: Actions.SetUser, payload: res.data });
     })();
   }, []);
 };
