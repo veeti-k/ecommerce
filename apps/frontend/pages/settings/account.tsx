@@ -1,11 +1,7 @@
 import { FormEvent, useContext, useEffect, useState } from "react";
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { Button, Divider, Input } from "@chakra-ui/react";
-import {
-  FlexDiv,
-  InputLabelContainer,
-  MgmtSettingsPageScrollableContent,
-} from "../../components/Containers";
+import { CardWrapper, FlexDiv, InputLabelContainer } from "../../components/Containers";
 import { Heading, Text } from "../../components/Text";
 import { UserContext } from "../../UserProvider/provider";
 import { toast } from "react-hot-toast";
@@ -64,14 +60,14 @@ const Account: NextPage<Props> = ({ resolvedCategories }) => {
   };
 
   return (
-    <SettingsPageLayout activePage="account" categories={resolvedCategories}>
+    <SettingsPageLayout categories={resolvedCategories}>
       <TitleContainer>
         <div>
           <Heading>General Info</Heading>
         </div>
       </TitleContainer>
 
-      <MgmtSettingsPageScrollableContent>
+      <CardWrapper>
         <CardContent>
           <FlexDiv column gap08={mobile}>
             <form onSubmit={onFormSubmit}>
@@ -128,7 +124,7 @@ const Account: NextPage<Props> = ({ resolvedCategories }) => {
             </FlexDiv>
           </FlexDiv>
         </CardContent>
-      </MgmtSettingsPageScrollableContent>
+      </CardWrapper>
     </SettingsPageLayout>
   );
 };

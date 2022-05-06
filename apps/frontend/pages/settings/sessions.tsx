@@ -2,7 +2,7 @@ import { IconButton, Tooltip } from "@chakra-ui/react";
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { useContext } from "react";
 import { Card, CardContent } from "../../components/Card";
-import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../components/Containers";
+import { CardWrapper, FlexDiv } from "../../components/Containers";
 import { TrashIcon } from "../../components/Icons";
 import { PulsingCircle } from "../../components/pulsingCircle";
 import { Heading, Text } from "../../components/Text";
@@ -45,12 +45,12 @@ const Sessions: NextPage<Props> = ({ resolvedCategories }) => {
   };
 
   return (
-    <SettingsPageLayout activePage="sessions" categories={resolvedCategories}>
+    <SettingsPageLayout categories={resolvedCategories}>
       <TitleContainer>
         <Heading>Sessions</Heading>
       </TitleContainer>
 
-      <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 15rem)" }}>
+      <CardWrapper scrollableMaxHeigth="calc(100vh - 15rem)">
         <CardContent>
           <FlexDiv column gap05>
             {state.sessions.map((session) => {
@@ -92,7 +92,7 @@ const Sessions: NextPage<Props> = ({ resolvedCategories }) => {
             })}
           </FlexDiv>
         </CardContent>
-      </MgmtSettingsPageScrollableContent>
+      </CardWrapper>
     </SettingsPageLayout>
   );
 };

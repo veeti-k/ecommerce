@@ -10,32 +10,37 @@ import { logout } from "../../../utils/logout";
 import { routes } from "../../../utils/routes";
 import { Card } from "../../Card";
 import { FlexDiv } from "../../Containers";
-import { AddressesIcon, LogoutIcon, PasswordIcon, SessionsIcon, UserIcon } from "../../Icons";
-import { Text, PageTitle } from "../../Text";
+import { LogoutIcon } from "../../Icons";
+import { PageTitle } from "../../Text";
 import { Layout } from "../Layout";
-import {
-  PageTitleContainer,
-  PageSelectorButtons,
-  PageSelectorButton,
-  MainContent,
-} from "../Styles";
-import { SettingsPageLayoutMobile } from "./SettingsPageLayoutMobile";
+import { PageTitleContainer, MainContent } from "../Styles";
+import { SettingsMobileNav } from "./MobileNav";
+import { SettingsNav } from "./Nav";
 
-type ActivePage = "account" | "addresses" | "sessions" | "password";
+const Title = () => {
+  const router = useRouter();
+  const { dispatch } = useContext(UserContext);
+  return (
+    <FlexDiv spaceBetween align fullWidth>
+      <PageTitle>Account settings</PageTitle>
+
+      <Button
+        colorScheme="red"
+        style={{ boxShadow: "2px 4px 12px rgb(0 0 0 / 8%)" }}
+        onClick={() => logout(router, dispatch, routes.home)}
+        leftIcon={<LogoutIcon />}
+      >
+        Log out
+      </Button>
+    </FlexDiv>
+  );
+};
 
 type SettingsPageLayoutProps = {
   categories: ResolvedCategory[];
-  activePage: ActivePage;
 };
 
-export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({
-  children,
-  categories,
-  activePage,
-}) => {
-  const router = useRouter();
-
-  const { dispatch } = useContext(UserContext);
+export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({ children, categories }) => {
   const { state: bpState } = useContext(BreakpointContext);
 
   const hasMounted = useHasMounted();
@@ -46,7 +51,11 @@ export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({
   if (bpState.bp === "mobile")
     return (
       <Layout categories={categories} lessPaddingOnMobile>
-        <SettingsPageLayoutMobile />
+        <PageTitleContainer test>
+          <Title />
+
+          <SettingsMobileNav />
+        </PageTitleContainer>
 
         <MainContent>{viewBlocked ? null : children}</MainContent>
       </Layout>
@@ -56,47 +65,12 @@ export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({
     <Layout categories={categories}>
       <>
         <PageTitleContainer>
-          <FlexDiv spaceBetween align fullWidth>
-            <div>
-              <PageTitle>Account settings</PageTitle>
-            </div>
-
-            <Button
-              colorScheme="red"
-              style={{ boxShadow: "2px 4px 12px rgb(0 0 0 / 8%)" }}
-              onClick={() => logout(router, dispatch, routes.home)}
-              leftIcon={<LogoutIcon />}
-            >
-              Log out
-            </Button>
-          </FlexDiv>
+          <Title />
         </PageTitleContainer>
 
         <Card shadowFar>
           <FlexDiv gap0>
-            <PageSelectorButtons>
-              <PageSelectorButton route={routes.settingsAccount} active={activePage === "account"}>
-                <UserIcon /> <Text>Account</Text>
-              </PageSelectorButton>
-              <PageSelectorButton
-                route={routes.settingsPassword}
-                active={activePage === "password"}
-              >
-                <PasswordIcon /> <Text>Password</Text>
-              </PageSelectorButton>
-              <PageSelectorButton
-                route={routes.settingsAddresses}
-                active={activePage === "addresses"}
-              >
-                <AddressesIcon /> <Text>Addresses</Text>
-              </PageSelectorButton>
-              <PageSelectorButton
-                route={routes.settingsSessions}
-                active={activePage === "sessions"}
-              >
-                <SessionsIcon /> <Text>Sessions</Text>
-              </PageSelectorButton>
-            </PageSelectorButtons>
+            <SettingsNav />
 
             <MainContent>{viewBlocked ? null : children}</MainContent>
           </FlexDiv>

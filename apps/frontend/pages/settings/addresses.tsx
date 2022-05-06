@@ -9,7 +9,7 @@ import { EditAddressDialog } from "../../components/Dialogs/Address/EditAddressD
 import { NewAddressDialog } from "../../components/Dialogs/Address/NewAddressDialog";
 import { SettingsPageLayout } from "../../components/layouts/Settings/SettingsPageLayout";
 import { TitleContainer } from "../../components/layouts/Styles";
-import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../components/Containers";
+import { CardWrapper, FlexDiv } from "../../components/Containers";
 import { DeleteAddressDialog } from "../../components/Dialogs/Address/DeleteAddressDialog";
 import { ResolvedCategory } from "../../types/Category";
 import { STATIC_PROPS_REQUESTS } from "../../utils/getStaticProps";
@@ -26,14 +26,14 @@ export const Addresses: NextPage<Props> = ({ resolvedCategories }) => {
   const { state } = useContext(UserContext);
 
   return (
-    <SettingsPageLayout activePage="addresses" categories={resolvedCategories}>
+    <SettingsPageLayout categories={resolvedCategories}>
       <TitleContainer withButton>
         <Heading>Addresses</Heading>
 
         <NewAddressDialog />
       </TitleContainer>
 
-      <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 16rem)" }}>
+      <CardWrapper scrollableMaxHeigth="calc(100vh - 16rem)">
         <CardContent>
           <FlexDiv fullWidth column gap05>
             {state.addresses.map((address) => (
@@ -64,7 +64,7 @@ export const Addresses: NextPage<Props> = ({ resolvedCategories }) => {
             ))}
           </FlexDiv>
         </CardContent>
-      </MgmtSettingsPageScrollableContent>
+      </CardWrapper>
     </SettingsPageLayout>
   );
 };

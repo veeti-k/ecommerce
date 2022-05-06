@@ -92,9 +92,6 @@ export const MainContent = styled("div", {
   display: "flex",
   width: "100%",
 
-  borderTopRightRadius: "8px",
-  borderBottomRightRadius: "8px",
-
   flexDirection: "column",
 
   "@mobileAndUp": {

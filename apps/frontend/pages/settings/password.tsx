@@ -3,7 +3,7 @@ import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { FormEvent, useContext, useState } from "react";
 import { BreakpointContext } from "../../BreakpointProvider/BreakpointProvider";
 import { CardContent } from "../../components/Card";
-import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../components/Containers";
+import { CardWrapper, FlexDiv } from "../../components/Containers";
 import { PasswordInputWithLabel } from "../../components/Inputs";
 import { SettingsPageLayout } from "../../components/layouts/Settings/SettingsPageLayout";
 import { TitleContainer } from "../../components/layouts/Styles";
@@ -26,14 +26,14 @@ const Password: NextPage<Props> = ({ resolvedCategories }) => {
   };
 
   return (
-    <SettingsPageLayout activePage="password" categories={resolvedCategories}>
+    <SettingsPageLayout categories={resolvedCategories}>
       <TitleContainer>
         <div>
           <Heading>Password</Heading>
         </div>
       </TitleContainer>
 
-      <MgmtSettingsPageScrollableContent>
+      <CardWrapper>
         <CardContent>
           <FlexDiv column gap08={mobile}>
             <form onSubmit={onFormSubmit}>
@@ -85,7 +85,7 @@ const Password: NextPage<Props> = ({ resolvedCategories }) => {
             </FlexDiv>
           </FlexDiv>
         </CardContent>
-      </MgmtSettingsPageScrollableContent>
+      </CardWrapper>
     </SettingsPageLayout>
   );
 };
