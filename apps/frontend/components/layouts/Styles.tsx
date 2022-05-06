@@ -112,4 +112,13 @@ export const TitleContainer = styled("div", {
     padding: "0 1.5rem",
     paddingTop: "1.5rem",
   },
+
+  variants: {
+    withButton: {
+      true: {
+        paddingBottom: "0",
+        alignItems: "center",
+      },
+    },
+  },
 });

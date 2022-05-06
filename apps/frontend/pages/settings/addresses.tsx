@@ -27,13 +27,12 @@ export const Addresses: NextPage<Props> = ({ resolvedCategories }) => {
 
   return (
     <SettingsPageLayout activePage="addresses" categories={resolvedCategories}>
-      <TitleContainer>
-        <div>
-          <Heading>Addresses</Heading>
-        </div>
+      <TitleContainer withButton>
+        <Heading>Addresses</Heading>
 
         <NewAddressDialog />
       </TitleContainer>
+
       <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 16rem)" }}>
         <CardContent>
           <FlexDiv fullWidth column gap05>
