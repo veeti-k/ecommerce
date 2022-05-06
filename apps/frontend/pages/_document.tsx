@@ -5,6 +5,14 @@ export default function Document() {
   return (
     <Html>
       <Head>
+        <script
+          async
+          defer
+          id="umami"
+          data-website-id="c55af1ea-459a-43df-b623-bcdf3242233b"
+          data-domains="ecommerce.veetik.fi"
+          src="https://analytics.veetik.fi/umami.js"
+        ></script>
         <style id="stitches" dangerouslySetInnerHTML={{ __html: getCssText() }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
