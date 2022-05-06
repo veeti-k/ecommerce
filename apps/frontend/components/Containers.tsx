@@ -1,4 +1,5 @@
-import { ComponentPropsWithoutRef, FC } from "react";
+import { ComponentPropsWithoutRef, FC, ReactNode, useContext } from "react";
+import { BreakpointContext } from "../BreakpointProvider/BreakpointProvider";
 import { styled } from "../stitches.config";
 import { Label } from "./Text";
 
@@ -112,3 +113,18 @@ export const InputLabelContainer: FC<InputLabelContainerProps> = ({
 export const MgmtSettingsPageScrollableContent = styled("div", {
   overflowY: "auto",
 });
+
+export const CardWrapper: FC<{ children: ReactNode; scrollableMaxHeigth?: string }> = ({
+  children,
+  scrollableMaxHeigth,
+}) => {
+  const { state } = useContext(BreakpointContext);
+
+  if (state.bp === "mobile") return <>{children}</>;
+
+  return (
+    <MgmtSettingsPageScrollableContent style={{ maxHeight: scrollableMaxHeigth }}>
+      {children}
+    </MgmtSettingsPageScrollableContent>
+  );
+};
