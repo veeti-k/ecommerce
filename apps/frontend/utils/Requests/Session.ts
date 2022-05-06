@@ -1,8 +1,11 @@
 import { request } from "../requests";
 import { apiRoutes } from "../routes";
 
-export const RevokeSessionRequest = (sessionId: string) =>
+export const RevokeSessionRequest = (sessionIds: string[]) =>
   request({
-    path: apiRoutes.user.sessions.session("me", sessionId),
+    path: apiRoutes.user.sessionsRoot("me"),
     method: "DELETE",
+    body: {
+      sessionIds,
+    },
   });

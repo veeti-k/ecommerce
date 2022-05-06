@@ -48,10 +48,6 @@ export const apiRoutes = {
     addresses: {
       address: (user: string, addressId: string) => `/users/${user}/addresses/${addressId}`,
     },
-
-    sessions: {
-      session: (user: string, sessionId: string) => `/users/${user}/sessions/${sessionId}`,
-    },
   },
 
   productsRoot: "/products",
