@@ -30,7 +30,7 @@ const Categories: NextPage = () => {
 
   return (
     <ManagementPageLayout categories={resolvedCategories}>
-      <TitleContainer>
+      <TitleContainer withButton>
         <Heading>Categories</Heading>
 
         <AddCategoryDialog categories={categories} getCategories={getCategories} />
