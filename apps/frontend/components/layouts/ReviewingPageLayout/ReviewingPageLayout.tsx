@@ -1,18 +1,23 @@
 import { FC, ReactNode, useContext } from "react";
-import { BreakpointContext } from "../../BreakpointProvider/BreakpointProvider";
-import { useFlagCheck } from "../../hooks/useFlagCheck";
-import { useHasMounted } from "../../hooks/useHasMounted";
-import { useIsLoggedIn } from "../../hooks/useIsLoggedIn";
-import { ResolvedCategory } from "../../types/Category";
-import { Flags } from "../../utils/flagResolve";
-import { routes } from "../../utils/routes";
-import { Card } from "../Card";
-import { FlexDiv } from "../Containers";
-import { QuestionIcon, ReviewIcon } from "../Icons";
-import { PageTitle, Text } from "../Text";
-import { Layout } from "./Layout";
-import { ReviewingPageLayoutMobile } from "./ReviewingPageLayout/ReviewingPageLayoutMobile";
-import { MainContent, PageSelectorButton, PageSelectorButtons, PageTitleContainer } from "./Styles";
+import { BreakpointContext } from "../../../BreakpointProvider/BreakpointProvider";
+import { useFlagCheck } from "../../../hooks/useFlagCheck";
+import { useHasMounted } from "../../../hooks/useHasMounted";
+import { useIsLoggedIn } from "../../../hooks/useIsLoggedIn";
+import { ResolvedCategory } from "../../../types/Category";
+import { Flags } from "../../../utils/flagResolve";
+import { routes } from "../../../utils/routes";
+import { Card } from "../../Card";
+import { FlexDiv } from "../../Containers";
+import { QuestionIcon, ReviewIcon } from "../../Icons";
+import { PageTitle, Text } from "../../Text";
+import { Layout } from "../Layout";
+import { ReviewingPageLayoutMobile } from "./ReviewingPageLayoutMobile";
+import {
+  MainContent,
+  PageSelectorButton,
+  PageSelectorButtons,
+  PageTitleContainer,
+} from "../Styles";
 
 type Props = {
   children: ReactNode;

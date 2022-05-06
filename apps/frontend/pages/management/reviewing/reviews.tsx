@@ -3,7 +3,7 @@ import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { useEffect, useState } from "react";
 import { CardContent } from "../../../components/Card";
 import { FlexDiv } from "../../../components/Containers";
-import { ReviewingPageLayout } from "../../../components/layouts/ReviewingPageLayout";
+import { ReviewingPageLayout } from "../../../components/layouts/ReviewingPageLayout/ReviewingPageLayout";
 import { TitleContainer } from "../../../components/layouts/Styles";
 import { ReviewingPageContent } from "../../../components/pages/management/reviewing/Content";
 import { ReviewingPageReview } from "../../../components/pages/management/reviewing/reviews/Review";
