@@ -59,6 +59,11 @@ export const FlexDiv = styled("div", {
         gap: "0.5rem",
       },
     },
+    gap08: {
+      true: {
+        gap: "0.8rem",
+      },
+    },
     gap0: {
       true: {
         gap: 0,

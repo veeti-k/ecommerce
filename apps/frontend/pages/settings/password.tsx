@@ -1,6 +1,7 @@
 import { Button, Divider } from "@chakra-ui/react";
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
+import { BreakpointContext } from "../../BreakpointProvider/BreakpointProvider";
 import { CardContent } from "../../components/Card";
 import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../components/Containers";
 import { PasswordInputWithLabel } from "../../components/Inputs";
@@ -14,6 +15,9 @@ const Password: NextPage<Props> = ({ resolvedCategories }) => {
   const [currPw, setCurrPw] = useState<string>("");
   const [newPw, setNewPw] = useState<string>("");
   const [newPw2, setNewPw2] = useState<string>("");
+
+  const { state: bpState } = useContext(BreakpointContext);
+  const mobile = bpState.bp === "mobile";
 
   const changeDisabled = !newPw || !newPw2 || newPw !== newPw2;
 
@@ -31,9 +35,9 @@ const Password: NextPage<Props> = ({ resolvedCategories }) => {
 
       <MgmtSettingsPageScrollableContent>
         <CardContent>
-          <FlexDiv column>
+          <FlexDiv column gap08={mobile}>
             <form onSubmit={onFormSubmit}>
-              <FlexDiv column>
+              <FlexDiv column gap08={mobile}>
                 <PasswordInputWithLabel
                   id="current-password"
                   label="Current password"
@@ -55,14 +59,19 @@ const Password: NextPage<Props> = ({ resolvedCategories }) => {
                   onChange={(e) => setNewPw2(e.target.value)}
                   value={newPw2}
                 />
+
+                <FlexDiv flexEnd={!mobile} fullWidth={mobile}>
+                  <Button
+                    type="submit"
+                    colorScheme="blue"
+                    disabled={changeDisabled}
+                    isFullWidth={mobile}
+                  >
+                    Change password
+                  </Button>
+                </FlexDiv>
               </FlexDiv>
             </form>
-
-            <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: "1rem" }}>
-              <Button type="submit" colorScheme="blue" disabled={changeDisabled}>
-                Change password
-              </Button>
-            </div>
 
             <Divider orientation="horizontal" />
 

@@ -23,6 +23,8 @@ const Account: NextPage<Props> = ({ resolvedCategories }) => {
   const { state, dispatch } = useContext(UserContext);
   const { state: bpState } = useContext(BreakpointContext);
 
+  const mobile = bpState.bp === "mobile";
+
   const [name, setName] = useState<string>(state.name);
   const [ogName, setOgName] = useState<string>(state.name);
 
@@ -71,9 +73,9 @@ const Account: NextPage<Props> = ({ resolvedCategories }) => {
 
       <MgmtSettingsPageScrollableContent>
         <CardContent>
-          <FlexDiv column>
+          <FlexDiv column gap08={mobile}>
             <form onSubmit={onFormSubmit}>
-              <FlexDiv column>
+              <FlexDiv column gap08={mobile}>
                 <InputLabelContainer id="name" label="Name">
                   <Input
                     id="name"
@@ -104,13 +106,13 @@ const Account: NextPage<Props> = ({ resolvedCategories }) => {
                     />
                   </InputLabelContainer>
                 </FlexDiv>
-              </FlexDiv>
 
-              <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: "1rem" }}>
-                <Button colorScheme="blue" disabled={saveDisabled} type="submit">
-                  Save
-                </Button>
-              </div>
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <Button colorScheme="blue" disabled={saveDisabled} type="submit">
+                    Save
+                  </Button>
+                </div>
+              </FlexDiv>
             </form>
 
             <Divider orientation="horizontal" />
