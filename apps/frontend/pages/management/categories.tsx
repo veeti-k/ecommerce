@@ -1,11 +1,11 @@
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { CardContent, InfoCard } from "../../components/Card";
-import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../components/Containers";
+import { CardWrapper, FlexDiv } from "../../components/Containers";
 import { AddCategoryDialog } from "../../components/Dialogs/Category/AddCategoryDialog";
 import { DeleteCategoryDialog } from "../../components/Dialogs/Category/DeleteCategoryDialog";
 import { EditCategoryDialog } from "../../components/Dialogs/Category/EditCategoryDialog";
-import { ManagementPageLayout } from "../../components/layouts/ManagementPageLayout";
+import { MgmtPageLayout } from "../../components/layouts/Management/ManagementPageLayout";
 import { TitleContainer } from "../../components/layouts/Styles";
 import { Heading } from "../../components/Text";
 import { Category, ResolvedCategory } from "../../types/Category";
@@ -29,14 +29,14 @@ const Categories: NextPage = () => {
   }, []);
 
   return (
-    <ManagementPageLayout categories={resolvedCategories}>
+    <MgmtPageLayout categories={resolvedCategories}>
       <TitleContainer withButton>
         <Heading>Categories</Heading>
 
         <AddCategoryDialog categories={categories} getCategories={getCategories} />
       </TitleContainer>
 
-      <MgmtSettingsPageScrollableContent style={{ maxHeight: "calc(100vh - 15rem)" }}>
+      <CardWrapper scrollableMaxHeigth="calc(100vh - 15rem)">
         <CardContent>
           <FlexDiv column gap05>
             {categories.map((category) => (
@@ -57,8 +57,8 @@ const Categories: NextPage = () => {
             ))}
           </FlexDiv>
         </CardContent>
-      </MgmtSettingsPageScrollableContent>
-    </ManagementPageLayout>
+      </CardWrapper>
+    </MgmtPageLayout>
   );
 };
 
