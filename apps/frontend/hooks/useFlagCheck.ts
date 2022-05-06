@@ -7,7 +7,7 @@ import { Flags } from "../utils/flagResolve";
 
 const isAdmin = (userFlags: number) => (BigInt(userFlags) & Flags.Admin) === Flags.Admin;
 
-export const useFlagCheck = (...neededFlags: bigint[]) => {
+export const useFlagCheck = (...flagsToCheck: bigint[]) => {
   const { state } = useContext(UserContext);
   const router = useRouter();
 
@@ -18,9 +18,14 @@ export const useFlagCheck = (...neededFlags: bigint[]) => {
     (async () => {
       if (state.status !== "loaded") return;
 
-      const totalNeeded = neededFlags.reduce((acc, curr) => acc | curr);
+      const userFlags: bigint[] = [];
 
-      const hasAccess = isAdmin(state.flags) || (BigInt(state.flags) & totalNeeded) === totalNeeded;
+      if (isAdmin(state.flags)) userFlags.push(Flags.Admin);
+
+      for (const flag of flagsToCheck)
+        if ((BigInt(state.flags) & flag) === flag) userFlags.push(flag);
+
+      const hasAccess = userFlags.length;
 
       if (!hasAccess) return pushUser(router, "/", "useFlagCheck, no access");
 

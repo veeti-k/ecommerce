@@ -2,7 +2,7 @@ import { IconButton, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/rea
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { UserContext } from "../../UserProvider/provider";
-import { hasManageQuestions, hasManageReviews, isAdmin } from "../../utils/flagResolve";
+import { Flags, hasFlag, isAdmin } from "../../utils/flagResolve";
 import { logout } from "../../utils/logout";
 import { routes } from "../../utils/routes";
 import { DashboardIcon, LoginIcon, LogoutIcon, ReviewingIcon, UserIcon } from "../Icons";
@@ -14,7 +14,8 @@ export const ProfileMenu = () => {
 
   const { state, dispatch } = useContext(UserContext);
 
-  const isAllowedToReview = hasManageReviews(state.flags) || hasManageQuestions(state.flags);
+  const isAllowedToReview =
+    hasFlag(state.flags, Flags.ManageReviews) || hasFlag(state.flags, Flags.ManageQuestions);
 
   if (!state.userId)
     return (
