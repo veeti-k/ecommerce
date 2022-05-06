@@ -7,7 +7,7 @@ export const SettingsNav = () => (
   <PageSelectorButtons>
     <PageSelectorButton
       route={routes.settingsAccount}
-      active={window.location.pathname.includes("password")}
+      active={window.location.pathname.includes("account")}
     >
       <UserIcon /> <Text>Account</Text>
     </PageSelectorButton>
@@ -19,13 +19,13 @@ export const SettingsNav = () => (
     </PageSelectorButton>
     <PageSelectorButton
       route={routes.settingsAddresses}
-      active={window.location.pathname.includes("password")}
+      active={window.location.pathname.includes("addresses")}
     >
       <AddressesIcon /> <Text>Addresses</Text>
     </PageSelectorButton>
     <PageSelectorButton
       route={routes.settingsSessions}
-      active={window.location.pathname.includes("password")}
+      active={window.location.pathname.includes("sessions")}
     >
       <SessionsIcon /> <Text>Sessions</Text>
     </PageSelectorButton>
