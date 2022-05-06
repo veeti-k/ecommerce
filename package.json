@@ -26,10 +26,10 @@
     "dev:auto": "yarn build && yarn dev:zinc:setup && yarn dev:dbs && yarn dev:wait && yarn dev:dbinit && yarn dev:start",
     "dev:down": "docker-compose -f docker-compose.dev.yml rm -fsv",
 
-    "dev:frontend": "yarn turbo run dev:frontend",
-    "build:frontend": "yarn turbo run build:frontend",
-    "start:frontend": "yarn turbo run start:frontend",
-    "lint:frontend": "yarn turbo run lint:frontend",
+    "dev:front": "yarn turbo run dev:front",
+    "build:front": "yarn turbo run build:front",
+    "start:front": "yarn turbo run start:front",
+    "lint:front": "yarn turbo run lint:front",
 
     "test:backend": "mkdir -p ./TEST-DATA/zinc && chmod a+rwx ./TEST-DATA/zinc && docker compose -f docker-compose.test.yml up --abort-on-container-exit && docker-compose -f docker-compose.test.yml rm -fsv",
 

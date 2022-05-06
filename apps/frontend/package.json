@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev:frontend": "next dev",
-    "build:frontend": "next build",
-    "start:frontend": "next start",
-    "lint:frontend": "next lint",
+    "dev:front": "next dev",
+    "build:front": "next build",
+    "start:front": "next start",
+    "lint:front": "next lint",
     "clean": "rm -rf .next && rm -rf node_modules && rm -rf .turbo"
   },
   "dependencies": {

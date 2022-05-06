@@ -28,20 +28,20 @@
       "dependsOn": ["^seed"],
       "cache": false
     },
-    "build:frontend": {
-      "dependsOn": ["^build:frontend"],
+    "build:front": {
+      "dependsOn": ["^build:front"],
       "outputs": [".next/**"]
     },
-    "dev:frontend": {
-      "dependsOn": ["^dev:frontend"],
+    "dev:front": {
+      "dependsOn": ["^dev:front"],
       "cache": false
     },
-    "start:frontend":{
-      "dependsOn": ["^start:frontend"],
+    "start:front":{
+      "dependsOn": ["^start:front"],
       "cache": false
     },
-    "lint:frontend": {
-      "dependsOn": ["^lint:frontend"],
+    "lint:front": {
+      "dependsOn": ["^lint:front"],
       "cache": false
     }
   }
