@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 import { CardContent } from "../../components/Card";
 import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../components/Containers";
 import { PasswordInputWithLabel } from "../../components/Inputs";
-import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
+import { SettingsPageLayout } from "../../components/layouts/Settings/SettingsPageLayout";
 import { TitleContainer } from "../../components/layouts/Styles";
 import { Heading, Text } from "../../components/Text";
 import { ResolvedCategory } from "../../types/Category";

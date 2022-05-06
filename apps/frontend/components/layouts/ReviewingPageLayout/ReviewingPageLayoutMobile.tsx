@@ -25,6 +25,7 @@ export const ReviewingPageLayoutMobile = () => {
       <PageTitle>Reviewing</PageTitle>
 
       <Select
+        size="sm"
         backgroundColor="white"
         onChange={(e) => onSelectChange(e.target.value)}
         value={selectValue}

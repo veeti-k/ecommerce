@@ -1,18 +1,25 @@
 import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FC, useContext } from "react";
-import { useHasMounted } from "../../hooks/useHasMounted";
-import { ResolvedCategory } from "../../types/Category";
-import { UserContext } from "../../UserProvider/provider";
-import { logout } from "../../utils/logout";
-import { pushUser } from "../../utils/router";
-import { routes } from "../../utils/routes";
-import { Card } from "../Card";
-import { FlexDiv } from "../Containers";
-import { AddressesIcon, LogoutIcon, PasswordIcon, SessionsIcon, UserIcon } from "../Icons";
-import { Text, PageTitle } from "../Text";
-import { Layout } from "./Layout";
-import { PageTitleContainer, PageSelectorButtons, PageSelectorButton, MainContent } from "./Styles";
+import { BreakpointContext } from "../../../BreakpointProvider/BreakpointProvider";
+import { useHasMounted } from "../../../hooks/useHasMounted";
+import { useIsLoggedIn } from "../../../hooks/useIsLoggedIn";
+import { ResolvedCategory } from "../../../types/Category";
+import { UserContext } from "../../../UserProvider/provider";
+import { logout } from "../../../utils/logout";
+import { routes } from "../../../utils/routes";
+import { Card } from "../../Card";
+import { FlexDiv } from "../../Containers";
+import { AddressesIcon, LogoutIcon, PasswordIcon, SessionsIcon, UserIcon } from "../../Icons";
+import { Text, PageTitle } from "../../Text";
+import { Layout } from "../Layout";
+import {
+  PageTitleContainer,
+  PageSelectorButtons,
+  PageSelectorButton,
+  MainContent,
+} from "../Styles";
+import { SettingsPageLayoutMobile } from "./SettingsPageLayoutMobile";
 
 type ActivePage = "account" | "addresses" | "sessions" | "password";
 
@@ -28,14 +35,22 @@ export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({
 }) => {
   const router = useRouter();
 
-  const { dispatch, state } = useContext(UserContext);
+  const { dispatch } = useContext(UserContext);
+  const { state: bpState } = useContext(BreakpointContext);
 
   const hasMounted = useHasMounted();
+  const viewBlocked = useIsLoggedIn();
 
-  const isLoggedIn = state.userId && state.status === "loaded";
+  if (!hasMounted) return null;
 
-  if (!state.userId && state.status == "loaded")
-    pushUser(router, "/", "settingsPageLayout::isLoggedIn false");
+  if (bpState.bp === "mobile")
+    return (
+      <Layout categories={categories} lessPaddingOnMobile>
+        <SettingsPageLayoutMobile />
+
+        <MainContent>{viewBlocked ? null : children}</MainContent>
+      </Layout>
+    );
 
   return (
     <Layout categories={categories}>
@@ -50,10 +65,9 @@ export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({
               colorScheme="red"
               style={{ boxShadow: "2px 4px 12px rgb(0 0 0 / 8%)" }}
               onClick={() => logout(router, dispatch, routes.home)}
+              leftIcon={<LogoutIcon />}
             >
-              <FlexDiv gap05 align>
-                <LogoutIcon /> Log out
-              </FlexDiv>
+              Log out
             </Button>
           </FlexDiv>
         </PageTitleContainer>
@@ -84,7 +98,7 @@ export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({
               </PageSelectorButton>
             </PageSelectorButtons>
 
-            <MainContent>{hasMounted && isLoggedIn ? children : null}</MainContent>
+            <MainContent>{viewBlocked ? null : children}</MainContent>
           </FlexDiv>
         </Card>
       </>

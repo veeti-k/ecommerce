@@ -10,7 +10,7 @@ import { UserContext } from "../../UserProvider/provider";
 import { styled } from "../../stitches.config";
 import toast from "react-hot-toast";
 import { getMe } from "../../utils/logout";
-import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
+import { SettingsPageLayout } from "../../components/layouts/Settings/SettingsPageLayout";
 import { TitleContainer } from "../../components/layouts/Styles";
 import { RevokeSessionRequest } from "../../utils/Requests/Session";
 import { ResolvedCategory } from "../../types/Category";

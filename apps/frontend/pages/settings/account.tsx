@@ -10,16 +10,18 @@ import { Heading, Text } from "../../components/Text";
 import { UserContext } from "../../UserProvider/provider";
 import { toast } from "react-hot-toast";
 import { Actions } from "../../UserProvider/types";
-import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
+import { SettingsPageLayout } from "../../components/layouts/Settings/SettingsPageLayout";
 import { TitleContainer } from "../../components/layouts/Styles";
 import { DeleteAccountDialog } from "../../components/Dialogs/Account/DeleteAccountDialog";
 import { UpdateAccountRequest } from "../../utils/Requests/Account";
 import { ResolvedCategory } from "../../types/Category";
 import { CardContent } from "../../components/Card";
 import { STATIC_PROPS_REQUESTS } from "../../utils/getStaticProps";
+import { BreakpointContext } from "../../BreakpointProvider/BreakpointProvider";
 
 const Account: NextPage<Props> = ({ resolvedCategories }) => {
   const { state, dispatch } = useContext(UserContext);
+  const { state: bpState } = useContext(BreakpointContext);
 
   const [name, setName] = useState<string>(state.name);
   const [ogName, setOgName] = useState<string>(state.name);
@@ -113,11 +115,13 @@ const Account: NextPage<Props> = ({ resolvedCategories }) => {
 
             <Divider orientation="horizontal" />
 
-            <FlexDiv spaceBetween align>
-              <div>
-                <Heading>Delete account</Heading>
-                <Text light>Your account will be permanently deleted</Text>
-              </div>
+            <FlexDiv spaceBetween align justify={bpState.bp === "mobile"}>
+              {bpState.bp === "mobile" ? null : (
+                <div>
+                  <Heading>Delete account</Heading>
+                  <Text light>Your account will be permanently deleted</Text>
+                </div>
+              )}
               <DeleteAccountDialog />
             </FlexDiv>
           </FlexDiv>

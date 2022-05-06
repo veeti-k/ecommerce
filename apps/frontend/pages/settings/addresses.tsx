@@ -7,7 +7,7 @@ import { UserContext } from "../../UserProvider/provider";
 import { styled } from "../../stitches.config";
 import { EditAddressDialog } from "../../components/Dialogs/Address/EditAddressDialog";
 import { NewAddressDialog } from "../../components/Dialogs/Address/NewAddressDialog";
-import { SettingsPageLayout } from "../../components/layouts/SettingsPageLayout";
+import { SettingsPageLayout } from "../../components/layouts/Settings/SettingsPageLayout";
 import { TitleContainer } from "../../components/layouts/Styles";
 import { FlexDiv, MgmtSettingsPageScrollableContent } from "../../components/Containers";
 import { DeleteAddressDialog } from "../../components/Dialogs/Address/DeleteAddressDialog";
