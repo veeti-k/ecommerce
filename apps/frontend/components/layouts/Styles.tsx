@@ -45,10 +45,10 @@ const PageSelectorButtonContainer = styled("div", {
   alignItems: "center",
   borderRadius: "4px",
   padding: "0.8rem",
-  paddingRight: "5rem",
   paddingLeft: "1rem",
   fontWeight: "light",
   transition: "$buttonHover",
+  width: 200,
 
   "&:hover": {
     cursor: "pointer",
@@ -59,7 +59,8 @@ const PageSelectorButtonContainer = styled("div", {
     active: {
       true: {
         color: "#1e67a5",
-        fontWeight: "bold",
+        backgroundColor: "rgba(0, 0, 0, 0.045)",
+        fontWeight: 700,
       },
     },
   },
