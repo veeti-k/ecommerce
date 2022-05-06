@@ -9,7 +9,7 @@ import { pushUser } from "../../utils/router";
 import { routes } from "../../utils/routes";
 import { Card } from "../Card";
 import { FlexDiv } from "../Containers";
-import { ProductsIcon, OrdersIcon, UserIcon, StoreIcon, PlusIcon } from "../Icons";
+import { ProductsIcon, OrdersIcon, UserIcon, PlusIcon } from "../Icons";
 import { Text, PageTitle } from "../Text";
 import { Layout } from "./Layout";
 import { PageTitleContainer, PageSelectorButtons, PageSelectorButton, MainContent } from "./Styles";
@@ -68,13 +68,6 @@ export const ManagementPageLayout: FC<ManagementPageLayoutProps> = ({ children, 
                   active={window.location.pathname.includes("users")}
                 >
                   <UserIcon /> <Text>Users</Text>
-                </PageSelectorButton>
-
-                <PageSelectorButton
-                  route={routes.managementStores}
-                  active={window.location.pathname.includes("stores")}
-                >
-                  <StoreIcon /> <Text>Stores</Text>
                 </PageSelectorButton>
               </PageSelectorButtons>
 

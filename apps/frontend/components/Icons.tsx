@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { BsArrowLeft, BsArrowRight, BsBagCheck, BsGrid, BsPlusSquare } from "react-icons/bs";
-import { BiLinkExternal, BiStoreAlt, BiTrash } from "react-icons/bi";
+import { BiLinkExternal, BiTrash } from "react-icons/bi";
 import { HiChevronDown, HiHome, HiOutlineMenu, HiPlus } from "react-icons/hi";
 import { FiEdit, FiLock, FiLogIn, FiLogOut, FiShield, FiShoppingBag, FiUser } from "react-icons/fi";
 import { MdOutlinePreview, MdOutlineReviews, MdOutlineSpaceDashboard } from "react-icons/md";
@@ -29,7 +29,6 @@ export const PasswordIcon = () => <FiLock size={20} />;
 
 export const ExternalLinkIcon = () => <BiLinkExternal />;
 export const HomeIcon = () => <HiHome size={20} />;
-export const StoreIcon = () => <BiStoreAlt size={20} style={{ marginTop: 1 }} />;
 export const ReviewIcon = () => <MdOutlineReviews size={20} style={{ marginTop: 2 }} />;
 export const QuestionIcon = () => <RiQuestionnaireLine size={20} style={{ marginTop: 2 }} />;
 export const ReviewingIcon = () => <MdOutlinePreview size={20} />;
