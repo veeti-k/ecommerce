@@ -6,7 +6,7 @@ import { useHasMounted } from "../../../hooks/useHasMounted";
 import { useIsLoggedIn } from "../../../hooks/useIsLoggedIn";
 import { ResolvedCategory } from "../../../types/Category";
 import { UserContext } from "../../../UserProvider/provider";
-import { logout } from "../../../utils/logout";
+import { Logout } from "../../../utils/Requests/Auth";
 import { routes } from "../../../utils/routes";
 import { Card } from "../../Card";
 import { FlexDiv } from "../../Containers";
@@ -27,7 +27,7 @@ const Title = () => {
       <Button
         colorScheme="red"
         style={{ boxShadow: "2px 4px 12px rgb(0 0 0 / 8%)" }}
-        onClick={() => logout(router, dispatch, routes.home)}
+        onClick={() => Logout(router, dispatch, routes.home)}
         leftIcon={<LogoutIcon />}
       >
         Log out

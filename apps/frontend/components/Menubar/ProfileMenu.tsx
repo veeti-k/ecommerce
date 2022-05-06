@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useContext } from "react";
 import { UserContext } from "../../UserProvider/provider";
 import { Flags, hasFlag, isAdmin } from "../../utils/flagResolve";
-import { logout } from "../../utils/logout";
+import { Logout } from "../../utils/Requests/Auth";
 import { routes } from "../../utils/routes";
 import { DashboardIcon, LoginIcon, LogoutIcon, ReviewingIcon, UserIcon } from "../Icons";
 import { Link } from "../Link";
@@ -59,7 +59,7 @@ export const ProfileMenu = () => {
           </Link>
         )}
 
-        <MenuItem icon={<LogoutIcon />} onClick={() => logout(router, dispatch, routes.home)}>
+        <MenuItem icon={<LogoutIcon />} onClick={() => Logout(router, dispatch, routes.home)}>
           <Text>Logout</Text>
         </MenuItem>
       </MenuList>

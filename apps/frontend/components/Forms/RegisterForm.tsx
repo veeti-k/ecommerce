@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useContext, useRef } from "react";
 import * as Yup from "yup";
 import { UserContext } from "../../UserProvider/provider";
-import { getMe } from "../../utils/logout";
+import { GetMe } from "../../utils/Requests/Account";
 import { RegisterRequest } from "../../utils/Requests/Auth";
 import { pushUser } from "../../utils/router";
 import { FlexDiv, InputLabelContainer } from "../Containers";
@@ -27,7 +27,7 @@ export const RegisterForm = () => {
     const res = await RegisterRequest(values);
 
     if (res) {
-      getMe(dispatch);
+      GetMe(dispatch);
       pushUser(router, "/", "register success");
     } else {
       setTimeout(() => {

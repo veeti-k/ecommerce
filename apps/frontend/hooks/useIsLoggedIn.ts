@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../UserProvider/provider";
-import { logout } from "../utils/logout";
 import { request } from "../utils/requests";
+import { Logout } from "../utils/Requests/Auth";
 import { apiRoutes } from "../utils/routes";
 import { getToken } from "../utils/token";
 
@@ -21,7 +21,7 @@ export const useIsLoggedIn = () => {
         method: "GET",
       });
 
-      if (!res) logout(router, dispatch, "/");
+      if (!res) Logout(router, dispatch, "/");
 
       setViewBlocked(false);
     })();

@@ -1,6 +1,5 @@
 import { Formik } from "formik";
 import { useContext, useRef } from "react";
-import { getMe } from "../../utils/logout";
 import { LoginRequest } from "../../utils/Requests/Auth";
 import { UserContext } from "../../UserProvider/provider";
 import { FlexDiv, InputLabelContainer } from "../Containers";
@@ -8,6 +7,7 @@ import { Button, Input } from "@chakra-ui/react";
 import { PasswordInputWithLabel } from "../Inputs";
 import { useRouter } from "next/router";
 import { pushUser } from "../../utils/router";
+import { GetMe } from "../../utils/Requests/Account";
 
 export const LoginForm = () => {
   const { dispatch } = useContext(UserContext);
@@ -18,7 +18,7 @@ export const LoginForm = () => {
     const res = await LoginRequest(values);
 
     if (res) {
-      getMe(dispatch);
+      GetMe(dispatch);
       pushUser(router, "/", "login success");
     } else {
       setTimeout(() => {

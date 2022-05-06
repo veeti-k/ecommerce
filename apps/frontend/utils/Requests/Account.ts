@@ -1,3 +1,4 @@
+import { Actions, MyDispatch } from "../../UserProvider/types";
 import { request } from "../requests";
 import { apiRoutes } from "../routes";
 
@@ -18,3 +19,14 @@ export const UpdateAccountRequest = (account: UpdateAccountRequestProps) =>
     method: "PATCH",
     body: account,
   });
+
+export const GetMe = async (dispatch: MyDispatch) => {
+  const res = await request({
+    method: "GET",
+    path: apiRoutes.userRoot("me"),
+  });
+
+  if (!res || !res?.data?.userId) return;
+
+  dispatch({ type: Actions.SetUser, payload: res.data });
+};

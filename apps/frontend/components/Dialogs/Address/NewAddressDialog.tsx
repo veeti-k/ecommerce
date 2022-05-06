@@ -6,9 +6,9 @@ import { FlexDiv } from "../../Containers";
 import { request } from "../../../utils/requests";
 import { apiRoutes } from "../../../utils/routes";
 import { toast } from "react-hot-toast";
-import { getMe } from "../../../utils/logout";
 import { UserContext } from "../../../UserProvider/provider";
 import { Dialog } from "../Dialog";
+import { GetMe } from "../../../utils/Requests/Account";
 
 export const NewAddressDialog = () => {
   const [name, setName] = useState<string>("");
@@ -43,7 +43,7 @@ export const NewAddressDialog = () => {
 
     if (res) {
       toast.success("Address added");
-      getMe(dispatch);
+      GetMe(dispatch);
 
       setName("");
       setPhoneNumber("");

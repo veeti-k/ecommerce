@@ -4,11 +4,11 @@ import { InputLabelContainer } from "../../Containers";
 import { EditIcon } from "../../Icons";
 import { FlexDiv } from "../../Containers";
 import { toast } from "react-hot-toast";
-import { getMe } from "../../../utils/logout";
 import { UserContext } from "../../../UserProvider/provider";
 import { EditAddressRequest } from "../../../utils/Requests/Address";
 import { Address } from "../../../types/User";
 import { Dialog } from "../Dialog";
+import { GetMe } from "../../../utils/Requests/Account";
 
 export const EditAddressDialog = ({ address }: { address: Address }) => {
   const [name, setName] = useState<string>("");
@@ -40,7 +40,7 @@ export const EditAddressDialog = ({ address }: { address: Address }) => {
 
     if (res) {
       toast.success("Address edited");
-      getMe(dispatch);
+      GetMe(dispatch);
 
       setName("");
       setPhoneNumber("");

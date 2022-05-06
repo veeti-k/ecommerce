@@ -3,7 +3,7 @@ import { useContext } from "react";
 import toast from "react-hot-toast";
 import { styled } from "../../../../stitches.config";
 import { UserContext } from "../../../../UserProvider/provider";
-import { getMe } from "../../../../utils/logout";
+import { GetMe } from "../../../../utils/Requests/Account";
 import { RevokeSessionRequest } from "../../../../utils/Requests/Session";
 import { Card } from "../../../Card";
 import { FlexDiv } from "../../../Containers";
@@ -26,7 +26,7 @@ export const Sessions = () => {
 
     if (res) {
       toast.success("Session revoked");
-      getMe(dispatch);
+      GetMe(dispatch);
     }
   };
 

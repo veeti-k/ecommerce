@@ -3,7 +3,7 @@ import { useContext } from "react";
 import toast from "react-hot-toast";
 import { Address } from "../../../types/User";
 import { UserContext } from "../../../UserProvider/provider";
-import { getMe } from "../../../utils/logout";
+import { GetMe } from "../../../utils/Requests/Account";
 import { DeleteAddressRequest } from "../../../utils/Requests/Address";
 import { TrashIcon } from "../../Icons";
 import { AlertDialog } from "../AlertDialog";
@@ -21,7 +21,7 @@ export const DeleteAddressDialog = ({ address }: { address: Address }) => {
 
     if (res) {
       toast.success("Address deleted");
-      getMe(dispatch);
+      GetMe(dispatch);
       onClose();
     }
   };
