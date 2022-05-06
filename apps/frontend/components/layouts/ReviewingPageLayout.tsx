@@ -29,7 +29,7 @@ export const ReviewingPageLayout: FC<Props> = ({ children, categories }) => {
   );
   const hasMounted = useHasMounted();
 
-  if (layoutViewBlocked && hasMounted) return null;
+  if (layoutViewBlocked && !hasMounted) return null;
 
   if (bpState.bp == "mobile")
     return (
