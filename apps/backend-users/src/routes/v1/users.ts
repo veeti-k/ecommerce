@@ -34,7 +34,7 @@ router.get("/me", auth({ neededFlags: [Flags.None] }), v1.users.me.get);
 router.patch(
   "/me",
   auth({ neededFlags: [Flags.None] }),
-  validation(v1Validators.addresses.update),
+  validation(v1Validators.me.update),
   v1.users.me.update
 );
 
