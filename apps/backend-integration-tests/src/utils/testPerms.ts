@@ -1,5 +1,6 @@
 import { Method } from "axios";
-import { Flags, SeededUsers, seededUsers } from "shared";
+import { SeededUsers, seededUsers } from "shared";
+import { Flags } from "shared2";
 import { TestClient } from "./misc";
 
 export const testPerms = async (url: string, method: Method, ...shouldHaveAccess: bigint[]) => {
