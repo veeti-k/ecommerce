@@ -1,6 +1,6 @@
 import axios from "axios";
 import { config } from "config";
-import { Product, ZincProduct } from "../types/Product";
+import { Product, ZincProduct } from "shared2";
 
 interface IBuildZincSearchTerm {
   query?: string;

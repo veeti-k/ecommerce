@@ -1,5 +1,6 @@
 import express from "express";
-import { auth, Flags, validation } from "shared";
+import { auth, validation } from "shared";
+import { Flags } from "shared2";
 import { v1Endpoints } from "../../endpoints";
 import { v1Validators } from "../../validators";
 

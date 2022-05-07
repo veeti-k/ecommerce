@@ -1,4 +1,5 @@
-import { AuthVerifyUserResponse, Endpoint, REQ_USER, respondSuccessNoContent } from "shared";
+import { Endpoint, REQ_USER, respondSuccessNoContent } from "shared";
+import { AuthVerifyUserResponse } from "shared2";
 import { db } from "../../../../../database";
 
 export const remove: Endpoint = async (req, res) => {

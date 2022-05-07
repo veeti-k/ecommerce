@@ -1,4 +1,4 @@
-import { Flags } from "shared";
+import { Flags } from "shared2";
 import prisma from "../client";
 
 export const createUserAndSession = async (body: any, hashedPassword: string) => {

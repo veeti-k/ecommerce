@@ -8,3 +8,5 @@ export const Flags = {
   ManageQuestions: BigInt(1 << 6),
   ManageReviews: BigInt(1 << 7),
 };
+
+export const PARAM_NUMBER_MAX_SAFE = Number.MAX_SAFE_INTEGER - 2; // -2 to be extra safe

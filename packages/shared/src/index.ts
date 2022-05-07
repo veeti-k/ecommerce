@@ -12,9 +12,6 @@ export * from "./types/ApiThings";
 export * from "./types/Auth";
 export * from "./types/Category";
 export * from "./types/Errors";
-export * from "./types/Flags";
-export * from "./types/Product";
-export * from "./types/User";
 export * from "./types/Validator";
 
 export * from "./consts";

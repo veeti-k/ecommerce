@@ -1,6 +1,7 @@
 import express from "express";
 import { v1Endpoints } from "../../endpoints";
-import { auth, Flags, validation } from "shared";
+import { auth, validation } from "shared";
+import { Flags } from "shared2";
 import { v1Validators } from "../../validators";
 
 const router = express.Router();

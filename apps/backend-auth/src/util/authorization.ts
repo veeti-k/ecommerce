@@ -1,4 +1,4 @@
-import { Flags } from "shared";
+import { Flags } from "shared2";
 
 export const hasAccess = (neededFlags: bigint[], userFlags: bigint) => {
   const totalNeeded = neededFlags.reduce((acc, curr) => acc | curr);

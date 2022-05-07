@@ -29,7 +29,8 @@
     "react-rewards": "^2.0.3",
     "swiper": "^8.1.4",
     "yup": "^0.32.11",
-    "shared": "*"
+    "shared": "*",
+    "shared2": "*"
   },
   "devDependencies": {
     "@types/node": "17.0.21",

@@ -1,4 +1,4 @@
-import { AuthVerifyUserResponse } from "./User";
+import { AuthVerifyUserResponse } from "shared2";
 
 export interface AuthVerifyResponse {
   valid: boolean;

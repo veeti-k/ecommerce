@@ -1,6 +1,7 @@
 import { Response } from "express";
 import { db } from "../../../database";
-import { Endpoint, AuthVerifyUserResponse, respondSuccess } from "shared";
+import { Endpoint, respondSuccess } from "shared";
+import { AuthVerifyUserResponse } from "shared2";
 import { decodeAccessToken } from "../../../util/jwt";
 import { hasAccess, isEmployee } from "../../../util/authorization";
 

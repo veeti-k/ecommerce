@@ -15,6 +15,7 @@
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
     "shared": "*",
+    "shared2": "*",
     "yup": "^0.32.11"
   },
   "devDependencies": {

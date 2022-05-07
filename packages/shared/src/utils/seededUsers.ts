@@ -1,5 +1,5 @@
-import { Flags } from "../types/Flags";
-import { SeededUser } from "../types/User";
+import { Flags } from "shared2";
+import { SeededUser } from "shared2";
 
 export enum SeededUsers {
   Admin = "Admin",

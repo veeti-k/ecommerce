@@ -1,11 +1,5 @@
-import {
-  AuthVerifyUserResponse,
-  Endpoint,
-  REQ_USER,
-  respondError,
-  respondSuccess,
-  zinc,
-} from "shared";
+import { Endpoint, REQ_USER, respondError, respondSuccess, zinc } from "shared";
+import { AuthVerifyUserResponse } from "shared2";
 import { db } from "../../../database";
 
 export const create: Endpoint = async (req, res) => {
