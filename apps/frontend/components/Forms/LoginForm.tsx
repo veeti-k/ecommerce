@@ -58,7 +58,13 @@ export const LoginForm = () => {
               name="password"
             />
 
-            <Button mt={"0.5rem"} type="submit" colorScheme="blue" isLoading={isSubmitting}>
+            <Button
+              mt={"0.5rem"}
+              type="submit"
+              colorScheme="blue"
+              isLoading={isSubmitting}
+              loadingText="Logging in"
+            >
               Login
             </Button>
           </FlexDiv>

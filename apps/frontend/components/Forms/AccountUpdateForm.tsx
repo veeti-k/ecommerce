@@ -81,6 +81,7 @@ export const AccountUpdateForm = () => {
                 type="submit"
                 isLoading={isSubmitting}
                 isFullWidth={mobile}
+                loadingText="Saving"
               >
                 Save
               </Button>

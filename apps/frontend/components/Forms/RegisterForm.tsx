@@ -138,6 +138,7 @@ export const RegisterForm = () => {
               colorScheme="blue"
               disabled={!isValid || isSubmitting}
               isLoading={isSubmitting}
+              loadingText="Registering"
             >
               Register
             </Button>
