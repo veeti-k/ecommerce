@@ -39,7 +39,7 @@ export const AccountUpdateForm = () => {
     <Formik initialValues={state} onSubmit={onSubmit} validationSchema={validationSchema}>
       {({ handleSubmit, values, handleChange, isSubmitting, dirty }) => (
         <form onSubmit={handleSubmit}>
-          <FlexDiv column gap08={mobile}>
+          <FlexDiv column>
             <InputLabelContainer id="name" label="Name">
               <Input
                 autoComplete="name"
@@ -51,7 +51,7 @@ export const AccountUpdateForm = () => {
               />
             </InputLabelContainer>
 
-            <FlexDiv column={mobile} gap08={mobile}>
+            <FlexDiv column={mobile}>
               <InputLabelContainer id="email" label="Email">
                 <Input
                   autoComplete="email"
@@ -65,7 +65,7 @@ export const AccountUpdateForm = () => {
 
               <InputLabelContainer id="phone-number" label="Phone number">
                 <Input
-                  autoComplete="phoneNumber"
+                  autoComplete="tel"
                   id="phone-number"
                   name="phoneNumber"
                   value={values.phoneNumber ?? ""}
