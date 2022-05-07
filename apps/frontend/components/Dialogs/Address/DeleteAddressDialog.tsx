@@ -1,5 +1,5 @@
 import { IconButton, Tooltip, useDisclosure } from "@chakra-ui/react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { Address } from "../../../types/User";
 import { UserContext } from "../../../UserProvider/provider";
@@ -11,16 +11,17 @@ import { AlertDialog } from "../AlertDialog";
 export const DeleteAddressDialog = ({ address }: { address: Address }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { dispatch } = useContext(UserContext);
+  const [deleting, setDeleting] = useState(false);
 
   const onSubmit = async () => {
-    const notifId = toast.loading("Deleting address");
+    setDeleting(true);
 
     const res = await DeleteAddressRequest(address.addressId);
 
-    toast.dismiss(notifId);
+    setDeleting(false);
 
     if (res) {
-      toast.success("Address deleted");
+      toast.success("Address deleted!");
       GetMe(dispatch);
       onClose();
     }
@@ -45,6 +46,8 @@ export const DeleteAddressDialog = ({ address }: { address: Address }) => {
         onSubmit={onSubmit}
         isOpen={isOpen}
         onClose={onClose}
+        submitBtnIsLoading={deleting}
+        submitBtnLoadingText="Deleting"
       />
     </>
   );

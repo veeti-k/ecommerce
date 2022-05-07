@@ -12,7 +12,7 @@ import { FC, useRef } from "react";
 import { FlexDiv } from "../Containers";
 import { Text } from "../Text";
 
-type Props = {
+type SharedProps = {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: () => void;
@@ -21,6 +21,16 @@ type Props = {
   submitLabel: string;
   submitColor?: string;
 };
+
+type Props =
+  | (SharedProps & {
+      submitBtnIsLoading: boolean;
+      submitBtnLoadingText: string;
+    })
+  | (SharedProps & {
+      submitBtnIsLoading?: never;
+      submitBtnLoadingText?: never;
+    });
 
 export const AlertDialog: FC<Props> = (props) => {
   const cancelRef = useRef<HTMLButtonElement>(null);
@@ -50,6 +60,8 @@ export const AlertDialog: FC<Props> = (props) => {
               colorScheme={props.submitColor ? props.submitColor : "red"}
               type="submit"
               onClick={props.onSubmit}
+              isLoading={props.submitBtnIsLoading}
+              loadingText={props.submitBtnLoadingText}
             >
               {props.submitLabel}
             </Button>
