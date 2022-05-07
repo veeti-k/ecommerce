@@ -93,10 +93,14 @@ export const MainContent = styled("div", {
   display: "flex",
   width: "100%",
 
+  borderTopRightRadius: "0",
+  borderBottomRightRadius: "0",
   flexDirection: "column",
 
   "@mobileAndUp": {
     backgroundColor: "#fcfcfc",
+    borderTopRightRadius: "8px",
+    borderBottomRightRadius: "8px",
   },
 });
 
