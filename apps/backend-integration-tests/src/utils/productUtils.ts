@@ -1,4 +1,4 @@
-import { Product } from "shared";
+import { Product } from "shared2";
 import {
   getRandomBoolean,
   getRandomInt,

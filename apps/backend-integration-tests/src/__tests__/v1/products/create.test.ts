@@ -1,7 +1,8 @@
 import { addCategory } from "../../../utils/categoryUtils";
 import { productsBaseUrl, TestClient } from "../../../utils/misc";
 import { getProduct, getRandomProduct } from "../../../utils/productUtils";
-import { Flags, zinc } from "shared";
+import { Flags } from "shared2";
+import { zinc } from "shared";
 import { testPerms } from "../../../utils/testPerms";
 
 describe("v1 products create", () => {
