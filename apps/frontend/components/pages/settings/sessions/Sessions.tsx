@@ -1,7 +1,6 @@
 import { Tooltip, IconButton } from "@chakra-ui/react";
 import { useContext } from "react";
 import toast from "react-hot-toast";
-import { styled } from "../../../../stitches.config";
 import { UserContext } from "../../../../UserProvider/provider";
 import { GetMe } from "../../../../utils/Requests/Account";
 import { RevokeSessionRequest } from "../../../../utils/Requests/Session";
@@ -10,10 +9,6 @@ import { FlexDiv } from "../../../Containers";
 import { TrashIcon } from "../../../Icons";
 import { PulsingCircle } from "../../../pulsingCircle";
 import { Text } from "../../../Text";
-
-const Wrapper = styled(FlexDiv, {
-  padding: "1rem",
-});
 
 export const Sessions = () => {
   const { state, dispatch } = useContext(UserContext);
@@ -37,7 +32,7 @@ export const Sessions = () => {
 
         return (
           <Card key={session.sessionId} shadowNear>
-            <Wrapper spaceBetween>
+            <FlexDiv style={{ padding: "1rem" }} spaceBetween>
               <div>
                 <FlexDiv gap05 align>
                   {session.isCurrentSession ? (
@@ -67,7 +62,7 @@ export const Sessions = () => {
                   </IconButton>
                 </Tooltip>
               </FlexDiv>
-            </Wrapper>
+            </FlexDiv>
           </Card>
         );
       })}
