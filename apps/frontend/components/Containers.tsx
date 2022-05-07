@@ -22,7 +22,11 @@ export const VerticalGrid = styled("div", {
 export const FlexDiv = styled("div", {
   display: "flex",
   flexDirection: "row",
-  gap: "1rem",
+  gap: "0.8rem",
+
+  "@mobileAndUp": {
+    gap: "1rem",
+  },
 
   variants: {
     column: {
@@ -67,7 +71,7 @@ export const FlexDiv = styled("div", {
     },
     gap0: {
       true: {
-        gap: 0,
+        gap: "0",
       },
     },
     fullWidth: {
