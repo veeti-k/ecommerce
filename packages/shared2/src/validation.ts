@@ -26,3 +26,8 @@ export const passwordAgainSchema = Yup.string()
   .required("Required");
 
 export const phoneNumberSchema = Yup.string().optional();
+
+export const streetAddressSchema = Yup.string().required("Required");
+export const citySchema = Yup.string().required("Required");
+export const stateSchema = Yup.string().required("Required");
+export const zipSchema = Yup.string().required("Required");
