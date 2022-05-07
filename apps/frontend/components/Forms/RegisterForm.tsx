@@ -47,7 +47,16 @@ export const RegisterForm = () => {
       validationSchema={validationSchema}
       onSubmit={onSubmit}
     >
-      {({ errors, touched, handleSubmit, values, handleChange, handleBlur, isValid }) => (
+      {({
+        errors,
+        touched,
+        handleSubmit,
+        values,
+        handleChange,
+        handleBlur,
+        isValid,
+        isSubmitting,
+      }) => (
         <form onSubmit={handleSubmit}>
           <FlexDiv column gap05>
             <InputLabelContainer
@@ -123,7 +132,13 @@ export const RegisterForm = () => {
               />
             </InputLabelContainer>
 
-            <Button mt={"0.5rem"} type="submit" colorScheme="blue" disabled={!isValid}>
+            <Button
+              mt={"0.5rem"}
+              type="submit"
+              colorScheme="blue"
+              disabled={!isValid || isSubmitting}
+              isLoading={isSubmitting}
+            >
               Register
             </Button>
           </FlexDiv>

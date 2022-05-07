@@ -35,7 +35,7 @@ export const LoginForm = () => {
       }}
       onSubmit={onSubmit}
     >
-      {({ handleSubmit, values, handleChange }) => (
+      {({ handleSubmit, values, handleChange, isSubmitting }) => (
         <form onSubmit={handleSubmit}>
           <FlexDiv column gap05>
             <InputLabelContainer id="email" label="Email">
@@ -58,7 +58,7 @@ export const LoginForm = () => {
               name="password"
             />
 
-            <Button mt={"0.5rem"} type="submit" colorScheme="blue">
+            <Button mt={"0.5rem"} type="submit" colorScheme="blue" isLoading={isSubmitting}>
               Login
             </Button>
           </FlexDiv>
