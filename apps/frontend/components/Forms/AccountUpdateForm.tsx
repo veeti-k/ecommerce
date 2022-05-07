@@ -30,7 +30,7 @@ export const AccountUpdateForm = () => {
     toast.dismiss(notifId);
 
     if (res) {
-      toast.success("Account settings updated successfully!");
+      toast.success("Saved!");
       dispatch({ type: Actions.SetUser, payload: res.data });
     }
   };
