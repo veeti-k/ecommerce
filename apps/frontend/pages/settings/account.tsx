@@ -1,63 +1,20 @@
-import { FormEvent, useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
-import { Button, Divider, Input } from "@chakra-ui/react";
-import { CardWrapper, FlexDiv, InputLabelContainer } from "../../components/Containers";
+import { Divider } from "@chakra-ui/react";
+import { CardWrapper, FlexDiv } from "../../components/Containers";
 import { Heading, Text } from "../../components/Text";
-import { UserContext } from "../../UserProvider/provider";
-import { toast } from "react-hot-toast";
-import { Actions } from "../../UserProvider/types";
 import { SettingsPageLayout } from "../../components/layouts/Settings/SettingsPageLayout";
 import { TitleContainer } from "../../components/layouts/Styles";
 import { DeleteAccountDialog } from "../../components/Dialogs/Account/DeleteAccountDialog";
-import { UpdateAccountRequest } from "../../utils/Requests/Account";
 import { ResolvedCategory } from "../../types/Category";
 import { CardContent } from "../../components/Card";
 import { STATIC_PROPS_REQUESTS } from "../../utils/getStaticProps";
 import { BreakpointContext } from "../../BreakpointProvider/BreakpointProvider";
+import { AccountUpdateForm } from "../../components/Forms/AccountUpdateForm";
 
 const Account: NextPage<Props> = ({ resolvedCategories }) => {
-  const { state, dispatch } = useContext(UserContext);
   const { state: bpState } = useContext(BreakpointContext);
-
   const mobile = bpState.bp === "mobile";
-
-  const [name, setName] = useState<string>(state.name);
-  const [ogName, setOgName] = useState<string>(state.name);
-
-  const [email, setEmail] = useState<string>(state.email);
-  const [ogEmail, setOgEmail] = useState<string>(state.email);
-
-  const [phoneNumber, setPhoneNumber] = useState<string | null>(state.phoneNumber);
-  const [ogPhoneNumber, setOgPhoneNumber] = useState<string | null>(state.phoneNumber);
-
-  useEffect(() => {
-    setName(state.name);
-    setEmail(state.email);
-    setPhoneNumber(state.phoneNumber);
-    setOgName(state.name);
-    setOgEmail(state.email);
-    setOgPhoneNumber(state.phoneNumber);
-  }, [state]);
-
-  const saveDisabled =
-    (!name || name.trim() === ogName) &&
-    (!email || email.trim() === ogEmail) &&
-    (!phoneNumber || phoneNumber.trim() === ogPhoneNumber);
-
-  const onFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const notifId = toast.loading("Saving your edits");
-
-    const res = await UpdateAccountRequest({ name, email, phoneNumber });
-
-    toast.dismiss(notifId);
-
-    if (res) {
-      toast.success("Account settings updated successfully!");
-      dispatch({ type: Actions.SetUser, payload: res.data });
-    }
-  };
 
   return (
     <SettingsPageLayout categories={resolvedCategories}>
@@ -70,46 +27,7 @@ const Account: NextPage<Props> = ({ resolvedCategories }) => {
       <CardWrapper>
         <CardContent>
           <FlexDiv column gap08={mobile}>
-            <form onSubmit={onFormSubmit}>
-              <FlexDiv column gap08={mobile}>
-                <InputLabelContainer id="name" label="Name">
-                  <Input
-                    id="name"
-                    autoComplete="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </InputLabelContainer>
-
-                <FlexDiv>
-                  <InputLabelContainer id="email" label="Email">
-                    <Input
-                      id="email"
-                      type="email"
-                      autoComplete="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </InputLabelContainer>
-
-                  <InputLabelContainer id="phone-number" label="Phone number">
-                    <Input
-                      id="phone-number"
-                      type="tel"
-                      autoComplete="tel"
-                      value={phoneNumber ?? ""}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
-                    />
-                  </InputLabelContainer>
-                </FlexDiv>
-
-                <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                  <Button colorScheme="blue" disabled={saveDisabled} type="submit">
-                    Save
-                  </Button>
-                </div>
-              </FlexDiv>
-            </form>
+            <AccountUpdateForm />
 
             <Divider orientation="horizontal" />
 
