@@ -25,4 +25,4 @@ export const passwordAgainSchema = Yup.string()
   .oneOf([Yup.ref("password"), null], "Passwords must match")
   .required("Required");
 
-export const phoneNumberSchema = Yup.string().required("Required");
+export const phoneNumberSchema = Yup.string().optional();
