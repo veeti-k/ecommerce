@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { Divider } from "@chakra-ui/react";
-import { CardWrapper, FlexDiv } from "../../components/Containers";
+import { CardContentWrapper, FlexDiv } from "../../components/Containers";
 import { Heading, Text } from "../../components/Text";
 import { SettingsPageLayout } from "../../components/layouts/Settings/SettingsPageLayout";
 import { TitleContainer } from "../../components/layouts/Styles";
@@ -24,7 +24,7 @@ const Account: NextPage<Props> = ({ resolvedCategories }) => {
         </div>
       </TitleContainer>
 
-      <CardWrapper>
+      <CardContentWrapper>
         <CardContent>
           <FlexDiv column gap08={mobile}>
             <AccountUpdateForm />
@@ -42,7 +42,7 @@ const Account: NextPage<Props> = ({ resolvedCategories }) => {
             </FlexDiv>
           </FlexDiv>
         </CardContent>
-      </CardWrapper>
+      </CardContentWrapper>
     </SettingsPageLayout>
   );
 };

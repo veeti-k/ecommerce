@@ -118,7 +118,7 @@ export const MgmtSettingsPageScrollableContent = styled("div", {
   overflowY: "auto",
 });
 
-export const CardWrapper: FC<{ children: ReactNode; scrollableMaxHeigth?: string }> = ({
+export const CardContentWrapper: FC<{ children: ReactNode; scrollableMaxHeigth?: string }> = ({
   children,
   scrollableMaxHeigth,
 }) => {

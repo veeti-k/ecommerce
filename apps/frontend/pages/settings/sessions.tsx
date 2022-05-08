@@ -1,6 +1,6 @@
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { CardContent } from "../../components/Card";
-import { CardWrapper, FlexDiv } from "../../components/Containers";
+import { CardContentWrapper, FlexDiv } from "../../components/Containers";
 import { Heading } from "../../components/Text";
 import { SettingsPageLayout } from "../../components/layouts/Settings/SettingsPageLayout";
 import { TitleContainer } from "../../components/layouts/Styles";
@@ -15,13 +15,13 @@ const SessionsPage: NextPage<Props> = ({ resolvedCategories }) => {
         <Heading>Sessions</Heading>
       </TitleContainer>
 
-      <CardWrapper scrollableMaxHeigth="calc(100vh - 15rem)">
+      <CardContentWrapper scrollableMaxHeigth="calc(100vh - 15rem)">
         <CardContent>
           <FlexDiv column gap05>
             <Sessions />
           </FlexDiv>
         </CardContent>
-      </CardWrapper>
+      </CardContentWrapper>
     </SettingsPageLayout>
   );
 };

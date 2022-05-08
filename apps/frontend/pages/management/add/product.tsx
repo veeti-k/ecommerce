@@ -1,7 +1,7 @@
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import toast from "react-hot-toast";
 import { CardContent } from "../../../components/Card";
-import { CardWrapper } from "../../../components/Containers";
+import { CardContentWrapper } from "../../../components/Containers";
 import { ProductFormValues, ProductForm } from "../../../components/Forms/ProductForm";
 import { MgmtPageLayout } from "../../../components/layouts/Management/ManagementPageLayout";
 import { TitleContainer } from "../../../components/layouts/Styles";
@@ -36,11 +36,11 @@ const AddProduct: NextPage<Props> = ({ resolvedCategory }) => {
         <Heading>Add a product</Heading>
       </TitleContainer>
 
-      <CardWrapper scrollableMaxHeigth="calc(100vh - 14rem)">
+      <CardContentWrapper scrollableMaxHeigth="calc(100vh - 14rem)">
         <CardContent>
           <ProductForm onSubmit={onSubmit} categories={allCategories} submitButtonText="Add" />
         </CardContent>
-      </CardWrapper>
+      </CardContentWrapper>
     </MgmtPageLayout>
   );
 };

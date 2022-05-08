@@ -4,7 +4,7 @@ import { Heading } from "../../components/Text";
 import { NewAddressDialog } from "../../components/Dialogs/Address/NewAddressDialog";
 import { SettingsPageLayout } from "../../components/layouts/Settings/SettingsPageLayout";
 import { TitleContainer } from "../../components/layouts/Styles";
-import { CardWrapper, FlexDiv } from "../../components/Containers";
+import { CardContentWrapper, FlexDiv } from "../../components/Containers";
 import { ResolvedCategory } from "../../types/Category";
 import { STATIC_PROPS_REQUESTS } from "../../utils/getStaticProps";
 import { Addresses } from "../../components/pages/settings/addresses/Addresses";
@@ -17,13 +17,13 @@ export const AddressesPage: NextPage<Props> = ({ resolvedCategories }) => (
       <NewAddressDialog />
     </TitleContainer>
 
-    <CardWrapper scrollableMaxHeigth="calc(100vh - 16rem)">
+    <CardContentWrapper scrollableMaxHeigth="calc(100vh - 16rem)">
       <CardContent>
         <FlexDiv fullWidth column gap05>
           <Addresses />
         </FlexDiv>
       </CardContent>
-    </CardWrapper>
+    </CardContentWrapper>
   </SettingsPageLayout>
 );
 

@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { CardContent, InfoCard } from "../../components/Card";
-import { CardWrapper, FlexDiv } from "../../components/Containers";
+import { CardContentWrapper, FlexDiv } from "../../components/Containers";
 import { AddCategoryDialog } from "../../components/Dialogs/Category/AddCategoryDialog";
 import { DeleteCategoryDialog } from "../../components/Dialogs/Category/DeleteCategoryDialog";
 import { EditCategoryDialog } from "../../components/Dialogs/Category/EditCategoryDialog";
@@ -36,7 +36,7 @@ const Categories: NextPage = () => {
         <AddCategoryDialog categories={categories} getCategories={getCategories} />
       </TitleContainer>
 
-      <CardWrapper scrollableMaxHeigth="calc(100vh - 15rem)">
+      <CardContentWrapper scrollableMaxHeigth="calc(100vh - 15rem)">
         <CardContent>
           <FlexDiv column gap05>
             {categories.map((category) => (
@@ -57,7 +57,7 @@ const Categories: NextPage = () => {
             ))}
           </FlexDiv>
         </CardContent>
-      </CardWrapper>
+      </CardContentWrapper>
     </MgmtPageLayout>
   );
 };

@@ -2,7 +2,7 @@ import { AnimatePresence } from "framer-motion";
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { useEffect, useState } from "react";
 import { CardContent } from "../../../components/Card";
-import { CardWrapper, FlexDiv } from "../../../components/Containers";
+import { CardContentWrapper, FlexDiv } from "../../../components/Containers";
 import { ReviewingPageLayout } from "../../../components/layouts/Reviewing/ReviewingPageLayout";
 import { TitleContainer } from "../../../components/layouts/Styles";
 import { ReviewingPageReview } from "../../../components/pages/management/reviewing/reviews/Review";
@@ -35,7 +35,7 @@ export const Reviewing: NextPage<Result> = ({ resolvedCategories }) => {
       </TitleContainer>
 
       {reviews.length ? (
-        <CardWrapper scrollableMaxHeigth="calc(100vh - 13rem)">
+        <CardContentWrapper scrollableMaxHeigth="calc(100vh - 13rem)">
           <CardContent>
             <FlexDiv column gap05>
               <AnimatePresence>
@@ -49,7 +49,7 @@ export const Reviewing: NextPage<Result> = ({ resolvedCategories }) => {
               </AnimatePresence>
             </FlexDiv>
           </CardContent>
-        </CardWrapper>
+        </CardContentWrapper>
       ) : null}
     </ReviewingPageLayout>
   );
