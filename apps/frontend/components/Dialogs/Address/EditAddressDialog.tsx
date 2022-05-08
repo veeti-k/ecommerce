@@ -18,16 +18,15 @@ export const EditAddressDialog = ({ address }: { address: Address }) => {
     toast.promise(
       (async () => {
         const res = await EditAddressRequest(address.addressId, values);
+        if (!res) throw 1;
 
-        if (res) {
-          GetMe(dispatch);
-          onClose();
-        }
+        GetMe(dispatch);
+        onClose();
       })(),
       {
         loading: "Editing address",
         success: "Address edited!",
-        error: "Error editing address",
+        error: "Failed to edit address",
       }
     );
 

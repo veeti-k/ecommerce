@@ -110,6 +110,7 @@ export const request = async (options: RequestOptions): Promise<AxiosResponse<an
     }
 
     errorHandler({ error: err, shouldRedirect401: options.shouldRedirect401, options });
+
     return null;
   }
 };

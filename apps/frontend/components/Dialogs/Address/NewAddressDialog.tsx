@@ -17,16 +17,15 @@ export const NewAddressDialog = () => {
     toast.promise(
       (async () => {
         const res = await NewAddressRequest(values);
+        if (!res) throw 1;
 
-        if (res) {
-          GetMe(dispatch);
-          onClose();
-        }
+        GetMe(dispatch);
+        onClose();
       })(),
       {
         loading: "Adding address",
         success: "Address added!",
-        error: "Error adding address",
+        error: "Failed to add address",
       }
     );
 

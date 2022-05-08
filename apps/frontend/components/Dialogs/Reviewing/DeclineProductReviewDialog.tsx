@@ -13,18 +13,20 @@ type Props = {
 export const DeclineProductReviewDialog: FC<Props> = ({ productId, reviewId, getReviews }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const onSubmit = async () => {
-    const notifId = toast.loading("Declining review");
+  const onSubmit = async () =>
+    toast.promise(
+      (async () => {
+        const res = await DeclineProductReviewRequest(productId, reviewId);
+        if (!res) throw 1;
 
-    const res = await DeclineProductReviewRequest(productId, reviewId);
-
-    toast.dismiss(notifId);
-
-    if (res) {
-      toast.success("Review declined");
-      getReviews();
-    }
-  };
+        getReviews();
+      })(),
+      {
+        loading: "Declining review",
+        success: "Question declined!",
+        error: "Failed to decline review",
+      }
+    );
 
   return (
     <>

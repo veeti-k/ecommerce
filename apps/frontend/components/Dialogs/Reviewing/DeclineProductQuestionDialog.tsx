@@ -17,18 +17,20 @@ export const DeclineProductQuestionDialog: FC<Props> = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const onSubmit = async () => {
-    const notifId = toast.loading("Declining question");
+  const onSubmit = async () =>
+    toast.promise(
+      (async () => {
+        const res = await DeclineProductQuestionRequest(productId, questionId);
+        if (!res) throw 1;
 
-    const res = await DeclineProductQuestionRequest(productId, questionId);
-
-    toast.dismiss(notifId);
-
-    if (res) {
-      toast.success("Question declined");
-      getQuestions();
-    }
-  };
+        getQuestions();
+      })(),
+      {
+        loading: "Declining question",
+        success: "Question declined!",
+        error: "Failed to decline question",
+      }
+    );
 
   return (
     <>

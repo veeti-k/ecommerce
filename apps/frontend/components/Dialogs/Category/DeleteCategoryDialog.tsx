@@ -18,16 +18,15 @@ export const DeleteCategoryDialog: FC<Props> = ({ category, getCategories }) => 
     toast.promise(
       (async () => {
         const res = await DeleteCategoryRequest(category.categoryId);
+        if (!res) throw 1;
 
-        if (res) {
-          getCategories();
-          onClose();
-        }
+        getCategories();
+        onClose();
       })(),
       {
         loading: "Deleting category",
         success: "Category deleted!",
-        error: "Error deleting category",
+        error: "Failed to delete category",
       }
     );
 

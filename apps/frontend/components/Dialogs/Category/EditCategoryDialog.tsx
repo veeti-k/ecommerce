@@ -26,16 +26,15 @@ export const EditCategoryDialog: FC<Props> = ({ getCategories, categories, categ
           name: categoryName,
           parentId: categoryParentId,
         });
+        if (!res) throw 1;
 
-        if (res) {
-          getCategories();
-          onClose();
-        }
+        getCategories();
+        onClose();
       })(),
       {
         loading: "Editing category",
         success: "Category edited!",
-        error: "Error editing category",
+        error: "Failed to edit category",
       }
     );
 

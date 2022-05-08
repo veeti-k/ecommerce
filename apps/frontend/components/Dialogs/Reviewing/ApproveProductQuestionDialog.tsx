@@ -17,18 +17,20 @@ export const ApproveProductQuestionDialog: FC<Props> = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const onSubmit = async () => {
-    const notifId = toast.loading("Approving question");
+  const onSubmit = async () =>
+    toast.promise(
+      (async () => {
+        const res = await ApproveProductQuestionRequest(productId, questionId);
+        if (!res) throw 1;
 
-    const res = await ApproveProductQuestionRequest(productId, questionId);
-
-    toast.dismiss(notifId);
-
-    if (res) {
-      toast.success("Question approved");
-      getQuestions();
-    }
-  };
+        getQuestions();
+      })(),
+      {
+        loading: "Approving question",
+        success: "Question approved!",
+        error: "Failed to approve question",
+      }
+    );
 
   return (
     <>

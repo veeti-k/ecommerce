@@ -11,20 +11,21 @@ export const DeleteAccountDialog = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
 
-  const onSubmit = async () => {
-    const notifId = toast.loading("Deleting account");
+  const onSubmit = async () =>
+    toast.promise(
+      (async () => {
+        const res = await DeleteAccountRequest();
+        if (!res) throw 1;
 
-    const res = await DeleteAccountRequest();
-
-    toast.dismiss(notifId);
-
-    if (res) {
-      toast.success("Account deleted");
-      onClose();
-      pushUser(router, routes.home, "Account deleted::after submit");
-    }
-  };
-
+        onClose();
+        pushUser(router, routes.home, "Account deleted::after submit");
+      })(),
+      {
+        loading: "Deleting account",
+        success: "Account deleted!",
+        error: "Failed to delete account",
+      }
+    );
   return (
     <>
       <Button colorScheme="red" variant="link" onClick={onOpen}>

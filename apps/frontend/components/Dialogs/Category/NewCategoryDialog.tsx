@@ -19,16 +19,15 @@ export const AddCategoryDialog: FC<Props> = ({ getCategories, categories }) => {
     toast.promise(
       (async () => {
         const res = await AddCategoryRequest(values);
+        if (!res) throw 1;
 
-        if (res) {
-          getCategories();
-          onClose();
-        }
+        getCategories();
+        onClose();
       })(),
       {
         loading: "Adding category",
         success: "Category added!",
-        error: "Error adding category",
+        error: "Failed to add category",
       }
     );
 

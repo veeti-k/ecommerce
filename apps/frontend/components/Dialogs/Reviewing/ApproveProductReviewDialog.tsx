@@ -13,18 +13,20 @@ type Props = {
 export const ApproveProductReviewDialog: FC<Props> = ({ productId, reviewId, getReviews }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const onSubmit = async () => {
-    const notifId = toast.loading("Approving review");
+  const onSubmit = async () =>
+    toast.promise(
+      (async () => {
+        const res = await ApproveProductReviewRequest(productId, reviewId);
+        if (!res) throw 1;
 
-    const res = await ApproveProductReviewRequest(productId, reviewId);
-
-    toast.dismiss(notifId);
-
-    if (res) {
-      toast.success("Review approved");
-      getReviews();
-    }
-  };
+        getReviews();
+      })(),
+      {
+        loading: "Approving review",
+        success: "Review approved!",
+        error: "Failed to approve review",
+      }
+    );
 
   return (
     <>

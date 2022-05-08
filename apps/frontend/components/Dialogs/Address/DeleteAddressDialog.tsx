@@ -20,15 +20,15 @@ export const DeleteAddressDialog = ({ address }: { address: Address }) => {
         const res = await DeleteAddressRequest(address.addressId);
         setDeleting(false);
 
-        if (res) {
-          GetMe(dispatch);
-          onClose();
-        }
+        if (!res) throw 1;
+
+        GetMe(dispatch);
+        onClose();
       })(),
       {
         loading: "Deleting address",
         success: "Address deleted!",
-        error: "Error deleting address",
+        error: "Failed to delete address",
       }
     );
 

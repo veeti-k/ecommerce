@@ -17,19 +17,21 @@ export const DeleteProductDialog: FC<Props> = ({ product }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
 
-  const onSubmit = async () => {
-    const notifId = toast.loading("Deleting the product");
+  const onSubmit = async () =>
+    toast.promise(
+      (async () => {
+        const res = await DeleteProductRequest(product.productId);
+        if (!res) throw 1;
 
-    const res = await DeleteProductRequest(product.productId);
-
-    toast.dismiss(notifId);
-
-    if (res) {
-      toast.success("Product deleted");
-      onClose();
-      pushUser(router, routes.home, "Product deleted::after submit");
-    }
-  };
+        onClose();
+        pushUser(router, routes.home, "Product deleted::successful deletion");
+      })(),
+      {
+        loading: "Deleting product",
+        success: "Product deleted!",
+        error: "Failed to delete product",
+      }
+    );
 
   return (
     <>
