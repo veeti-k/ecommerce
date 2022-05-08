@@ -21,6 +21,7 @@ const Account: NextPage<Props> = ({ resolvedCategories }) => {
       <TitleContainer>
         <div>
           <Heading>General Info</Heading>
+          <Text light>Edit your account info</Text>
         </div>
       </TitleContainer>
 

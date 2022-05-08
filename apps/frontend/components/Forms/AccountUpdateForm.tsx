@@ -34,7 +34,7 @@ export const AccountUpdateForm = () => {
       {
         loading: "Saving your edits",
         success: "Saved!",
-        error: "Error saving your edits",
+        error: "Failed to save your edits",
       }
     );
 
