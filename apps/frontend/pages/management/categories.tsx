@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { CardContent, InfoCard } from "../../components/Card";
 import { CardContentWrapper, FlexDiv } from "../../components/Containers";
-import { AddCategoryDialog } from "../../components/Dialogs/Category/AddCategoryDialog";
+import { AddCategoryDialog } from "../../components/Dialogs/Category/NewCategoryDialog";
 import { DeleteCategoryDialog } from "../../components/Dialogs/Category/DeleteCategoryDialog";
 import { EditCategoryDialog } from "../../components/Dialogs/Category/EditCategoryDialog";
 import { MgmtPageLayout } from "../../components/layouts/Management/ManagementPageLayout";
