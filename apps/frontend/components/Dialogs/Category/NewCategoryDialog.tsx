@@ -3,7 +3,7 @@ import { FC } from "react";
 import toast from "react-hot-toast";
 import { Category } from "../../../types/Category";
 import { AddCategoryRequest } from "../../../utils/Requests/Category";
-import { NewCategoryForm } from "../../Forms/NewCategoryForm";
+import { NewCategoryForm } from "../../Forms/dialogs/NewCategoryForm";
 import { PlusIcon } from "../../Icons";
 import { Dialog2, DialogBody, DialogHeader } from "../Dialog";
 

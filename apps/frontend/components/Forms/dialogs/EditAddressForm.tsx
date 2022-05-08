@@ -1,10 +1,10 @@
 import { Formik } from "formik";
 import { useContext } from "react";
-import { BreakpointContext } from "../../BreakpointProvider/BreakpointProvider";
-import { Address } from "../../types/User";
+import { BreakpointContext } from "../../../BreakpointProvider/BreakpointProvider";
+import { Address } from "../../../types/User";
 import * as Yup from "yup";
 import { validation } from "shared2";
-import { FlexDiv, InputLabelContainer } from "../Containers";
+import { FlexDiv, InputLabelContainer } from "../../Containers";
 import { Button, Input } from "@chakra-ui/react";
 
 const validationSchema = Yup.object().shape({

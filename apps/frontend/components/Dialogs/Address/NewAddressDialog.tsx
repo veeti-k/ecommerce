@@ -5,8 +5,8 @@ import { toast } from "react-hot-toast";
 import { UserContext } from "../../../UserProvider/provider";
 import { Dialog2, DialogBody, DialogHeader } from "../Dialog";
 import { GetMe } from "../../../utils/Requests/Account";
-import { NewAddressForm } from "../../Forms/NewAddressForm";
 import { NewAddressRequest } from "../../../utils/Requests/Address";
+import { NewAddressForm } from "../../Forms/dialogs/NewAddressForm";
 
 export const NewAddressDialog = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();

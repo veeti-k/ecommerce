@@ -7,7 +7,7 @@ import { EditAddressRequest } from "../../../utils/Requests/Address";
 import { Address } from "../../../types/User";
 import { Dialog2, DialogBody, DialogHeader } from "../Dialog";
 import { GetMe } from "../../../utils/Requests/Account";
-import { EditAddressForm } from "../../Forms/EditAddressForm";
+import { EditAddressForm } from "../../Forms/dialogs/EditAddressForm";
 
 export const EditAddressDialog = ({ address }: { address: Address }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();

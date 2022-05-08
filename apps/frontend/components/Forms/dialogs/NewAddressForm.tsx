@@ -1,11 +1,11 @@
 import { Formik } from "formik";
 import { useContext } from "react";
-import { BreakpointContext } from "../../BreakpointProvider/BreakpointProvider";
 import * as Yup from "yup";
 import { validation } from "shared2";
-import { FlexDiv, InputLabelContainer } from "../Containers";
 import { Button, Input } from "@chakra-ui/react";
-import { useBlurCounter } from "../../hooks/useBlurCounter";
+import { BreakpointContext } from "../../../BreakpointProvider/BreakpointProvider";
+import { useBlurCounter } from "../../../hooks/useBlurCounter";
+import { FlexDiv, InputLabelContainer } from "../../Containers";
 
 const validationSchema = Yup.object().shape({
   name: validation.nameSchema,
