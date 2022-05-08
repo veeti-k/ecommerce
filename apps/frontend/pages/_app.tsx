@@ -10,7 +10,7 @@ function App({ Component, pageProps }: AppProps) {
     <>
       <Toaster
         toastOptions={{
-          duration: 4000,
+          duration: 3000,
         }}
       />
       <BreakpointProvider>
