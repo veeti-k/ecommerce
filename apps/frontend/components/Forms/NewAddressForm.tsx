@@ -5,10 +5,11 @@ import * as Yup from "yup";
 import { validation } from "shared2";
 import { FlexDiv, InputLabelContainer } from "../Containers";
 import { Button, Input } from "@chakra-ui/react";
+import { useBlurCounter } from "../../hooks/useBlurCounter";
 
 const validationSchema = Yup.object().shape({
   name: validation.nameSchema,
-  phoneNumber: validation.phoneNumberSchema,
+  phoneNumber: validation.addressPhoneNumberSchema,
   email: validation.emailSchema,
   streetAddress: validation.streetAddressSchema,
   city: validation.citySchema,
@@ -24,6 +25,8 @@ export const NewAddressForm = ({ onSubmit }: Props) => {
   const { state: bpState } = useContext(BreakpointContext);
 
   const mobile = bpState.bp === "mobile";
+
+  const { blurCount, addBlurCount } = useBlurCounter();
 
   return (
     <Formik
@@ -62,7 +65,11 @@ export const NewAddressForm = ({ onSubmit }: Props) => {
                 name="name"
                 value={values.name}
                 onChange={handleChange}
-                onBlur={handleBlur}
+                onBlur={(e) => {
+                  addBlurCount();
+                  if (blurCount !== 1) return;
+                  handleBlur(e);
+                }}
                 isRequired
                 isInvalid={!!errors.name && touched.name}
               />

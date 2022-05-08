@@ -26,6 +26,7 @@ export const passwordAgainSchema = Yup.string()
   .required("Required");
 
 export const phoneNumberSchema = Yup.string().optional().nullable();
+export const addressPhoneNumberSchema = Yup.string().required("Required");
 
 export const streetAddressSchema = Yup.string().required("Required");
 export const citySchema = Yup.string().required("Required");

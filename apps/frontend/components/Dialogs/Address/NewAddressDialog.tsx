@@ -13,15 +13,22 @@ export const NewAddressDialog = () => {
 
   const { dispatch } = useContext(UserContext);
 
-  const onSubmit = async (values: any) => {
-    const res = await NewAddressRequest(values);
+  const onSubmit = (values: any) =>
+    toast.promise(
+      (async () => {
+        const res = await NewAddressRequest(values);
 
-    if (res) {
-      toast.success("Address added!");
-      GetMe(dispatch);
-      onClose();
-    }
-  };
+        if (res) {
+          GetMe(dispatch);
+          onClose();
+        }
+      })(),
+      {
+        loading: "Adding address",
+        success: "Address added!",
+        error: "Error adding address",
+      }
+    );
 
   return (
     <>
