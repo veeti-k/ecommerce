@@ -14,3 +14,10 @@ export const EditAddressRequest = (addressId: string, address: Omit<Address, "ad
     path: apiRoutes.user.addresses.address("me", addressId),
     body: address,
   });
+
+export const NewAddressRequest = (address: Omit<Address, "addressId">) =>
+  request({
+    method: "POST",
+    path: apiRoutes.user.addressesRoot("me"),
+    body: address,
+  });

@@ -75,6 +75,7 @@ export const NewAddressForm = ({ onSubmit }: Props) => {
             >
               <Input
                 autoComplete="tel"
+                type="tel"
                 id="phone-number"
                 name="phoneNumber"
                 value={values.phoneNumber ?? ""}
