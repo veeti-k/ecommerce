@@ -1,12 +1,12 @@
-import { Button, Input, Select } from "@chakra-ui/react";
+import { Input, Select, Button } from "@chakra-ui/react";
 import { Formik } from "formik";
 import { useContext } from "react";
-import { Category } from "shared";
-import { validation } from "shared2";
-import * as Yup from "yup";
 import { BreakpointContext } from "../../../BreakpointProvider/BreakpointProvider";
 import { useBlurCounter } from "../../../hooks/useBlurCounter";
+import { Category } from "../../../types/Category";
 import { FlexDiv, InputLabelContainer } from "../../Containers";
+import * as Yup from "yup";
+import { validation } from "shared2";
 
 const validationSchema = Yup.object().shape({
   name: validation.nameSchema,
@@ -16,9 +16,10 @@ const validationSchema = Yup.object().shape({
 interface Props {
   onSubmit: (values: any) => any;
   categories: Category[];
+  category: Category;
 }
 
-export const NewCategoryForm = ({ onSubmit, categories }: Props) => {
+export const EditCategoryForm = ({ onSubmit, categories, category }: Props) => {
   const { state: bpState } = useContext(BreakpointContext);
 
   const mobile = bpState.bp === "mobile";
@@ -28,8 +29,8 @@ export const NewCategoryForm = ({ onSubmit, categories }: Props) => {
   return (
     <Formik
       initialValues={{
-        name: "",
-        parentId: "",
+        name: category.name,
+        parentId: category.parentId?.toString() || "",
       }}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
@@ -69,24 +70,31 @@ export const NewCategoryForm = ({ onSubmit, categories }: Props) => {
             </InputLabelContainer>
 
             <InputLabelContainer
-              id="parentId"
-              label="parentId"
+              id="parent"
+              label="Parent"
               error={errors.parentId && touched.parentId ? errors.parentId : undefined}
             >
               <Select
-                id="parentId"
+                id="parent-id"
                 name="parentId"
-                value={values.parentId}
+                value={values.parentId || ""}
                 onChange={handleChange}
                 isInvalid={!!errors.parentId && touched.parentId}
               >
                 <option value="">None</option>
-                {categories.map((category) => {
-                  const parentId = categories.find((c) => c.categoryId == category.parentId);
+                {categories.map((innerCategory) => {
+                  const parent = categories.find((c) => c.categoryId == innerCategory.parentId);
+                  const isAlreadyParent = innerCategory.categoryId === category.parentId;
+                  const isItself = innerCategory.categoryId === category.categoryId;
+                  const disabled = isAlreadyParent || isItself;
 
                   return (
-                    <option key={category.categoryId} value={category.categoryId}>
-                      {category.name} {parentId ? `- (${parentId.name})` : ""}
+                    <option
+                      key={innerCategory.categoryId}
+                      value={innerCategory.categoryId}
+                      disabled={disabled}
+                    >
+                      {innerCategory.name} {parent ? `- (${parent.name})` : ""}
                     </option>
                   );
                 })}
@@ -100,10 +108,10 @@ export const NewCategoryForm = ({ onSubmit, categories }: Props) => {
                 isDisabled={!isValid || !dirty || isSubmitting}
                 isLoading={isSubmitting}
                 isFullWidth={mobile}
-                loadingText="Adding"
+                loadingText="Editing"
                 mb={"0.8rem"}
               >
-                Add
+                Edit
               </Button>
             </FlexDiv>
           </FlexDiv>

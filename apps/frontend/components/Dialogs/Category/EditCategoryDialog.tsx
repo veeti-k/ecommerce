@@ -1,11 +1,11 @@
-import { useDisclosure, Tooltip, IconButton, Input, Select } from "@chakra-ui/react";
-import { FC, useState } from "react";
+import { useDisclosure, Tooltip, IconButton } from "@chakra-ui/react";
+import { FC } from "react";
 import toast from "react-hot-toast";
 import { Category } from "../../../types/Category";
 import { EditCategoryRequest } from "../../../utils/Requests/Category";
-import { FlexDiv, InputLabelContainer } from "../../Containers";
+import { EditCategoryForm } from "../../Forms/dialogs/EditCategoryForm";
 import { EditIcon } from "../../Icons";
-import { Dialog } from "../Dialog";
+import { Dialog2, DialogBody, DialogHeader } from "../Dialog";
 
 type Props = {
   category: Category;
@@ -16,15 +16,12 @@ type Props = {
 export const EditCategoryDialog: FC<Props> = ({ getCategories, categories, category }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [categoryName, setCategoryName] = useState<string>(category.name);
-  const [categoryParentId, setCategoryParentId] = useState<number | null>(category.parentId);
-
-  const onSubmit = () =>
+  const onSubmit = (values: any) =>
     toast.promise(
       (async () => {
         const res = await EditCategoryRequest(category.categoryId, {
-          name: categoryName,
-          parentId: categoryParentId,
+          name: values.name,
+          parentId: values.parentId.length ? values.parentId : null,
         });
         if (!res) throw 1;
 
@@ -44,50 +41,13 @@ export const EditCategoryDialog: FC<Props> = ({ getCategories, categories, categ
         <IconButton aria-label="Edit category" icon={<EditIcon />} size="sm" onClick={onOpen} />
       </Tooltip>
 
-      <Dialog
-        header="Edit category"
-        submitLabel="Update"
-        isOpen={isOpen}
-        onClose={onClose}
-        onOpen={onOpen}
-        onSubmit={onSubmit}
-      >
-        <FlexDiv column fullWidth>
-          <InputLabelContainer id="category-name" label="Category name">
-            <Input
-              id="category-name"
-              value={categoryName}
-              onChange={(e) => setCategoryName(e.target.value)}
-              autoComplete="off"
-              required
-            />
-          </InputLabelContainer>
+      <Dialog2 onClose={onClose} onOpen={onOpen} isOpen={isOpen}>
+        <DialogHeader>Edit category</DialogHeader>
 
-          <InputLabelContainer id="category-parent" label="Parent">
-            <Select
-              id="category-parent"
-              value={categoryParentId?.toString()}
-              onChange={(e) => setCategoryParentId(parseInt(e.target.value))}
-              required
-            >
-              <option value="">None</option>
-              {categories.map((optionCategory) => {
-                const parent = categories.find((c) => c.categoryId == optionCategory.parentId);
-
-                return (
-                  <option
-                    key={optionCategory.categoryId}
-                    value={optionCategory.categoryId}
-                    disabled={optionCategory.categoryId == category.categoryId}
-                  >
-                    {optionCategory.name} {parent ? `(${parent.name})` : ""}
-                  </option>
-                );
-              })}
-            </Select>
-          </InputLabelContainer>
-        </FlexDiv>
-      </Dialog>
+        <DialogBody>
+          <EditCategoryForm category={category} categories={categories} onSubmit={onSubmit} />
+        </DialogBody>
+      </Dialog2>
     </>
   );
 };
