@@ -19,22 +19,25 @@ export const EditCategoryDialog: FC<Props> = ({ getCategories, categories, categ
   const [categoryName, setCategoryName] = useState<string>(category.name);
   const [categoryParentId, setCategoryParentId] = useState<number | null>(category.parentId);
 
-  const onSubmit = async () => {
-    const notifId = toast.loading("Saving your edits");
+  const onSubmit = () =>
+    toast.promise(
+      (async () => {
+        const res = await EditCategoryRequest(category.categoryId, {
+          name: categoryName,
+          parentId: categoryParentId,
+        });
 
-    const res = await EditCategoryRequest(category.categoryId, {
-      name: categoryName,
-      parentId: categoryParentId,
-    });
-
-    toast.dismiss(notifId);
-
-    if (res) {
-      getCategories();
-      toast.success("Category edited");
-      onClose();
-    }
-  };
+        if (res) {
+          getCategories();
+          onClose();
+        }
+      })(),
+      {
+        loading: "Editing category",
+        success: "Category edited!",
+        error: "Error editing category",
+      }
+    );
 
   return (
     <>
