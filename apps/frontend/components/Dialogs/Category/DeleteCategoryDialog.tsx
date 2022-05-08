@@ -14,19 +14,22 @@ type Props = {
 export const DeleteCategoryDialog: FC<Props> = ({ category, getCategories }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const onSubmit = async () => {
-    const notifId = toast.loading("Deleting the category");
+  const onSubmit = async () =>
+    toast.promise(
+      (async () => {
+        const res = await DeleteCategoryRequest(category.categoryId);
 
-    const res = await DeleteCategoryRequest(category.categoryId);
-
-    toast.dismiss(notifId);
-
-    if (res) {
-      getCategories();
-      toast.success("Category deleted");
-      onClose();
-    }
-  };
+        if (res) {
+          getCategories();
+          onClose();
+        }
+      })(),
+      {
+        loading: "Deleting category",
+        success: "Category deleted!",
+        error: "Error deleting category",
+      }
+    );
 
   return (
     <>
