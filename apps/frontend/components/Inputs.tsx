@@ -10,6 +10,8 @@ interface PasswordInputProps {
   autoComplete: string | undefined;
   onBlur?: ChangeEventHandler<HTMLInputElement> | undefined;
   name?: string;
+  error?: string;
+  inputIsInvalid?: boolean;
 }
 
 export const PasswordInputWithLabel: FC<PasswordInputProps> = ({
@@ -20,11 +22,13 @@ export const PasswordInputWithLabel: FC<PasswordInputProps> = ({
   autoComplete,
   onBlur,
   name,
+  error,
+  inputIsInvalid,
 }) => {
   const [showPw, setShowPw] = useState<boolean>(false);
 
   return (
-    <InputLabelContainer id={id} label={label}>
+    <InputLabelContainer id={id} label={label} error={error}>
       <InputGroup>
         <Input
           type={showPw ? "text" : "password"}
@@ -36,6 +40,7 @@ export const PasswordInputWithLabel: FC<PasswordInputProps> = ({
           name={name}
           required
           pr="4.5rem"
+          isInvalid={inputIsInvalid}
         />
         <InputRightElement width="4.5rem">
           <Button size="sm" height="1.75rem" onClick={() => setShowPw(!showPw)}>

@@ -22,7 +22,7 @@ export const emailSchema = Yup.string().email("Invalid email").required("Require
 
 export const passwordSchema = Yup.string().min(4, "Too short!").required("Required");
 export const passwordAgainSchema = Yup.string()
-  .oneOf([Yup.ref("password"), null], "Passwords must match")
+  .oneOf([Yup.ref("newPassword"), null], "Passwords must match")
   .required("Required");
 
 export const phoneNumberSchema = Yup.string().optional();
