@@ -51,6 +51,7 @@ export const NewAddressForm = ({ onSubmit }: Props) => {
         touched,
         handleBlur,
         isValid,
+        dirty,
       }) => (
         <form onSubmit={handleSubmit}>
           <FlexDiv column>
@@ -184,7 +185,7 @@ export const NewAddressForm = ({ onSubmit }: Props) => {
               <Button
                 colorScheme="blue"
                 type="submit"
-                isDisabled={!isValid || isSubmitting}
+                isDisabled={!isValid || !dirty || isSubmitting}
                 isLoading={isSubmitting}
                 isFullWidth={mobile}
                 loadingText="Adding"
