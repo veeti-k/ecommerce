@@ -14,15 +14,22 @@ export const EditAddressDialog = ({ address }: { address: Address }) => {
 
   const { dispatch } = useContext(UserContext);
 
-  const onSubmit = async (values: any) => {
-    const res = await EditAddressRequest(address.addressId, values);
+  const onSubmit = async (values: any) =>
+    toast.promise(
+      (async () => {
+        const res = await EditAddressRequest(address.addressId, values);
 
-    if (res) {
-      toast.success("Address edited");
-      GetMe(dispatch);
-      onClose();
-    }
-  };
+        if (res) {
+          GetMe(dispatch);
+          onClose();
+        }
+      })(),
+      {
+        loading: "Editing address",
+        success: "Address edited!",
+        error: "Error editing address",
+      }
+    );
 
   return (
     <>
