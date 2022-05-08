@@ -13,7 +13,7 @@ export const DeleteAddressDialog = ({ address }: { address: Address }) => {
   const { dispatch } = useContext(UserContext);
   const [deleting, setDeleting] = useState(false);
 
-  const onSubmit = async () =>
+  const onSubmit = () =>
     toast.promise(
       (async () => {
         setDeleting(true);
