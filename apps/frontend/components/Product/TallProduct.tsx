@@ -1,6 +1,6 @@
 import { Button, ListItem, UnorderedList } from "@chakra-ui/react";
+import Image from "next/image";
 import { FC } from "react";
-import { styled } from "../../stitches.config";
 import { Product } from "../../types/Product";
 import { routes } from "../../utils/routes";
 import { ProductCard } from "../Card";
@@ -14,15 +14,6 @@ type TallProductProps = {
   product: Product;
 };
 
-const StyledImage = styled("img", {
-  width: 200,
-  maxHeight: "200px",
-
-  "@mobileAndUp": {
-    width: "100%",
-  },
-});
-
 export const TallProduct: FC<TallProductProps> = ({ product }) => (
   <ProductCard>
     <Link
@@ -30,22 +21,18 @@ export const TallProduct: FC<TallProductProps> = ({ product }) => (
       style={{ position: "absolute", width: "100%", height: "100%", top: 0, left: 0 }}
     ></Link>
 
-    <FlexDiv flexEnd fullWidth>
-      <Text style={{ zIndex: 5 }}>{product.productId}</Text>
-    </FlexDiv>
-
-    <FlexDiv style={{ padding: "0.5rem 0" }} fullHeight align>
-      <StyledImage src={product.imageLinks.split(",")[0]} alt={product.name} />
+    <FlexDiv style={{}} fullHeight align>
+      <Image width={200} height={180} src={product.imageLinks.split(",")[0]} alt={product.name} />
     </FlexDiv>
 
     <FlexDiv column fullWidth fullHeight flexEnd gap05>
-      <Text bold style={{ height: "2rem", lineHeight: "1rem" }}>
+      <Text bold style={{ height: "2rem", lineHeight: "1rem", paddingTop: "0.2rem" }}>
         {product.name}
       </Text>
 
       <Stars rating={product.averageStars} />
 
-      <UnorderedList style={{ height: "6.8rem", lineHeight: "1.3rem" }}>
+      <UnorderedList style={{ height: "6rem", lineHeight: "1.2rem", paddingLeft: "0.25rem" }}>
         {product.bulletPoints.split(",").map((bulletPoint, index) => (
           <ListItem key={index}>
             <Text>{bulletPoint}</Text>
