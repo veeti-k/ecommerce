@@ -62,7 +62,7 @@ export const ProductCard = styled(Card, {
   padding: "0.8rem",
   flexDirection: "column",
   alignItems: "center",
-  maxWidth: "300px",
+  maxWidth: "282px",
   height: "450px",
 
   "&:hover": {
