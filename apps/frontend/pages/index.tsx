@@ -2,61 +2,9 @@ import type { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { Layout } from "../components/layouts/Layout";
 import { ResolvedCategory } from "../types/Category";
 import { STATIC_PROPS_REQUESTS } from "../utils/getStaticProps";
-import { Swiper, SwiperSlide } from "swiper/react";
-
-import "swiper/css/bundle";
-import { useEffect, useState } from "react";
-import { request } from "../utils/requests";
-import { TallProduct } from "../components/Product/TallProduct";
 
 const Home: NextPage<Result> = ({ resolvedCategories }) => {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      const res = await request({
-        path: "/search/products?query=tes",
-        method: "GET",
-      });
-
-      if (res) setProducts(res.data);
-    })();
-  }, []);
-
-  return (
-    <Layout categories={resolvedCategories}>
-      <Swiper slidesPerView={4} spaceBetween={16} autoHeight style={{ padding: "1rem" }}>
-        {products[0] ? (
-          <>
-            <SwiperSlide>
-              <TallProduct product={products[0]} />
-            </SwiperSlide>
-            <SwiperSlide>
-              <TallProduct product={products[0]} />
-            </SwiperSlide>
-            <SwiperSlide>
-              <TallProduct product={products[0]} />
-            </SwiperSlide>
-            <SwiperSlide>
-              <TallProduct product={products[0]} />
-            </SwiperSlide>
-            <SwiperSlide>
-              <TallProduct product={products[0]} />
-            </SwiperSlide>
-            <SwiperSlide>
-              <TallProduct product={products[0]} />
-            </SwiperSlide>
-            <SwiperSlide>
-              <TallProduct product={products[0]} />
-            </SwiperSlide>
-            <SwiperSlide>
-              <TallProduct product={products[0]} />
-            </SwiperSlide>
-          </>
-        ) : null}
-      </Swiper>
-    </Layout>
-  );
+  return <Layout categories={resolvedCategories}></Layout>;
 };
 
 export default Home;
