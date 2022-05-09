@@ -1,23 +1,8 @@
 import { ComponentPropsWithoutRef, FC, ReactNode, useContext } from "react";
+import ScrollContainer from "react-indiana-drag-scroll";
 import { BreakpointContext } from "../BreakpointProvider/BreakpointProvider";
 import { styled } from "../stitches.config";
 import { Label } from "./Text";
-
-export const FormWrapper = styled("div", {
-  display: "flex",
-  flexDirection: "column",
-  width: "100%",
-
-  gap: "1rem",
-  paddingTop: "1.75rem",
-});
-
-export const VerticalGrid = styled("div", {
-  overflowX: "auto",
-  display: "flex",
-  gap: "1rem",
-  paddingBottom: "0.5rem",
-});
 
 export const FlexDiv = styled("div", {
   display: "flex",
@@ -132,3 +117,19 @@ export const CardContentWrapper: FC<{ children: ReactNode; scrollableMaxHeigth?:
     </MgmtSettingsPageScrollableContent>
   );
 };
+
+export const HorizontalProductList: FC<{ children: ReactNode }> = ({ children }) => (
+  <ScrollContainer hideScrollbars={false}>
+    <FlexDiv
+      gap05
+      style={{
+        paddingLeft: "0.5rem",
+        paddingBottom: "0.5rem",
+        paddingTop: "0.5rem",
+        paddingRight: "1.5rem",
+      }}
+    >
+      {children}
+    </FlexDiv>
+  </ScrollContainer>
+);
