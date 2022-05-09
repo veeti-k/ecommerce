@@ -2,6 +2,7 @@ import { Button } from "@chakra-ui/react";
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import toast from "react-hot-toast";
 import { Card, CardContent } from "../../../components/Card";
+import { CardContentWrapper } from "../../../components/Containers";
 import { ProductFormValues, ProductForm } from "../../../components/Forms/ProductForm";
 import { ArrowLeftIcon } from "../../../components/Icons";
 import { Layout } from "../../../components/layouts/Layout";
@@ -41,14 +42,16 @@ const ProductEdit: NextPage<Result> = ({ resolvedCategories, allCategories, prod
       </PageTitleContainer>
 
       <Card shadowFar>
-        <CardContent>
-          <ProductForm
-            categories={allCategories}
-            initialValues={product}
-            onSubmit={onSubmit}
-            submitButtonText="Update"
-          />
-        </CardContent>
+        <CardContentWrapper scrollableMaxHeigth="calc(100vh - 11rem)">
+          <CardContent>
+            <ProductForm
+              categories={allCategories}
+              initialValues={product}
+              onSubmit={onSubmit}
+              submitButtonText="Update"
+            />
+          </CardContent>
+        </CardContentWrapper>
       </Card>
     </Layout>
   );
