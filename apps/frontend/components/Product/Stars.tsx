@@ -7,18 +7,18 @@ import { pluralize } from "../Pluralize";
 type Props =
   | {
       rating: number;
-      bigger?: boolean;
+      size?: "sm" | "md" | "lg";
       showReviewsLabel?: never;
       reviewCount?: never;
     }
   | {
       rating: number;
-      bigger?: boolean;
+      size?: "sm" | "md" | "lg";
       showReviewsLabel: boolean;
       reviewCount: number;
     };
 
-export const Stars: FC<Props> = ({ rating, bigger, showReviewsLabel: showLabel, reviewCount }) => {
+export const Stars: FC<Props> = ({ rating, size, showReviewsLabel: showLabel, reviewCount }) => {
   let fullStars = Math.floor(rating);
 
   if (rating - fullStars >= 0.78) fullStars++;
@@ -26,10 +26,23 @@ export const Stars: FC<Props> = ({ rating, bigger, showReviewsLabel: showLabel, 
   const halfStars = rating - fullStars >= 0.28 ? 1 : 0;
   const emptyStars = 5 - fullStars - halfStars;
 
-  const starSize = bigger ? 30 : 0;
+  const sizeSm = size == "sm";
+  const sizeMd = size == "md";
+  const sizeLg = size == "lg";
+
+  let starSize = 15;
+  let gap = "0.3rem";
+
+  if (sizeSm) starSize = 12;
+  if (sizeMd) starSize = 15;
+  if (sizeLg) starSize = 30;
+
+  if (sizeSm) gap = "0.1rem";
+  if (sizeMd) gap = "0.2rem";
+  if (sizeLg) gap = "0.3rem";
 
   const _Stars = (
-    <FlexDiv gap0 style={{ gap: "0.3rem" }}>
+    <FlexDiv gap0 style={{ gap }}>
       {[...Array(fullStars)].map((_, i) => (
         <BsStarFill key={i} size={starSize} />
       ))}

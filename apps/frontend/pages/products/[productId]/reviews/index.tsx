@@ -54,7 +54,7 @@ const Reviews: NextPage<Result> = ({ resolvedCategories, product, reviews, valid
               <FlexDiv align>
                 <Stars
                   rating={product.averageStars}
-                  bigger
+                  size="lg"
                   showReviewsLabel
                   reviewCount={reviews.length}
                 />
