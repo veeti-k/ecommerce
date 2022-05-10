@@ -2,7 +2,7 @@ import { createStitches } from "@stitches/react";
 
 export const { styled, css, getCssText } = createStitches({
   media: {
-    mobileAndUp: "(min-width: 690px)",
+    mobileAndUp: "(min-width: 600px)",
     tabletAndUp: "(min-width: 1060px)",
   },
   theme: {

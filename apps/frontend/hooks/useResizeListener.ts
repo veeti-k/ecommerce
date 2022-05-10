@@ -5,7 +5,7 @@ import { BreakpointContext } from "../BreakpointProvider/BreakpointProvider";
 export const useResizeListener = () => {
   const { state, dispatch } = useContext(BreakpointContext);
 
-  const mobileWidth = 690;
+  const mobileWidth = 600;
   const tabletWidth = 1060;
 
   const getBp = (width: number) => {
