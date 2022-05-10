@@ -30,7 +30,7 @@ const Reviews: NextPage<Result> = ({ resolvedCategories, product, reviews, valid
   if (!valid) return null;
 
   return (
-    <Layout categories={resolvedCategories} lessPaddingOnMobile>
+    <Layout categories={resolvedCategories}>
       <PageTitleContainer>
         <PageTitle>Reviews</PageTitle>
 

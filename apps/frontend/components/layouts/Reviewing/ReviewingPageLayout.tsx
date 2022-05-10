@@ -34,7 +34,7 @@ export const ReviewingPageLayout: FC<Props> = ({ children, categories }) => {
 
   if (bpState.bp == "mobile")
     return (
-      <Layout categories={categories} lessPaddingOnMobile>
+      <Layout categories={categories}>
         <PageTitleContainer test>
           <PageTitle>Reviewing</PageTitle>
 

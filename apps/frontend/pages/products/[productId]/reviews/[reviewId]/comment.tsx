@@ -53,7 +53,7 @@ export const WriteReviewComment: NextPage<Result> = ({
   };
 
   return (
-    <Layout categories={resolvedCategories} lessPaddingOnMobile>
+    <Layout categories={resolvedCategories}>
       <PageTitleContainer>
         <PageTitle>Write a comment</PageTitle>
 

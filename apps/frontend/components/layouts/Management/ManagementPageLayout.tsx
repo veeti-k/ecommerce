@@ -37,7 +37,7 @@ export const MgmtPageLayout: FC<ManagementPageLayoutProps> = ({ children, catego
 
   if (bpState.bp === "mobile")
     return (
-      <Layout categories={categories} lessPaddingOnMobile>
+      <Layout categories={categories}>
         <PageTitleContainer test>
           <PageTitle>Management</PageTitle>
 

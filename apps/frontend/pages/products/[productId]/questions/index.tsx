@@ -19,7 +19,7 @@ const Questions: NextPage<Result> = ({ resolvedCategories, product, questions, v
   if (!valid) return null;
 
   return (
-    <Layout categories={resolvedCategories} lessPaddingOnMobile>
+    <Layout categories={resolvedCategories}>
       <PageTitleContainer>
         <PageTitle>Questions</PageTitle>
 

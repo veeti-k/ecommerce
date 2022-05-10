@@ -50,7 +50,7 @@ export const SettingsPageLayout: FC<SettingsPageLayoutProps> = ({ children, cate
 
   if (bpState.bp === "mobile")
     return (
-      <Layout categories={categories} lessPaddingOnMobile>
+      <Layout categories={categories}>
         <PageTitleContainer test>
           <Title />
 

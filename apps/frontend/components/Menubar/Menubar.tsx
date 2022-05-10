@@ -27,12 +27,6 @@ const Inner = styled("div", {
   "@tabletAndUp": {
     padding: "0 25px",
   },
-
-  variants: {
-    lessPaddingOnMobile: {
-      true: {},
-    },
-  },
 });
 
 const HeaderContent = styled("div", {
@@ -49,13 +43,12 @@ const HeaderContent = styled("div", {
 
 type MenubarProps = {
   categories: ResolvedCategory[];
-  lessPaddingOnMobile?: boolean;
 };
 
-export const Menubar: FC<MenubarProps> = ({ categories, lessPaddingOnMobile }) => {
+export const Menubar: FC<MenubarProps> = ({ categories }) => {
   return (
     <Outer>
-      <Inner lessPaddingOnMobile={lessPaddingOnMobile}>
+      <Inner>
         <HeaderContent>
           <CategoryDrawer categories={categories} />
           <HomeButton />

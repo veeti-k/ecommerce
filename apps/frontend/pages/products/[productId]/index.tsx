@@ -70,7 +70,7 @@ const ProductPage: NextPage<Props> = ({ product, resolvedCategories, valid }) =>
   if (!valid) return null;
 
   return (
-    <Layout categories={resolvedCategories} noPadding lessPaddingOnMobile>
+    <Layout categories={resolvedCategories} noPadding>
       <ProductPath product={product} />
 
       <Card shadowFar>

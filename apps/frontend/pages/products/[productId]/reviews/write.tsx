@@ -51,7 +51,7 @@ const AddReview: NextPage<Result> = ({ resolvedCategories, product, valid }) => 
   };
 
   return (
-    <Layout categories={resolvedCategories} lessPaddingOnMobile>
+    <Layout categories={resolvedCategories}>
       <PageTitleContainer>
         <PageTitle>Write a review</PageTitle>
 

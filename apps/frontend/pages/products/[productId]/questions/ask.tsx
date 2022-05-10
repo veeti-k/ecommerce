@@ -39,7 +39,7 @@ const AskQuestion: NextPage<Result> = ({ product, resolvedCategories, valid }) =
   };
 
   return (
-    <Layout categories={resolvedCategories} lessPaddingOnMobile>
+    <Layout categories={resolvedCategories}>
       <PageTitleContainer>
         <PageTitle>Ask a question</PageTitle>
 

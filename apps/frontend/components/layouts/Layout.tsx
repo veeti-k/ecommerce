@@ -38,9 +38,6 @@ const Main = styled("main", {
         },
       },
     },
-    lessPaddingOnMobile: {
-      true: {},
-    },
   },
 });
 
@@ -48,16 +45,9 @@ type LayoutProps = {
   title?: string;
   categories: ResolvedCategory[];
   noPadding?: boolean;
-  lessPaddingOnMobile?: boolean;
 };
 
-export const Layout: FC<LayoutProps> = ({
-  children,
-  title,
-  categories,
-  noPadding,
-  lessPaddingOnMobile,
-}) => {
+export const Layout: FC<LayoutProps> = ({ children, title, categories, noPadding }) => {
   useGetMe();
   useResizeListener();
 
@@ -66,10 +56,8 @@ export const Layout: FC<LayoutProps> = ({
       <Head>
         <title>{title ?? "DEMO"}</title>
       </Head>
-      <Menubar categories={categories} lessPaddingOnMobile={lessPaddingOnMobile} />
-      <Main noPadding={noPadding} lessPaddingOnMobile={lessPaddingOnMobile}>
-        {children}
-      </Main>
+      <Menubar categories={categories} />
+      <Main noPadding={noPadding}>{children}</Main>
     </>
   );
 };

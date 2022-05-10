@@ -30,7 +30,7 @@ const ProductEdit: NextPage<Result> = ({ resolvedCategories, allCategories, prod
   };
 
   return (
-    <Layout categories={resolvedCategories} lessPaddingOnMobile>
+    <Layout categories={resolvedCategories}>
       <PageTitleContainer>
         <BiggerHeading>Edit product</BiggerHeading>
 
