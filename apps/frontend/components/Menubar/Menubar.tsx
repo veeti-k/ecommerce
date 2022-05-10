@@ -21,10 +21,10 @@ const Inner = styled("div", {
   boxSizing: "border-box",
   flexShrink: 0,
   margin: "0 auto",
-  padding: "0 0.8rem",
+  padding: "0 0.7rem",
   maxWidth: "1200px",
 
-  "@mobileAndUp": {
+  "@tabletAndUp": {
     padding: "0 25px",
   },
 
@@ -41,7 +41,7 @@ const HeaderContent = styled("div", {
   alignItems: "center",
   gap: "0.5rem",
 
-  "@mobileAndUp": {
+  "@tabletAndUp": {
     height: "5rem",
     gap: "1rem",
   },

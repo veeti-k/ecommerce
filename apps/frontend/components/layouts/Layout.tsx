@@ -10,13 +10,17 @@ const Main = styled("main", {
   maxWidth: "1200px",
   margin: "0 auto",
   position: "relative",
-  paddingRight: "1rem",
-  paddingLeft: "1rem",
-  paddingTop: "4.5rem",
+  paddingTop: "3.5rem",
   paddingBottom: "1rem",
   zIndex: 1,
 
   "@mobileAndUp": {
+    paddingLeft: "0.7rem",
+    paddingRight: "0.7rem",
+    paddingTop: "4.5rem",
+  },
+
+  "@tabletAndUp": {
     paddingLeft: "25px",
     paddingRight: "25px",
     paddingTop: "6rem",
@@ -35,37 +39,9 @@ const Main = styled("main", {
       },
     },
     lessPaddingOnMobile: {
-      true: {
-        padding: 0,
-        paddingTop: "3.5rem",
-        paddingBottom: "1rem",
-
-        "@mobileAndUp": {
-          paddingLeft: "25px",
-          paddingRight: "25px",
-          paddingTop: "6rem",
-        },
-      },
+      true: {},
     },
   },
-
-  compoundVariants: [
-    {
-      noPadding: true,
-      lessPaddingOnMobile: true,
-
-      css: {
-        paddingTop: "3.5rem",
-        paddingBottom: "1rem",
-
-        "@mobileAndUp": {
-          paddingLeft: "25px",
-          paddingRight: "25px",
-          paddingTop: "5rem",
-        },
-      },
-    },
-  ],
 });
 
 type LayoutProps = {
