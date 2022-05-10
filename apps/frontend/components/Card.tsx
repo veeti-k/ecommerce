@@ -28,7 +28,7 @@ export const Card = styled("div", {
 });
 
 export const CardContent = styled("div", {
-  padding: "0.8rem",
+  padding: "0.7rem",
 
   "@mobileAndUp": {
     padding: "1.5rem",
@@ -37,13 +37,21 @@ export const CardContent = styled("div", {
   variants: {
     lessPadding: {
       true: {
-        padding: "0.8rem",
+        padding: "0.7rem",
 
         "@mobileAndUp": {
           padding: "1rem",
         },
       },
     },
+  },
+});
+
+export const PageCardContent = styled("div", {
+  padding: "0.7rem",
+
+  "@mobileAndUp": {
+    padding: "1rem",
   },
 });
 
