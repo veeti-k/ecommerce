@@ -1,5 +1,5 @@
 import { GetStaticProps, GetStaticPropsResult, NextPage } from "next";
-import { Card, CardContent } from "../../components/Card";
+import { Card, PageCardContent } from "../../components/Card";
 import { FlexDiv } from "../../components/Containers";
 import { Layout } from "../../components/layouts/Layout";
 import { PageTitleContainer } from "../../components/layouts/Styles";
@@ -11,19 +11,19 @@ import { STATIC_PROPS_REQUESTS } from "../../utils/getStaticProps";
 
 const CategoryProducts: NextPage<Result> = ({ products, resolvedCategories, category }) => {
   return (
-    <Layout categories={resolvedCategories} lessPaddingOnMobile>
+    <Layout categories={resolvedCategories}>
       <PageTitleContainer>
         <PageTitle>{category.name}</PageTitle>
       </PageTitleContainer>
 
       <Card shadowFar>
-        <CardContent>
+        <PageCardContent>
           <FlexDiv column gap05>
             {products.map((product) => (
               <WideProduct product={product} key={product.productId} />
             ))}
           </FlexDiv>
-        </CardContent>
+        </PageCardContent>
       </Card>
     </Layout>
   );
