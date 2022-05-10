@@ -16,11 +16,7 @@ export const Label = styled(RadixLabel.Root, {
 });
 
 export const Paragraph = styled("p", {
-  fontSize: "0.85rem",
-
-  "@mobileAndUp": {
-    fontSize: "0.875rem",
-  },
+  fontSize: "0.875rem",
 
   color: "Black",
 
@@ -63,10 +59,9 @@ export const Text = styled("span", {
   },
 });
 
-const BaseHeading = styled("h1", {
+export const BaseHeading = styled("h1", {
   marginBlockStart: 0,
   marginBlockEnd: 0,
-  lineHeight: 1,
   fontWeight: 700,
 
   variants: {
