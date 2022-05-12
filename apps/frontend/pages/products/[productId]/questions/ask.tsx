@@ -17,26 +17,40 @@ import { Formik } from "formik";
 import { AddProductQuestionRequestBody } from "../../../../types/ProductQuestion";
 import { FlexDiv, InputLabelContainer } from "../../../../components/Containers";
 import { AddProductQuestionRequest } from "../../../../utils/Requests/ProductQuestion";
+import { validation } from "shared2";
+import * as Yup from "yup";
+import { useBlurCounter } from "../../../../hooks/useBlurCounter";
+
+const validationSchema = Yup.object().shape({
+  questionersNickame: validation.nameSchema,
+  title: Yup.string().required("Required"),
+  content: Yup.string().required("Required"),
+});
 
 const AskQuestion: NextPage<Result> = ({ product, resolvedCategories, valid }) => {
   const router = useRouter();
 
   if (!valid) return null;
 
-  const onSubmit = async (values: AddProductQuestionRequestBody) => {
-    const notifId = toast.loading("Adding question");
+  const onSubmit = async (values: AddProductQuestionRequestBody) =>
+    toast.promise(
+      (async () => {
+        const res = await AddProductQuestionRequest(product.productId, values);
 
-    const res = await AddProductQuestionRequest(product.productId, values);
+        if (res) {
+          toast("Your question will show up after its approved", { icon: <InfoIcon /> });
 
-    toast.dismiss(notifId);
+          pushUser(router, routes.productRoot(product.productId), "question added success");
+        }
+      })(),
+      {
+        loading: "Adding question",
+        success: "Question added",
+        error: "Failed to add question",
+      }
+    );
 
-    if (res) {
-      toast("Your question will show up after its approved", { icon: <InfoIcon /> });
-      toast.success("Question added");
-
-      pushUser(router, routes.productRoot(product.productId), "question added success");
-    }
-  };
+  const { addBlurCount, blurCount } = useBlurCounter();
 
   return (
     <Layout categories={resolvedCategories}>
@@ -65,29 +79,59 @@ const AskQuestion: NextPage<Result> = ({ product, resolvedCategories, valid }) =
                 content: "",
               }}
               onSubmit={onSubmit}
+              validationSchema={validationSchema}
             >
-              {({ handleSubmit, values, handleChange }) => (
+              {({
+                handleSubmit,
+                handleChange,
+                handleBlur,
+                isValid,
+                touched,
+                errors,
+                isSubmitting,
+                values,
+              }) => (
                 <form onSubmit={handleSubmit}>
                   <FlexDiv column>
-                    <InputLabelContainer label="Nickname" id="nickname">
+                    <InputLabelContainer
+                      label="Nickname"
+                      id="nickname"
+                      error={
+                        errors.questionersNickname && touched.questionersNickname
+                          ? errors.questionersNickname
+                          : undefined
+                      }
+                    >
                       <Input
                         id="nickname"
                         name="questionersNickname"
                         autoComplete="name"
                         value={values.questionersNickname}
                         onChange={handleChange}
-                        required
+                        isRequired
+                        isInvalid={!!errors.questionersNickname && touched.questionersNickname}
+                        onBlur={(e) => {
+                          addBlurCount();
+                          if (blurCount !== 1) return;
+                          handleBlur(e);
+                        }}
                       />
                     </InputLabelContainer>
 
-                    <InputLabelContainer label="Title" id="title">
+                    <InputLabelContainer
+                      label="Title"
+                      id="title"
+                      error={errors.title && touched.title ? errors.title : undefined}
+                    >
                       <Input
                         id="title"
                         name="title"
                         autoComplete="off"
                         value={values.title}
                         onChange={handleChange}
-                        required
+                        isRequired
+                        isInvalid={!!errors.title && touched.title}
+                        onBlur={handleBlur}
                       />
                     </InputLabelContainer>
 
@@ -99,7 +143,9 @@ const AskQuestion: NextPage<Result> = ({ product, resolvedCategories, valid }) =
                         autoComplete="off"
                         value={values.content}
                         onChange={handleChange}
-                        required
+                        isRequired
+                        isInvalid={!!errors.content && touched.content}
+                        onBlur={handleBlur}
                       />
                     </InputLabelContainer>
 
@@ -107,7 +153,12 @@ const AskQuestion: NextPage<Result> = ({ product, resolvedCategories, valid }) =
                       <Link href={routes.productRoot(product.productId)} style={{ width: "100%" }}>
                         <Button isFullWidth>Cancel</Button>
                       </Link>
-                      <Button isFullWidth colorScheme="blue" type="submit">
+                      <Button
+                        isFullWidth
+                        colorScheme="blue"
+                        type="submit"
+                        disabled={!isValid || isSubmitting}
+                      >
                         Ask
                       </Button>
                     </FlexDiv>
