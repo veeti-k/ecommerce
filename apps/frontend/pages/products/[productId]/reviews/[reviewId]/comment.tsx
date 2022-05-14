@@ -22,6 +22,15 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import { pushUser } from "../../../../../utils/router";
 import { NO_BUILD, STATIC_PROPS_REQUESTS } from "../../../../../utils/getStaticProps";
+import { validation } from "shared2";
+import * as Yup from "yup";
+import { useBlurCounter } from "../../../../../hooks/useBlurCounter";
+
+const validationSchema = Yup.object().shape({
+  commentersNickame: validation.nameSchema,
+  title: Yup.string().required("Required"),
+  content: Yup.string().required("Required"),
+});
 
 export const WriteReviewComment: NextPage<Result> = ({
   resolvedCategories,
@@ -30,6 +39,8 @@ export const WriteReviewComment: NextPage<Result> = ({
   valid,
 }) => {
   const router = useRouter();
+
+  const { addBlurCount, blurCount } = useBlurCounter();
 
   if (!valid) return null;
 
@@ -82,35 +93,74 @@ export const WriteReviewComment: NextPage<Result> = ({
                   content: "",
                 }}
                 onSubmit={onSubmit}
+                validationSchema={validationSchema}
               >
-                {({ handleSubmit, values, handleChange }) => (
+                {({
+                  handleSubmit,
+                  handleChange,
+                  handleBlur,
+                  isValid,
+                  touched,
+                  errors,
+                  isSubmitting,
+                  values,
+                }) => (
                   <form onSubmit={handleSubmit}>
                     <FlexDiv column>
-                      <InputLabelContainer label="Nickname" id="nickname">
+                      <InputLabelContainer
+                        label="Nickname"
+                        id="nickname"
+                        error={
+                          errors.commentersNickname && touched.commentersNickname
+                            ? errors.commentersNickname
+                            : undefined
+                        }
+                      >
                         <Input
                           id="nickname"
                           name="commentersNickname"
                           value={values.commentersNickname}
                           onChange={handleChange}
+                          onBlur={(e) => {
+                            addBlurCount();
+                            if (blurCount !== 1) return;
+                            handleBlur(e);
+                          }}
+                          isInvalid={!!errors.commentersNickname && touched.commentersNickname}
+                          isRequired
                         />
                       </InputLabelContainer>
 
-                      <InputLabelContainer label="Title" id="title">
+                      <InputLabelContainer
+                        label="Title"
+                        id="title"
+                        error={errors.title && touched.title ? errors.title : undefined}
+                      >
                         <Input
                           id="title"
                           name="title"
                           value={values.title}
                           onChange={handleChange}
+                          onBlur={handleBlur}
+                          isInvalid={!!errors.title && touched.title}
+                          isRequired
                         />
                       </InputLabelContainer>
 
-                      <InputLabelContainer label="Content" id="content">
+                      <InputLabelContainer
+                        label="Content"
+                        id="content"
+                        error={errors.content && touched.content ? errors.content : undefined}
+                      >
                         <Textarea
                           rows={10}
                           id="content"
                           name="content"
                           value={values.content}
                           onChange={handleChange}
+                          onBlur={handleBlur}
+                          isInvalid={!!errors.content && touched.content}
+                          isRequired
                         />
                       </InputLabelContainer>
 
