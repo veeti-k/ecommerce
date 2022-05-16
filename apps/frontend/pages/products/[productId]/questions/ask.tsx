@@ -30,6 +30,8 @@ const validationSchema = Yup.object().shape({
 const AskQuestion: NextPage<Result> = ({ product, resolvedCategories, valid }) => {
   const router = useRouter();
 
+  const { addBlurCount, blurCount } = useBlurCounter();
+
   if (!valid) return null;
 
   const onSubmit = async (values: AddProductQuestionRequestBody) =>
@@ -49,8 +51,6 @@ const AskQuestion: NextPage<Result> = ({ product, resolvedCategories, valid }) =
         error: "Failed to add question",
       }
     );
-
-  const { addBlurCount, blurCount } = useBlurCounter();
 
   return (
     <Layout categories={resolvedCategories}>
