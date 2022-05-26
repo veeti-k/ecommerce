@@ -1,4 +1,7 @@
 import { IConfig } from "./types";
+import dotenv from "dotenv";
+
+dotenv.config({ path: "../../.env" });
 
 export const config: IConfig = {
   ports: {

@@ -19,3 +19,5 @@ export * from "./consts";
 export { PrismaClient as CatalogueClient } from "./databases/generated/catalogue";
 export { PrismaClient as UsersClient } from "./databases/generated/users";
 export { PrismaClient as UgcClient } from "./databases/generated/ugc";
+
+export * as db from "./dal";

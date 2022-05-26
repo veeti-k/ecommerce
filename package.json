@@ -8,31 +8,20 @@
   ],
   "scripts": {
     "wait": "timeout 22 bash -c 'until printf \"\" 2>>/dev/null >>/dev/tcp/$0/$1; do sleep 1; done'",
-
     "dev": "turbo run dev",
-
-    "dev:env:ports": "CATALOGUE_PORT=36700 USERS_PORT=36701 AUTH_PORT=36702 UGC_PORT=36703 SEARCH_PORT=36704",
-    "dev:env:zinc": "ZINC_BASE_URL=http://localhost:35800/api ZINC_USERNAME=dev ZINC_PASSWORD=dev",
-    "dev:env:services": "AUTH_VERIFY_URL=http://localhost:36702/api/v1/auth/verify",
-    "dev:env:dbs": "CATALOGUE_DB_URL=postgres://dev:dev@localhost:35801/catalogue USERS_DB_URL=postgres://dev:dev@localhost:35801/users UGC_DB_URL=postgres://dev:dev@localhost:35801/ugc",
-    "dev:env:all": "yarn dev:env:ports yarn dev:env:zinc yarn dev:env:services yarn dev:env:dbs",
-
     "dev:zinc:setup": "mkdir -p ./DEV-DATA/zinc && chmod a+rwx ./DEV-DATA/zinc",
     "dev:dbs": "docker-compose -f docker-compose.dev.yml up -d",
-    "dev:dbinit": "yarn dev:env:dbs turbo run db:pushall",
-    "dev:start": "yarn dev:env:all yarn dev",
+    "dev:dbinit": "dotenv -e .env turbo run db:pushall",
+    "dev:start": "dotenv -e .env yarn dev",
     "dev:restart": "yarn build && yarn dev:start",
     "dev:wait": "yarn wait localhost 35800 && yarn wait localhost 35801",
     "dev:auto": "yarn build && yarn dev:zinc:setup && yarn dev:dbs && yarn dev:wait && yarn dev:dbinit && yarn dev:start",
     "dev:down": "docker-compose -f docker-compose.dev.yml rm -fsv",
-
     "dev:front": "yarn turbo run dev:front",
     "build:front": "yarn turbo run build:front",
     "start:front": "yarn turbo run start:front",
     "lint:front": "yarn turbo run lint:front",
-
     "test:backend": "mkdir -p ./TEST-DATA/zinc && chmod a+rwx ./TEST-DATA/zinc && docker compose -f docker-compose.test.yml up --abort-on-container-exit && docker-compose -f docker-compose.test.yml rm -fsv",
-
     "clean": "turbo run clean && rm -rf node_modules",
     "build": "yarn && turbo run build",
     "db:catalogue": "cd ./packages/shared && CATALOGUE_DB_URL=postgres://dev:dev@localhost:35802/dev?schema=dev yarn prisma studio --schema ./src/databases/catalogue/schema.prisma",

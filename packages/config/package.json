@@ -10,11 +10,11 @@
     "dev": "yarn build"
   },
   "dependencies": {
-    "dotenv": "^16.0.0",
     "typescript": "^4.6.3"
   },
   "devDependencies": {
     "@types/node": "^17.0.25",
+    "dotenv": "^16.0.1",
     "tsconfig": "*"
   }
 }

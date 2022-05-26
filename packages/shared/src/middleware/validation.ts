@@ -1,47 +1,21 @@
 import { Middleware } from "../types/ApiThings";
-import { Validators } from "../types/Validator";
 import { respondError } from "../utils/respondWith";
-import { capitalize } from "../utils/string";
+import { z } from "zod";
+import { SpecificErrorMessages } from "../types/Errors";
 
 export const validation =
-  (validators: Validators): Middleware =>
+  (bodyValidator?: z.ZodObject<any>): Middleware =>
   async (req, res, next) => {
-    if (validators.params) {
-      try {
-        await validators.params.validate(req.params);
-      } catch (err) {
-        return respondError({
-          res,
-          statusCode: 400,
-          message: capitalize(err.message),
-        });
-      }
-    }
+    if (bodyValidator) {
+      const validationResult = await bodyValidator.safeParseAsync(req.body);
 
-    if (validators.body) {
-      try {
-        await validators.body.validate(req.body);
-        req.body = validators.body.cast(req.body);
-      } catch (err) {
+      if (!validationResult.success)
         return respondError({
           res,
           statusCode: 400,
-          message: capitalize(err.message),
+          message: SpecificErrorMessages.INVALID_REQUEST_BODY,
+          errors: validationResult.error,
         });
-      }
-    }
-
-    if (validators.query) {
-      try {
-        await validators.query.validate(req.query);
-        req.query = validators.query.cast(req.query);
-      } catch (err) {
-        return respondError({
-          res,
-          statusCode: 400,
-          message: capitalize(err.message),
-        });
-      }
     }
 
     next();

@@ -13,17 +13,18 @@
     "db:client:ugc": "yarn prisma generate --schema ./src/databases/ugc/schema.prisma",
     "db:client:all": "yarn db:client:ugc && yarn db:client:catalogue && yarn db:client:users",
     "db:pushall": "yarn db:push:catalogue && yarn db:push:users && yarn db:push:ugc",
-    "build": "yarn db:client:all && ./node_modules/.bin/tsc -p ./tsconfig.json && mkdir -p ./dist/databases/generated && cp -r ./src/databases/generated/ ./dist/databases/generated/",
+    "build": "yarn db:client:all && ./node_modules/.bin/tsc -p ./tsconfig.json && mkdir -p ./dist/databases/generated && cp -r ./src/databases/generated/ ./dist/databases/",
     "clean": "rm -rf node_modules && rm -rf .turbo && rm -rf dist"
   },
   "dependencies": {
-    "@prisma/client": "^3.13.0",
+    "@prisma/client": "^3.14.0",
     "axios": "^0.26.1",
     "config": "*",
     "express": "^4.17.3",
-    "prisma": "^3.13.0",
+    "prisma": "^3.14.0",
+    "shared2": "*",
     "yup": "^0.32.11",
-    "shared2": "*"
+    "zod": "^3.17.3"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",

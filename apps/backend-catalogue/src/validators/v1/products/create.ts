@@ -1,18 +1,23 @@
 import * as Yup from "yup";
 import { Validators } from "shared";
+import { z } from "zod";
 
-export const create: Validators = {
-  body: Yup.object({
-    name: Yup.string().required(),
-    description: Yup.string().required(),
-    shortDescription: Yup.string().required(),
-    price: Yup.number().required(),
-    discountedPrice: Yup.number().required(),
-    discountPercent: Yup.number().required(),
-    discountAmount: Yup.number().required(),
-    isDiscounted: Yup.boolean().required(),
-    deepestCategoryId: Yup.number().required(),
-    bulletPoints: Yup.array().of(Yup.string().required()).required(),
-    imageLinks: Yup.array().of(Yup.string().required()).required(),
-  }).noUnknown(true),
+export const create = {
+  body: z
+    .object({
+      name: z.string(),
+      description: z.string(),
+      shortDescription: z.string(),
+      price: z.number(),
+      discountedPrice: z.number(),
+      discountPercent: z.number(),
+      discountAmount: z.number(),
+      isDiscounted: z.boolean(),
+      deepestCategoryId: z.number(),
+      bulletPoints: z.array(z.string()),
+      imageLinks: z.array(z.string()),
+    })
+    .required(),
 };
+
+export type CreateProductBody = z.infer<typeof create.body>;
