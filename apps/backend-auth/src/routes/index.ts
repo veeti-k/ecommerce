@@ -1,9 +1,10 @@
 import express from "express";
-import { v1Router } from "./v1";
+import { config } from "config";
+import { auth } from "./auth";
 const router = express.Router();
 
-const globalPrefix = "/api";
+const globalPrefix = config.globalApiPrefix;
 
-router.use(`${globalPrefix}/v1`, v1Router);
+router.use(`${globalPrefix}/auth`, auth);
 
 export { router as mainRouter };

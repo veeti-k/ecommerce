@@ -1,6 +1,6 @@
 export * from "./consts";
 
-export * from "./types/Product";
-export * from "./types/User";
+export * from "./types/data";
+export * from "./types/SeededUser";
 
-export * as validation from "./validation";
+export * as validationSchemas from "./validationSchemas";

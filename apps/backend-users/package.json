@@ -14,7 +14,7 @@
     "express": "^4.17.3",
     "shared": "*",
     "shared2": "*",
-    "yup": "^0.32.11"
+    "database": "*"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",

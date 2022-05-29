@@ -1,4 +1,6 @@
 export interface IConfig {
+  globalApiPrefix: string;
+
   ports: {
     catalogue: number;
     users: number;

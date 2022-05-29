@@ -11,7 +11,7 @@ export type ProductQuestionAnswer = {
 
 export type ProductQuestion = {
   questionId: string;
-  productId: number;
+  productId: string;
   questionersNickname: string;
   title: string;
   content: string;

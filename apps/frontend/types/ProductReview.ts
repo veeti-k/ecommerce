@@ -2,7 +2,7 @@ import { Product } from "./Product";
 
 export type ProductReview = {
   reviewId: string;
-  productId: number;
+  productId: string;
   reviewersNickname: string;
   byEmployee: boolean;
   title: string;

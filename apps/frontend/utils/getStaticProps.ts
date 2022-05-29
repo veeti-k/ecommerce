@@ -30,14 +30,14 @@ export const STATIC_PROPS_REQUESTS = {
       return (await res.json()) as Product[];
     },
 
-    getById: async (productId: number): Promise<ProductPageProduct> => {
+    getById: async (productId: string): Promise<ProductPageProduct> => {
       const res = await fetch(`${apiBase}/products/${productId}`);
       return (await res.json()) as ProductPageProduct;
     },
   },
 
   Reviews: {
-    getApprovedByProductId: async (productId: number): Promise<ProductReview[]> => {
+    getApprovedByProductId: async (productId: string): Promise<ProductReview[]> => {
       const res = await fetch(`${apiBase}/reviews/${productId}`);
       return await res.json();
     },
@@ -49,7 +49,7 @@ export const STATIC_PROPS_REQUESTS = {
   },
 
   Questions: {
-    getApprovedByProductId: async (productId: number): Promise<ProductQuestion[]> => {
+    getApprovedByProductId: async (productId: string): Promise<ProductQuestion[]> => {
       const res = await fetch(`${apiBase}/products/questions/${productId}`);
       return await res.json();
     },

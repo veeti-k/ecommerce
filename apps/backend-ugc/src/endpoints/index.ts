@@ -1,1 +1,2 @@
-export * as v1Endpoints from "./v1";
+export * as questions from "./questions";
+export * as reviews from "./reviews";

@@ -5,7 +5,7 @@ import { ApproveProductQuestionRequest } from "../../../utils/Requests/ProductQu
 import { AlertDialog } from "../AlertDialog";
 
 type Props = {
-  productId: number;
+  productId: string;
   questionId: string;
   getQuestions: () => void;
 };

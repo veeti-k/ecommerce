@@ -1,9 +1,9 @@
-import { Category, ResolvedCategory } from "shared";
+import { CategoryDocument, IResolvedCategory } from "shared2";
 
-export const resolveCategories = (categories: Category[]): ResolvedCategory[] => {
-  const resolvedCategories: ResolvedCategory[] = [];
+export const resolveCategories = (categories: CategoryDocument[]): IResolvedCategory[] => {
+  const resolvedCategories: IResolvedCategory[] = [];
 
-  const temp: ResolvedCategory[] = categories.map((category) => ({
+  const temp: IResolvedCategory[] = categories.map((category) => ({
     ...category,
     children: null,
   }));
@@ -12,7 +12,7 @@ export const resolveCategories = (categories: Category[]): ResolvedCategory[] =>
     if (category.parentId === null) {
       resolvedCategories.push(category);
     } else {
-      const parent = temp.find((c) => c.categoryId === category.parentId);
+      const parent = temp.find((c) => c._id === category.parentId);
       if (!parent) continue;
 
       parent.children ??= [];
@@ -23,16 +23,19 @@ export const resolveCategories = (categories: Category[]): ResolvedCategory[] =>
   return resolvedCategories;
 };
 
-export const resolveCategory = (categories: Category[], category: Category): ResolvedCategory => {
-  const categoryIds: number[] = [];
+export const resolveCategory = (
+  categories: CategoryDocument[],
+  category: CategoryDocument
+): IResolvedCategory => {
+  const categoryIds: string[] = [];
 
   const current = category;
 
-  categoryIds.push(current.categoryId);
+  categoryIds.push(current._id);
 
-  const resolved: ResolvedCategory = { ...current, children: null };
+  const resolved: IResolvedCategory = { ...current, children: null };
 
-  const children = categories.filter((c) => c.parentId === current.categoryId);
+  const children = categories.filter((c) => c.parentId === current._id);
 
   if (!children.length) return resolved;
 
@@ -41,16 +44,19 @@ export const resolveCategory = (categories: Category[], category: Category): Res
   return resolved;
 };
 
-export const getCategoryPath = (categories: Category[], deepestCategoryId: number): Category[] => {
-  const result: Category[] = [];
+export const getCategoryPath = (
+  categories: CategoryDocument[],
+  deepestCategoryId: string
+): CategoryDocument[] => {
+  const result: CategoryDocument[] = [];
 
-  let current = categories.find((c) => c.categoryId == deepestCategoryId);
+  let current = categories.find((c) => c._id == deepestCategoryId);
   if (!current) return [];
 
   result.unshift(current);
 
   while (current?.parentId) {
-    current = categories.find((c) => c.categoryId == current?.parentId);
+    current = categories.find((c) => c._id == current?.parentId);
     if (!current) continue;
 
     result.unshift(current);

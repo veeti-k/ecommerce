@@ -1,7 +1,7 @@
-import { AuthVerifyUserResponse } from "shared2";
+import { UserWOutPasswordDocument } from "shared2";
 
 export interface AuthVerifyResponse {
   valid: boolean;
   hasAccess: boolean;
-  user: AuthVerifyUserResponse;
+  user: UserWOutPasswordDocument;
 }

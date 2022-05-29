@@ -5,13 +5,13 @@ import {
 import { request } from "../requests";
 import { apiRoutes } from "../routes";
 
-export const GetProductReviewsRequest = (productId: number) =>
+export const GetProductReviewsRequest = (productId: string) =>
   request({
     path: apiRoutes.products.product.reviewsRoot(productId),
     method: "GET",
   });
 
-export const AddProductReviewRequest = (productId: number, review: AddProductReviewRequestBody) =>
+export const AddProductReviewRequest = (productId: string, review: AddProductReviewRequestBody) =>
   request({
     path: apiRoutes.products.product.reviewsRoot(productId),
     method: "POST",
@@ -19,7 +19,7 @@ export const AddProductReviewRequest = (productId: number, review: AddProductRev
   });
 
 export const AddProductReviewCommentRequest = (
-  productId: number,
+  productId: string,
   reviewId: string,
   comment: AddProductReviewCommentRequestBody
 ) =>
@@ -35,13 +35,13 @@ export const GetNotApprovedProductReviewsRequest = () =>
     method: "GET",
   });
 
-export const ApproveProductReviewRequest = (productId: number, reviewId: string) =>
+export const ApproveProductReviewRequest = (productId: string, reviewId: string) =>
   request({
     path: apiRoutes.products.product.reviews.reviewRoot(productId, reviewId),
     method: "PATCH",
   });
 
-export const DeclineProductReviewRequest = (productId: number, reviewId: string) =>
+export const DeclineProductReviewRequest = (productId: string, reviewId: string) =>
   request({
     path: apiRoutes.products.product.reviews.reviewRoot(productId, reviewId),
     method: "DELETE",

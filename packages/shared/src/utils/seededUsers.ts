@@ -18,8 +18,7 @@ export const seededUsers: SeededUsersObj = {
     name: "ADMINISTRATOR",
     email: "ADMINISTRATOR@test.test",
     password: "ADMINISTRATOR-password",
-    flags: Flags.Admin,
-    createdAt: new Date(),
+    flags: String(Flags.Admin),
     phoneNumber: "ADMINISTRATOR-phoneNumber",
   },
 
@@ -27,8 +26,7 @@ export const seededUsers: SeededUsersObj = {
     name: "TEST-USER",
     email: "TEST-USER@test.test",
     password: "TEST-USER-password",
-    flags: Flags.None,
-    createdAt: new Date(),
+    flags: String(Flags.None),
     phoneNumber: "TEST-USER-phoneNumber",
   },
 
@@ -36,8 +34,7 @@ export const seededUsers: SeededUsersObj = {
     name: "EMPLOYEE",
     email: "EMPLOYEE@test.test",
     password: "EMPLOYEE-password",
-    flags: Flags.Employee,
-    createdAt: new Date(),
+    flags: String(Flags.Employee),
     phoneNumber: "EMPLOYEE-phoneNumber",
   },
 
@@ -45,8 +42,7 @@ export const seededUsers: SeededUsersObj = {
     name: "MANAGE-PRODUCTS",
     email: "MANAGE-PRODUCTS@test.test",
     password: "MANAGE-PRODUCTS-password",
-    flags: Flags.ManageProducts,
-    createdAt: new Date(),
+    flags: String(Flags.ManageProducts),
     phoneNumber: "MANAGE-PRODUCTS-phoneNumber",
   },
 
@@ -54,8 +50,7 @@ export const seededUsers: SeededUsersObj = {
     name: "MANAGE-CATEGORIES",
     email: "MANAGE-CATEGORIES@test.test",
     password: "MANAGE-CATEGORIES-password",
-    flags: Flags.ManageCategories,
-    createdAt: new Date(),
+    flags: String(Flags.ManageCategories),
     phoneNumber: "MANAGE-CATEGORIES-phoneNumber",
   },
 };

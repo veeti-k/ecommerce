@@ -1,9 +1,9 @@
 import express from "express";
-import { v1Router } from "./v1";
+import { config } from "config";
+import { search } from "../endpoints/search/products";
+
 const router = express.Router();
 
-const globalPrefix = "/api";
-
-router.use(`${globalPrefix}/v1`, v1Router);
+router.get(`${config.globalApiPrefix}/search/products`, search);
 
 export { router as mainRouter };

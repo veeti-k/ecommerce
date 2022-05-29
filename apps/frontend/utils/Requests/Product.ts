@@ -2,19 +2,19 @@ import { ProductFormValues } from "../../components/Forms/ProductForm";
 import { request } from "../requests";
 import { apiRoutes } from "../routes";
 
-export const DeleteProductRequest = (productId: number) =>
+export const DeleteProductRequest = (productId: string) =>
   request({
     path: apiRoutes.products.productRoot(productId),
     method: "DELETE",
   });
 
-export const GetProductRequest = (productId: number) =>
+export const GetProductRequest = (productId: string) =>
   request({
     path: apiRoutes.products.productRoot(productId),
     method: "GET",
   });
 
-export const UpdateProductRequest = (productId: number, updatedProduct: ProductFormValues) =>
+export const UpdateProductRequest = (productId: string, updatedProduct: ProductFormValues) =>
   request({
     path: apiRoutes.products.productRoot(productId),
     method: "PATCH",

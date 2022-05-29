@@ -2,9 +2,9 @@ import jwt from "jsonwebtoken";
 import { config } from "config";
 
 interface TokenPayload {
-  userId: number;
+  userId: string;
   sessionId: string;
-  flags: bigint;
+  flags: string;
 }
 
 type DecodeResult =
@@ -17,7 +17,7 @@ type DecodeResult =
       isValid: false;
     };
 
-export const createAccessToken = (userId: number, sessionId: string, flags: bigint) =>
+export const createAccessToken = (userId: string, sessionId: string, flags: string) =>
   jwt.sign(
     {
       userId,
@@ -33,7 +33,7 @@ export const createAccessToken = (userId: number, sessionId: string, flags: bigi
     }
   );
 
-export const createRefreshToken = (userId: number, sessionId: string, flags: bigint) =>
+export const createRefreshToken = (userId: string, sessionId: string, flags: string) =>
   jwt.sign(
     {
       userId,

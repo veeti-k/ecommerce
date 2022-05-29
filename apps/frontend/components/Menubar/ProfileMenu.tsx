@@ -17,7 +17,7 @@ export const ProfileMenu = () => {
   const isAllowedToReview =
     hasFlag(state.flags, Flags.ManageReviews) || hasFlag(state.flags, Flags.ManageQuestions);
 
-  if (!state.userId)
+  if (!state_id)
     return (
       <Menu>
         <MenuButton aria-label="User menu" as={IconButton} icon={<UserIcon />} />

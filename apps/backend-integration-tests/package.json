@@ -3,21 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "wait": "timeout 22 sh -c 'until printf \"\" 2>>/dev/null >>/dev/tcp/$0/$1; do sleep 1; done'",
-    "wait-all": "yarn wait test-catalogue-db 5432 && yarn wait test-users-db 5432 && yarn wait test-ugc-db 5432",
-    "push-ugc": "yarn prisma db push --schema ../../packages/shared/dist/databases/generated/ugc/schema.prisma",
-    "push-catalogue": "yarn prisma db push --schema ../../packages/shared/dist/databases/generated/catalogue/schema.prisma",
-    "push-users": "yarn prisma db push --schema ../../packages/shared/dist/databases/generated/users/schema.prisma",
-    "pushall": "yarn push-ugc && yarn push-catalogue && yarn push-users",
     "test:backend": "yarn seed && jest --runInBand",
-    "seed": "yarn prisma db seed",
     "clean": "rm -rf dist && rm -rf node_modules && rm -rf .turbo"
   },
-  "prisma": {
-    "seed": "yarn ts-node ./src/utils/seed.ts"
-  },
   "dependencies": {
-    "@prisma/client": "^3.14.0",
     "@types/bcrypt": "^5.0.0",
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.25",
@@ -25,12 +14,12 @@
     "bcrypt": "^5.0.1",
     "config": "*",
     "jest": "^27.5.1",
-    "prisma": "^3.14.0",
     "shared": "*",
     "shared2": "*",
     "ts-jest": "^27.1.4",
     "ts-node": "^10.7.0",
     "tsconfig": "*",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.3",
+    "database": "*"
   }
 }

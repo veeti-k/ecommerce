@@ -14,7 +14,7 @@ export const useIsLoggedIn = () => {
 
   useEffect(() => {
     (async () => {
-      if (state.userId) return setViewBlocked(false);
+      if (state_id) return setViewBlocked(false);
 
       const res = await request({
         path: apiRoutes.userRoot("me"),

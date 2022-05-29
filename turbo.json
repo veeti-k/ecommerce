@@ -12,20 +12,12 @@
       "dependsOn": ["^start"],
       "cache": false
     },
-    "db:pushall":{
-      "dependsOn": ["^db:pushall"],
-      "cache": false
-    },
     "dev": {
       "dependsOn": ["^dev"],
       "cache": false
     },
-    "test:backend":{
+    "test:backend": {
       "dependsOn": ["^test:backend"],
-      "cache": false
-    },
-    "seed": {
-      "dependsOn": ["^seed"],
       "cache": false
     },
     "build:front": {
@@ -36,7 +28,7 @@
       "dependsOn": ["^dev:front"],
       "cache": false
     },
-    "start:front":{
+    "start:front": {
       "dependsOn": ["^start:front"],
       "cache": false
     },

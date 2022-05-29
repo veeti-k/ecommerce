@@ -37,7 +37,7 @@ export const addProduct = async (categoryId: number): Promise<number> => {
   return res.data.productId;
 };
 
-export const getProduct = async (productId: number): Promise<Product> => {
+export const getProduct = async (productId: string): Promise<Product> => {
   const client = new TestClient();
 
   const res = await client.get(`${productsBaseUrl}/${productId}`);

@@ -4,7 +4,7 @@ import { z } from "zod";
 import { SpecificErrorMessages } from "../types/Errors";
 
 export const validation =
-  (bodyValidator?: z.ZodObject<any>): Middleware =>
+  (bodyValidator?: z.ZodObject<any, any, any, any, any>): Middleware =>
   async (req, res, next) => {
     if (bodyValidator) {
       const validationResult = await bodyValidator.safeParseAsync(req.body);

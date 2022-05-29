@@ -130,93 +130,93 @@ jobs:
           search $i
         done
 
-  build-push-auth-testing-image:
-    needs: determine-images
-    name: "Build and push auth testing Docker image"
-    if: ${{ needs.determine-images.outputs.auth }}
-    uses: ./.github/workflows/build-docker-image.yml
-    with:
-      scope: backend-auth
-      image-name-tag: veetik/ecommerce-project-b-auth:test
-    secrets: 
-      DH_USERNAME: ${{ secrets.DH_USERNAME }}
-      DH_TOKEN: ${{ secrets.DH_TOKEN }}
+  # build-push-auth-testing-image:
+  #   needs: determine-images
+  #   name: "Build and push auth testing Docker image"
+  #   if: ${{ needs.determine-images.outputs.auth }}
+  #   uses: ./.github/workflows/build-docker-image.yml
+  #   with:
+  #     scope: backend-auth
+  #     image-name-tag: veetik/ecommerce-project-b-auth:test
+  #   secrets: 
+  #     DH_USERNAME: ${{ secrets.DH_USERNAME }}
+  #     DH_TOKEN: ${{ secrets.DH_TOKEN }}
 
-  build-push-catalogue-testing-image:
-    needs: determine-images
-    name: "Build and push catalogue testing Docker image"
-    if: ${{ needs.determine-images.outputs.catalogue }}
-    uses: ./.github/workflows/build-docker-image.yml
-    with:
-      scope: backend-catalogue
-      image-name-tag: veetik/ecommerce-project-b-catalogue:test
-    secrets: 
-      DH_USERNAME: ${{ secrets.DH_USERNAME }}
-      DH_TOKEN: ${{ secrets.DH_TOKEN }}
+  # build-push-catalogue-testing-image:
+  #   needs: determine-images
+  #   name: "Build and push catalogue testing Docker image"
+  #   if: ${{ needs.determine-images.outputs.catalogue }}
+  #   uses: ./.github/workflows/build-docker-image.yml
+  #   with:
+  #     scope: backend-catalogue
+  #     image-name-tag: veetik/ecommerce-project-b-catalogue:test
+  #   secrets: 
+  #     DH_USERNAME: ${{ secrets.DH_USERNAME }}
+  #     DH_TOKEN: ${{ secrets.DH_TOKEN }}
 
-  build-push-ugc-testing-image:
-    needs: determine-images
-    name: "Build and push ugc testing Docker image"
-    if: ${{ needs.determine-images.outputs.ugc }}
-    uses: ./.github/workflows/build-docker-image.yml
-    with:
-      scope: backend-ugc
-      image-name-tag: veetik/ecommerce-project-b-ugc:test
-    secrets: 
-      DH_USERNAME: ${{ secrets.DH_USERNAME }}
-      DH_TOKEN: ${{ secrets.DH_TOKEN }}
+  # build-push-ugc-testing-image:
+  #   needs: determine-images
+  #   name: "Build and push ugc testing Docker image"
+  #   if: ${{ needs.determine-images.outputs.ugc }}
+  #   uses: ./.github/workflows/build-docker-image.yml
+  #   with:
+  #     scope: backend-ugc
+  #     image-name-tag: veetik/ecommerce-project-b-ugc:test
+  #   secrets: 
+  #     DH_USERNAME: ${{ secrets.DH_USERNAME }}
+  #     DH_TOKEN: ${{ secrets.DH_TOKEN }}
 
-  build-push-users-testing-image:
-    needs: determine-images
-    name: "Build and push users testing Docker image"
-    if: ${{ needs.determine-images.outputs.users }}
-    uses: ./.github/workflows/build-docker-image.yml
-    with:
-      scope: backend-users
-      image-name-tag: veetik/ecommerce-project-b-users:test
-    secrets: 
-      DH_USERNAME: ${{ secrets.DH_USERNAME }}
-      DH_TOKEN: ${{ secrets.DH_TOKEN }}
+  # build-push-users-testing-image:
+  #   needs: determine-images
+  #   name: "Build and push users testing Docker image"
+  #   if: ${{ needs.determine-images.outputs.users }}
+  #   uses: ./.github/workflows/build-docker-image.yml
+  #   with:
+  #     scope: backend-users
+  #     image-name-tag: veetik/ecommerce-project-b-users:test
+  #   secrets: 
+  #     DH_USERNAME: ${{ secrets.DH_USERNAME }}
+  #     DH_TOKEN: ${{ secrets.DH_TOKEN }}
     
-  build-push-search-testing-image:
-    needs: determine-images
-    name: "Build and push search testing Docker image"
-    if: ${{ needs.determine-images.outputs.search }}
-    uses: ./.github/workflows/build-docker-image.yml
-    with:
-      scope: backend-search
-      image-name-tag: veetik/ecommerce-project-b-search:test
-    secrets: 
-      DH_USERNAME: ${{ secrets.DH_USERNAME }}
-      DH_TOKEN: ${{ secrets.DH_TOKEN }}
+  # build-push-search-testing-image:
+  #   needs: determine-images
+  #   name: "Build and push search testing Docker image"
+  #   if: ${{ needs.determine-images.outputs.search }}
+  #   uses: ./.github/workflows/build-docker-image.yml
+  #   with:
+  #     scope: backend-search
+  #     image-name-tag: veetik/ecommerce-project-b-search:test
+  #   secrets: 
+  #     DH_USERNAME: ${{ secrets.DH_USERNAME }}
+  #     DH_TOKEN: ${{ secrets.DH_TOKEN }}
 
-  build-push-integration-tests-image:
-    needs: determine-images
-    name: "Build and push integration tests Docker image"
-    if: ${{ needs.determine-images.outputs.integration-tests }}
-    uses: ./.github/workflows/build-docker-image.yml
-    with:
-      scope: backend-integration-tests
-      image-name-tag: veetik/ecommerce-project-b-integration-tests:latest
-      dockerfile-name: Dockerfile.test
-    secrets: 
-      DH_USERNAME: ${{ secrets.DH_USERNAME }}
-      DH_TOKEN: ${{ secrets.DH_TOKEN }}
+  # build-push-integration-tests-image:
+  #   needs: determine-images
+  #   name: "Build and push integration tests Docker image"
+  #   if: ${{ needs.determine-images.outputs.integration-tests }}
+  #   uses: ./.github/workflows/build-docker-image.yml
+  #   with:
+  #     scope: backend-integration-tests
+  #     image-name-tag: veetik/ecommerce-project-b-integration-tests:latest
+  #     dockerfile-name: Dockerfile.test
+  #   secrets: 
+  #     DH_USERNAME: ${{ secrets.DH_USERNAME }}
+  #     DH_TOKEN: ${{ secrets.DH_TOKEN }}
   
-  test:
-    needs: [determine-images, build-push-auth-testing-image, build-push-catalogue-testing-image, build-push-ugc-testing-image, build-push-users-testing-image, build-push-search-testing-image, build-push-integration-tests-image]
-    runs-on: ubuntu-latest
-    if: ${{ needs.determine-images.outputs.some && always() }}
-    name: "Run tests"
-    steps:
-    - uses: actions/checkout@v3
+  # test:
+  #   needs: [determine-images, build-push-auth-testing-image, build-push-catalogue-testing-image, build-push-ugc-testing-image, build-push-users-testing-image, build-push-search-testing-image, build-push-integration-tests-image]
+  #   runs-on: ubuntu-latest
+  #   if: ${{ needs.determine-images.outputs.some && always() }}
+  #   name: "Run tests"
+  #   steps:
+  #   - uses: actions/checkout@v3
 
-    - name: Use Node.js 17.8.0
-      uses: actions/setup-node@v3
-      with:
-        node-version: '17.8.0'
+  #   - name: Use Node.js 17.8.0
+  #     uses: actions/setup-node@v3
+  #     with:
+  #       node-version: '17.8.0'
 
-    - name: "Run tests"
-      run: yarn test:backend
+  #   - name: "Run tests"
+  #     run: yarn test:backend
 
   

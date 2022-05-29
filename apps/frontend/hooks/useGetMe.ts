@@ -12,7 +12,7 @@ export const useGetMe = () => {
     (async () => {
       logger.logHook("useGetMe");
 
-      if (state?.userId) return logger.logHook("useGetMe", "stopped, user already set");
+      if (state?_id) return logger.logHook("useGetMe", "stopped, user already set");
 
       dispatch({ type: Actions.SetStatus, payload: "loading" });
 

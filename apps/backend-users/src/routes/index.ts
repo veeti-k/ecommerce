@@ -1,9 +1,8 @@
+import { config } from "config";
 import express from "express";
-import { v1Router } from "./v1";
+import { users } from "./users";
 const router = express.Router();
 
-const globalPrefix = "/api";
-
-router.use(`${globalPrefix}/v1`, v1Router);
+router.use(`${config.globalApiPrefix}/v1`, users);
 
 export { router as mainRouter };

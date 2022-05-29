@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
 
 export const config: IConfig = {
+  globalApiPrefix: process.env.GLOBAL_API_PREFIX || "/api",
+
   ports: {
     catalogue: Number(process.env.CATALOGUE_PORT || 3000),
     users: Number(process.env.USERS_PORT || 3000),

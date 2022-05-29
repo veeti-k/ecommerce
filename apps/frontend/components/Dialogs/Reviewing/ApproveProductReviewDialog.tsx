@@ -5,7 +5,7 @@ import { ApproveProductReviewRequest } from "../../../utils/Requests/ProductRevi
 import { AlertDialog } from "../AlertDialog";
 
 type Props = {
-  productId: number;
+  productId: string;
   reviewId: string;
   getReviews: () => void;
 };

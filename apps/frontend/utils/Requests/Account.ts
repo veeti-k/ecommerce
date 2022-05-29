@@ -26,7 +26,7 @@ export const GetMe = async (dispatch: MyDispatch) => {
     path: apiRoutes.userRoot("me"),
   });
 
-  if (!res || !res?.data?.userId) return;
+  if (!res || !res?.data?_id) return;
 
   dispatch({ type: Actions.SetUser, payload: res.data });
 };

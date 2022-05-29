@@ -1,9 +1,13 @@
 import express from "express";
-import { v1Router } from "./v1";
+import { config } from "config";
+import { categories } from "./categories";
+import { products } from "./products";
+
 const router = express.Router();
 
-const globalPrefix = "/api";
+const globalPrefix = config.globalApiPrefix;
 
-router.use(`${globalPrefix}/v1`, v1Router);
+router.use(`${globalPrefix}/categories`, categories);
+router.use(`${globalPrefix}/products`, products);
 
 export { router as mainRouter };

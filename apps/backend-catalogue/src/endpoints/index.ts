@@ -1,1 +1,2 @@
-export * as v1Endpoints from "./v1";
+export * as categories from "./categories";
+export * as products from "./products";

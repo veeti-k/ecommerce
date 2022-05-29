@@ -19,17 +19,17 @@ export const routes = {
 
   categories: (categoryId: number) => `/categories/${categoryId}`,
 
-  productRoot: (productId: number) => `/products/${productId}`,
+  productRoot: (productId: string) => `/products/${productId}`,
 
   product: {
-    edit: (productId: number) => `/products/${productId}/edit`,
-    reviewComment: (productId: number, reviewId: string) =>
+    edit: (productId: string) => `/products/${productId}/edit`,
+    reviewComment: (productId: string, reviewId: string) =>
       `/products/${productId}/reviews/${reviewId}/comment`,
-    reviews: (productId: number) => `/products/${productId}/reviews`,
-    reviewsAdd: (productId: number) => `/products/${productId}/reviews/write`,
+    reviews: (productId: string) => `/products/${productId}/reviews`,
+    reviewsAdd: (productId: string) => `/products/${productId}/reviews/write`,
 
-    questions: (productId: number) => `/products/${productId}/questions`,
-    questionsAdd: (productId: number) => `/products/${productId}/questions/ask`,
+    questions: (productId: string) => `/products/${productId}/questions`,
+    questionsAdd: (productId: string) => `/products/${productId}/questions/ask`,
   },
 };
 
@@ -53,41 +53,41 @@ export const apiRoutes = {
   productsRoot: "/products",
 
   products: {
-    productRoot: (productId: number) => `/products/${productId}`,
+    productRoot: (productId: string) => `/products/${productId}`,
 
     notApprovedReviewsRoot: `/products/reviews/not-approved`,
     notApprovedQuestionsRoot: `/products/questions/not-approved`,
 
     product: {
-      reviewsRoot: (productId: number) => `/products/${productId}/reviews`,
+      reviewsRoot: (productId: string) => `/products/${productId}/reviews`,
 
       reviews: {
-        reviewRoot: (productId: number, reviewId: string) =>
+        reviewRoot: (productId: string, reviewId: string) =>
           `/products/${productId}/reviews/${reviewId}`,
 
         review: {
-          commentsRoot: (productId: number, reviewId: string) =>
+          commentsRoot: (productId: string, reviewId: string) =>
             `/products/${productId}/reviews/${reviewId}/comments`,
 
           comments: {
-            comment: (productId: number, reviewId: string, commentId: number) =>
+            comment: (productId: string, reviewId: string, commentId: number) =>
               `/products/${productId}/reviews/${reviewId}/comments/${commentId}`,
           },
         },
       },
 
-      questionsRoot: (productId: number) => `/products/${productId}/questions`,
+      questionsRoot: (productId: string) => `/products/${productId}/questions`,
 
       questions: {
-        questionRoot: (productId: number, questionId: string) =>
+        questionRoot: (productId: string, questionId: string) =>
           `/products/${productId}/questions/${questionId}`,
 
         question: {
-          answersRoot: (productId: number, questionId: string) =>
+          answersRoot: (productId: string, questionId: string) =>
             `/products/${productId}/questions/${questionId}/answers`,
 
           answers: {
-            answer: (productId: number, questionId: string, answerId: number) =>
+            answer: (productId: string, questionId: string, answerId: number) =>
               `/products/${productId}/questions/${questionId}/answers/${answerId}`,
           },
         },
