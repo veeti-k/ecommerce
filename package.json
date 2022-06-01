@@ -7,14 +7,12 @@
     "packages/*"
   ],
   "scripts": {
-    "wait": "timeout 22 bash -c 'until printf \"\" 2>>/dev/null >>/dev/tcp/$0/$1; do sleep 1; done'",
     "dev": "turbo run dev",
-    "dev:zinc:setup": "mkdir -p ./DEV-DATA/zinc && chmod a+rwx ./DEV-DATA/zinc",
     "dev:front": "yarn turbo run dev:front",
     "build:front": "yarn turbo run build:front",
     "start:front": "yarn turbo run start:front",
     "lint:front": "yarn turbo run lint:front",
-    "test:backend": "mkdir -p ./TEST-DATA/zinc && chmod a+rwx ./TEST-DATA/zinc && docker compose -f docker-compose.test.yml up --abort-on-container-exit && docker-compose -f docker-compose.test.yml rm -fsv",
+    "test:backend": "docker compose -f docker-compose.test.yml up --abort-on-container-exit && docker-compose -f docker-compose.test.yml rm -fsv",
     "clean": "turbo run clean && rm -rf node_modules",
     "build": "yarn && turbo run build"
   },

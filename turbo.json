@@ -5,6 +5,11 @@
       "outputs": ["dist/**"],
       "cache": false
     },
+    "buildprod": {
+      "dependsOn": ["^buildprod"],
+      "outputs": ["dist/**"],
+      "cache": false
+    },
     "clean": {
       "cache": false
     },
@@ -13,27 +18,15 @@
       "cache": false
     },
     "dev": {
-      "dependsOn": ["^dev"],
+      "dependsOn": ["build"],
       "cache": false
     },
     "test:backend": {
       "dependsOn": ["^test:backend"],
       "cache": false
     },
-    "build:front": {
-      "dependsOn": ["^build:front"],
-      "outputs": [".next/**"]
-    },
-    "dev:front": {
-      "dependsOn": ["^dev:front"],
-      "cache": false
-    },
-    "start:front": {
-      "dependsOn": ["^start:front"],
-      "cache": false
-    },
-    "lint:front": {
-      "dependsOn": ["^lint:front"],
+    "lint": {
+      "dependsOn": ["^lint"],
       "cache": false
     }
   }

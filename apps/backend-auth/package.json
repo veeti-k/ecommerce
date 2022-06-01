@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "rm -rf dist && ./node_modules/.bin/tsc -p ./tsconfig.json",
+    "buildprod": "rm -rf dist && ./node_modules/.bin/tsc -p ./tsconfig.json",
     "start": "node ./dist/index.js",
     "dev": "yarn start",
     "clean": "rm -rf dist && rm -rf node_modules && rm -rf .turbo"
