@@ -3,10 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev:front": "next dev",
-    "build:front": "next build",
-    "start:front": "next start",
-    "lint:front": "next lint",
+    "dev": "next dev",
+    "buildprod": "next build",
+    "start": "next start",
     "clean": "rm -rf .next && rm -rf node_modules && rm -rf .turbo"
   },
   "dependencies": {

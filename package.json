@@ -8,13 +8,11 @@
   ],
   "scripts": {
     "dev": "turbo run dev",
-    "dev:front": "yarn turbo run dev:front",
-    "build:front": "yarn turbo run build:front",
-    "start:front": "yarn turbo run start:front",
-    "lint:front": "yarn turbo run lint:front",
-    "test:backend": "docker compose -f docker-compose.test.yml up --abort-on-container-exit && docker-compose -f docker-compose.test.yml rm -fsv",
+    "build": "yarn && turbo run build",
     "clean": "turbo run clean && rm -rf node_modules",
-    "build": "yarn && turbo run build"
+    "test:backend": "docker compose -f docker-compose.test.yml up --abort-on-container-exit && docker-compose -f docker-compose.test.yml rm -fsv",
+    "start": "turbo run start",
+    "buildprod": "yarn turbo run buildprod"
   },
   "devDependencies": {
     "turbo": "^1.2.5"
