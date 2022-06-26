@@ -28,6 +28,9 @@ export * from "./Checkbox/Checkbox";
 export * from "./Text/Text";
 export * from "./Text/Titles";
 
+export * from "./Card/Card";
+export * from "./Card/CenteredTextCard";
+
 export * from "./FlexDiv";
 export * from "./PageTitleContainer";
 
