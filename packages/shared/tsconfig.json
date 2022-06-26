@@ -1,8 +1,9 @@
 {
-  "extends": "tsconfig/base.json",
+  "extends": "@ecommerce/tsconfig/base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src",
+    "rootDir": "src"
   },
-  "include": ["src/**/*.ts"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["dist", "build", "node_modules"]
 }

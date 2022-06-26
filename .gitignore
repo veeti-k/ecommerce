@@ -1,28 +1,35 @@
-/node_modules
+r# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
 node_modules
+.pnp
+.pnp.js
 
-/.next/
-.next
+# testing
+coverage
 
+# next.js
+.next/
+out/
+build
+
+# misc
 .DS_Store
 *.pem
-$RECYCLE.BIN/
-Desktop.ini
 
+# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.env
+.pnpm-debug.log*
+
+# local env files
 .env.local
-.env.backend
-.env.postgres
-.env.zinc
+.env.development.local
+.env.test.local
+.env.production.local
 
-.vscode/
-/DATA
-/TEST-DATA
-/DEV-DATA
+# turbo
 .turbo
-dist/
-
-**/generated
+dist
+.next

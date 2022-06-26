@@ -1,24 +1,22 @@
 {
-  "name": "shared",
+  "name": "@ecommerce/shared",
   "version": "0.0.0",
+  "private": true,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "private": true,
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
     "build": "rm -rf dist && ./node_modules/.bin/tsc -p ./tsconfig.json",
-    "clean": "rm -rf node_modules && rm -rf .turbo && rm -rf dist"
-  },
-  "dependencies": {
-    "axios": "^0.26.1",
-    "config": "*",
-    "express": "^4.17.3",
-    "shared2": "*",
-    "yup": "^0.32.11"
+    "clean": "rm -rf node_modules && rm -rf .turbo && rm -rf dist",
+    "dev": "tsc --watch --preserveWatchOutput"
   },
   "devDependencies": {
-    "@types/express": "^4.17.13",
-    "@types/node": "^17.0.25",
-    "tsconfig": "*",
-    "typescript": "^4.6.3"
+    "@ecommerce/tsconfig": "*",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "zod": "^3.17.3"
   }
 }

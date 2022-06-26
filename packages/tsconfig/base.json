@@ -1,20 +1,15 @@
-
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Default",
   "compilerOptions": {
-    "lib": ["esnext"],
-
     "declaration": true,
     "declarationMap": true,
     "composite": false,
     "esModuleInterop": true,
     "moduleResolution": "Node",
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
 
-    "removeComments": true,
-
+    "strict": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
 
@@ -24,14 +19,13 @@
     "noImplicitThis": true,
     "noPropertyAccessFromIndexSignature": false,
     "noFallthroughCasesInSwitch": true,
-
+    "noUncheckedIndexedAccess": true,
     "useUnknownInCatchVariables": false,
 
-    "strict": true,
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictBindCallApply": true,
     "strictPropertyInitialization": true
   },
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules"]
 }

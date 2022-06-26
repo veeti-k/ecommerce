@@ -1,9 +1,11 @@
 {
-  "name": "tsconfig",
+  "name": "@ecommerce/tsconfig",
   "version": "0.0.0",
   "private": true,
-  "main": "base.json",
+  "main": "index.js",
   "files": [
-    "base.json"
+    "base.json",
+    "nextjs.json",
+    "react-library.json"
   ]
 }

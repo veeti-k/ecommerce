@@ -1,22 +1,17 @@
 {
-  "name": "database",
+  "name": "@ecommerce/database",
   "version": "0.0.0",
   "private": true,
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist/**"
-  ],
   "scripts": {
-    "build": "rm -rf dist && ./node_modules/.bin/tsc -p ./tsconfig.json",
+    "db:studio": "npx prisma studio",
+    "db:generate-client": "npx prisma generate",
+    "build": "yarn db:generate-client",
     "clean": "rm -rf node_modules && rm -rf .turbo && rm -rf dist"
   },
   "dependencies": {
-    "mongoose": "^6.3.4",
-    "shared2": "*"
+    "@prisma/client": "^3.15.2"
   },
   "devDependencies": {
-    "tsconfig": "*",
-    "typescript": "^4.6.3"
+    "prisma": "^3.15.2"
   }
 }

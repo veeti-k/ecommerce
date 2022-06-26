@@ -1,0 +1,26 @@
+html {
+  transition: background 0.2s ease-in-out;
+  background: var(--colors-gray1);
+  font-family: "Inter";
+}
+
+html.dark {
+  background: var(--colors-gray1);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block-start: 0;
+  margin-block-end: 0;
+  text-rendering: optimizeLegibility;
+}
