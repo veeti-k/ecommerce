@@ -9,9 +9,9 @@ export * from "./Input/TextArea";
 
 export * from "./Tooltip/Tooltip";
 
-export * from "./Dialog/Dialog";
+export * from "./Dialogs/Dialog/Dialog";
 
-export * from "./AlertDialog/AlertDialog";
+export * from "./Dialogs/AlertDialog/AlertDialog";
 
 export * from "./Select/Select";
 export * from "./Select/Option";

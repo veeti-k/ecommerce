@@ -1,9 +1,9 @@
+import { useId } from "@mantine/hooks";
 import { CheckIcon } from "@radix-ui/react-icons";
 import * as React from "react";
 
 import { FlexDiv } from "../FlexDiv";
 import { Label } from "../Label/Label";
-import { useRandomId } from "../_utils/use-random-id";
 import { StyledCheckbox, StyledIndicator } from "./Checkbox.styles";
 
 interface Props extends React.ComponentProps<typeof StyledCheckbox> {
@@ -11,7 +11,7 @@ interface Props extends React.ComponentProps<typeof StyledCheckbox> {
 }
 
 export const Checkbox = ({ children, label, id, ...rest }: Props) => {
-  const innerId = useRandomId(id);
+  const innerId = useId(id);
 
   return (
     <FlexDiv gap05 alignCenter>

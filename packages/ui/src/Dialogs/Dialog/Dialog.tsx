@@ -1,8 +1,8 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
 
-import { Button } from "../Button/Button";
-import { FlexDiv } from "../FlexDiv";
+import { Button } from "../../Button/Button";
+import { FlexDiv } from "../../FlexDiv";
 import {
   DialogContent,
   DialogDescription,

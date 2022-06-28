@@ -1,6 +1,6 @@
-import React from "react";
+import * as React from "react";
 
-import { FlexDiv } from "../FlexDiv";
+import { FlexDiv } from "../../FlexDiv";
 import {
   AlertDialogAction,
   AlertDialogCancel,
@@ -11,7 +11,8 @@ import {
   AlertDialogTrigger,
 } from "./AlertDialog.styles";
 
-interface ActionDialogProps extends Omit<React.ComponentProps<typeof AlertDialogRoot>, "children"> {
+interface ActionDialogProps
+  extends Omit<React.ComponentProps<typeof AlertDialogRoot>, "children"> {
   title: React.ReactNode;
   description?: React.ReactNode;
   trigger: React.ReactNode;
@@ -20,14 +21,22 @@ interface ActionDialogProps extends Omit<React.ComponentProps<typeof AlertDialog
   action: React.ReactNode;
 }
 
-export const AlertDialog = ({ title, description, trigger, cancel, action }: ActionDialogProps) => (
+export const AlertDialog = ({
+  title,
+  description,
+  trigger,
+  cancel,
+  action,
+}: ActionDialogProps) => (
   <AlertDialogRoot>
     <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
 
     <AlertDialogContent>
       <FlexDiv column>
         <AlertDialogTitle>{title}</AlertDialogTitle>
-        {!!description && <AlertDialogDescription>{description}</AlertDialogDescription>}
+        {!!description && (
+          <AlertDialogDescription>{description}</AlertDialogDescription>
+        )}
 
         <FlexDiv justifyBetween fullWidth>
           <AlertDialogCancel asChild>{cancel}</AlertDialogCancel>
