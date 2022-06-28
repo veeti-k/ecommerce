@@ -4,7 +4,7 @@ import { styled } from "../stitches.config";
 
 export const StyledSelectOption = styled(SelectPrimitive.Item, {
   all: "unset",
-  color: "$hiContrast",
+
   borderRadius: 6,
   display: "flex",
   alignItems: "center",
@@ -13,7 +13,6 @@ export const StyledSelectOption = styled(SelectPrimitive.Item, {
   position: "relative",
 
   transition: "$default",
-  transitionProperty: "background, color",
 
   "&:focus": {
     background: "$gray5",

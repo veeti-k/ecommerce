@@ -8,5 +8,4 @@ export const Separator = styled(SeparatorPrimitive.Root, {
   "&[data-orientation=vertical]": { height: "100%", width: 1 },
 
   transition: "$default",
-  transitionProperty: "background",
 });

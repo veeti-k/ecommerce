@@ -3,6 +3,8 @@ html {
   transition-property: background;
   background: var(--colors-gray1);
   font-family: "Inter";
+
+  color: var(--colors-hiContrast);
 }
 
 html.dark {

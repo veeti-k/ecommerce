@@ -6,7 +6,6 @@ export const StyledCard = styled("div", {
   position: "relative",
 
   transition: "$default",
-  transitionProperty: "background",
 
   background: "$gray2",
 

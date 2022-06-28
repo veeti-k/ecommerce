@@ -16,7 +16,6 @@ export const StyledCheckbox = styled(CheckboxPrimitive.Root, {
   boxShadow: `0 2px 10px $colors$blackA7`,
 
   transition: "$default",
-  transitionProperty: "background",
 
   "&:focus-visible": {
     outline: "none",
@@ -29,7 +28,6 @@ export const StyledCheckbox = styled(CheckboxPrimitive.Root, {
 });
 
 export const StyledIndicator = styled(CheckboxPrimitive.Indicator, {
-  color: "$hiContrast",
   width: 15,
   height: 20,
 });

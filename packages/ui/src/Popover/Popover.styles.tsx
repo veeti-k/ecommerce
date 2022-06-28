@@ -14,7 +14,6 @@ export const PopoverContent = styled(PopoverPrimitive.Content, {
   fontSize: 14,
 
   transition: "$default",
-  transitionProperty: "background",
 
   ...openAnim,
 });

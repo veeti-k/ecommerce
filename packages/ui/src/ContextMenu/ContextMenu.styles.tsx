@@ -13,12 +13,11 @@ export const StyledContent = styled(ContextMenuPrimitive.Content, {
   fontSize: 14,
 
   transition: "$default",
-  transitionProperty: "background",
 });
 
 export const itemStyles = {
   all: "unset",
-  color: "$hiContrast",
+
   borderRadius: 6,
   display: "flex",
   alignItems: "center",
@@ -28,7 +27,6 @@ export const itemStyles = {
   position: "relative",
 
   transition: "$default",
-  transitionProperty: "background",
 
   "&:focus": {
     background: "$gray5",

@@ -3,10 +3,7 @@ import { styled } from "../stitches.config";
 export const Text = styled("span", {
   all: "unset",
 
-  color: "$hiContrast",
-
   transition: "$default",
-  transitionProperty: "color",
 
   fontSize: "0.875rem",
 

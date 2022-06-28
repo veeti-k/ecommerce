@@ -28,7 +28,6 @@ export const dialogContentStyles = css({
   padding: "0.9rem",
 
   transition: "$default",
-  transitionProperty: "background",
 
   zIndex: 4,
 
@@ -50,7 +49,6 @@ export const dialogOverlayStyles = css({
   backdropFilter: "blur(4px)",
 
   transition: "$default",
-  transitionProperty: "background",
 
   "@motionOk": {
     animation: `${overlayShow} 250ms cubic-bezier(0.16, 1, 0.3, 1) forwards`,

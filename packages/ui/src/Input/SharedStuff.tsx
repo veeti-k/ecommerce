@@ -4,12 +4,9 @@ const inputStyles = css({
   all: "unset",
 
   transition: "$default",
-  transitionProperty: "border, box-shadow, color",
 
   padding: "0.6rem 0.7rem",
   fontSize: "16px",
-
-  color: "$hiContrast",
 
   borderRadius: 8,
   border: "1px solid $colors$gray7",

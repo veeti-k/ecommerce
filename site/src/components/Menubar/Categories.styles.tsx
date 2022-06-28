@@ -10,7 +10,6 @@ export const CollapsibleMenuItemTrigger = styled(Collapsible.Trigger, {
   borderBottomRightRadius: "0.2rem",
 
   transition: "$default",
-  transitionProperty: "background, box-shadow",
 
   padding: "0 0.5rem",
 
@@ -43,7 +42,6 @@ export const CollapsibleMenuItem = styled(motion.a, {
   padding: "0.8rem 0.5rem",
 
   transition: "$default",
-  transitionProperty: "background, box-shadow",
 
   cursor: "pointer",
 

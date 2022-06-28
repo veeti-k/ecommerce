@@ -7,13 +7,10 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
   appearance: "none",
   "-webkit-tap-highlight-color": "transparent",
 
-  color: "$hiContrast",
-
   borderRadius: "8px",
   padding: "0.6rem 0.7rem",
 
   transition: "$default",
-  transitionProperty: "background, color, box-shadow, border",
 
   "&:focus-visible": {
     outline: "none",
@@ -49,7 +46,6 @@ const StyledContent = styled(SelectPrimitive.Content, {
   boxShadow: "rgba(0, 0, 0, 0.1) 0px 10px 50px",
 
   transition: "$default",
-  transitionProperty: "background",
 });
 
 const StyledViewport = styled(SelectPrimitive.Viewport, {
@@ -61,11 +57,10 @@ const scrollButtonStyles = css({
   alignItems: "center",
   justifyContent: "center",
   padding: "0.6rem 0.7rem",
-  color: "$hiContrast",
+
   cursor: "default",
 
   transition: "$default",
-  transitionProperty: "color",
 });
 
 const StyledScrollUpButton = styled(

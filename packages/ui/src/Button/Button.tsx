@@ -6,13 +6,10 @@ export const Button = styled("button", {
   "-webkit-appearance": "none",
   "-webkit-tap-highlight-color": "transparent",
 
-  color: "$hiContrast",
-
   borderRadius: "8px",
   padding: "0.5rem 0.7rem",
 
   transition: "$default",
-  transitionProperty: "background, color, box-shadow, border",
 
   "&:focus-visible": {
     boxShadow: `0 0 0 3px $colors$blue7`,
@@ -136,6 +133,8 @@ export const Button = styled("button", {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        transition: "$defaultNoProp",
+        transitionProperty: "background, border, box-shadow",
       },
     },
   },

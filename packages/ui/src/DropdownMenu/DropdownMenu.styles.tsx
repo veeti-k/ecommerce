@@ -14,14 +14,13 @@ export const StyledContent = styled(DropdownMenuPrimitive.Content, {
   fontSize: 14,
 
   transition: "$default",
-  transitionProperty: "background",
 
   ...openAnim,
 });
 
 export const itemStyles = css({
   all: "unset",
-  color: "$hiContrast",
+
   borderRadius: 6,
   display: "flex",
   alignItems: "center",
@@ -31,7 +30,6 @@ export const itemStyles = css({
   position: "relative",
 
   transition: "$default",
-  transitionProperty: "background, color",
 
   "&:focus": {
     background: "$gray5",
@@ -58,10 +56,8 @@ export const StyledLabel = styled(DropdownMenuPrimitive.Label, {
   paddingLeft: 25,
   fontSize: 12,
   lineHeight: "25px",
-  color: "$hiContrast",
 
   transition: "$default",
-  transitionProperty: "color",
 });
 
 export const StyledItemIndicator = styled(DropdownMenuPrimitive.ItemIndicator, {
@@ -73,7 +69,6 @@ export const StyledItemIndicator = styled(DropdownMenuPrimitive.ItemIndicator, {
   justifyContent: "center",
 
   transition: "$default",
-  transitionProperty: "color",
 });
 
 export const StyledSeparator = styled(DropdownMenuPrimitive.Separator, {
@@ -82,7 +77,6 @@ export const StyledSeparator = styled(DropdownMenuPrimitive.Separator, {
   margin: 5,
 
   transition: "$default",
-  transitionProperty: "color",
 });
 
 export const StyledRightSlot = styled("div", {
@@ -93,5 +87,4 @@ export const StyledRightSlot = styled("div", {
   "[data-disabled] &": { color: "$gray6" },
 
   transition: "$default",
-  transitionProperty: "color",
 });

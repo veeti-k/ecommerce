@@ -28,7 +28,7 @@ export const StyledContent = styled(TooltipPrimitive.Content, {
   fontSize: 15,
   lineHeight: 1,
   backgroundColor: "$gray2",
-  color: "$hiContrast",
+
   boxShadow: "rgba(0, 0, 0, 0.1) 0px 10px 50px",
 
   "@motionOk": {

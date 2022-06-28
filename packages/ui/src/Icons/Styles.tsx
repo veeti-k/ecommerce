@@ -1,10 +1,8 @@
 export const SharedStyles = {
   variants: {
-    color: {
+    transition: {
       true: {
-        color: "$hiContrast",
         transition: "$default",
-        transitionProperty: "color",
       },
     },
   },

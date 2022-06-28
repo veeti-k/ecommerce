@@ -23,13 +23,13 @@ function Content({ children, ...props }: ContentProps) {
 const StyledTitle = styled(AlertDialogPrimitive.Title, {
   margin: 0,
   fontWeight: "bold",
-  color: "$hiContrast",
+
   fontSize: 18,
 });
 
 const StyledDescription = styled(AlertDialogPrimitive.Description, {
   margin: "10px 0 20px",
-  color: "$hiContrast",
+
   fontSize: 15,
   lineHeight: 1.5,
 });

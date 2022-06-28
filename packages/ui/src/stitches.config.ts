@@ -34,7 +34,8 @@ export const { styled, css, keyframes, globalCss, getCssText, createTheme } =
         loContrast: "$slate1",
       },
       transitions: {
-        default: "0.2s ease-in-out",
+        default: "all 0.2s ease-in-out",
+        defaultNoProp: "0.2s ease-in-out",
       },
     },
     media: {

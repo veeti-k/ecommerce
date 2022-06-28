@@ -6,10 +6,8 @@ import { styled } from "../stitches.config";
 const StyledLabel = styled(RadixLabel.Root, {
   all: "unset",
   fontSize: "14px",
-  color: "$hiContrast",
 
   transition: "$default",
-  transitionProperty: "color",
 
   variants: {
     red: {
