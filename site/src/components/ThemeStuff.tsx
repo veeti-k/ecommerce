@@ -1,6 +1,6 @@
 import { useHotkeys } from "@mantine/hooks";
 import { ThemeProvider, useTheme } from "next-themes";
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 
 import { darkTheme } from "@ecommerce/ui";
 
@@ -21,16 +21,11 @@ export const ThemeStuff = ({ children }: Props) => (
 );
 
 const HandleSystemThemeChange = ({ children }: Props) => {
-  const { setTheme, systemTheme, resolvedTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
 
   useHotkeys([
     ["mod+j", () => setTheme(resolvedTheme === "light" ? "dark" : "light")],
   ]);
-
-  useEffect(() => {
-    const systemNext = systemTheme === "light" ? "light" : "dark";
-    setTheme(systemNext);
-  }, [systemTheme]);
 
   return <>{children}</>;
 };
