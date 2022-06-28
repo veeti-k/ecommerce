@@ -3,7 +3,7 @@ import { Option, Select } from "@ecommerce/ui";
 import { trpc } from "~utils/trpc";
 
 interface Props {
-  value: number;
+  value?: number;
   setValue: (newValue: number) => void;
 }
 
@@ -28,7 +28,9 @@ export const CategorySelector = ({ value, setValue }: Props) => {
       </Select>
     );
 
-  if (!categories || !categories.length)
+  const isCategories = !categories || !categories.length;
+
+  if (isCategories)
     return (
       <Select label="Category">
         <Option value="">No categories</Option>
@@ -41,6 +43,8 @@ export const CategorySelector = ({ value, setValue }: Props) => {
       value={String(value)}
       onValueChange={(newValue) => setValue(Number(newValue))}
     >
+      <Option value="">Select a category</Option>
+
       {categories.map((category, i) => (
         <Option value={String(category.id)} key={i}>
           {category.name}

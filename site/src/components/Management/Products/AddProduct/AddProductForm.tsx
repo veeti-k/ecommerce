@@ -8,7 +8,7 @@ import {
 } from "@ecommerce/shared";
 import { Button, FlexDiv, Input, TextArea } from "@ecommerce/ui";
 
-import { CategorySelector } from "./CategorySelector";
+import { CategorySelector } from "../../CategorySelector";
 
 export const AddProductForm = () => {
   const {
