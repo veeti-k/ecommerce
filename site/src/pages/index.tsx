@@ -1,9 +1,9 @@
-import type { NextPage } from "next";
+import { Page } from "../../types/Page";
 
-const Home: NextPage = () => {
+const Home: Page = () => {
   return <div>home</div>;
 };
 
-(Home as any).auth = true;
+Home.requireAuth = false;
 
 export default Home;
