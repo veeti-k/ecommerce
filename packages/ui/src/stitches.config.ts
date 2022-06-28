@@ -37,6 +37,9 @@ export const { styled, css, keyframes, globalCss, getCssText, createTheme } =
         default: "all 0.2s ease-in-out",
         defaultNoProp: "0.2s ease-in-out",
       },
+      shadows: {
+        focusVisible: "0 0 0 3px $colors$blue7",
+      },
     },
     media: {
       hover: "(any-hover: hover)",

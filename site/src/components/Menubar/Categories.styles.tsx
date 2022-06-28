@@ -31,7 +31,7 @@ export const CollapsibleMenuItemTrigger = styled(Collapsible.Trigger, {
 
   "&:focus-visible": {
     outline: "none",
-    boxShadow: `0 0 0 3px $colors$blue7`,
+    boxShadow: "$focusVisible",
   },
 });
 
@@ -59,7 +59,7 @@ export const CollapsibleMenuItem = styled(motion.a, {
   },
 
   "&:focus-visible": {
-    boxShadow: `0 0 0 3px $colors$blue7`,
+    boxShadow: "$focusVisible",
   },
 
   variants: {

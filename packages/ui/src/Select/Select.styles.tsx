@@ -14,7 +14,7 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
 
   "&:focus-visible": {
     outline: "none",
-    boxShadow: `0 0 0 3px $colors$blue7`,
+    boxShadow: "$focusVisible",
   },
 
   border: "1px solid $gray7",

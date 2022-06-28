@@ -18,8 +18,7 @@ export const StyledCheckbox = styled(CheckboxPrimitive.Root, {
   transition: "$default",
 
   "&:focus-visible": {
-    outline: "none",
-    boxShadow: `0 0 0 3px $colors$blue7`,
+    boxShadow: "$focusVisible",
   },
 
   "@hover": {

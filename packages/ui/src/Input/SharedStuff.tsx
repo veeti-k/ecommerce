@@ -22,7 +22,7 @@ const inputStyles = css({
 
   "&:focus": {
     outline: "none",
-    boxShadow: `0 0 0 3px $colors$blue7`,
+    boxShadow: "$focusVisible",
     borderColor: "$colors$blue9",
   },
 

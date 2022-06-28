@@ -12,7 +12,7 @@ export const Button = styled("button", {
   transition: "$default",
 
   "&:focus-visible": {
-    boxShadow: `0 0 0 3px $colors$blue7`,
+    boxShadow: "$focusVisible",
   },
 
   "&:disabled": {
