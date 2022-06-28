@@ -12,7 +12,7 @@ interface Props {
 export const Layout = ({ children, title }: Props) => (
   <>
     <Head>
-      <title>veetik/ecommerce - {title}</title>
+      <title>{`${title} - veetik/ecommerce`}</title>
     </Head>
 
     <Menubar />
