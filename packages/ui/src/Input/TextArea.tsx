@@ -9,9 +9,25 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
   ({ label, required, id, error, fullWidth, ...props }, ref) => {
     const innerId = useRandomId(id);
 
+    const shouldRenderLabelContainer = !!label || !!error;
+
     return (
       <FlexDiv column gap05 fullWidth={fullWidth}>
-        <LabelAndError id={innerId} label={label} error={error} />
+        {shouldRenderLabelContainer && (
+          <FlexDiv justifyBetween alignCenter>
+            {!!label && (
+              <Label htmlFor={id} required={required}>
+                {label}
+              </Label>
+            )}
+
+            {!!error && (
+              <Label htmlFor={id} red>
+                {error}
+              </Label>
+            )}
+          </FlexDiv>
+        )}
 
         <StyledTextArea
           ref={ref}
@@ -24,30 +40,3 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
     );
   }
 );
-
-interface LabelAndErrorProps {
-  label?: string | React.ReactNode;
-  error?: string | React.ReactNode;
-  required?: boolean;
-  id?: string;
-}
-
-const LabelAndError = ({ label, error, required, id }: LabelAndErrorProps) => {
-  if (!label || !error || !id) return null;
-
-  return (
-    <FlexDiv justifyBetween alignCenter>
-      {!!label && (
-        <Label htmlFor={id} required={required}>
-          {label}
-        </Label>
-      )}
-
-      {!!error && (
-        <Label htmlFor={id} red>
-          {error}
-        </Label>
-      )}
-    </FlexDiv>
-  );
-};
