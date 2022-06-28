@@ -3,7 +3,8 @@ import { css, styled } from "../stitches.config";
 const inputStyles = css({
   all: "unset",
 
-  transition: "$background",
+  transition: "$default",
+  transitionProperty: "border, box-shadow, color",
 
   padding: "0.6rem 0.7rem",
   fontSize: "16px",

@@ -12,9 +12,11 @@ export const MenubarOuter = styled("div", {
   justifyContent: "center",
 
   width: "100%",
-  transition: "$background",
-  backgroundColor: "$gray2",
+  background: "$gray2",
   boxShadow: "rgba(0, 0, 0, 0.05) 0px 1px 2px 0px",
+
+  transition: "$default",
+  transitionProperty: "background, box-shadow",
 });
 
 export const MenubarInner = styled("div", {

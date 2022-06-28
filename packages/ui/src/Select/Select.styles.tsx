@@ -1,19 +1,19 @@
 import * as SelectPrimitive from "@radix-ui/react-select";
 
-import { styled } from "../stitches.config";
+import { css, styled } from "../stitches.config";
 
 const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
   all: "unset",
-
   appearance: "none",
+  "-webkit-tap-highlight-color": "transparent",
 
   color: "$hiContrast",
 
   borderRadius: "8px",
   padding: "0.6rem 0.7rem",
 
-  transition: "$background",
-  "-webkit-tap-highlight-color": "transparent",
+  transition: "$default",
+  transitionProperty: "background, color, box-shadow, border",
 
   "&:focus-visible": {
     outline: "none",
@@ -43,24 +43,30 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
 
 const StyledContent = styled(SelectPrimitive.Content, {
   overflow: "hidden",
-  backgroundColor: "$gray2",
+  background: "$gray2",
   borderRadius: 8,
   border: "1px solid $gray6",
   boxShadow: "rgba(0, 0, 0, 0.1) 0px 10px 50px",
+
+  transition: "$default",
+  transitionProperty: "background",
 });
 
 const StyledViewport = styled(SelectPrimitive.Viewport, {
   padding: "0.5rem",
 });
 
-const scrollButtonStyles = {
+const scrollButtonStyles = css({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   padding: "0.6rem 0.7rem",
   color: "$hiContrast",
   cursor: "default",
-};
+
+  transition: "$default",
+  transitionProperty: "color",
+});
 
 const StyledScrollUpButton = styled(
   SelectPrimitive.ScrollUpButton,

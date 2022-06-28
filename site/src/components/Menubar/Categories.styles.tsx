@@ -5,9 +5,12 @@ import { styled } from "@ecommerce/ui";
 
 export const CollapsibleMenuItemTrigger = styled(Collapsible.Trigger, {
   all: "unset",
-  transition: "$background",
+
   borderTopRightRadius: "0.2rem",
   borderBottomRightRadius: "0.2rem",
+
+  transition: "$default",
+  transitionProperty: "background, box-shadow",
 
   padding: "0 0.5rem",
 
@@ -19,12 +22,12 @@ export const CollapsibleMenuItemTrigger = styled(Collapsible.Trigger, {
 
   "@hover": {
     "&:hover": {
-      backgroundColor: "$gray4",
+      background: "$gray4",
     },
   },
 
   "&:active": {
-    backgroundColor: "$gray5",
+    background: "$gray5",
   },
 
   "&:focus-visible": {
@@ -35,9 +38,12 @@ export const CollapsibleMenuItemTrigger = styled(Collapsible.Trigger, {
 
 export const CollapsibleMenuItem = styled(motion.a, {
   all: "unset",
-  transition: "$background",
+
   borderRadius: "0.2rem",
   padding: "0.8rem 0.5rem",
+
+  transition: "$default",
+  transitionProperty: "background, box-shadow",
 
   cursor: "pointer",
 
@@ -46,16 +52,15 @@ export const CollapsibleMenuItem = styled(motion.a, {
 
   "@hover": {
     "&:hover": {
-      backgroundColor: "$gray4",
+      background: "$gray4",
     },
   },
 
   "&:active": {
-    backgroundColor: "$gray5",
+    background: "$gray5",
   },
 
   "&:focus-visible": {
-    outline: "none",
     boxShadow: `0 0 0 3px $colors$blue7`,
   },
 

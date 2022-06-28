@@ -5,7 +5,8 @@ export const Text = styled("span", {
 
   color: "$hiContrast",
 
-  transition: "$color",
+  transition: "$default",
+  transitionProperty: "color",
 
   fontSize: "0.875rem",
 

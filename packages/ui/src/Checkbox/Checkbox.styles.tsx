@@ -15,7 +15,8 @@ export const StyledCheckbox = styled(CheckboxPrimitive.Root, {
   justifyContent: "center",
   boxShadow: `0 2px 10px $colors$blackA7`,
 
-  transition: "$background",
+  transition: "$default",
+  transitionProperty: "background",
 
   "&:focus-visible": {
     outline: "none",

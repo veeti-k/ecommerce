@@ -3,7 +3,8 @@ export const SharedStyles = {
     color: {
       true: {
         color: "$hiContrast",
-        transition: "$background",
+        transition: "$default",
+        transitionProperty: "color",
       },
     },
   },

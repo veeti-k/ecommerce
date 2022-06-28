@@ -12,12 +12,15 @@ export const StyledSelectOption = styled(SelectPrimitive.Item, {
   userSelect: "none",
   position: "relative",
 
+  transition: "$default",
+  transitionProperty: "background, color",
+
   "&:focus": {
-    backgroundColor: "$gray5",
+    background: "$gray5",
   },
 
   "&[data-state=active]": {
-    backgroundColor: "$gray6",
+    background: "$gray6",
     pointerEvents: "none",
   },
 

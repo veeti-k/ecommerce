@@ -34,8 +34,7 @@ export const { styled, css, keyframes, globalCss, getCssText, createTheme } =
         loContrast: "$slate1",
       },
       transitions: {
-        background: "background 0.2s ease-in-out",
-        color: "color 0.2s ease-in-out",
+        default: "0.2s ease-in-out",
       },
     },
     media: {

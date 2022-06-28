@@ -4,17 +4,17 @@ export const Button = styled("button", {
   all: "unset",
   appearance: "none",
   "-webkit-appearance": "none",
+  "-webkit-tap-highlight-color": "transparent",
 
   color: "$hiContrast",
 
   borderRadius: "8px",
   padding: "0.5rem 0.7rem",
 
-  transition: "$background",
-  "-webkit-tap-highlight-color": "transparent",
+  transition: "$default",
+  transitionProperty: "background, color, box-shadow, border",
 
   "&:focus-visible": {
-    outline: "none",
     boxShadow: `0 0 0 3px $colors$blue7`,
   },
 

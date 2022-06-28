@@ -1,5 +1,6 @@
 html {
-  transition: background 0.2s ease-in-out;
+  transition: var(--transitions-default);
+  transition-property: background;
   background: var(--colors-gray1);
   font-family: "Inter";
 }

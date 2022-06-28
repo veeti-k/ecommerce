@@ -4,7 +4,9 @@ export const StyledCard = styled("div", {
   boxShadow: "rgba(0, 0, 0, 0.04) 0px 3px 5px",
   borderRadius: "6px",
   position: "relative",
-  transition: "$background",
+
+  transition: "$default",
+  transitionProperty: "background",
 
   background: "$gray2",
 
