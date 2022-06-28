@@ -1,13 +1,13 @@
+import { useId } from "@mantine/hooks";
 import * as React from "react";
 
 import { FlexDiv } from "../FlexDiv";
 import { Label } from "../Label/Label";
-import { useRandomId } from "../_utils/use-random-id";
 import { InputProps, StyledInput } from "./SharedStuff";
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ label, required, id, error, fullWidth, ...props }, ref) => {
-    const innerId = useRandomId(id);
+    const innerId = useId(id);
 
     const shouldRenderLabelContainer = !!label || !!error;
 

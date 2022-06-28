@@ -1,13 +1,13 @@
+import { useId } from "@mantine/hooks";
 import * as React from "react";
 
 import { FlexDiv } from "../FlexDiv";
 import { Label } from "../Label/Label";
-import { useRandomId } from "../_utils/use-random-id";
 import { StyledTextArea, TextAreaProps } from "./SharedStuff";
 
 export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
   ({ label, required, id, error, fullWidth, ...props }, ref) => {
-    const innerId = useRandomId(id);
+    const innerId = useId(id);
 
     const shouldRenderLabelContainer = !!label || !!error;
 
