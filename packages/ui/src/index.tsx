@@ -43,6 +43,7 @@ export * from "./Icons/TrashIcon";
 export * from "./Icons/ChevronIcon";
 export * from "./Icons/ChevronUpIcon";
 export * from "./Icons/ChevronDownIcon";
+export * from "./Icons/ChevronRightIcon";
 export * from "./Icons/MenuIcon";
 export * from "./Icons/UserIcon";
 
