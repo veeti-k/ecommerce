@@ -26,56 +26,56 @@ export const Button = styled("button", {
     color: {
       red: {
         color: "white",
-        backgroundColor: "$red9",
+        background: "$red9",
 
         "@hover": {
           "&:hover": {
-            backgroundColor: "$red10",
+            background: "$red10",
           },
         },
 
         "&:active": {
-          backgroundColor: "$red11",
+          background: "$red11",
         },
 
         "&:disabled": {
-          backgroundColor: "$red5",
+          background: "$red5",
         },
       },
       green: {
         color: "white",
-        backgroundColor: "$grass9",
+        background: "$grass9",
 
         "@hover": {
           "&:hover": {
-            backgroundColor: "$grass10",
+            background: "$grass10",
           },
         },
 
         "&:active": {
-          backgroundColor: "$grass11",
+          background: "$grass11",
         },
 
         "&:disabled": {
-          backgroundColor: "$grass5",
+          background: "$grass5",
         },
       },
       blue: {
         color: "white",
-        backgroundColor: "$blue9",
+        background: "$blue9",
 
         "@hover": {
           "&:hover": {
-            backgroundColor: "$blue10",
+            background: "$blue10",
           },
         },
 
         "&:active": {
-          backgroundColor: "$blue11",
+          background: "$blue11",
         },
 
         "&:disabled": {
-          backgroundColor: "$blue5",
+          background: "$blue5",
         },
       },
       default: {},
@@ -86,12 +86,12 @@ export const Button = styled("button", {
 
         "@hover": {
           "&:hover": {
-            backgroundColor: "$gray4",
+            background: "$gray4",
           },
         },
 
         "&:active": {
-          backgroundColor: "$gray5",
+          background: "$gray5",
         },
       },
       subtle2: {
@@ -99,12 +99,12 @@ export const Button = styled("button", {
 
         "@hover": {
           "&:hover": {
-            backgroundColor: "$gray5",
+            background: "$gray5",
           },
         },
 
         "&:active": {
-          backgroundColor: "$gray6",
+          background: "$gray6",
         },
       },
       outline: {
@@ -112,12 +112,12 @@ export const Button = styled("button", {
 
         "@hover": {
           "&:hover": {
-            backgroundColor: "$gray4",
+            background: "$gray4",
           },
         },
 
         "&:active": {
-          backgroundColor: "$gray5",
+          background: "$gray5",
         },
       },
     },
