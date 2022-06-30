@@ -1,5 +1,6 @@
-import { getCssText } from "@ecommerce/ui";
 import Document, { Head, Html, Main, NextScript } from "next/document";
+
+import { getCssText } from "@ecommerce/ui";
 
 export default class _Document extends Document {
   override render() {
@@ -14,119 +15,63 @@ export default class _Document extends Document {
           <link rel="icon" type="image/x-icon" href="/logo.svg" />
           <link
             rel="preload"
-            href="/fonts/Poppins-Thin.ttf"
+            href="/fonts/Inter-Thin.ttf"
             as="font"
             type="font/ttf"
             crossOrigin="anonymous"
           />
           <link
             rel="preload"
-            href="/fonts/Poppins-ThinItalic.ttf"
+            href="/fonts/Inter-ExtraLight.ttf"
             as="font"
             type="font/ttf"
             crossOrigin="anonymous"
           />
           <link
             rel="preload"
-            href="/fonts/Poppins-ExtraLight.ttf"
+            href="/fonts/Inter-Light.ttf"
             as="font"
             type="font/ttf"
             crossOrigin="anonymous"
           />
           <link
             rel="preload"
-            href="/fonts/Poppins-ExtraLightItalic.ttf"
+            href="/fonts/Inter-Regular.ttf"
             as="font"
             type="font/ttf"
             crossOrigin="anonymous"
           />
           <link
             rel="preload"
-            href="/fonts/Poppins-Light.ttf"
+            href="/fonts/Inter-Medium.ttf"
             as="font"
             type="font/ttf"
             crossOrigin="anonymous"
           />
           <link
             rel="preload"
-            href="/fonts/Poppins-LightItalic.ttf"
+            href="/fonts/Inter-SemiBold.ttf"
             as="font"
             type="font/ttf"
             crossOrigin="anonymous"
           />
           <link
             rel="preload"
-            href="/fonts/Poppins-Regular.ttf"
+            href="/fonts/Inter-Bold.ttf"
             as="font"
             type="font/ttf"
             crossOrigin="anonymous"
           />
           <link
             rel="preload"
-            href="/fonts/Poppins-Medium.ttf"
+            href="/fonts/Inter-ExtraBold.ttf"
             as="font"
             type="font/ttf"
             crossOrigin="anonymous"
           />
           <link
             rel="preload"
-            href="/fonts/Poppins-MediumItalic.ttf"
-            as="font"
-            type="font/ttf"
-            crossOrigin="anonymous"
-          />
-          <link
-            rel="preload"
-            href="/fonts/Poppins-SemiBold.ttf"
-            as="font"
-            type="font/ttf"
-            crossOrigin="anonymous"
-          />
-          <link
-            rel="preload"
-            href="/fonts/Poppins-SemiBoldItalic.ttf"
-            as="font"
-            type="font/ttf"
-            crossOrigin="anonymous"
-          />
-          <link
-            rel="preload"
-            href="/fonts/Poppins-Bold.ttf"
-            as="font"
-            type="font/ttf"
-            crossOrigin="anonymous"
-          />
-          <link
-            rel="preload"
-            href="/fonts/Poppins-BoldItalic.ttf"
-            as="font"
-            type="font/ttf"
-            crossOrigin="anonymous"
-          />
-          <link
-            rel="preload"
-            href="/fonts/Poppins-ExtraBold.ttf"
-            as="font"
-            type="font/ttf"
-            crossOrigin="anonymous"
-          />
-          <link
-            rel="preload"
-            href="/fonts/Poppins-ExtraBoldItalic.ttf"
-            as="font"
-            type="font/ttf"
-            crossOrigin="anonymous"
-          />
-          <link
-            rel="preload"
-            href="/fonts/Poppins-Black.ttf"
-            as="font"
-            type="font/ttf"
-            crossOrigin="anonymous"
-          />
-          <link
-            rel="preload"
-            href="/fonts/Poppins-BlackItalic.ttf"
+            href="/fonts/Inter-Black.ttf"
             as="font"
             type="font/ttf"
             crossOrigin="anonymous"
