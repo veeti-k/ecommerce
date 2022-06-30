@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 import { styled } from "@ecommerce/ui";
 
-export const CollapsibleMenuItemTrigger = styled(Collapsible.Trigger, {
+export const CategoryNavigator = styled(Collapsible.Trigger, {
   all: "unset",
 
   borderTopRightRadius: "0.2rem",
@@ -35,7 +35,7 @@ export const CollapsibleMenuItemTrigger = styled(Collapsible.Trigger, {
   },
 });
 
-export const CollapsibleMenuItem = styled(motion.a, {
+export const StyledCategory = styled(motion.a, {
   all: "unset",
 
   borderRadius: "0.2rem",

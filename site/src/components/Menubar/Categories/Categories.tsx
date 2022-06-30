@@ -3,11 +3,14 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
 
+import { ArrayElement } from "@ecommerce/shared";
 import { Button, ChevronIcon, FlexDiv, MenuIcon, Popover } from "@ecommerce/ui";
 
+import { inferQueryOutput } from "~utils/trpc";
+
 import {
-  CollapsibleMenuItem,
-  CollapsibleMenuItemTrigger,
+  CategoryNavigator,
+  StyledCategory,
   containerVariants,
   itemVariants,
 } from "./Categories.styles";
@@ -16,25 +19,25 @@ export const Categories = () => {
   const categories = [
     {
       name: "Test",
-      categoryId: 1,
-      parentId: null,
+      id: 1,
       children: [
         {
           name: "Test",
-          categoryId: 2,
+          id: 2,
           parentId: 1,
+          children: [],
         },
       ],
     },
     {
       name: "Test",
-      categoryId: 3,
-      parentId: null,
+      id: 3,
       children: [
         {
           name: "Test",
-          categoryId: 4,
+          id: 4,
           parentId: 3,
+          children: [],
         },
       ],
     },
@@ -50,7 +53,7 @@ export const Categories = () => {
     >
       <FlexDiv column gap0>
         {categories.map((category) => (
-          <Category category={category} indentation={1} />
+          <Category key={category.id} category={category} indentation={1} />
         ))}
       </FlexDiv>
     </Popover>
@@ -58,7 +61,7 @@ export const Categories = () => {
 };
 
 type Props = {
-  category: any;
+  category: ArrayElement<inferQueryOutput<"categories.get-all">>;
   indentation: number;
 };
 
@@ -72,17 +75,18 @@ export const Category = ({ category, indentation }: Props) => {
       <Collapsible.Root>
         <FlexDiv justifyBetween gap0>
           <Link href="/" passHref>
-            <CollapsibleMenuItem
+            <StyledCategory
               style={{ paddingLeft: indentWith }}
               aside
               variants={itemVariants}
             >
               {category.name}
-            </CollapsibleMenuItem>
+            </StyledCategory>
           </Link>
-          <CollapsibleMenuItemTrigger onClick={() => setOpen(!open)}>
+
+          <CategoryNavigator onClick={() => setOpen(!open)}>
             <ChevronIcon open={open} />
-          </CollapsibleMenuItemTrigger>
+          </CategoryNavigator>
         </FlexDiv>
 
         <Collapsible.Content forceMount>
@@ -95,9 +99,9 @@ export const Category = ({ category, indentation }: Props) => {
                 variants={containerVariants}
                 style={{ display: "flex", flexDirection: "column" }}
               >
-                {category.children.map((child: any, i: number) => (
+                {category.children.map((child, i) => (
                   <Category
-                    key={i}
+                    key={child.id}
                     category={child}
                     indentation={indentation + 1}
                   />
@@ -112,12 +116,12 @@ export const Category = ({ category, indentation }: Props) => {
 
   return (
     <Link href="/" passHref>
-      <CollapsibleMenuItem
+      <StyledCategory
         style={{ paddingLeft: indentWith }}
         variants={itemVariants}
       >
         {category.name}
-      </CollapsibleMenuItem>
+      </StyledCategory>
     </Link>
   );
 };
