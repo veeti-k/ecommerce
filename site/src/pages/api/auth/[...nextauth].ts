@@ -41,6 +41,7 @@ export default NextAuth({
       if (!dbUser) return session;
 
       session.user.accounts = dbUser.accounts.map((acc) => acc.provider);
+      session.user.flags = Number(dbUser.flags);
 
       return session;
     },
