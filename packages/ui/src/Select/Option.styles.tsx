@@ -24,7 +24,7 @@ export const StyledSelectOption = styled(SelectPrimitive.Item, {
   },
 
   "&[data-disabled]": {
-    color: "$gray6",
+    color: "$gray8",
     pointerEvents: "none",
   },
 });
