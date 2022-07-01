@@ -2,6 +2,8 @@ import * as trpc from "@trpc/server";
 
 import { Flags } from "@ecommerce/shared";
 
+import { hasPermission } from "~utils/hasPermission";
+
 import { Context } from "./context";
 import { resError } from "./util/resError";
 
@@ -31,13 +33,3 @@ export const createProtectedRouter = ({ requiredFlags }: Props) =>
       },
     });
   });
-
-const hasPermission = (flags: number, requiredFlags: Flags[]): boolean => {
-  if ((flags & Flags.Admin) === Flags.Admin) return true; // admin has all perms
-
-  const totalRequired = requiredFlags.reduce((acc, flag) => acc | flag);
-
-  if ((flags & totalRequired) !== totalRequired) return false;
-
-  return true;
-};
