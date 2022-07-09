@@ -1,14 +1,12 @@
-import * as SelectPrimitive from "@radix-ui/react-select";
+import { styled } from "../stitches.config";
 
-import { css, styled } from "../stitches.config";
-
-const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
+export const StyledSelect = styled("select", {
   all: "unset",
-  appearance: "none",
+  appearance: "auto",
   "-webkit-tap-highlight-color": "transparent",
 
   borderRadius: "8px",
-  padding: "0.6rem 0.7rem",
+  padding: "0 0.5rem",
 
   transition: "$default",
 
@@ -18,6 +16,7 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
   },
 
   border: "1px solid $gray7",
+  height: "2.5rem",
 
   "@hover": {
     "&:hover": {
@@ -37,48 +36,3 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
     },
   },
 });
-
-const StyledContent = styled(SelectPrimitive.Content, {
-  overflow: "hidden",
-  background: "$gray2",
-  borderRadius: 8,
-  border: "1px solid $gray6",
-  boxShadow: "rgba(0, 0, 0, 0.1) 0px 10px 50px",
-
-  transition: "$default",
-});
-
-const StyledViewport = styled(SelectPrimitive.Viewport, {
-  padding: "0.5rem",
-});
-
-const scrollButtonStyles = css({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  padding: "0.6rem 0.7rem",
-
-  cursor: "default",
-
-  transition: "$default",
-});
-
-const StyledScrollUpButton = styled(
-  SelectPrimitive.ScrollUpButton,
-  scrollButtonStyles
-);
-
-const StyledScrollDownButton = styled(
-  SelectPrimitive.ScrollDownButton,
-  scrollButtonStyles
-);
-
-export const SelectRoot = SelectPrimitive.Root;
-export const SelectTrigger = StyledTrigger;
-export const SelectValue = SelectPrimitive.Value;
-export const SelectIcon = SelectPrimitive.Icon;
-export const SelectContent = StyledContent;
-export const SelectViewport = StyledViewport;
-export const SelectGroup = SelectPrimitive.Group;
-export const SelectScrollUpButton = StyledScrollUpButton;
-export const SelectScrollDownButton = StyledScrollDownButton;
