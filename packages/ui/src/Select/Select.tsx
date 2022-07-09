@@ -1,4 +1,3 @@
-import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
 import * as React from "react";
 
 import { FlexDiv } from "../FlexDiv";
