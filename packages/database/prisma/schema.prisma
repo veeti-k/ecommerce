@@ -56,9 +56,9 @@ model VerificationToken {
 }
 
 model ProductCategory {
-  id       Int       @id @default(autoincrement())
-  name     String    @unique
-  parentId Int?
+  id       String    @id @default(cuid())
+  name     String
+  parentId String?
   products Product[]
 }
 
@@ -83,7 +83,7 @@ model Product {
   description      String?              @db.Text()
   shortDescription String?              @db.Text()
   isActive         Boolean              @default(false)
-  categoryId       Int
+  categoryId       String
   category         ProductCategory      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   images           ProductImage[]
   bullets          ProductBulletPoint[]

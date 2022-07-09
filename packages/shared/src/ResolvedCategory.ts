@@ -1,6 +1,6 @@
 export type ResolvedCategory = {
-  id: number;
+  id: string;
   name: string;
-  parentId?: number;
-  children: ResolvedCategory[];
+  parentId?: string | null;
+  children?: ResolvedCategory[];
 };
