@@ -2,10 +2,15 @@
 var { z } = require("zod");
 
 const envSchema = z.object({
+  DATABASE_URL: z.string(),
+
   NEXTAUTH_URL: z.string(),
   NEXTAUTH_SECRET: z.string(),
 
-  SMTP_URL: z.string(),
+  EMAIL_HOST: z.string(),
+  EMAIL_PORT: z.number().optional(),
+  EMAIL_USER: z.string(),
+  EMAIL_PASS: z.string(),
   EMAIL_FROM: z.string(),
 
   DISCORD_CLIENT_ID: z.string(),
