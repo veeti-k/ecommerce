@@ -5,7 +5,6 @@ const inputStyles = css({
 
   transition: "$default",
 
-  padding: "0.6rem 0.7rem",
   fontSize: "16px",
 
   borderRadius: 8,
@@ -13,6 +12,9 @@ const inputStyles = css({
 
   display: "flex",
   alignItems: "center",
+
+  height: "2.5rem",
+  padding: "0 0.8rem",
 
   "@hover": {
     "&:hover": {

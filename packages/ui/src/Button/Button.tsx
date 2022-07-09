@@ -7,7 +7,8 @@ export const Button = styled("button", {
   "-webkit-tap-highlight-color": "transparent",
 
   borderRadius: "8px",
-  padding: "0.5rem 0.7rem",
+  padding: "0 0.7rem",
+  height: "2.5rem",
 
   transition: "$default",
 
@@ -129,7 +130,7 @@ export const Button = styled("button", {
 
     icon: {
       true: {
-        padding: "0.5rem",
+        padding: "0 0.5rem",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
