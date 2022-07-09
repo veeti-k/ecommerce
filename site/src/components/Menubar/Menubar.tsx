@@ -1,6 +1,6 @@
 import { FlexDiv } from "@ecommerce/ui";
 
-import { Categories } from "./Categories";
+import { Categories } from "./Categories/Categories";
 import { MenubarContent, MenubarInner, MenubarOuter } from "./Menubar.styles";
 import { ProfileButton } from "./ProfileButton";
 import { SearchBar } from "./SearchBar";
