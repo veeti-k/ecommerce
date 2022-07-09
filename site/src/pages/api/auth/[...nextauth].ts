@@ -13,7 +13,14 @@ export default NextAuth({
   },
   providers: [
     EmailProvider({
-      server: process.env.SMTP_URL,
+      server: {
+        host: process.env.EMAIL_HOST,
+        port: process.env.EMAIL_PORT || 587,
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      },
       from: process.env.EMAIL_FROM,
     }),
     DiscordProvider({
