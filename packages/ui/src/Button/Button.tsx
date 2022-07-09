@@ -6,6 +6,9 @@ export const Button = styled("button", {
   "-webkit-appearance": "none",
   "-webkit-tap-highlight-color": "transparent",
 
+  cursor: "default",
+  userSelect: "none",
+
   borderRadius: "8px",
   padding: "0 0.7rem",
   height: "2.5rem",
