@@ -45,8 +45,8 @@ export const dialogOverlayStyles = css({
   zIndex: 3,
   inset: 0,
 
-  background: "$blackA5",
-  backdropFilter: "blur(4px)",
+  backgroundColor: "$blackA9",
+  backdropFilter: "blur(3px)",
 
   transition: "$default",
 
