@@ -14,7 +14,6 @@ export * from "./Dialogs/Dialog/Dialog";
 export * from "./Dialogs/AlertDialog/AlertDialog";
 
 export * from "./Select/Select";
-export * from "./Select/Option";
 
 export * from "./DropdownMenu/DropdownMenu";
 export * from "./DropdownMenu/DropdownMenuUtils";
