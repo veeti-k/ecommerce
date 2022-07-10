@@ -2,36 +2,54 @@ import { styled } from "../stitches.config";
 
 export const StyledSelect = styled("select", {
   all: "unset",
-  appearance: "auto",
-  "-webkit-tap-highlight-color": "transparent",
-
-  borderRadius: "8px",
-  padding: "0 0.5rem",
 
   transition: "$default",
 
-  "&:focus-visible": {
-    outline: "none",
-    boxShadow: "$focusVisible",
-  },
+  fontSize: "16px",
 
-  border: "1px solid $gray7",
+  borderRadius: 8,
+  border: "1px solid $colors$gray7",
+
+  display: "flex",
+  alignItems: "center",
+
   height: "2.5rem",
+  padding: "0 0.5rem",
 
   "@hover": {
     "&:hover": {
-      backgroundColor: "$gray4",
+      borderColor: "$colors$gray9",
     },
   },
 
-  "&:active": {
-    backgroundColor: "$gray5",
+  "&:focus": {
+    outline: "none",
+    boxShadow: "$focusVisible",
+    borderColor: "$colors$blue9",
   },
 
   variants: {
-    error: {
+    fullWidth: {
+      true: {
+        width: "100%",
+      },
+    },
+
+    invalid: {
       true: {
         borderColor: "$tomato8",
+
+        "@hover": {
+          "&:hover": {
+            borderColor: "$colors$tomato9",
+          },
+        },
+
+        "&:focus": {
+          outline: "none",
+          boxShadow: `0 0 0 3px $colors$tomato8`,
+          borderColor: "$colors$tomato9",
+        },
       },
     },
   },
