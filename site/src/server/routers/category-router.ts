@@ -1,3 +1,4 @@
+import { ProductCategory } from "@prisma/client";
 import { z } from "zod";
 
 import {
@@ -10,15 +11,43 @@ import {
 import { createProtectedRouter, createRouter } from "../createRouter";
 import { meilisearch, prisma } from "../global";
 import { resError } from "../util/resError";
+import { resolveCategories } from "../util/resolveCategories";
 
 export const categoryRouter = createRouter()
-  .query("get-all", {
+  .query("get-all-meili", {
     resolve: async () => {
       const categories = await meilisearch
         .index("categories")
         .search<ResolvedCategory>("*");
 
       return categories.hits;
+    },
+  })
+  .query("get-all-db", {
+    resolve: async () => {
+      const categories = await prisma.productCategory.findMany();
+
+      return categories;
+    },
+  })
+  .query("get-with-query-db", {
+    input: z.object({
+      query: z.string(),
+    }),
+    resolve: async ({ input }) => {
+      const { query } = input;
+
+      let categories = await prisma.productCategory.findMany({
+        where: {
+          name: {
+            contains: query,
+          },
+        },
+      });
+
+      categories.sort(sortByRelevance(query));
+
+      return categories;
     },
   })
   .merge(
@@ -30,7 +59,7 @@ export const categoryRouter = createRouter()
             data: input,
           });
 
-          await meilisearch.index("categories").addDocuments([addedCategory]);
+          await updateMeiliCategories();
 
           return addedCategory;
         },
@@ -45,16 +74,14 @@ export const categoryRouter = createRouter()
             data: rest,
           });
 
-          await meilisearch
-            .index("categories")
-            .updateDocuments([editedCategory]);
+          await updateMeiliCategories();
 
           return editedCategory;
         },
       })
       .mutation("delete", {
         input: z.object({
-          categoryId: z.number(),
+          categoryId: z.string(),
         }),
         resolve: async ({ input }) => {
           const { categoryId } = input;
@@ -73,7 +100,30 @@ export const categoryRouter = createRouter()
             where: { id: categoryId },
           });
 
+          await updateMeiliCategories();
+
           await meilisearch.index("categories").deleteDocument(categoryId);
         },
       })
   );
+
+const updateMeiliCategories = async () => {
+  const categories = await prisma.productCategory.findMany();
+
+  const resolvedCategories = resolveCategories(categories);
+
+  await meilisearch.index("categories").updateDocuments(resolvedCategories);
+};
+
+const sortByRelevance =
+  (query: string) => (a: ProductCategory, b: ProductCategory) => {
+    if (a.name.startsWith(query)) {
+      return -1;
+    }
+
+    if (b.name.startsWith(query)) {
+      return 1;
+    }
+
+    return 0;
+  };

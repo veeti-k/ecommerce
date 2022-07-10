@@ -6,7 +6,7 @@ export const editCategoryFormSchema = addCategoryFormSchema;
 
 export const editCategoryInputSchema = editCategoryFormSchema.and(
   z.object({
-    categoryId: z.number(),
+    categoryId: z.string(),
   })
 );
 
